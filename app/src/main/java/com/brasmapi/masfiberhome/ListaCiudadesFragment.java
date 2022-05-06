@@ -1,12 +1,16 @@
 package com.brasmapi.masfiberhome;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -54,11 +58,29 @@ public class ListaCiudadesFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
+    View vista;
+    Context context;
+    Button btnCrearCiudades;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_lista_ciudades, container, false);
+        vista =inflater.inflate(R.layout.fragment_lista_ciudades, container, false);
+        context=getActivity();
+        btnCrearCiudades =(Button)vista.findViewById(R.id.btnCrearCiudad_ListaCiudades);
+        btnCrearCiudades.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                // Definir una transacción
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                // Remplazar el contenido principal por el fragmento
+                fragmentTransaction.replace(R.id.contenedor, new CrearCiudadFragment());
+                fragmentTransaction.addToBackStack(null);
+                // Cambiar
+                fragmentTransaction.commit();
+            }
+        });
+        return vista;
     }
 }

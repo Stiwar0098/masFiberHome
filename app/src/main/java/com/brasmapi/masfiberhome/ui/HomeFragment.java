@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,17 +13,18 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.brasmapi.masfiberhome.ListaPaisesFragment;
+import com.brasmapi.masfiberhome.ListaCiudadesFragment;
 import com.brasmapi.masfiberhome.ListaProvinciasFragment;
 import com.brasmapi.masfiberhome.ListaUsuariosFragment;
 import com.brasmapi.masfiberhome.MainActivity;
 import com.brasmapi.masfiberhome.R;
+import com.brasmapi.masfiberhome.ListaPaisesFragment;
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
 
     View vista;
     Context context;
-    CardView btnListarUsuario,btnListarProvincia,btnListarPais;
+    CardView btnListarUsuario,btnListarProvincia,btnListarPais, btnListarCiudad;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         vista=inflater.inflate(R.layout.fragment_home, container, false);
@@ -32,7 +32,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         btnListarUsuario =vista.findViewById(R.id.btnCrearusuario_administrador);
         btnListarProvincia =vista.findViewById(R.id.btnListarProvincia_administrador);
         btnListarPais = vista.findViewById(R.id.btnListarPais_administrador);
+        btnListarCiudad = vista.findViewById(R.id.btnListarCiudad_administrador);
+        btnListarCiudad.setOnClickListener(this);
         btnListarUsuario.setOnClickListener(this);
+        btnListarPais.setOnClickListener(this);
         btnListarProvincia.setOnClickListener(this);
         return vista;
     }
@@ -67,7 +70,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 fragmentTransaction.replace(R.id.contenedor, new ListaPaisesFragment());
                 titulo="Listar paises";
                 break;
-
+            case R.id.btnListarCiudad_administrador:
+                fragmentTransaction.replace(R.id.contenedor, new ListaCiudadesFragment());
+                titulo="Listar ciudades";
+                break;
         }
         fragmentTransaction.addToBackStack(null);
         // Cambiar

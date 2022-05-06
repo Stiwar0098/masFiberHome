@@ -79,10 +79,10 @@ public class DialogBuscarPais
         fireReference.child("Usuarios").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                listaPaises.clear();
+                ListaPaisesFragment.clear();
                 for (DataSnapshot snapShot : dataSnapshot.getChildren()) {
                     Usuario user = snapShot.getValue(Usuario.class);
-                    listaPaises.add(user);
+                    ListaPaisesFragment.add(user);
                 }
                 cardViewBuscarUsuario.setVisibility(View.VISIBLE);
                 adaptadorItemBuscarPais.notifyDataSetChanged();
