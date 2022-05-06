@@ -201,6 +201,7 @@
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/btnListarPais_administrador"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:layout_marginLeft="10dp"
@@ -271,6 +272,7 @@
                     </androidx.cardview.widget.CardView>
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/btnListarCiudad_administrador"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:layout_marginLeft="10dp"

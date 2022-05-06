@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.brasmapi.masfiberhome.ListaPaisesFragment;
 import com.brasmapi.masfiberhome.ListaProvinciasFragment;
 import com.brasmapi.masfiberhome.ListaUsuariosFragment;
 import com.brasmapi.masfiberhome.MainActivity;
@@ -23,13 +24,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     View vista;
     Context context;
-    CardView btnListarUsuario,btnListarProvincia;
+    CardView btnListarUsuario,btnListarProvincia,btnListarPais;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         vista=inflater.inflate(R.layout.fragment_home, container, false);
         context=getActivity();
         btnListarUsuario =vista.findViewById(R.id.btnCrearusuario_administrador);
         btnListarProvincia =vista.findViewById(R.id.btnListarProvincia_administrador);
+        btnListarPais = vista.findViewById(R.id.btnListarPais_administrador);
         btnListarUsuario.setOnClickListener(this);
         btnListarProvincia.setOnClickListener(this);
         return vista;
@@ -61,6 +63,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 fragmentTransaction.replace(R.id.contenedor, new ListaProvinciasFragment());
                 titulo="Listar provincias";
                 break;
+            case R.id.btnListarPais_administrador:
+                fragmentTransaction.replace(R.id.contenedor, new ListaPaisesFragment());
+                titulo="Listar paises";
+                break;
+
         }
         fragmentTransaction.addToBackStack(null);
         // Cambiar

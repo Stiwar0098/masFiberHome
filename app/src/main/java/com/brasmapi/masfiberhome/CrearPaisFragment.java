@@ -2,22 +2,22 @@ package com.brasmapi.masfiberhome;
 
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import androidx.fragment.app.Fragment;
+
+import com.brasmapi.masfiberhome.ui.items.ItemBuscarPais;
+import com.google.android.material.textfield.TextInputLayout;
+
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ListaPaisesFragment#newInstance} factory method to
+ * Use the {@link CrearPaisFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ListaPaisesFragment extends Fragment {
+public class CrearPaisFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -28,7 +28,7 @@ public class ListaPaisesFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public ListaPaisesFragment() {
+    public CrearPaisFragment() {
         // Required empty public constructor
     }
 
@@ -38,11 +38,11 @@ public class ListaPaisesFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ListaPaisesFragment.
+     * @return A new instance of fragment CrearProvinciaFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ListaPaisesFragment newInstance(String param1, String param2) {
-        ListaPaisesFragment fragment = new ListaPaisesFragment();
+    public static CrearPaisFragment newInstance(String param1, String param2) {
+        CrearPaisFragment fragment = new CrearPaisFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -60,27 +60,14 @@ public class ListaPaisesFragment extends Fragment {
     }
     View vista;
     Context context;
-    Button btnCrearPais;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        vista =inflater.inflate(R.layout.fragment_lista_provincias, container, false);
+        vista =inflater.inflate(R.layout.fragment_crear_provincia, container, false);
         context=getActivity();
-        btnCrearPais =(Button)vista.findViewById(R.id.btnCrearPais_ListaPais);
-        btnCrearPais.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                // Definir una transacción
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                // Remplazar el contenido principal por el fragmento
-                fragmentTransaction.replace(R.id.contenedor, new CrearPaisFragment());
-                fragmentTransaction.addToBackStack(null);
-                // Cambiar
-                fragmentTransaction.commit();
-            }
-        });
+
+
         return vista;
     }
 }
