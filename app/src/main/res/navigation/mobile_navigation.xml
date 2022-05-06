@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/nav_administrar">
+
+    <fragment
+        android:id="@+id/nav_administrar"
+        android:name="com.brasmapi.masfiberhome.ui.HomeFragment"
+        android:label="Administrar"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/nav_crearCliente"
+        android:name="com.brasmapi.masfiberhome.ui.CrearClienteFragment"
+        android:label="Crear cliente"
+        tools:layout="@layout/fragment_crearcliente" />
+
+    <fragment
+        android:id="@+id/nav_migrarCliente"
+        android:name="com.brasmapi.masfiberhome.ui.slideshow.SlideshowFragment"
+        android:label="@string/menu_slideshow"
+        tools:layout="@layout/fragment_slideshow" />
+</navigation>

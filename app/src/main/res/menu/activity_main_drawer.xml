@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group
+        android:id="@+id/grupoAdministrador"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_administrar"
+            android:title="Administrar" />
+        <item
+            android:id="@+id/nav_pendiente"
+            android:title="Activacion pendiente" />
+    </group>
+    <group  android:id="@+id/group2"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_crearCliente"
+            android:title="Crear cliente" />
+        <item
+            android:id="@+id/nav_migrarCliente"
+            android:title="Migrar cliente" />
+        <item
+            android:id="@+id/nav_migrarip"
+            android:title="Migrar ip" />
+    </group>
+    <group  android:id="@+id/group3"
+            android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_CerrarSesion_menu"
+            android:title="Cerrar sesión" />
+    </group>
+</menu>
