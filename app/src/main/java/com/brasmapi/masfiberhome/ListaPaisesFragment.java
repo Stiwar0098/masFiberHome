@@ -6,11 +6,21 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
+
+import com.brasmapi.masfiberhome.ui.adaptadores.AdapterPais;
+import com.brasmapi.masfiberhome.ui.dao.PaisesDAO;
+import com.brasmapi.masfiberhome.ui.entidades.Pais;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -59,14 +69,20 @@ public class ListaPaisesFragment extends Fragment {
         }
     }
     View vista;
-    Context context;
+    static Context context;
     Button btnCrearPais;
+    public static PaisesDAO paisesDAO;
+    public static AdapterPais adaptadorPaises;
+    public static RecyclerView recyclerViewPaises;
+    public static List<Pais> listaPaises;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         vista = inflater.inflate(R.layout.fragment_lista_paises, container, false);
+        paisesDAO = new PaisesDAO();
         context=getActivity();
+        mostrarDatos("rehrh");
         btnCrearPais =(Button)vista.findViewById(R.id.btnCrearPais_ListaPais);
         btnCrearPais.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,4 +99,33 @@ public class ListaPaisesFragment extends Fragment {
         });
         return vista;
     }
+    public void mostrarDatos(String filtrar){
+        Procesos.cargandoIniciar(vista.getContext());
+
+        // crear lista de carview dentro del recycleview
+        recyclerViewPaises = (RecyclerView)vista.findViewById(R.id.recyclerView_ListaPaises);
+        recyclerViewPaises.setLayoutManager(new LinearLayoutManager(context));
+        listaPaises=paisesDAO.filtarPaises(filtrar, vista.getContext());
+    }
+    public static void cargar(){
+        if(listaPaises==null){
+            Toast.makeText(context, "No hay paises", Toast.LENGTH_SHORT).show();
+        }else{
+            adaptadorPaises = new AdapterPais(listaPaises);
+            recyclerViewPaises.setAdapter(adaptadorPaises);
+            adaptadorPaises.notifyDataSetChanged();
+        }
+        Procesos.cargandoDetener();
+    }
+    private void filtrar(String filtrar){
+        List<Pais> aux2=new ArrayList<>();
+        for (Pais aux:listaPaises) {
+            if(aux.getNombre().toLowerCase().contains(filtrar.toLowerCase())){
+                aux2.add(aux);
+            }
+        }
+        adaptadorPaises.setAdapterItemBuscarPais(aux2);
+        adaptadorPaises.notifyDataSetChanged();
+    }
+
 }

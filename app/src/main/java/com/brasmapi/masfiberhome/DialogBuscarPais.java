@@ -8,17 +8,13 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.brasmapi.masfiberhome.ui.adaptadores.AdapterItemBuscarPais;
-import com.brasmapi.masfiberhome.ui.items.ItemBuscarPais;
+import com.brasmapi.masfiberhome.ui.adaptadores.AdapterPais;
+import com.brasmapi.masfiberhome.ui.entidades.Pais;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
@@ -27,9 +23,9 @@ import java.util.List;
 public class DialogBuscarPais
 {
     final Context context;
-    List<ItemBuscarPais> listaPaises;
+    List<Pais> listaPaises;
     Dialog dialogo;
-    AdapterItemBuscarPais adaptadorItemBuscarPais;
+    AdapterPais adaptadorItemBuscarPais;
     RecyclerView recyclerViewBuscarPais;
     //DatabaseReference fireReference;
     TextView lblSinPaises;
@@ -75,36 +71,11 @@ public class DialogBuscarPais
     public void mostrarDatos(String buscar) {
         Procesos.cargandoIniciar(dialogo.getContext());
 
-        /*
-        fireReference.child("Usuarios").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                ListaPaisesFragment.clear();
-                for (DataSnapshot snapShot : dataSnapshot.getChildren()) {
-                    Usuario user = snapShot.getValue(Usuario.class);
-                    ListaPaisesFragment.add(user);
-                }
-                cardViewBuscarUsuario.setVisibility(View.VISIBLE);
-                adaptadorItemBuscarPais.notifyDataSetChanged();
-                if(dataSnapshot.exists()){
-                    lblSinPaises.setVisibility(View.GONE);
-                    recyclerViewBuscarPais.setVisibility(View.VISIBLE);
-                }else{
-                    lblSinPaises.setVisibility(View.VISIBLE);
-                    recyclerViewBuscarPais.setVisibility(View.GONE);
-                }
-                Procesos.cargandoDetener();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });*/
         // crear lista de carview dentro del recycleview
         recyclerViewBuscarPais = (RecyclerView) dialogo.findViewById(R.id.recyclerView_DialogBuscarPais);
         recyclerViewBuscarPais.setLayoutManager(new LinearLayoutManager(context));
 
-        adaptadorItemBuscarPais = new AdapterItemBuscarPais(listarPaises());
+        adaptadorItemBuscarPais = new AdapterPais(listarPaises());
         recyclerViewBuscarPais.setAdapter(adaptadorItemBuscarPais);
         adaptadorItemBuscarPais.notifyDataSetChanged();
         lblSinPaises.setVisibility(View.GONE);
@@ -112,15 +83,15 @@ public class DialogBuscarPais
         adaptadorItemBuscarPais.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ItemBuscarPais us = listaPaises.get(recyclerViewBuscarPais.getChildAdapterPosition(v));
+                Pais us = listaPaises.get(recyclerViewBuscarPais.getChildAdapterPosition(v));
                 interfaz.PaisSelecionado(us);
                 dialogo.dismiss();
             }
         });
     }
     private void filtrar(String buscar){
-        List<ItemBuscarPais> aux2=new ArrayList<>();
-        for (ItemBuscarPais aux:listaPaises) {
+        List<Pais> aux2=new ArrayList<>();
+        for (Pais aux:listaPaises) {
             if(aux.getNombre().toLowerCase().contains(buscar.toLowerCase())){
                 aux2.add(aux);
             }
@@ -129,14 +100,14 @@ public class DialogBuscarPais
         adaptadorItemBuscarPais.notifyDataSetChanged();
     }
 
-    public List<ItemBuscarPais> listarPaises(){
+    public List<Pais> listarPaises(){
         listaPaises = new ArrayList<>();
-        listaPaises.add(new ItemBuscarPais("Ecuador"));
-        listaPaises.add(new ItemBuscarPais("Peru"));
+        //listaPaises.add(new Pais("Ecuador"));
+        //listaPaises.add(new Pais("Peru"));
         return listaPaises;
     }
 
     public interface finalizoDialogBuscarPais {
-        void PaisSelecionado(ItemBuscarPais pais);
+        void PaisSelecionado(Pais pais);
     }
 }

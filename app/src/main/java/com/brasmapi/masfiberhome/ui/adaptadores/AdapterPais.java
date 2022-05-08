@@ -9,18 +9,18 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.brasmapi.masfiberhome.R;
-import com.brasmapi.masfiberhome.ui.items.ItemBuscarPais;
+import com.brasmapi.masfiberhome.ui.entidades.Pais;
 
 import java.util.List;
 
-public class AdapterItemBuscarPais extends RecyclerView.Adapter<AdapterItemBuscarPais.ViewHolder> implements View.OnClickListener {
-    static List<ItemBuscarPais> listaPaises;
+public class AdapterPais extends RecyclerView.Adapter<AdapterPais.ViewHolder> implements View.OnClickListener {
+    static List<Pais> listaPaises;
     private View.OnClickListener listener;
 
-    public AdapterItemBuscarPais(List<ItemBuscarPais> listaUsuarios) {
+    public AdapterPais(List<Pais> listaUsuarios) {
         this.listaPaises = listaUsuarios;
     }
-    public void setAdapterItemBuscarPais(List<ItemBuscarPais> listaUsuarios) {
+    public void setAdapterItemBuscarPais(List<Pais> listaUsuarios) {
         this.listaPaises = listaUsuarios;
     }
 

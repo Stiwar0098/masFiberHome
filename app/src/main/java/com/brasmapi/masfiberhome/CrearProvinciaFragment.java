@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.brasmapi.masfiberhome.ui.items.ItemBuscarPais;
+import com.brasmapi.masfiberhome.ui.entidades.Pais;
 import com.google.android.material.textfield.TextInputLayout;
 
 /**
@@ -80,7 +80,7 @@ public class CrearProvinciaFragment extends Fragment implements DialogBuscarPais
     }
 
     @Override
-    public void PaisSelecionado(ItemBuscarPais pais) {
+    public void PaisSelecionado(Pais pais) {
         txtPais.getEditText().setText(pais.getNombre());
     }
 }
