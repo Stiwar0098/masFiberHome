@@ -2,6 +2,8 @@ package com.brasmapi.masfiberhome;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +24,7 @@ import java.util.List;
 
 public class Procesos extends AppCompatActivity {
     public static String id;
+    public static final String url="http://192.168.100.190/fiberhome/";
     static ProgressDialog cargando;
     static Usuario user;
     static int i = 0;
@@ -48,6 +51,12 @@ public class Procesos extends AppCompatActivity {
     public static void cargandoDetener() {
         cargando.dismiss();
     }
-
+    public void cerrarTeclado(View as) {
+        View view = as;
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(getBaseContext().INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
 
 }

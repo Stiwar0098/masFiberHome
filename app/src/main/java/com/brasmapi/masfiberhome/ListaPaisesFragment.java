@@ -9,6 +9,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,7 @@ import android.widget.Toast;
 import com.brasmapi.masfiberhome.ui.adaptadores.AdapterPais;
 import com.brasmapi.masfiberhome.ui.dao.PaisesDAO;
 import com.brasmapi.masfiberhome.ui.entidades.Pais;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,10 +74,11 @@ public class ListaPaisesFragment extends Fragment {
     View vista;
     static Context context;
     Button btnCrearPais;
-    public static PaisesDAO paisesDAO;
+    PaisesDAO paisesDAO;
     public static AdapterPais adaptadorPaises;
     public static RecyclerView recyclerViewPaises;
     public static List<Pais> listaPaises;
+    TextInputLayout txtBuscar;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -82,8 +86,9 @@ public class ListaPaisesFragment extends Fragment {
         vista = inflater.inflate(R.layout.fragment_lista_paises, container, false);
         paisesDAO = new PaisesDAO();
         context=getActivity();
-        mostrarDatos("rehrh");
+        mostrarDatos("");
         btnCrearPais =(Button)vista.findViewById(R.id.btnCrearPais_ListaPais);
+        txtBuscar=(TextInputLayout)vista.findViewById(R.id.txtBuscarPais_ListaPaises);
         btnCrearPais.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,11 +102,30 @@ public class ListaPaisesFragment extends Fragment {
                 fragmentTransaction.commit();
             }
         });
+        txtBuscar.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(!s.toString().equals("")){
+                    mostrarDatos(s.toString());
+                }else{
+                    mostrarDatos("");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         return vista;
     }
     public void mostrarDatos(String filtrar){
         Procesos.cargandoIniciar(vista.getContext());
-
         // crear lista de carview dentro del recycleview
         recyclerViewPaises = (RecyclerView)vista.findViewById(R.id.recyclerView_ListaPaises);
         recyclerViewPaises.setLayoutManager(new LinearLayoutManager(context));
@@ -118,6 +142,7 @@ public class ListaPaisesFragment extends Fragment {
         Procesos.cargandoDetener();
     }
     private void filtrar(String filtrar){
+        Procesos.cargandoIniciar(context);
         List<Pais> aux2=new ArrayList<>();
         for (Pais aux:listaPaises) {
             if(aux.getNombre().toLowerCase().contains(filtrar.toLowerCase())){
@@ -126,6 +151,6 @@ public class ListaPaisesFragment extends Fragment {
         }
         adaptadorPaises.setAdapterItemBuscarPais(aux2);
         adaptadorPaises.notifyDataSetChanged();
+        Procesos.cargandoDetener();
     }
-
 }

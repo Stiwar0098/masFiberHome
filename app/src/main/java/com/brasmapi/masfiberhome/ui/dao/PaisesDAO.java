@@ -1,5 +1,6 @@
 package com.brasmapi.masfiberhome.ui.dao;
 
+import android.app.DownloadManager;
 import android.content.Context;
 import android.widget.Toast;
 
@@ -8,8 +9,10 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.brasmapi.masfiberhome.CrearPaisFragment;
 import com.brasmapi.masfiberhome.ListaPaisesFragment;
 import com.brasmapi.masfiberhome.Procesos;
 import com.brasmapi.masfiberhome.ui.entidades.Pais;
@@ -27,7 +30,7 @@ public class PaisesDAO {
     RequestQueue queue;
     Context context;
     public List<Pais> filtarPaises(String buscar, Context con){
-        String consulta = "https://masfiberhome.com/webservices/appfh/filtrarpaises64.php?filtrar="+buscar;
+        String consulta = Procesos.url+"webservicesbrasmapi/api/pais/filtrarpaises.php?filtrar="+buscar;
         context=con;
         return enviarRecibirDatos(consulta);
     }
@@ -59,21 +62,52 @@ public class PaisesDAO {
         return as;
     }
 
-    private List<Pais> obtenerLista(JSONArray array) {
-        List<Pais> lista = null;
-
-        for(int i=0;i<array.length();i+=3){//i+= el numero de campos de la base de datos
+    public void crearPais(Pais pais, Context con){
+        context=con;
+        String consulta;
+        boolean isPost=false;
+        int metodo = 0;
+        JSONObject parametros =null;
+        queue= Volley.newRequestQueue(context);
+        if(isPost) {
+            consulta = "https://masfiberhome.com/webservices/appfh/crearpais24.php";
+            metodo= Request.Method.POST;
+            parametros=new JSONObject();
             try {
-                lista.add(new Pais(Integer.parseInt(array.getString(i)),array.getString(i+1),array.getString(i+2)));
+                parametros.put("nombre", pais.getNombre());
+                parametros.put("estado", pais.getEstado());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+        }else{
+            consulta = "https://masfiberhome.com/webservices/appfh/crearpais24.php?nombre="+pais.getNombre()+"&estado="+pais.getEstado();
+            metodo= Request.Method.GET;
         }
-        return lista;
-    }
+            JsonObjectRequest requerimiento=new JsonObjectRequest(metodo, consulta, parametros, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    try {
+                        if(response.get("respuesta").toString().equals("ok")){
+                            Toast.makeText(context, "Los datos se cargaron correctamente", Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(context, response.get("respuesta").toString(), Toast.LENGTH_SHORT).show();
+                        }
+                        CrearPaisFragment.txtNombrePais.getEditText().setText("");
+                        Procesos.cargandoDetener();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
+                    Procesos.cargandoDetener();
+                }
+            });
+            queue.add(requerimiento);
 
-    public boolean crearPais(Pais pais){
-        return false;
     }
     public boolean modificarPais(Pais pais){
         return false;

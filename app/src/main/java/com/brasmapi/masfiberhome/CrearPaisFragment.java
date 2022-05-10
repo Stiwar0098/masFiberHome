@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.brasmapi.masfiberhome.ui.dao.PaisesDAO;
+import com.brasmapi.masfiberhome.ui.entidades.Pais;
 import com.google.android.material.textfield.TextInputLayout;
 
 /**
@@ -60,11 +62,26 @@ public class CrearPaisFragment extends Fragment {
     }
     View vista;
     Context context;
+    PaisesDAO paisesDAO;
+    public static TextInputLayout txtNombrePais;
+    Procesos proce=new Procesos();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         vista =inflater.inflate(R.layout.fragment_crear_pais, container, false);
+        context=vista.getContext();
+        paisesDAO = new PaisesDAO();
+        txtNombrePais=(TextInputLayout)vista.findViewById(R.id.txtNombrePais_CrearPais);
+        Button btnguardar=(Button)vista.findViewById(R.id.btnGuardar_CrearPais);
+        btnguardar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Procesos.cargandoIniciar(context);
+                paisesDAO.crearPais(new Pais(0,txtNombrePais.getEditText().getText().toString(),"activo"),context);
+                proce.cerrarTeclado(getActivity().getCurrentFocus());
+            }
+        });
         context=getActivity();
         return vista;
     }
