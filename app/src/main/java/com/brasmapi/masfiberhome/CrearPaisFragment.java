@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 
 import com.brasmapi.masfiberhome.ui.dao.PaisesDAO;
@@ -63,8 +64,8 @@ public class CrearPaisFragment extends Fragment {
     View vista;
     Context context;
     PaisesDAO paisesDAO;
+    public static String opc=""; // editar/crear
     public static TextInputLayout txtNombrePais;
-    Procesos proce=new Procesos();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -74,12 +75,18 @@ public class CrearPaisFragment extends Fragment {
         paisesDAO = new PaisesDAO();
         txtNombrePais=(TextInputLayout)vista.findViewById(R.id.txtNombrePais_CrearPais);
         Button btnguardar=(Button)vista.findViewById(R.id.btnGuardar_CrearPais);
+        if (opc.equals("editar")){
+            btnguardar.setText("Editar");
+        }
         btnguardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Procesos.cargandoIniciar(context);
-                paisesDAO.crearPais(new Pais(0,txtNombrePais.getEditText().getText().toString(),"activo"),context);
-                proce.cerrarTeclado(getActivity().getCurrentFocus());
+                if (opc.equals("crear")){
+                    paisesDAO.crearPais(new Pais(0,txtNombrePais.getEditText().getText().toString(),"activo"),context);
+                }else{//editar
+                    paisesDAO.editarPais(new Pais());
+                }
             }
         });
         context=getActivity();

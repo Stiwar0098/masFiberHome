@@ -24,7 +24,7 @@ import java.util.List;
 
 public class Procesos extends AppCompatActivity {
     public static String id;
-    public static final String url="http://192.168.100.190/fiberhome/";
+    public static final String url="https://app.masfiberhome.com/";
     static ProgressDialog cargando;
     static Usuario user;
     static int i = 0;
@@ -51,12 +51,6 @@ public class Procesos extends AppCompatActivity {
     public static void cargandoDetener() {
         cargando.dismiss();
     }
-    public void cerrarTeclado(View as) {
-        View view = as;
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager) getSystemService(getBaseContext().INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
-    }
+
 
 }

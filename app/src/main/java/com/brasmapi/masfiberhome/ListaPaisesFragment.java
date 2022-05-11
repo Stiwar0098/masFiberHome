@@ -92,6 +92,7 @@ public class ListaPaisesFragment extends Fragment {
         btnCrearPais.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                CrearPaisFragment.opc="crear";
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 // Definir una transacción
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

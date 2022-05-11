@@ -54,7 +54,7 @@ public class PaisesDAO {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
                 ListaPaisesFragment.cargar();
             }
         });
@@ -70,7 +70,7 @@ public class PaisesDAO {
         JSONObject parametros =null;
         queue= Volley.newRequestQueue(context);
         if(isPost) {
-            consulta = "https://masfiberhome.com/webservices/appfh/crearpais24.php";
+            consulta = Procesos.url+"webservicesbrasmapi/api/pais/crearpais.php";
             metodo= Request.Method.POST;
             parametros=new JSONObject();
             try {
@@ -80,7 +80,7 @@ public class PaisesDAO {
                 e.printStackTrace();
             }
         }else{
-            consulta = "https://masfiberhome.com/webservices/appfh/crearpais24.php?nombre="+pais.getNombre()+"&estado="+pais.getEstado();
+            consulta = Procesos.url+"webservicesbrasmapi/api/pais/crearpais.php?nombre="+pais.getNombre()+"&estado="+pais.getEstado();
             metodo= Request.Method.GET;
         }
             JsonObjectRequest requerimiento=new JsonObjectRequest(metodo, consulta, parametros, new Response.Listener<JSONObject>() {
@@ -109,7 +109,7 @@ public class PaisesDAO {
             queue.add(requerimiento);
 
     }
-    public boolean modificarPais(Pais pais){
+    public boolean editarPais(Pais pais){
         return false;
     }
     public boolean eliminarPais(int id){
