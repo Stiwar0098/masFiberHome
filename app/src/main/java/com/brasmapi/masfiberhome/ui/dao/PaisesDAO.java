@@ -201,4 +201,48 @@ public class PaisesDAO {
         });
         queue.add(requerimiento);
     }
+    public void eliminarPaisCascada(int id, Context con){
+        Procesos.cargandoIniciar(con);
+        context=con;
+        String consulta;
+        int metodo = 0;
+        JSONObject parametros =null;
+        queue= Volley.newRequestQueue(context);
+        if(Procesos.isPost) {
+            consulta = Procesos.url+"/pais/eliminarCascadaPais.php";
+            metodo= Request.Method.POST;
+            parametros=new JSONObject();
+            try {
+                parametros.put("id", id);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }else{
+            consulta = Procesos.url+"/pais/eliminarCascadaPais.php?id="+id;
+            metodo= Request.Method.GET;
+        }
+        JsonObjectRequest requerimiento=new JsonObjectRequest(metodo, consulta, parametros, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    if(response.get("respuesta").toString().equals("ok")){
+                        Toast.makeText(context, "Los datos se eliminaron correctamente", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(context, response.get("respuesta").toString(), Toast.LENGTH_SHORT).show();
+                    }
+                    filtarPaises("",con,true);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
+                Procesos.cargandoDetener();
+            }
+        });
+        queue.add(requerimiento);
+    }
 }

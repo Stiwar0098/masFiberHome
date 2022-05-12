@@ -12,13 +12,16 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.brasmapi.masfiberhome.ui.adaptadores.AdapterPais;
@@ -85,6 +88,7 @@ public class ListaPaisesFragment extends Fragment {
     TextInputLayout txtBuscar;
     FragmentManager fragmentManager;
     static FragmentTransaction fragmentTransaction;
+    SwipeRefreshLayout refreshLayout;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -92,9 +96,11 @@ public class ListaPaisesFragment extends Fragment {
         vista = inflater.inflate(R.layout.fragment_lista_paises, container, false);
         paisesDAO = new PaisesDAO();
         context=getActivity();
+        ((MainActivity)getActivity()).setTitle("Listar paises");
         mostrarDatos("");
         btnCrearPais =(Button)vista.findViewById(R.id.btnCrearPais_ListaPais);
         txtBuscar=(TextInputLayout)vista.findViewById(R.id.txtBuscarPais_ListaPaises);
+        refreshLayout=(SwipeRefreshLayout)vista.findViewById(R.id.refreshRecycler_listaPais);
        fragmentManager = getActivity().getSupportFragmentManager();
         // Definir una transacción
         fragmentTransaction = fragmentManager.beginTransaction();
@@ -118,15 +124,22 @@ public class ListaPaisesFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(!s.toString().equals("")){
-                    mostrarDatos(s.toString());
+                    filtrar(s.toString());
                 }else{
-                    mostrarDatos("");
+                    filtrar("");
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
 
+            }
+        });
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mostrarDatos("");
+                refreshLayout.setRefreshing(false);
             }
         });
         return vista;
@@ -181,14 +194,62 @@ public class ListaPaisesFragment extends Fragment {
                         dialog.dismiss();
                         AlertDialog.Builder builder= new AlertDialog.Builder(context);
                         builder.setTitle("Eliminar");
-                        builder.setMessage("¿Está seguro que desea eliminar: "+us.getNombre()+" ?")
-                                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                        builder.setMessage("¿Que tipo de eliminacion desea realizar: "+us.getNombre()+" ?")
+                                .setPositiveButton("Normal", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(final DialogInterface dialog, int which) {
-                                        paisesDAO.eliminarPais(us.getId(),context);
+                                        dialog.dismiss();
+                                        AlertDialog.Builder builder= new AlertDialog.Builder(context);
+                                        builder.setTitle("Eliminar normal");
+                                        builder.setMessage("¿Está seguro que desea realizar una eliminacion normal: "+us.getNombre()+" ?")
+                                                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(final DialogInterface dialog, int which) {
+                                                        dialog.dismiss();
+                                                        paisesDAO.eliminarPais(us.getId(),context);
+                                                    }
+                                                })
+                                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        Toast.makeText(context, "Cancelado", Toast.LENGTH_SHORT).show();
+                                                        dialog.dismiss();
+                                                    }
+                                                }).show();
                                     }
                                 })
-                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                .setNegativeButton("En Cascada", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                        AlertDialog.Builder dial=new AlertDialog.Builder(context);
+                                        dial.setTitle("Eliminar en cascada");
+                                        final EditText contraAdmin = new EditText(context);
+                                        contraAdmin.setInputType(InputType.TYPE_CLASS_TEXT);
+                                        dial.setView(contraAdmin);
+                                        dial.setMessage("Para poder elimanar en cascada: "+us.getNombre()+"%n ingrese la contraseña admin ")
+                                                .setPositiveButton("Eliminar", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(final DialogInterface dialog, int which) {
+                                                        dialog.dismiss();
+                                                        if (contraAdmin.getText().toString().trim().equals("pullasancho")){
+                                                            paisesDAO.eliminarPaisCascada(us.getId(),context);
+                                                        }else{
+                                                            Toast.makeText(context, "contraseña incorrecta", Toast.LENGTH_SHORT).show();
+                                                            contraAdmin.setText("");
+                                                        }
+                                                    }
+                                                })
+                                                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        Toast.makeText(context, "Cancelado", Toast.LENGTH_SHORT).show();
+                                                        dialog.dismiss();
+                                                    }
+                                                }).show();
+                                    }
+                                })
+                                .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         Toast.makeText(context, "Cancelado", Toast.LENGTH_SHORT).show();
