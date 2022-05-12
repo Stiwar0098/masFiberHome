@@ -66,6 +66,7 @@ public class CrearPaisFragment extends Fragment {
     PaisesDAO paisesDAO;
     public static String opc=""; // editar/crear
     public static TextInputLayout txtNombrePais;
+    public static Pais pais;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -75,8 +76,11 @@ public class CrearPaisFragment extends Fragment {
         paisesDAO = new PaisesDAO();
         txtNombrePais=(TextInputLayout)vista.findViewById(R.id.txtNombrePais_CrearPais);
         Button btnguardar=(Button)vista.findViewById(R.id.btnGuardar_CrearPais);
+        ((MainActivity)getActivity()).setTitle("Crear pais");
         if (opc.equals("editar")){
             btnguardar.setText("Editar");
+            txtNombrePais.getEditText().setText(pais.getNombre());
+            ((MainActivity)getActivity()).setTitle("Editar pais");
         }
         btnguardar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,7 +88,8 @@ public class CrearPaisFragment extends Fragment {
                 if (opc.equals("crear")){
                     paisesDAO.crearPais(new Pais(0,txtNombrePais.getEditText().getText().toString(),"activo"),context);
                 }else{//editar
-                    //paisesDAO.editarPais(new Pais());
+                    pais.setNombre(txtNombrePais.getEditText().getText().toString());
+                    paisesDAO.editarPais(pais,context,false);
                 }
             }
         });

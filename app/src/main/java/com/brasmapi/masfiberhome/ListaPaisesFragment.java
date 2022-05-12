@@ -83,6 +83,8 @@ public class ListaPaisesFragment extends Fragment {
     public static RecyclerView recyclerViewPaises;
     public static List<Pais> listaPaises;
     TextInputLayout txtBuscar;
+    FragmentManager fragmentManager;
+    static FragmentTransaction fragmentTransaction;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -93,14 +95,14 @@ public class ListaPaisesFragment extends Fragment {
         mostrarDatos("");
         btnCrearPais =(Button)vista.findViewById(R.id.btnCrearPais_ListaPais);
         txtBuscar=(TextInputLayout)vista.findViewById(R.id.txtBuscarPais_ListaPaises);
+       fragmentManager = getActivity().getSupportFragmentManager();
+        // Definir una transacción
+        fragmentTransaction = fragmentManager.beginTransaction();
+        // Remplazar el contenido principal por el fragmento
         btnCrearPais.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CrearPaisFragment.opc="crear";
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                // Definir una transacción
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                // Remplazar el contenido principal por el fragmento
                 fragmentTransaction.replace(R.id.contenedor, new CrearPaisFragment());
                 fragmentTransaction.addToBackStack(null);
                 // Cambiar
@@ -144,6 +146,18 @@ public class ListaPaisesFragment extends Fragment {
             recyclerViewPaises.setAdapter(adaptadorPaises);
             adaptadorPaises.notifyDataSetChanged();
             recyclerViewPaises.setVisibility(View.VISIBLE);
+            adaptadorPaises.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CrearPaisFragment.opc="editar";
+                    Pais us = listaPaises.get(recyclerViewPaises.getChildAdapterPosition(v));
+                    CrearPaisFragment.pais=us;
+                    fragmentTransaction.replace(R.id.contenedor, new CrearPaisFragment());
+                    fragmentTransaction.addToBackStack(null);
+                    // Cambiar
+                    fragmentTransaction.commit();
+                }
+            });
             adaptadorPaises.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
