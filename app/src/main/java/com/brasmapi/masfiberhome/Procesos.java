@@ -24,9 +24,10 @@ import java.util.List;
 
 public class Procesos extends AppCompatActivity {
     public static String id;
-    public static final String url="https://app.masfiberhome.com/";
+    public static final String url="https://app.masfiberhome.com/webservicesbrasmapi/api";
     static ProgressDialog cargando;
-    static Usuario user;
+    public static boolean isPost =false;
+    public static Usuario user;
     static int i = 0;
     //private static DatabaseReference fireReference;
 

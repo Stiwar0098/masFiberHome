@@ -1,8 +1,12 @@
 package com.brasmapi.masfiberhome;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -74,7 +78,7 @@ public class ListaPaisesFragment extends Fragment {
     View vista;
     static Context context;
     Button btnCrearPais;
-    PaisesDAO paisesDAO;
+    static PaisesDAO paisesDAO;
     public static AdapterPais adaptadorPaises;
     public static RecyclerView recyclerViewPaises;
     public static List<Pais> listaPaises;
@@ -126,22 +130,93 @@ public class ListaPaisesFragment extends Fragment {
         return vista;
     }
     public void mostrarDatos(String filtrar){
-        Procesos.cargandoIniciar(vista.getContext());
         // crear lista de carview dentro del recycleview
         recyclerViewPaises = (RecyclerView)vista.findViewById(R.id.recyclerView_ListaPaises);
         recyclerViewPaises.setLayoutManager(new LinearLayoutManager(context));
-        listaPaises=paisesDAO.filtarPaises(filtrar, vista.getContext());
+        paisesDAO.filtarPaises(filtrar, vista.getContext(),false);
     }
     public static void cargar(){
         if(listaPaises==null){
             Toast.makeText(context, "No hay paises", Toast.LENGTH_SHORT).show();
+            recyclerViewPaises.setVisibility(View.GONE);
         }else{
             adaptadorPaises = new AdapterPais(listaPaises);
             recyclerViewPaises.setAdapter(adaptadorPaises);
             adaptadorPaises.notifyDataSetChanged();
+            recyclerViewPaises.setVisibility(View.VISIBLE);
+            adaptadorPaises.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    Pais us = listaPaises.get(recyclerViewPaises.getChildAdapterPosition(v));
+                    eliminarRegistroDialog(us);
+                    return true;
+                }
+            });
+            
         }
         Procesos.cargandoDetener();
     }
+
+    private static void eliminarRegistroDialog(Pais us) {
+        AlertDialog.Builder builder= new AlertDialog.Builder(context);
+        builder.setTitle("Opciones");
+        builder.setMessage("¿Elija la opcion que desea con: "+us.getNombre()+" ?")
+                .setPositiveButton("Eliminar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(final DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        AlertDialog.Builder builder= new AlertDialog.Builder(context);
+                        builder.setTitle("Eliminar");
+                        builder.setMessage("¿Está seguro que desea eliminar: "+us.getNombre()+" ?")
+                                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(final DialogInterface dialog, int which) {
+                                        paisesDAO.eliminarPais(us.getId(),context);
+                                    }
+                                })
+                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Toast.makeText(context, "Cancelado", Toast.LENGTH_SHORT).show();
+                                        dialog.dismiss();
+                                    }
+                                }).show();
+                    }
+                })
+                .setNegativeButton("Desactivar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        AlertDialog.Builder builder= new AlertDialog.Builder(context);
+                        builder.setTitle("Desactivar");
+                        builder.setMessage("¿Está seguro que desea desactivar: "+us.getNombre()+" ?")
+                                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(final DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                        us.setEstado("desactivo");
+                                        paisesDAO.editarPais(us,context,true);
+                                    }
+                                })
+                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Toast.makeText(context, "Cancelado", Toast.LENGTH_SHORT).show();
+                                        dialog.dismiss();
+                                    }
+                                }).show();
+                    }
+                })
+                .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(context, "Cancelado", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+    }
+
     private void filtrar(String filtrar){
         Procesos.cargandoIniciar(context);
         List<Pais> aux2=new ArrayList<>();

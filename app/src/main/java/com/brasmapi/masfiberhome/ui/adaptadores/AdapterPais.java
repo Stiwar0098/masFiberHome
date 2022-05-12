@@ -13,9 +13,10 @@ import com.brasmapi.masfiberhome.ui.entidades.Pais;
 
 import java.util.List;
 
-public class AdapterPais extends RecyclerView.Adapter<AdapterPais.ViewHolder> implements View.OnClickListener {
+public class AdapterPais extends RecyclerView.Adapter<AdapterPais.ViewHolder> implements View.OnClickListener, View.OnLongClickListener {
     static List<Pais> listaPaises;
     private View.OnClickListener listener;
+    private View.OnLongClickListener listenerLong;
 
     public AdapterPais(List<Pais> listaUsuarios) {
         this.listaPaises = listaUsuarios;
@@ -28,6 +29,7 @@ public class AdapterPais extends RecyclerView.Adapter<AdapterPais.ViewHolder> im
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_cardview_buscar_pais, null, false);
         view.setOnClickListener(this);
+        view.setOnLongClickListener(this);
         return new ViewHolder(view);
     }
 
@@ -44,12 +46,21 @@ public class AdapterPais extends RecyclerView.Adapter<AdapterPais.ViewHolder> im
     public void setOnClickListener(View.OnClickListener listener) {
         this.listener = listener;
     }
+    public void setOnLongClickListener(View.OnLongClickListener listener) { this.listenerLong = listener; }
 
     @Override
     public void onClick(View v) {
         if (listener != null) {
             listener.onClick(v);
         }
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        if (listenerLong != null) {
+            listenerLong.onLongClick(v);
+        }
+        return false;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

@@ -81,11 +81,10 @@ public class CrearPaisFragment extends Fragment {
         btnguardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Procesos.cargandoIniciar(context);
                 if (opc.equals("crear")){
                     paisesDAO.crearPais(new Pais(0,txtNombrePais.getEditText().getText().toString(),"activo"),context);
                 }else{//editar
-                    paisesDAO.editarPais(new Pais());
+                    //paisesDAO.editarPais(new Pais());
                 }
             }
         });
