@@ -27,7 +27,7 @@ public class Procesos extends AppCompatActivity {
     public static final String url="https://app.masfiberhome.com/webservicesbrasmapi/api";
     static ProgressDialog cargando;
     public static boolean isPost =false;
-    public static Usuario user;
+    public static Usuario user=null;
     static int i = 0;
     //private static DatabaseReference fireReference;
 

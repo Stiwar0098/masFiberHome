@@ -14,16 +14,19 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Toast;
 
+import com.brasmapi.masfiberhome.ui.dao.UsuariosDAO;
 import com.google.android.material.textfield.TextInputLayout;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements UsuariosDAO.usuarioBaseDeDatos{
 
+    Context context;
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         inicializarCampos();
+        context=this;
         SharedPreferences sp= getSharedPreferences("credenciales", Context.MODE_PRIVATE);
         checkLogIn(sp);
         btnIngresar.setOnClickListener(new View.OnClickListener() {
@@ -44,32 +47,51 @@ public class LoginActivity extends AppCompatActivity {
         txtUsuario=findViewById(R.id.txtUsuario_login);
         checkRecordar=findViewById(R.id.checkRecordar_login);
     }
-
+    SharedPreferences sp;
     //Permite guardar el Usuario y la contrasena para luego recordarlo ademas
-    private void rememberUser(SharedPreferences sp){
+    private void rememberUser(SharedPreferences ap){
+        sp=ap;
         // Recuperamos el contenido de los textFields
-
         String usuario = txtUsuario.getEditText().getText().toString().trim();
         String contrasena = txtContrasena.getEditText().getText().toString().trim();
-        SharedPreferences.Editor editor= sp.edit();
         // Verificamos si los campos no son vacíos
         if (!usuario.isEmpty() && !contrasena.isEmpty()){
-            if (checkRecordar.isChecked()){
-                editor.putString("Usuario",usuario);
-                editor.putString("contrasena",contrasena);
-                editor.putString("active","true");
-                editor.putString("recordar","true");
-                editor.commit();
+            if(Procesos.user!=null && usuario.equals(Procesos.user.getUsuario())){
+                ingresarMenuPrincipal();
             }else{
-                editor.putString("active","true");
-                editor.putString("recordar","false");
-                editor.commit();
+                UsuariosDAO usuariosDAO=new UsuariosDAO();
+                usuariosDAO.buscarUsuario(usuario,context,LoginActivity.this);
             }
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
+
         }else{
             // En caso los datos no estén completos mostramos un Toast
             Toast.makeText(this,"Ingrese las credenciales", Toast.LENGTH_SHORT).show();
+        }
+    }
+    public void ingresarMenuPrincipal(){
+        if(Procesos.user==null){
+            Toast.makeText(context, "Usuario no existe", Toast.LENGTH_SHORT).show();
+            txtUsuario.getEditText().setText("");
+        }else{
+            if(Procesos.user.getContrasena().equals(txtContrasena.getEditText().getText().toString().trim())){
+                SharedPreferences.Editor editor= sp.edit();
+                if (checkRecordar.isChecked()){
+                    editor.putString("Usuario",Procesos.user.getUsuario());
+                    editor.putString("contrasena",Procesos.user.getContrasena());
+                    editor.putString("active","true");
+                    editor.putString("recordar","true");
+                    editor.commit();
+                }else{
+                    editor.putString("active","true");
+                    editor.putString("recordar","false");
+                    editor.commit();
+                }
+                startActivity(new Intent(this, MainActivity.class));
+                finish();
+            }else{
+                Toast.makeText(context, "Contraseña incorrecta", Toast.LENGTH_SHORT).show();
+                txtContrasena.getEditText().setText("");
+            }
         }
     }
 
@@ -84,5 +106,10 @@ public class LoginActivity extends AppCompatActivity {
                 txtContrasena.getEditText().setText(sp.getString("contrasena",""));
             }
         }
+    }
+
+    @Override
+    public void usuarioSelecionado() {
+        ingresarMenuPrincipal();
     }
 }

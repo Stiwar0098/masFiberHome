@@ -13,6 +13,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.brasmapi.masfiberhome.ui.dao.UsuariosDAO;
 import com.brasmapi.masfiberhome.ui.entidades.Usuario;
 import com.brasmapi.masfiberhome.ui.CrearClienteFragment;
 import com.brasmapi.masfiberhome.ui.HomeFragment;
@@ -32,7 +33,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.brasmapi.masfiberhome.databinding.ActivityMainBinding;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, UsuariosDAO.usuarioBaseDeDatos{
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
@@ -40,14 +41,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Context context;
     DrawerLayout drawer;
     NavigationView navigationView;
-    static Usuario op;
+    UsuariosDAO usuariosDAO=new UsuariosDAO();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         context=this;
-
+        if(Procesos.user==null){
+            SharedPreferences sp= getSharedPreferences("credenciales", Context.MODE_PRIVATE);
+            usuariosDAO.buscarUsuario(sp.getString("Usuario",""),context,MainActivity.this);
+        }
         setSupportActionBar(binding.appBarMain.toolbar);
         drawer = binding.drawerLayout;
         navigationView = binding.navView;
@@ -69,12 +73,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         lblNombre_menu=findViewById(R.id.lblNombre_menu);
         lblRol_menu=findViewById(R.id.lblRol_menu);
-        op=new Usuario(1,"brayan","brasmapi","hola","Técntico","activo");
-        validadRolUsuario(op);
-        View header=navigationView.getHeaderView(0);
-        //View header = ((NavigationView)findViewById(R.id.nav_view)).getHeaderView(0);
-        ((TextView) header.findViewById(R.id.lblNombre_menu)).setText(op.getNombre());
-        ((TextView) header.findViewById(R.id.lblRol_menu)).setText(op.getRol());
+        validadRolUsuario();
     }
 
     private void logOut() {
@@ -141,13 +140,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ocultarMenu();
     }
 
-    public void validadRolUsuario(Usuario user){
-        if(user.getRol().equals("Técnico")){
-            cambiarFragment(new CrearClienteFragment(),"Crear cliente",itemMenuSeleccionadoAnterior,1);
-            MenuItem menuItem = navigationView.getMenu().getItem(0);
-            menuItem.setVisible(false);
-            menuItem = navigationView.getMenu().getItem(1);
-            menuItem.setVisible(false);
+    public void validadRolUsuario(){
+        if(Procesos.user!=null){
+            View header=navigationView.getHeaderView(0);
+            //View header = ((NavigationView)findViewById(R.id.nav_view)).getHeaderView(0);
+            String rol="";
+            if (Procesos.user.getRol()==1){
+                rol="ADMINISTRADOR";
+            }else{
+                rol="TÉCNICO";
+            }
+            ((TextView) header.findViewById(R.id.lblNombre_menu)).setText(Procesos.user.getNombre());
+            ((TextView) header.findViewById(R.id.lblRol_menu)).setText(rol);
+            if(Procesos.user.getRol()==2){// si es tecnico
+                cambiarFragment(new CrearClienteFragment(),"Crear cliente",itemMenuSeleccionadoAnterior,1);
+                MenuItem menuItem = navigationView.getMenu().getItem(0);
+                menuItem.setVisible(false);
+                menuItem = navigationView.getMenu().getItem(1);
+                menuItem.setVisible(false);
+            }
         }
     }
     public void ocultarMenu(){
@@ -155,5 +166,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
     public void setTitle(String title){
         getSupportActionBar().setTitle(title);
+    }
+
+    @Override
+    public void usuarioSelecionado() {
+        validadRolUsuario();
     }
 }
