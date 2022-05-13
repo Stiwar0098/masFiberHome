@@ -93,7 +93,6 @@ public class CrearPaisFragment extends Fragment {
                 }
             }
         });
-        context=getActivity();
         return vista;
     }
 }

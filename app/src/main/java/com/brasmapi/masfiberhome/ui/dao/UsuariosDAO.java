@@ -10,11 +10,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.brasmapi.masfiberhome.CrearUsuariosFragment;
 import com.brasmapi.masfiberhome.ListaUsuariosFragment;
 import com.brasmapi.masfiberhome.LoginActivity;
 import com.brasmapi.masfiberhome.Procesos;
-import com.brasmapi.masfiberhome.ui.entidades.Pais;
 import com.brasmapi.masfiberhome.ui.entidades.Usuario;
 
 import org.json.JSONArray;
@@ -25,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UsuariosDAO {
-    Procesos op = new Procesos();
     List<Usuario> as;
     RequestQueue queue;
     LoginActivity loginActivity;
@@ -45,20 +42,20 @@ public class UsuariosDAO {
                 for(int i=0; i<response.length();i++){
                     try {
                         JSONObject object = new JSONObject(response.get(i).toString());
-                        as.add(new Usuario(Integer.parseInt(object.getString("id_usuario")),object.getString("nombre_usuario"),object.getString("usuario_usuario"),object.getString("contrasena_usuario"),Integer.parseInt(object.getString("rol_usuario")),object.getString("estado_usuario")));
+                        as.add(new Usuario(Integer.parseInt(object.getString("id_usuario")),object.getString("nombre_usuario"),object.getString("usuario_usuario"),object.getString("contraseña_usuario"),Integer.parseInt(object.getString("id_rol")),object.getString("estado_usuario")));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
                 ListaUsuariosFragment.listaUsuarios=as;
-                //ListaUsuariosFragment.cargar();
+                ListaUsuariosFragment.cargar();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 //Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
                 ListaUsuariosFragment.listaUsuarios=null;
-                //ListaUsuariosFragment.cargar();
+                ListaUsuariosFragment.cargar();
             }
         });
         queue.add(requerimiento);
@@ -67,7 +64,7 @@ public class UsuariosDAO {
     public void buscarUsuario(String buscar, Context con, usuarioBaseDeDatos inte){
         interfaz=inte;
         Procesos.cargandoIniciar(con);
-        String consulta = Procesos.url+"/usuario/filtrarUsuario.php?filtrar="+buscar;
+        String consulta = Procesos.url+"/usuario/buscarUsuario.php?filtrar="+buscar;
         context=con;
         queue= Volley.newRequestQueue(context);
         JsonArrayRequest requerimiento=new JsonArrayRequest(Request.Method.GET, consulta, null, new Response.Listener<JSONArray>() {

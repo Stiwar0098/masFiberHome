@@ -9,7 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
+
+import com.brasmapi.masfiberhome.ui.dao.UsuariosDAO;
+import com.brasmapi.masfiberhome.ui.entidades.Usuario;
+import com.google.android.material.textfield.TextInputLayout;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -60,6 +66,10 @@ public class CrearUsuariosFragment extends Fragment {
     }
     View vista;
     Context context;
+    UsuariosDAO usuariosDAO;
+    public static String opc=""; // editar/crear
+    public static TextInputLayout txtNombreUsuario, txtUsuario,txtContra;
+    public static Usuario usuario;
     Spinner spinner;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,10 +77,38 @@ public class CrearUsuariosFragment extends Fragment {
         // Inflate the layout for this fragment
          vista=inflater.inflate(R.layout.fragment_crearusuarios, container, false);
          context=getActivity();
-        spinner=vista.findViewById(R.id.spinnerRol_CrearUsuarios);
-        String [] opciones={"Administrador","Técnico"};
+        spinner=vista.findViewById(R.id.spinnerRol_CrearUsuario);
+        String [] opciones={"ADMINISTRADOR","TECNICO"};
         ArrayAdapter<String> adapter= new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item,opciones);
         spinner.setAdapter(adapter);
+        usuariosDAO = new UsuariosDAO();
+        txtNombreUsuario=(TextInputLayout)vista.findViewById(R.id.txtNombreUsuario_CrearUsuario);
+        txtUsuario=(TextInputLayout)vista.findViewById(R.id.txtUsuario_CrearUsuario);
+        txtContra=(TextInputLayout)vista.findViewById(R.id.txtContra_CrearUsuario);
+        Button btnguardar=(Button)vista.findViewById(R.id.btnGuardar_CrearUsuario);
+        ((MainActivity)getActivity()).setTitle("Crear Usuario");
+        if (opc.equals("editar")){
+            btnguardar.setText("Editar");
+            txtNombreUsuario.getEditText().setText(usuario.getNombre());
+            txtUsuario.getEditText().setText(usuario.getUsuario());
+            txtContra.getEditText().setText(usuario.getContrasena());
+            spinner.setSelection(usuario.getRol()-1);
+            ((MainActivity)getActivity()).setTitle("Editar Usuario");
+        }
+        btnguardar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (opc.equals("crear")){
+                    usuariosDAO.crearUsuario(new Usuario(0,txtNombreUsuario.getEditText().getText().toString(),txtUsuario.getEditText().getText().toString(),txtContra.getEditText().getText().toString(),spinner.getSelectedItemPosition()+1,"activo"),context);
+                }else{//editar
+                    usuario.setNombre(txtNombreUsuario.getEditText().getText().toString());
+                    usuario.setUsuario(txtUsuario.getEditText().getText().toString().trim());
+                    usuario.setContrasena(txtContra.getEditText().getText().toString().trim());
+                    usuario.setRol(spinner.getSelectedItemPosition()+1);
+                    usuariosDAO.editarUsuario(usuario,context,false);
+                }
+            }
+        });
         return vista;
     }
 }
