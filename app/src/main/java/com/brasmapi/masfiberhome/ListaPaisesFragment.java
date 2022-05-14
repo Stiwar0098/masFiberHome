@@ -37,7 +37,7 @@ import java.util.List;
  * Use the {@link ListaPaisesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ListaPaisesFragment extends Fragment {
+public class ListaPaisesFragment extends Fragment implements PaisesDAO.interfazPaisDao{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -94,7 +94,7 @@ public class ListaPaisesFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         vista = inflater.inflate(R.layout.fragment_lista_paises, container, false);
-        paisesDAO = new PaisesDAO();
+        paisesDAO = new PaisesDAO(ListaPaisesFragment.this);
         context=getActivity();
         ((MainActivity)getActivity()).setTitle("Listar paises");
         mostrarDatos("");
@@ -293,15 +293,28 @@ public class ListaPaisesFragment extends Fragment {
     }
 
     private void filtrar(String filtrar){
-        Procesos.cargandoIniciar(context);
-        List<Pais> aux2=new ArrayList<>();
-        for (Pais aux:listaPaises) {
-            if(aux.getNombre().toLowerCase().contains(filtrar.toLowerCase())){
-                aux2.add(aux);
+        if (listaPaises!=null){
+            Procesos.cargandoIniciar(context);
+            List<Pais> aux2=new ArrayList<>();
+            for (Pais aux:listaPaises) {
+                if(aux.getNombre().toLowerCase().contains(filtrar.toLowerCase())){
+                    aux2.add(aux);
+                }
             }
+            adaptadorPaises.setAdapterItemBuscarPais(aux2);
+            adaptadorPaises.notifyDataSetChanged();
+            Procesos.cargandoDetener();
         }
-        adaptadorPaises.setAdapterItemBuscarPais(aux2);
-        adaptadorPaises.notifyDataSetChanged();
-        Procesos.cargandoDetener();
+    }
+
+    @Override
+    public void setPais(Pais pais) {
+
+    }
+
+    @Override
+    public void setListaPais(List<Pais> pais) {
+        listaPaises=pais;
+        cargar();
     }
 }

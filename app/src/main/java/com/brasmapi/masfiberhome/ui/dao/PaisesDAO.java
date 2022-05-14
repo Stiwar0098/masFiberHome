@@ -17,6 +17,7 @@ import com.brasmapi.masfiberhome.CrearPaisFragment;
 import com.brasmapi.masfiberhome.ListaPaisesFragment;
 import com.brasmapi.masfiberhome.Procesos;
 import com.brasmapi.masfiberhome.ui.entidades.Pais;
+import com.brasmapi.masfiberhome.ui.entidades.Provincia;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,6 +32,12 @@ public class PaisesDAO {
     List<Pais> as;
     RequestQueue queue;
     Context context;
+    private interfazPaisDao interfaz;
+
+    public PaisesDAO(interfazPaisDao inte) {
+        interfaz=inte;
+    }
+
     public void filtarPaises(String buscar, Context con, boolean isElim){
         if (!isElim){
             Procesos.cargandoIniciar(con);
@@ -50,15 +57,18 @@ public class PaisesDAO {
                         e.printStackTrace();
                     }
                 }
-                ListaPaisesFragment.listaPaises=as;
-                ListaPaisesFragment.cargar();
+                if(interfaz!=null){
+                    interfaz.setListaPais(as);
+                }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 //Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
-                ListaPaisesFragment.listaPaises=null;
-                ListaPaisesFragment.cargar();
+                as=null;
+                if(interfaz!=null){
+                    interfaz.setListaPais(as);
+                }
             }
         });
         queue.add(requerimiento);
@@ -121,6 +131,7 @@ public class PaisesDAO {
             metodo= Request.Method.POST;
             parametros=new JSONObject();
             try {
+                parametros.put("id", pais.getId());
                 parametros.put("nombre", pais.getNombre());
                 parametros.put("estado", pais.getEstado());
             } catch (JSONException e) {
@@ -244,5 +255,9 @@ public class PaisesDAO {
             }
         });
         queue.add(requerimiento);
+    }
+    public interface interfazPaisDao {
+        void setPais(Pais pais);
+        void setListaPais(List<Pais> pais);
     }
 }

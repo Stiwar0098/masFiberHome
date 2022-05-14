@@ -10,6 +10,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.brasmapi.masfiberhome.CrearUsuariosFragment;
 import com.brasmapi.masfiberhome.ListaUsuariosFragment;
 import com.brasmapi.masfiberhome.LoginActivity;
 import com.brasmapi.masfiberhome.Procesos;
@@ -130,7 +131,9 @@ public class UsuariosDAO {
                         }else{
                             Toast.makeText(context, response.get("respuesta").toString(), Toast.LENGTH_SHORT).show();
                         }
-                  //      CrearUsuariosFragment.txtNombreusuario.getEditText().setText("");
+                        CrearUsuariosFragment.txtNombreUsuario.getEditText().setText("");
+                        CrearUsuariosFragment.txtUsuario.getEditText().setText("");
+                        CrearUsuariosFragment.txtContra.getEditText().setText("");
                         Procesos.cargandoDetener();
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -158,6 +161,7 @@ public class UsuariosDAO {
             metodo= Request.Method.POST;
             parametros=new JSONObject();
             try {
+                parametros.put("id", usuario.getId());
                 parametros.put("nombre", usuario.getNombre());
                 parametros.put("usuario", usuario.getUsuario());
                 parametros.put("contrasena", usuario.getContrasena());
@@ -180,7 +184,9 @@ public class UsuariosDAO {
                         Toast.makeText(context, response.get("respuesta").toString(), Toast.LENGTH_SHORT).show();
                     }
                     if (!esDesactivar){
-                    //    CrearUsuariosFragment.txtNombreUsuario.getEditText().setText("");
+                        CrearUsuariosFragment.txtNombreUsuario.getEditText().setText("");
+                        CrearUsuariosFragment.txtUsuario.getEditText().setText("");
+                        CrearUsuariosFragment.txtContra.getEditText().setText("");
                     }
                     Procesos.cargandoDetener();
                 } catch (JSONException e) {

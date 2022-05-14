@@ -9,8 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
+import com.brasmapi.masfiberhome.ui.dao.ProvinciaDAO;
 import com.brasmapi.masfiberhome.ui.entidades.Pais;
+import com.brasmapi.masfiberhome.ui.entidades.Provincia;
+import com.brasmapi.masfiberhome.ui.entidades.Provincia;
 import com.google.android.material.textfield.TextInputLayout;
 
 /**
@@ -62,7 +66,11 @@ public class CrearProvinciaFragment extends Fragment implements DialogBuscarPais
     View vista;
     Context context;
     Button btnBuscarPaises;
-    TextInputLayout txtPais;
+    public static TextInputLayout txtPais,txtProvincia;
+    Pais pais=null;
+    ProvinciaDAO provinciaDAO;
+    public static Provincia provincia;
+    public static String opc=""; // editar/crear
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -70,10 +78,34 @@ public class CrearProvinciaFragment extends Fragment implements DialogBuscarPais
         context=getActivity();
         btnBuscarPaises=vista.findViewById(R.id.btnBuscarPais_CrearProvincia);
         txtPais=vista.findViewById(R.id.txtPais_CrearProvincia);
+        txtProvincia=vista.findViewById(R.id.txtProvincia_CrearProvincia);
+        provinciaDAO=new ProvinciaDAO(null);
         btnBuscarPaises.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new DialogBuscarPais(context,CrearProvinciaFragment.this);
+            }
+        });
+        Button btnguardar=(Button)vista.findViewById(R.id.btnGuardar_CrearProvincia);
+        ((MainActivity)getActivity()).setTitle("Crear provincia");
+        if (opc.equals("editar")){
+            btnguardar.setText("Editar");
+            txtProvincia.getEditText().setText(provincia.getNombre());
+            txtPais.getEditText().setText(provincia.getNombre_pais());
+            ((MainActivity)getActivity()).setTitle("Editar provincia");
+        }
+        btnguardar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (opc.equals("crear")){
+                    provinciaDAO.crearProvincia(new Provincia(0,txtProvincia.getEditText().getText().toString(),pais.getId(),pais.getNombre(),"activo"),context);
+                }else{//editar
+                    provincia.setNombre(txtProvincia.getEditText().getText().toString());
+                    if (pais!=null){
+                        provincia.setPais(pais.getId());
+                    }
+                    provinciaDAO.editarProvincia(provincia,context,false);
+                }
             }
         });
         return vista;
@@ -82,5 +114,6 @@ public class CrearProvinciaFragment extends Fragment implements DialogBuscarPais
     @Override
     public void PaisSelecionado(Pais pais) {
         txtPais.getEditText().setText(pais.getNombre());
+        this.pais=pais;
     }
 }

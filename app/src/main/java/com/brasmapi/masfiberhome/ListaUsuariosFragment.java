@@ -291,15 +291,17 @@ public class ListaUsuariosFragment extends Fragment {
     }
 
     private void filtrar(String filtrar){
-        Procesos.cargandoIniciar(context);
-        List<Usuario> aux2=new ArrayList<>();
-        for (Usuario aux:listaUsuarios) {
-            if(aux.getNombre().toLowerCase().contains(filtrar.toLowerCase())){
-                aux2.add(aux);
+        if (listaUsuarios!=null){
+            Procesos.cargandoIniciar(context);
+            List<Usuario> aux2=new ArrayList<>();
+            for (Usuario aux:listaUsuarios) {
+                if(aux.getNombre().toLowerCase().contains(filtrar.toLowerCase())||aux.getUsuario().toLowerCase().contains(filtrar.toLowerCase())){
+                    aux2.add(aux);
+                }
             }
+            adaptadorUsuario.setAdapterItemBuscarUsuario(aux2);
+            adaptadorUsuario.notifyDataSetChanged();
+            Procesos.cargandoDetener();
         }
-        adaptadorUsuario.setAdapterItemBuscarUsuario(aux2);
-        adaptadorUsuario.notifyDataSetChanged();
-        Procesos.cargandoDetener();
     }
 }

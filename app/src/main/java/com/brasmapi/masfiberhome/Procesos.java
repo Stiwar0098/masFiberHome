@@ -25,7 +25,7 @@ import java.util.List;
 public class Procesos extends AppCompatActivity {
     public static String id;
     public static final String url="https://app.masfiberhome.com/webservicesbrasmapi/api";
-    static ProgressDialog cargando;
+    public static ProgressDialog cargando;
     public static boolean isPost =false;
     public static Usuario user=null;
     static int i = 0;
@@ -50,6 +50,7 @@ public class Procesos extends AppCompatActivity {
     }
 
     public static void cargandoDetener() {
+        cargando.dismiss();
         cargando.dismiss();
     }
 

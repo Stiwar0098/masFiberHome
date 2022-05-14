@@ -73,7 +73,7 @@ public class CrearPaisFragment extends Fragment {
         // Inflate the layout for this fragment
         vista =inflater.inflate(R.layout.fragment_crear_pais, container, false);
         context=vista.getContext();
-        paisesDAO = new PaisesDAO();
+        paisesDAO = new PaisesDAO(null);
         txtNombrePais=(TextInputLayout)vista.findViewById(R.id.txtNombrePais_CrearPais);
         Button btnguardar=(Button)vista.findViewById(R.id.btnGuardar_CrearPais);
         ((MainActivity)getActivity()).setTitle("Crear pais");
