@@ -29,6 +29,11 @@ public class UsuariosDAO {
     LoginActivity loginActivity;
     Context context;
     private usuarioBaseDeDatos interfaz;
+
+    public UsuariosDAO(usuarioBaseDeDatos inte) {
+        interfaz=inte;
+    }
+
     public void filtarUsuarios(String buscar, Context con, boolean isElim){
         if (!isElim){
             Procesos.cargandoIniciar(con);
@@ -48,22 +53,24 @@ public class UsuariosDAO {
                         e.printStackTrace();
                     }
                 }
-                ListaUsuariosFragment.listaUsuarios=as;
-                ListaUsuariosFragment.cargar();
+                if(interfaz!=null){
+                    interfaz.setListaUsuario(as);
+                }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 //Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
-                ListaUsuariosFragment.listaUsuarios=null;
-                ListaUsuariosFragment.cargar();
+                as=null;
+                if(interfaz!=null){
+                    interfaz.setListaUsuario(as);
+                }
             }
         });
         queue.add(requerimiento);
     }
 
-    public void buscarUsuario(String buscar, Context con, usuarioBaseDeDatos inte){
-        interfaz=inte;
+    public void buscarUsuario(String buscar, Context con){
         Procesos.cargandoIniciar(con);
         String consulta = Procesos.url+"/usuario/buscarUsuario.php?filtrar="+buscar;
         context=con;
@@ -293,5 +300,6 @@ public class UsuariosDAO {
     }
     public interface usuarioBaseDeDatos {
         void usuarioSelecionado();
+        void setListaUsuario(List<Usuario> lista);
     }
 }

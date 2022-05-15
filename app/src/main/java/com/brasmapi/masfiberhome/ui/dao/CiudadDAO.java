@@ -10,11 +10,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.brasmapi.masfiberhome.CrearProvinciaFragment;
-import com.brasmapi.masfiberhome.ListaProvinciasFragment;
+import com.brasmapi.masfiberhome.CrearCiudadFragment;
+import com.brasmapi.masfiberhome.ListaCiudadesFragment;
 import com.brasmapi.masfiberhome.Procesos;
-import com.brasmapi.masfiberhome.ui.entidades.Provincia;
-import com.brasmapi.masfiberhome.ui.entidades.Provincia;
+import com.brasmapi.masfiberhome.ui.entidades.Ciudad;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,21 +22,21 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProvinciaDAO {
-    List<Provincia> as;
+public class CiudadDAO {
+    List<Ciudad> as;
     RequestQueue queue;
     Context context;
-    private setProvincia interfaz;
+    private ciudadDAO interfaz;
 
-    public ProvinciaDAO( setProvincia inte) {
+    public CiudadDAO(ciudadDAO inte) {
         interfaz=inte;
     }
 
-    public void filtarProvincia(String buscar, Context con, boolean isElim) {
+    public void filtarCiudad(String buscar, Context con, boolean isElim) {
         if (!isElim) {
             Procesos.cargandoIniciar(con);
         }
-        String consulta = Procesos.url + "/provincia/filtrarProvincia.php?filtrar=" + buscar;
+        String consulta = Procesos.url + "/ciudad/filtrarCiudad.php?filtrar=" + buscar;
         context = con;
         queue = Volley.newRequestQueue(context);
         JsonArrayRequest requerimiento = new JsonArrayRequest(Request.Method.GET, consulta, null, new Response.Listener<JSONArray>() {
@@ -47,13 +46,16 @@ public class ProvinciaDAO {
                 for (int i = 0; i < response.length(); i++) {
                     try {
                         JSONObject object = new JSONObject(response.get(i).toString());
-                        as.add(new Provincia(object.getInt("id_provincia"), object.getString("nombre_provincia"), object.getInt("id_pais"),object.getString("nombre_pais"), object.getString("estado_provincia")));
+                       as.add(new Ciudad(object.getInt("id_ciudad"), object.getString("nombre_ciudad"), object.getInt("id_provincia"),object.getString("nombre_provincia"), object.getString("estado_ciudad")));
                     } catch (JSONException e) {
+                        e.printStackTrace();
+                        e.printStackTrace();
+                        e.printStackTrace();
                         e.printStackTrace();
                     }
                 }
                 if(interfaz!=null){
-                    interfaz.setListaProvincia(as);
+                    interfaz.setListaCiudad(as);
                 }
             }
         }, new Response.ErrorListener() {
@@ -62,16 +64,16 @@ public class ProvinciaDAO {
                 Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
                 as=null;
                 if(interfaz!=null){
-                    interfaz.setListaProvincia(as);
+                    interfaz.setListaCiudad(as);
                 }
             }
         });
         queue.add(requerimiento);
     }
 
-    public void buscarProvincia(String buscar, Context con) {
+    public void buscarCiudad(String buscar, Context con) {
         Procesos.cargandoIniciar(con);
-        String consulta = Procesos.url + "/provincia/buscarProvincia.php?filtrar=" + buscar;
+        String consulta = Procesos.url + "/ciudad/buscarCiudad.php?filtrar=" + buscar;
         context = con;
         queue = Volley.newRequestQueue(context);
         JsonArrayRequest requerimiento = new JsonArrayRequest(Request.Method.GET, consulta, null, new Response.Listener<JSONArray>() {
@@ -80,10 +82,10 @@ public class ProvinciaDAO {
                 as = new ArrayList<>();
                 try {
                     JSONObject object = new JSONObject(response.get(0).toString());
-                    as.add(new Provincia(Integer.parseInt(object.getString("id_provincia")), object.getString("nombre_provincia"), object.getInt("id_pais"),object.getString("nombre_pais"), object.getString("estado_provincia")));
+                    as.add(new Ciudad(object.getInt("id_ciudad"), object.getString("nombre_ciudad"), object.getInt("id_provincia"),object.getString("nombre_provincia"), object.getString("estado_ciudad")));
                     Procesos.cargandoDetener();
                     if (interfaz != null) {
-                        interfaz.setProvincia(as.get(0));
+                        interfaz.setCiudad(as.get(0));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -96,14 +98,14 @@ public class ProvinciaDAO {
                 Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
                 Procesos.cargandoDetener();
                 if (interfaz != null) {
-                    interfaz.setProvincia(null);
+                    interfaz.setCiudad(null);
                 }
             }
         });
         queue.add(requerimiento);
     }
 
-    public void crearProvincia(Provincia provincia, Context con) {
+    public void crearCiudad(Ciudad ciudad, Context con) {
         Procesos.cargandoIniciar(con);
         context = con;
         String consulta;
@@ -111,18 +113,18 @@ public class ProvinciaDAO {
         JSONObject parametros = null;
         queue = Volley.newRequestQueue(context);
         if (Procesos.isPost) {
-            consulta = Procesos.url + "/provincia/crearProvincia.php";
+            consulta = Procesos.url + "/ciudad/crearCiudad.php";
             metodo = Request.Method.POST;
             parametros = new JSONObject();
             try {
-                parametros.put("nombre_provincia", provincia.getNombre());
-                parametros.put("id_pais", provincia.getNombre());
-                parametros.put("estado_provincia", provincia.getEstado());
+                parametros.put("nombre_ciudad", ciudad.getNombre());
+                parametros.put("id_provincia", ciudad.getIdProvincia());
+                parametros.put("estado_ciudad", ciudad.getEstado());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         } else {
-            consulta = Procesos.url + "/provincia/crearProvincia.php?nombre_provincia=" + provincia.getNombre() + "&id_pais=" + provincia.getPais() + "&estado_provincia=" + provincia.getEstado();
+            consulta = Procesos.url + "/ciudad/crearCiudad.php?nombre_ciudad=" + ciudad.getNombre() + "&id_provincia=" + ciudad.getIdProvincia() + "&estado_ciudad=" + ciudad.getEstado();
             metodo = Request.Method.GET;
         }
         JsonObjectRequest requerimiento = new JsonObjectRequest(metodo, consulta, parametros, new Response.Listener<JSONObject>() {
@@ -134,8 +136,8 @@ public class ProvinciaDAO {
                     } else {
                         Toast.makeText(context, response.get("respuesta").toString(), Toast.LENGTH_SHORT).show();
                     }
-                    CrearProvinciaFragment.txtProvincia.getEditText().setText("");
-                    CrearProvinciaFragment.txtPais.getEditText().setText("");
+                    CrearCiudadFragment.txtCiudad.getEditText().setText("");
+                    CrearCiudadFragment.txtProvincia.getEditText().setText("");
                     Procesos.cargandoDetener();
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -152,7 +154,7 @@ public class ProvinciaDAO {
         queue.add(requerimiento);
     }
 
-    public void editarProvincia(Provincia provincia, Context con, boolean esDesactivar) {
+    public void editarCiudad(Ciudad Ciudad, Context con, boolean esDesactivar) {
         Procesos.cargandoIniciar(con);
         context = con;
         String consulta;
@@ -160,19 +162,19 @@ public class ProvinciaDAO {
         JSONObject parametros = null;
         queue = Volley.newRequestQueue(context);
         if (Procesos.isPost) {
-            consulta = Procesos.url + "/provincia/editarProvincia.php";
+            consulta = Procesos.url + "/ciudad/editarCiudad.php";
             metodo = Request.Method.POST;
             parametros = new JSONObject();
             try {
-                parametros.put("id_provincia", provincia.getId());
-                parametros.put("nombre_provincia", provincia.getNombre());
-                parametros.put("id_pais", provincia.getNombre());
-                parametros.put("estado_provincia", provincia.getEstado());
+                parametros.put("id_ciudad", Ciudad.getId());
+                parametros.put("nombre_ciudad", Ciudad.getNombre());
+                parametros.put("id_provincia", Ciudad.getNombre());
+                parametros.put("estado_ciudad", Ciudad.getEstado());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         } else {
-            consulta = Procesos.url + "/provincia/editarProvincia.php?nombre_provincia=" + provincia.getNombre() + "&id_pais=" + provincia.getPais() + "&estado_provincia=" + provincia.getEstado() + "&id_provincia=" + provincia.getId();
+            consulta = Procesos.url + "/ciudad/editarCiudad.php?nombre_ciudad=" + Ciudad.getNombre() + "&id_provincia=" + Ciudad.getIdProvincia() + "&estado_ciudad=" + Ciudad.getEstado() + "&id_ciudad=" + Ciudad.getId();
             metodo = Request.Method.GET;
         }
         JsonObjectRequest requerimiento = new JsonObjectRequest(metodo, consulta, parametros, new Response.Listener<JSONObject>() {
@@ -185,8 +187,8 @@ public class ProvinciaDAO {
                         Toast.makeText(context, response.get("respuesta").toString(), Toast.LENGTH_SHORT).show();
                     }
                     if (!esDesactivar) {
-                        CrearProvinciaFragment.txtProvincia.getEditText().setText("");
-                        CrearProvinciaFragment.txtPais.getEditText().setText("");
+                        CrearCiudadFragment.txtCiudad.getEditText().setText("");
+                        CrearCiudadFragment.txtProvincia.getEditText().setText("");
                     }
                     Procesos.cargandoDetener();
                 } catch (JSONException e) {
@@ -204,7 +206,7 @@ public class ProvinciaDAO {
         queue.add(requerimiento);
     }
 
-    public void eliminarProvincia(int id, Context con) {
+    public void eliminarCiudad(int id, Context con) {
         Procesos.cargandoIniciar(con);
         context = con;
         String consulta;
@@ -212,7 +214,7 @@ public class ProvinciaDAO {
         JSONObject parametros = null;
         queue = Volley.newRequestQueue(context);
         if (Procesos.isPost) {
-            consulta = Procesos.url + "/provincia/eliminarProvincia.php";
+            consulta = Procesos.url + "/ciudad/eliminarCiudad.php";
             metodo = Request.Method.POST;
             parametros = new JSONObject();
             try {
@@ -221,7 +223,7 @@ public class ProvinciaDAO {
                 e.printStackTrace();
             }
         } else {
-            consulta = Procesos.url + "/provincia/eliminarProvincia.php?id=" + id;
+            consulta = Procesos.url + "/ciudad/eliminarCiudad.php?id=" + id;
             metodo = Request.Method.GET;
         }
         JsonObjectRequest requerimiento = new JsonObjectRequest(metodo, consulta, parametros, new Response.Listener<JSONObject>() {
@@ -233,7 +235,7 @@ public class ProvinciaDAO {
                     } else {
                         Toast.makeText(context, response.get("respuesta").toString(), Toast.LENGTH_SHORT).show();
                     }
-                    filtarProvincia("", con, true);
+                    filtarCiudad("", con, true);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -249,7 +251,7 @@ public class ProvinciaDAO {
         queue.add(requerimiento);
     }
 
-    public void eliminarProvinciaCascada(int id, Context con) {
+    public void eliminarCiudadCascada(int id, Context con) {
         Procesos.cargandoIniciar(con);
         context = con;
         String consulta;
@@ -257,7 +259,7 @@ public class ProvinciaDAO {
         JSONObject parametros = null;
         queue = Volley.newRequestQueue(context);
         if (Procesos.isPost) {
-            consulta = Procesos.url + "/provincia/eliminarCascadaProvincia.php";
+            consulta = Procesos.url + "ciudad/eliminarCascadaCiudad.php";
             metodo = Request.Method.POST;
             parametros = new JSONObject();
             try {
@@ -266,7 +268,7 @@ public class ProvinciaDAO {
                 e.printStackTrace();
             }
         } else {
-            consulta = Procesos.url + "/provincia/eliminarCascadaProvincia.php?id=" + id;
+            consulta = Procesos.url + "/ciudad/eliminarCascadaCiudad.php?id=" + id;
             metodo = Request.Method.GET;
         }
         JsonObjectRequest requerimiento = new JsonObjectRequest(metodo, consulta, parametros, new Response.Listener<JSONObject>() {
@@ -278,7 +280,7 @@ public class ProvinciaDAO {
                     } else {
                         Toast.makeText(context, response.get("respuesta").toString(), Toast.LENGTH_SHORT).show();
                     }
-                    filtarProvincia("", con, true);
+                    filtarCiudad("", con, true);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -293,8 +295,8 @@ public class ProvinciaDAO {
         });
         queue.add(requerimiento);
     }
-    public interface setProvincia {
-        void setProvincia(Provincia provincia);
-        void setListaProvincia(List<Provincia> lista);
+    public interface ciudadDAO {
+        void setCiudad(Ciudad Ciudad);
+        void setListaCiudad(List<Ciudad> lista);
     }
 }

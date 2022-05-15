@@ -81,7 +81,7 @@ public class CrearUsuariosFragment extends Fragment {
         String [] opciones={"ADMINISTRADOR","TECNICO"};
         ArrayAdapter<String> adapter= new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item,opciones);
         spinner.setAdapter(adapter);
-        usuariosDAO = new UsuariosDAO();
+        usuariosDAO = new UsuariosDAO(null);
         txtNombreUsuario=(TextInputLayout)vista.findViewById(R.id.txtNombreUsuario_CrearUsuario);
         txtUsuario=(TextInputLayout)vista.findViewById(R.id.txtUsuario_CrearUsuario);
         txtContra=(TextInputLayout)vista.findViewById(R.id.txtContra_CrearUsuario);

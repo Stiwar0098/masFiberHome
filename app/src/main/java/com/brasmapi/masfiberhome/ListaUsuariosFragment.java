@@ -35,7 +35,7 @@ import java.util.List;
  * Use the {@link ListaUsuariosFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ListaUsuariosFragment extends Fragment {
+public class ListaUsuariosFragment extends Fragment implements UsuariosDAO.usuarioBaseDeDatos{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -93,7 +93,7 @@ public class ListaUsuariosFragment extends Fragment {
         // Inflate the layout for this fragment
         vista =inflater.inflate(R.layout.fragment_lista_usuarios, container, false);
         context=getActivity();
-        usuarioDAO = new UsuariosDAO();
+        usuarioDAO = new UsuariosDAO(ListaUsuariosFragment.this);
         context=getActivity();
         ((MainActivity)getActivity()).setTitle("Listar usuarios");
         mostrarDatos("");
@@ -303,5 +303,16 @@ public class ListaUsuariosFragment extends Fragment {
             adaptadorUsuario.notifyDataSetChanged();
             Procesos.cargandoDetener();
         }
+    }
+
+    @Override
+    public void usuarioSelecionado() {
+
+    }
+
+    @Override
+    public void setListaUsuario(List<Usuario> lista) {
+        listaUsuarios=lista;
+        cargar();
     }
 }

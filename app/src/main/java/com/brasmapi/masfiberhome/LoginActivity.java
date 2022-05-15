@@ -15,7 +15,10 @@ import android.widget.CheckBox;
 import android.widget.Toast;
 
 import com.brasmapi.masfiberhome.ui.dao.UsuariosDAO;
+import com.brasmapi.masfiberhome.ui.entidades.Usuario;
 import com.google.android.material.textfield.TextInputLayout;
+
+import java.util.List;
 
 public class LoginActivity extends AppCompatActivity implements UsuariosDAO.usuarioBaseDeDatos{
 
@@ -59,8 +62,8 @@ public class LoginActivity extends AppCompatActivity implements UsuariosDAO.usua
             if(Procesos.user!=null && usuario.equals(Procesos.user.getUsuario())){
                 ingresarMenuPrincipal();
             }else{
-                UsuariosDAO usuariosDAO=new UsuariosDAO();
-                usuariosDAO.buscarUsuario(usuario,context,LoginActivity.this);
+                UsuariosDAO usuariosDAO=new UsuariosDAO(LoginActivity.this);
+                usuariosDAO.buscarUsuario(usuario,context);
             }
 
         }else{
@@ -111,5 +114,10 @@ public class LoginActivity extends AppCompatActivity implements UsuariosDAO.usua
     @Override
     public void usuarioSelecionado() {
         ingresarMenuPrincipal();
+    }
+
+    @Override
+    public void setListaUsuario(List<Usuario> lista) {
+
     }
 }

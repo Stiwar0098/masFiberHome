@@ -33,6 +33,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.brasmapi.masfiberhome.databinding.ActivityMainBinding;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, UsuariosDAO.usuarioBaseDeDatos{
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -41,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Context context;
     DrawerLayout drawer;
     NavigationView navigationView;
-    UsuariosDAO usuariosDAO=new UsuariosDAO();
+    UsuariosDAO usuariosDAO=new UsuariosDAO(MainActivity.this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         context=this;
         if(Procesos.user==null){
             SharedPreferences sp= getSharedPreferences("credenciales", Context.MODE_PRIVATE);
-            usuariosDAO.buscarUsuario(sp.getString("Usuario",""),context,MainActivity.this);
+            usuariosDAO.buscarUsuario(sp.getString("Usuario",""),context);
         }
         setSupportActionBar(binding.appBarMain.toolbar);
         drawer = binding.drawerLayout;
@@ -171,5 +173,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void usuarioSelecionado() {
         validadRolUsuario();
+    }
+
+    @Override
+    public void setListaUsuario(List<Usuario> lista) {
+
     }
 }

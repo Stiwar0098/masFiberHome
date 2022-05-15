@@ -1,5 +1,6 @@
 package com.brasmapi.masfiberhome;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,13 +8,21 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+
+import com.brasmapi.masfiberhome.ui.DialogBuscarProvincia;
+import com.brasmapi.masfiberhome.ui.dao.CiudadDAO;
+import com.brasmapi.masfiberhome.ui.entidades.Ciudad;
+import com.brasmapi.masfiberhome.ui.entidades.Pais;
+import com.brasmapi.masfiberhome.ui.entidades.Provincia;
+import com.google.android.material.textfield.TextInputLayout;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link CrearCiudadFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CrearCiudadFragment extends Fragment {
+public class CrearCiudadFragment extends Fragment implements DialogBuscarProvincia.finalizoDialogBuscarProvincia {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -54,11 +63,58 @@ public class CrearCiudadFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
+    View vista;
+    Context context;
+    Button btnBuscarProvincias;
+    public static TextInputLayout txtCiudad,txtProvincia;
+    Provincia provincia=null;
+    CiudadDAO ciudadDAO;
+    public static Ciudad ciudad;
+    public static String opc=""; // editar/crear
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_crear_ciudad, container, false);
+        vista= inflater.inflate(R.layout.fragment_crear_ciudad, container, false);
+        context=getActivity();
+        btnBuscarProvincias =vista.findViewById(R.id.btnBuscarProvincia_CrearCiudad);
+        txtCiudad=vista.findViewById(R.id.txtNombreCiudad_CrearCiudad);
+        txtProvincia=vista.findViewById(R.id.txtProvincia_CrearCiudad);
+        ciudadDAO=new CiudadDAO(null);
+        btnBuscarProvincias.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new DialogBuscarProvincia(context,CrearCiudadFragment.this);
+            }
+        });
+        Button btnguardar=(Button)vista.findViewById(R.id.btnGuardar_CrearCiudad);
+        ((MainActivity)getActivity()).setTitle("Crear Ciudad");
+        if (opc.equals("editar")){
+            btnguardar.setText("Editar");
+            txtCiudad.getEditText().setText(ciudad.getNombre());
+            txtProvincia.getEditText().setText(ciudad.getNombreProvincia());
+            ((MainActivity)getActivity()).setTitle("Editar Ciudad");
+        }
+        btnguardar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (opc.equals("crear")){
+                    ciudadDAO.crearCiudad(new Ciudad(0,txtCiudad.getEditText().getText().toString(), provincia.getId(), provincia.getNombre(),"activo"),context);
+                }else{//editar
+                    ciudad.setNombre(txtCiudad.getEditText().getText().toString());
+                    if (provincia !=null){
+                        ciudad.setIdProvincia(provincia.getId());
+                    }
+                    ciudadDAO.editarCiudad(ciudad,context,false);
+                }
+            }
+        });
+        return vista;
+    }
+
+    @Override
+    public void ProvinciaSelecionado(Provincia provincia) {
+        txtProvincia.getEditText().setText(provincia.getNombre());
+        this.provincia=provincia;
     }
 }

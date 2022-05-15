@@ -38,7 +38,7 @@ import java.util.List;
  * Use the {@link ListaProvinciasFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ListaProvinciasFragment extends Fragment {
+public class ListaProvinciasFragment extends Fragment implements ProvinciaDAO.setProvincia{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -80,8 +80,8 @@ public class ListaProvinciasFragment extends Fragment {
         }
     }
     View vista;
-    static Context context;
     Button btnCrearProvincia;
+    static Context context;
     static ProvinciaDAO provinciaDAO;
     public static AdapterProvincia adaptadorProvincia;
     public static RecyclerView recyclerViewProvincias;
@@ -96,7 +96,7 @@ public class ListaProvinciasFragment extends Fragment {
         // Inflate the layout for this fragment
         vista =inflater.inflate(R.layout.fragment_lista_provincias, container, false);
         context=getActivity();
-        provinciaDAO = new ProvinciaDAO(null);
+        provinciaDAO = new ProvinciaDAO(ListaProvinciasFragment.this);
         ((MainActivity)getActivity()).setTitle("Listar Provincias");
         mostrarDatos("");
         btnCrearProvincia =(Button)vista.findViewById(R.id.btnCrearProvincia_ListaProvincias);
@@ -149,9 +149,9 @@ public class ListaProvinciasFragment extends Fragment {
         // crear lista de carview dentro del recycleview
         recyclerViewProvincias = (RecyclerView)vista.findViewById(R.id.recyclerView_ListaProvincias);
         recyclerViewProvincias.setLayoutManager(new LinearLayoutManager(context));
-        provinciaDAO.filtarProvincia(filtrar, vista.getContext(),false);
+        provinciaDAO.filtarProvincia(filtrar, context,false);
     }
-    public static void cargar(){
+    public void cargar(){
         if(listaProvincias==null){
             Toast.makeText(context, "No hay Provincias", Toast.LENGTH_SHORT).show();
             recyclerViewProvincias.setVisibility(View.GONE);
@@ -305,5 +305,16 @@ public class ListaProvinciasFragment extends Fragment {
             adaptadorProvincia.notifyDataSetChanged();
             Procesos.cargandoDetener();
         }
+    }
+
+    @Override
+    public void setProvincia(Provincia provincia) {
+
+    }
+
+    @Override
+    public void setListaProvincia(List<Provincia> lista) {
+        listaProvincias=lista;
+        cargar();
     }
 }

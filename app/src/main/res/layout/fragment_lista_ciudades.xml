@@ -6,48 +6,48 @@
     android:layout_height="match_parent"
     tools:context=".ListaCiudadesFragment">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txtBuscar_ListaCiudades"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="85dp"
+            android:layout_marginRight="20dp"
+            android:textColorHint="@color/textColorHint"
+            app:boxStrokeColor="@color/boxStrokeColor"
+            app:endIconCheckable="false"
+            app:hintTextColor="@color/hintTextColor"
+            app:startIconTint="@color/iconos">
 
-            <com.google.android.material.textfield.TextInputLayout
+            <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="85dp"
-                android:layout_marginRight="20dp"
-                android:textColorHint="@color/textColorHint"
-                app:boxStrokeColor="@color/boxStrokeColor"
-                app:endIconCheckable="false"
-                app:hintTextColor="@color/hintTextColor"
-                app:startIconTint="@color/iconos">
+                android:layout_height="wrap_content"
+                android:hint="Nombre de la ciudad" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Nombre de la ciudad" />
-            </com.google.android.material.textfield.TextInputLayout>
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/refreshRecycler_listaCiudades"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp">
 
             <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView_ListaCiudades"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginRight="10dp">
+                android:layout_marginRight="10dp"></androidx.recyclerview.widget.RecyclerView>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-            </androidx.recyclerview.widget.RecyclerView>
-
-        </LinearLayout>
-    </ScrollView>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
