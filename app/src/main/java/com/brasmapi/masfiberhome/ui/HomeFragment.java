@@ -12,6 +12,7 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.Navigation;
 
 import com.brasmapi.masfiberhome.ListaCiudadesFragment;
 import com.brasmapi.masfiberhome.ListaProvinciasFragment;
@@ -59,19 +60,23 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         // Remplazar el contenido principal por el fragmento
         switch (v.getId()){
             case R.id.btnCrearusuario_administrador:
-                fragmentTransaction.replace(R.id.contenedor, new ListaUsuariosFragment());
+                Navigation.findNavController(v).navigate(R.id.listaUsuariosFragment);
+                //fragmentTransaction.replace(R.id.contenedor, new ListaUsuariosFragment());
                 titulo="Listar usuarios";
                 break;
             case R.id.btnListarProvincia_administrador:
-                fragmentTransaction.replace(R.id.contenedor, new ListaProvinciasFragment());
+                Navigation.findNavController(v).navigate(R.id.listaProvinciasFragment);
+                //fragmentTransaction.replace(R.id.contenedor, new ListaProvinciasFragment());
                 titulo="Listar provincias";
                 break;
             case R.id.btnListarPais_administrador:
-                fragmentTransaction.replace(R.id.contenedor, new ListaPaisesFragment());
+                Navigation.findNavController(v).navigate(R.id.listaPaisesFragment);
+                //fragmentTransaction.replace(R.id.contenedor, new ListaPaisesFragment());
                 titulo="Listar paises";
                 break;
             case R.id.btnListarCiudad_administrador:
-                fragmentTransaction.replace(R.id.contenedor, new ListaCiudadesFragment());
+                Navigation.findNavController(v).navigate(R.id.listaCiudadesFragment);
+                //fragmentTransaction.replace(R.id.contenedor, new ListaCiudadesFragment());
                 titulo="Listar ciudades";
                 break;
         }

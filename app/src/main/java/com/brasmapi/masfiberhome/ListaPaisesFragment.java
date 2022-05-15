@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -109,7 +110,7 @@ public class ListaPaisesFragment extends Fragment implements PaisesDAO.interfazP
             @Override
             public void onClick(View v) {
                 CrearPaisFragment.opc="crear";
-                fragmentTransaction.replace(R.id.contenedor, new CrearPaisFragment());
+                Navigation.findNavController(v).navigate(R.id.crearPaisFragment);
                 fragmentTransaction.addToBackStack(null);
                 // Cambiar
                 fragmentTransaction.commit();

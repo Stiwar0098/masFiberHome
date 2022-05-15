@@ -9,17 +9,155 @@
         android:id="@+id/nav_administrar"
         android:name="com.brasmapi.masfiberhome.ui.HomeFragment"
         android:label="Administrar"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_nav_administrar_to_listaUsuariosFragment"
+            app:destination="@id/listaUsuariosFragment" />
+        <action
+            android:id="@+id/action_nav_administrar_to_listaPaisesFragment"
+            app:destination="@id/listaPaisesFragment" />
+        <action
+            android:id="@+id/action_nav_administrar_to_listaProvinciasFragment"
+            app:destination="@id/listaProvinciasFragment" />
+        <action
+            android:id="@+id/action_nav_administrar_to_listaCiudadesFragment"
+            app:destination="@id/listaCiudadesFragment" />
+        <action
+            android:id="@+id/action_nav_administrar_to_nav_migrarCliente"
+            app:destination="@id/nav_migrarCliente" />
+        <action
+            android:id="@+id/action_nav_administrar_to_nav_crearCliente"
+            app:destination="@id/nav_crearCliente" />
+        <action
+            android:id="@+id/action_nav_administrar_self"
+            app:destination="@id/nav_administrar" />
+        <action
+            android:id="@+id/action_nav_administrar_to_nav_migrarip"
+            app:destination="@id/nav_migrarip" />
+        <action
+            android:id="@+id/action_nav_administrar_to_listaVlansFragment"
+            app:destination="@id/listaVlansFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_crearCliente"
         android:name="com.brasmapi.masfiberhome.ui.CrearClienteFragment"
         android:label="Crear cliente"
-        tools:layout="@layout/fragment_crearcliente" />
+        tools:layout="@layout/fragment_crearcliente" >
+        <action
+            android:id="@+id/action_nav_crearCliente_to_nav_administrar"
+            app:destination="@id/nav_administrar" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_migrarCliente"
-        android:name="com.brasmapi.masfiberhome.ui.slideshow.SlideshowFragment"
+        android:name="com.brasmapi.masfiberhome.MigrarClienteFragment"
         android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        tools:layout="@layout/fragment_migrar_cliente" >
+        <action
+            android:id="@+id/action_nav_migrarCliente_to_nav_administrar"
+            app:destination="@id/nav_administrar" />
+    </fragment>
+    <fragment
+        android:id="@+id/listaUsuariosFragment"
+        android:name="com.brasmapi.masfiberhome.ListaUsuariosFragment"
+        android:label="fragment_lista_usuarios"
+        tools:layout="@layout/fragment_lista_usuarios" >
+        <action
+            android:id="@+id/action_listaUsuariosFragment_to_crearUsuariosFragment"
+            app:destination="@id/crearUsuariosFragment" />
+        <action
+            android:id="@+id/action_listaUsuariosFragment_to_nav_administrar"
+            app:destination="@id/nav_administrar" />
+    </fragment>
+    <fragment
+        android:id="@+id/crearUsuariosFragment"
+        android:name="com.brasmapi.masfiberhome.CrearUsuariosFragment"
+        android:label="fragment_crearusuarios"
+        tools:layout="@layout/fragment_crearusuarios" >
+        <action
+            android:id="@+id/action_crearUsuariosFragment_to_listaUsuariosFragment"
+            app:destination="@id/listaUsuariosFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/listaPaisesFragment"
+        android:name="com.brasmapi.masfiberhome.ListaPaisesFragment"
+        android:label="fragment_lista_paises"
+        tools:layout="@layout/fragment_lista_paises" >
+        <action
+            android:id="@+id/action_listaPaisesFragment_to_crearPaisFragment"
+            app:destination="@id/crearPaisFragment" />
+        <action
+            android:id="@+id/action_listaPaisesFragment_to_nav_administrar"
+            app:destination="@id/nav_administrar" />
+    </fragment>
+    <fragment
+        android:id="@+id/crearPaisFragment"
+        android:name="com.brasmapi.masfiberhome.CrearPaisFragment"
+        android:label="fragment_crear_pais"
+        tools:layout="@layout/fragment_crear_pais" >
+        <action
+            android:id="@+id/action_crearPaisFragment_to_listaPaisesFragment"
+            app:destination="@id/listaPaisesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/listaProvinciasFragment"
+        android:name="com.brasmapi.masfiberhome.ListaProvinciasFragment"
+        android:label="fragment_lista_provincias"
+        tools:layout="@layout/fragment_lista_provincias" >
+        <action
+            android:id="@+id/action_listaProvinciasFragment_to_crearProvinciaFragment"
+            app:destination="@id/crearProvinciaFragment" />
+        <action
+            android:id="@+id/action_listaProvinciasFragment_to_nav_administrar"
+            app:destination="@id/nav_administrar" />
+    </fragment>
+    <fragment
+        android:id="@+id/crearProvinciaFragment"
+        android:name="com.brasmapi.masfiberhome.CrearProvinciaFragment"
+        android:label="fragment_crear_provincia"
+        tools:layout="@layout/fragment_crear_provincia" >
+        <action
+            android:id="@+id/action_crearProvinciaFragment_to_listaProvinciasFragment"
+            app:destination="@id/listaProvinciasFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/listaCiudadesFragment"
+        android:name="com.brasmapi.masfiberhome.ListaCiudadesFragment"
+        android:label="fragment_lista_ciudades"
+        tools:layout="@layout/fragment_lista_ciudades" >
+        <action
+            android:id="@+id/action_listaCiudadesFragment_to_crearCiudadFragment"
+            app:destination="@id/crearCiudadFragment" />
+        <action
+            android:id="@+id/action_listaCiudadesFragment_to_nav_administrar"
+            app:destination="@id/nav_administrar" />
+    </fragment>
+    <fragment
+        android:id="@+id/crearCiudadFragment"
+        android:name="com.brasmapi.masfiberhome.CrearCiudadFragment"
+        android:label="fragment_crear_ciudad"
+        tools:layout="@layout/fragment_crear_ciudad" >
+        <action
+            android:id="@+id/action_crearCiudadFragment_to_listaCiudadesFragment"
+            app:destination="@id/listaCiudadesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_migrarip"
+        android:name="com.brasmapi.masfiberhome.MigrarIpFragment"
+        android:label="fragment_migrar_ip"
+        tools:layout="@layout/fragment_migrar_ip" >
+        <action
+            android:id="@+id/action_nav_migrarip_to_nav_administrar"
+            app:destination="@id/nav_administrar" />
+    </fragment>
+    <fragment
+        android:id="@+id/listaVlansFragment"
+        android:name="com.brasmapi.masfiberhome.ListaVlansFragment"
+        android:label="fragment_lista_vlans"
+        tools:layout="@layout/fragment_lista_vlans" >
+        <action
+            android:id="@+id/action_listaVlansFragment_to_nav_administrar"
+            app:destination="@id/nav_administrar" />
+    </fragment>
 </navigation>

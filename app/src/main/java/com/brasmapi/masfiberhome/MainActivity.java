@@ -1,5 +1,6 @@
 package com.brasmapi.masfiberhome;
 
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DrawerLayout drawer;
     NavigationView navigationView;
     UsuariosDAO usuariosDAO=new UsuariosDAO(MainActivity.this);
+    NavController navController;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,12 +60,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer = binding.drawerLayout;
         navigationView = binding.navView;
         // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+        // menu should be considered as top level destinations.\
+
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_administrar, R.id.nav_crearCliente, R.id.nav_migrarCliente,R.id.nav_migrarip,R.id.nav_CerrarSesion_menu)
-                .setOpenableLayout(drawer)
+                R.id.nav_administrar,R.id.nav_pendiente, R.id.nav_crearCliente, R.id.nav_migrarCliente,R.id.nav_migrarip,R.id.nav_CerrarSesion_menu)
+                .setDrawerLayout(drawer)
                 .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+
+
+        navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
         navigationView.setNavigationItemSelectedListener(this);
@@ -94,22 +99,40 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+    @Override
+    public void onBackPressed() {
+        if(drawer.isDrawerOpen(GravityCompat.START)){
+            drawer.closeDrawer(GravityCompat.START);
+        }else{
+            super.onBackPressed();
+        }
+    }
 
     @Override
     public boolean onSupportNavigateUp() {
-        drawer.openDrawer(GravityCompat.START);
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
+                || super.onSupportNavigateUp();
+        //drawer.openDrawer(GravityCompat.START);
 
-     return true;
+    // return true;
     }
     private int itemMenuSeleccionadoAnterior=0;
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.nav_administrar:
-                cambiarFragment(new HomeFragment(),"Administrar",itemMenuSeleccionadoAnterior,0);
-                return true;
+               //cambiarFragment(new HomeFragment(),"Administrar",itemMenuSeleccionadoAnterior,0);
+                /*NavigationUI.onNavDestinationSelected(item,navController);
+                ocultarMenu();
+                return true;*/
+            case R.id.nav_pendiente:
+            case R.id.nav_migrarCliente:
+            case R.id.nav_migrarip:
             case R.id.nav_crearCliente:
-                cambiarFragment(new CrearClienteFragment(), "Crear Cliente",itemMenuSeleccionadoAnterior,2);
+              NavigationUI.onNavDestinationSelected(item,navController);
+                ocultarMenu();
+                //cambiarFragment(new CrearClienteFragment(), "Crear Cliente",itemMenuSeleccionadoAnterior,2);
                 //MenuItem menuItem = navigationView.getMenu().getItem(item.getItemId());
                 //onNavigationItemSelected(menuItem);
                 //menuItem.setChecked(true);
@@ -117,8 +140,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_CerrarSesion_menu:
                 logOut();
                 return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return false;
     }
     public  void cambiarFragment(Fragment fragment, String titulo, int anterior,int actual){
         if(anterior!=actual){

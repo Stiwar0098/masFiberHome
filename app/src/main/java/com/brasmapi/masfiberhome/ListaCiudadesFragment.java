@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -110,7 +111,7 @@ public class ListaCiudadesFragment extends Fragment implements CiudadDAO.ciudadD
             @Override
             public void onClick(View v) {
                 CrearCiudadFragment.opc="crear";
-                fragmentTransaction.replace(R.id.contenedor, new CrearCiudadFragment());
+                Navigation.findNavController(v).navigate(R.id.crearCiudadFragment);
                 fragmentTransaction.addToBackStack(null);
                 // Cambiar
                 fragmentTransaction.commit();
