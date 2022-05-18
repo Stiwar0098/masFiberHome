@@ -167,7 +167,7 @@ public class ListaCiudadesFragment extends Fragment implements CiudadDAO.ciudadD
                     CrearCiudadFragment.opc="editar";
                     Ciudad us = lista.get(recyclerView.getChildAdapterPosition(v));
                     CrearCiudadFragment.ciudad =us;
-                    fragmentTransaction.replace(R.id.contenedor, new CrearCiudadFragment());
+                    Navigation.findNavController(v).navigate(R.id.crearCiudadFragment);
                     fragmentTransaction.addToBackStack(null);
                     // Cambiar
                     fragmentTransaction.commit();

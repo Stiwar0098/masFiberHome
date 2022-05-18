@@ -167,7 +167,7 @@ public class ListaProvinciasFragment extends Fragment implements ProvinciaDAO.se
                     CrearProvinciaFragment.opc="editar";
                     Provincia us = listaProvincias.get(recyclerViewProvincias.getChildAdapterPosition(v));
                     CrearProvinciaFragment.provincia =us;
-                    fragmentTransaction.replace(R.id.contenedor, new CrearProvinciaFragment());
+                    Navigation.findNavController(v).navigate(R.id.crearProvinciaFragment);
                     fragmentTransaction.addToBackStack(null);
                     // Cambiar
                     fragmentTransaction.commit();

@@ -159,5 +159,17 @@
         <action
             android:id="@+id/action_listaVlansFragment_to_nav_administrar"
             app:destination="@id/nav_administrar" />
+        <action
+            android:id="@+id/action_listaVlansFragment_to_crearVlanFragment"
+            app:destination="@id/crearVlanFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/crearVlanFragment"
+        android:name="com.brasmapi.masfiberhome.CrearVlanFragment"
+        android:label="fragment_crear_vlan"
+        tools:layout="@layout/fragment_crear_vlan" >
+        <action
+            android:id="@+id/action_crearVlanFragment_to_nav_administrar"
+            app:destination="@id/nav_administrar" />
     </fragment>
 </navigation>

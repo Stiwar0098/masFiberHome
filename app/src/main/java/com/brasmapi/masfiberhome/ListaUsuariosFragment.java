@@ -165,7 +165,7 @@ public class ListaUsuariosFragment extends Fragment implements UsuariosDAO.usuar
                     CrearUsuariosFragment.opc="editar";
                     Usuario us = listaUsuarios.get(recyclerViewUsuarios.getChildAdapterPosition(v));
                     CrearUsuariosFragment.usuario =us;
-                    fragmentTransaction.replace(R.id.contenedor, new CrearUsuariosFragment());
+                    Navigation.findNavController(v).navigate(R.id.crearUsuariosFragment);
                     fragmentTransaction.addToBackStack(null);
                     // Cambiar
                     fragmentTransaction.commit();

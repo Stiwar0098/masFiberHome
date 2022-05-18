@@ -166,7 +166,7 @@ public class ListaPaisesFragment extends Fragment implements PaisesDAO.interfazP
                     CrearPaisFragment.opc="editar";
                     Pais us = listaPaises.get(recyclerViewPaises.getChildAdapterPosition(v));
                     CrearPaisFragment.pais=us;
-                    fragmentTransaction.replace(R.id.contenedor, new CrearPaisFragment());
+                    Navigation.findNavController(v).navigate(R.id.crearPaisFragment);
                     fragmentTransaction.addToBackStack(null);
                     // Cambiar
                     fragmentTransaction.commit();

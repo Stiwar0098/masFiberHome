@@ -25,7 +25,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     View vista;
     Context context;
-    CardView btnListarUsuario,btnListarProvincia,btnListarPais, btnListarCiudad;
+    CardView btnListarUsuario,btnListarProvincia,btnListarPais, btnListarCiudad,btnListarVlans;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         vista=inflater.inflate(R.layout.fragment_home, container, false);
@@ -34,10 +34,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         btnListarProvincia =vista.findViewById(R.id.btnListarProvincia_administrador);
         btnListarPais = vista.findViewById(R.id.btnListarPais_administrador);
         btnListarCiudad = vista.findViewById(R.id.btnListarCiudad_administrador);
+        btnListarVlans = vista.findViewById(R.id.btnListarVlans_administrador);
         btnListarCiudad.setOnClickListener(this);
         btnListarUsuario.setOnClickListener(this);
         btnListarPais.setOnClickListener(this);
         btnListarProvincia.setOnClickListener(this);
+        btnListarVlans.setOnClickListener(this);
         return vista;
     }
 
@@ -78,6 +80,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 Navigation.findNavController(v).navigate(R.id.listaCiudadesFragment);
                 //fragmentTransaction.replace(R.id.contenedor, new ListaCiudadesFragment());
                 titulo="Listar ciudades";
+                break;
+            case R.id.btnListarVlans_administrador:
+                Navigation.findNavController(v).navigate(R.id.listaVlansFragment);
+                //fragmentTransaction.replace(R.id.contenedor, new ListaCiudadesFragment());
+                titulo="Listar vlans";
                 break;
         }
         fragmentTransaction.addToBackStack(null);
