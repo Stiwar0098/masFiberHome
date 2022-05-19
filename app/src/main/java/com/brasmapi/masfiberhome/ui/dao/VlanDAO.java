@@ -12,6 +12,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.brasmapi.masfiberhome.CrearVlanFragment;
 import com.brasmapi.masfiberhome.Procesos;
+import com.brasmapi.masfiberhome.ui.entidades.RangoDireccionesIp;
 import com.brasmapi.masfiberhome.ui.entidades.Vlan;
 
 import org.json.JSONArray;
@@ -101,7 +102,7 @@ public class VlanDAO {
         queue.add(requerimiento);
     }
 
-    public void crearVlan(Vlan Vlan, Context con) {
+    public void crearVlan(Vlan vlan, Context con, int ini, int buckle2) {
         Procesos.cargandoIniciar(con);
         context = con;
         String consulta;
@@ -113,28 +114,31 @@ public class VlanDAO {
             metodo = Request.Method.POST;
             parametros = new JSONObject();
             try {
-                parametros.put("nombre_vlan", Vlan.getNombreVlan());
-                parametros.put("numeroolt_vlan", Vlan.getNumeroOlt());
-                parametros.put("tarjetaolt_vlan", Vlan.getTarjetaOlt());
-                parametros.put("puertoolt_vlan", Vlan.getPuertoOlt());
-                parametros.put("ipinicio_vlan", Vlan.getIpInicio());
-                parametros.put("ipfin_vlan", Vlan.getIpFin());
-                parametros.put("mascara_vlan", Vlan.getMascara());
-                parametros.put("gateway_vlan", Vlan.getGateway());
-                parametros.put("estado_vlan", Vlan.getEstado());
+                parametros.put("nombre_vlan", vlan.getNombreVlan());
+                parametros.put("numeroolt_vlan", vlan.getNumeroOlt());
+                parametros.put("tarjetaolt_vlan", vlan.getTarjetaOlt());
+                parametros.put("puertoolt_vlan", vlan.getPuertoOlt());
+                parametros.put("ipinicio_vlan", vlan.getIpInicio());
+                parametros.put("ipfin_vlan", vlan.getIpFin());
+                parametros.put("mascara_vlan", vlan.getMascara());
+                parametros.put("gateway_vlan", vlan.getGateway());
+                parametros.put("estado_vlan", vlan.getEstado());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         } else {
-            consulta = Procesos.url + "/vlan/crearVlan.php?nombre_vlan=" + Vlan.getNombreVlan()
-                    + "&numeroolt_vlan=" + Vlan.getNumeroOlt()
-                    + "&tarjetaolt_vlan=" + Vlan.getTarjetaOlt()
-                    + "&puertoolt_vlan=" + Vlan.getPuertoOlt()
-                    + "&ipinicio_vlan=" + Vlan.getIpInicio()
-                    + "&ipfin_vlan=" + Vlan.getIpFin()
-                    + "&mascara_vlan=" + Vlan.getMascara()
-                    + "&gateway_vlan=" + Vlan.getGateway()
-                    + "&estado_vlan=" + Vlan.getEstado();
+            consulta = Procesos.url + "/vlan/crearVlan.php?nombre_vlan=" + vlan.getNombreVlan()
+                    + "&numeroolt_vlan=" + vlan.getNumeroOlt()
+                    + "&tarjetaolt_vlan=" + vlan.getTarjetaOlt()
+                    + "&puertoolt_vlan=" + vlan.getPuertoOlt()
+                    + "&ipinicio_vlan=" + vlan.getIpInicio()
+                    + "&ipfin_vlan=" + vlan.getIpFin()
+                    + "&mascara_vlan=" + vlan.getMascara()
+                    + "&gateway_vlan=" + vlan.getGateway()
+                    + "&estado_vlan=" + vlan.getEstado()
+                    + "&ip_rangodireccionesip=" +ini
+                    + "&estado_rangodireccionesip=desactivo"
+                    + "&buckle2=" + buckle2;
             metodo = Request.Method.GET;
         }
         JsonObjectRequest requerimiento = new JsonObjectRequest(metodo, consulta, parametros, new Response.Listener<JSONObject>() {
@@ -146,8 +150,9 @@ public class VlanDAO {
                     } else {
                         Toast.makeText(context, response.get("respuesta").toString(), Toast.LENGTH_SHORT).show();
                     }
-                    //CrearVlanFragment.txtVlan.getEditText().setText("");
-                    //CrearVlanFragment.txtProvincia.getEditText().setText("");
+                    if (interfaz!=null){
+                        interfaz.limpiar();
+                    }
                     Procesos.cargandoDetener();
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -164,7 +169,7 @@ public class VlanDAO {
         queue.add(requerimiento);
     }
 
-    public void editarVlan(Vlan Vlan, Context con, boolean esDesactivar) {
+    public void editarVlan(Vlan vlan, Context con, boolean esDesactivar) {
         Procesos.cargandoIniciar(con);
         context = con;
         String consulta;
@@ -176,30 +181,30 @@ public class VlanDAO {
             metodo = Request.Method.POST;
             parametros = new JSONObject();
             try {
-                parametros.put("id_vlan", Vlan.getId());
-                parametros.put("nombre_vlan", Vlan.getNombreVlan());
-                parametros.put("numeroolt_vlan", Vlan.getNumeroOlt());
-                parametros.put("tarjetaolt_vlan", Vlan.getTarjetaOlt());
-                parametros.put("puertoolt_vlan", Vlan.getPuertoOlt());
-                parametros.put("ipinicio_vlan", Vlan.getIpInicio());
-                parametros.put("ipfin_vlan", Vlan.getIpFin());
-                parametros.put("mascara_vlan", Vlan.getMascara());
-                parametros.put("gateway_vlan", Vlan.getGateway());
-                parametros.put("estado_vlan", Vlan.getEstado());
+                parametros.put("id_vlan", vlan.getId());
+                parametros.put("nombre_vlan", vlan.getNombreVlan());
+                parametros.put("numeroolt_vlan", vlan.getNumeroOlt());
+                parametros.put("tarjetaolt_vlan", vlan.getTarjetaOlt());
+                parametros.put("puertoolt_vlan", vlan.getPuertoOlt());
+                parametros.put("ipinicio_vlan", vlan.getIpInicio());
+                parametros.put("ipfin_vlan", vlan.getIpFin());
+                parametros.put("mascara_vlan", vlan.getMascara());
+                parametros.put("gateway_vlan", vlan.getGateway());
+                parametros.put("estado_vlan", vlan.getEstado());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         } else {
-            consulta = Procesos.url + "/vlan/editarVlan.php?nombre_vlan=" + Vlan.getNombreVlan()
-                    + "&numeroolt_vlan=" + Vlan.getNumeroOlt()
-                    + "&tarjetaolt_vlan=" + Vlan.getTarjetaOlt()
-                    + "&puertoolt_vlan=" + Vlan.getPuertoOlt()
-                    + "&ipinicio_vlan=" + Vlan.getIpInicio()
-                    + "&ipfin_vlan=" + Vlan.getIpFin()
-                    + "&mascara_vlan=" + Vlan.getMascara()
-                    + "&gateway_vlan=" + Vlan.getGateway()
-                    + "&estado_vlan=" + Vlan.getEstado()
-                    + "&id_vlan=" + Vlan.getId();
+            consulta = Procesos.url + "/vlan/editarVlan.php?nombre_vlan=" + vlan.getNombreVlan()
+                    + "&numeroolt_vlan=" + vlan.getNumeroOlt()
+                    + "&tarjetaolt_vlan=" + vlan.getTarjetaOlt()
+                    + "&puertoolt_vlan=" + vlan.getPuertoOlt()
+                    + "&ipinicio_vlan=" + vlan.getIpInicio()
+                    + "&ipfin_vlan=" + vlan.getIpFin()
+                    + "&mascara_vlan=" + vlan.getMascara()
+                    + "&gateway_vlan=" + vlan.getGateway()
+                    + "&estado_vlan=" + vlan.getEstado()
+                    + "&id_vlan=" + vlan.getId();
             metodo = Request.Method.GET;
         }
         JsonObjectRequest requerimiento = new JsonObjectRequest(metodo, consulta, parametros, new Response.Listener<JSONObject>() {
@@ -212,8 +217,9 @@ public class VlanDAO {
                         Toast.makeText(context, response.get("respuesta").toString(), Toast.LENGTH_SHORT).show();
                     }
                     if (!esDesactivar) {
-                       // CrearVlanFragment.txtVlan.getEditText().setText("");
-                        //CrearVlanFragment.txtProvincia.getEditText().setText("");
+                        if (interfaz != null) {
+                            interfaz.limpiar();
+                        }
                     }
                     Procesos.cargandoDetener();
                 } catch (JSONException e) {
@@ -323,5 +329,6 @@ public class VlanDAO {
     public interface interfazVlanDAO {
         void setVlan(Vlan Vlan);
         void setListaVlan(List<Vlan> lista);
+        void limpiar();
     }
 }

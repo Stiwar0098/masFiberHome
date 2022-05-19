@@ -7,6 +7,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 
 
 import com.android.volley.Request;
@@ -93,5 +94,22 @@ public class Procesos extends AppCompatActivity {
         // Return if the IP address
         // matched the ReGex
         return m.matches();
+    }
+    public static void cerrarTeclado(FragmentActivity activity) {
+        View view = activity.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
+    public static int[] extraerNumerosDeIp(String ip){
+        String[] ar=ip.split("\\.");
+        int[] array=new int[4];
+        array[0]=Integer.parseInt(ar[0]);
+        array[1]=Integer.parseInt(ar[1]);
+        array[2]=Integer.parseInt(ar[2]);
+        array[3]=Integer.parseInt(ar[3]);
+        return array;
     }
 }

@@ -165,6 +165,7 @@ public class ListaVlansFragment extends Fragment implements VlanDAO.interfazVlan
                 public void onClick(View v) {
                     CrearVlanFragment.opc="editar";
                     Vlan us = lista.get(recyclerView.getChildAdapterPosition(v));
+
                     CrearVlanFragment.vlan =us;
                     Navigation.findNavController(v).navigate(R.id.crearVlanFragment);
                     fragmentTransaction.addToBackStack(null);
@@ -316,5 +317,10 @@ public class ListaVlansFragment extends Fragment implements VlanDAO.interfazVlan
     public void setListaVlan(List<Vlan> lista) {
         this.lista=lista;
         cargar();
+    }
+
+    @Override
+    public void limpiar() {
+
     }
 }

@@ -24,6 +24,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.brasmapi.masfiberhome.ui.adaptadores.AdapterUsuario;
+import com.brasmapi.masfiberhome.ui.adaptadores.AdapterVlan;
 import com.brasmapi.masfiberhome.ui.dao.UsuariosDAO;
 import com.brasmapi.masfiberhome.ui.entidades.Usuario;
 import com.google.android.material.textfield.TextInputLayout;
@@ -153,12 +154,14 @@ public class ListaUsuariosFragment extends Fragment implements UsuariosDAO.usuar
     public static void cargar(){
         if(listaUsuarios==null){
             Toast.makeText(context, "No hay Usuarios", Toast.LENGTH_SHORT).show();
-            recyclerViewUsuarios.setVisibility(View.GONE);
+            listaUsuarios= new ArrayList<>();
+            adaptadorUsuario = new AdapterUsuario(listaUsuarios);
+            recyclerViewUsuarios.setAdapter(adaptadorUsuario);
+            adaptadorUsuario.notifyDataSetChanged();
         }else{
             adaptadorUsuario = new AdapterUsuario(listaUsuarios);
             recyclerViewUsuarios.setAdapter(adaptadorUsuario);
             adaptadorUsuario.notifyDataSetChanged();
-            recyclerViewUsuarios.setVisibility(View.VISIBLE);
             adaptadorUsuario.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -125,6 +125,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Ingrese ip de inicio"
+                    android:inputType="number"
                     android:text="10.170." />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -145,6 +146,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Ingrese ip final"
+                    android:inputType="number"
                     android:text="10.170." />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -165,6 +167,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Ingrese la mascara de la red"
+                    android:inputType="number"
                     android:text="255.255.255.128" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -185,6 +188,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Ingrese el gateway de la red"
+                    android:inputType="number"
                     android:text="10.170." />
             </com.google.android.material.textfield.TextInputLayout>
 

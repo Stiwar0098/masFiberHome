@@ -35,7 +35,7 @@
         <entry key="..\:/Users/super/AndroidStudioProjects/masfiberhome/app/src/main/res/layout/fragment_lista_paises.xml" value="0.2" />
         <entry key="..\:/Users/super/AndroidStudioProjects/masfiberhome/app/src/main/res/layout/fragment_lista_provincias.xml" value="0.24547101449275363" />
         <entry key="..\:/Users/super/AndroidStudioProjects/masfiberhome/app/src/main/res/layout/fragment_lista_usuarios.xml" value="0.264" />
-        <entry key="..\:/Users/super/AndroidStudioProjects/masfiberhome/app/src/main/res/layout/fragment_lista_vlans.xml" value="0.1" />
+        <entry key="..\:/Users/super/AndroidStudioProjects/masfiberhome/app/src/main/res/layout/fragment_lista_vlans.xml" value="0.264" />
         <entry key="..\:/Users/super/AndroidStudioProjects/masfiberhome/app/src/main/res/layout/fragment_migrar_cliente.xml" value="0.2463768115942029" />
         <entry key="..\:/Users/super/AndroidStudioProjects/masfiberhome/app/src/main/res/layout/fragment_migrar_ip.xml" value="0.2463768115942029" />
         <entry key="..\:/Users/super/AndroidStudioProjects/masfiberhome/app/src/main/res/layout/fragment_slideshow.xml" value="0.1793478260869565" />
@@ -45,7 +45,7 @@
         <entry key="..\:/Users/super/AndroidStudioProjects/masfiberhome/app/src/main/res/layout/item_cardview_ciudad2.xml" value="0.25" />
         <entry key="..\:/Users/super/AndroidStudioProjects/masfiberhome/app/src/main/res/layout/item_cardview_provincia.xml" value="0.25" />
         <entry key="..\:/Users/super/AndroidStudioProjects/masfiberhome/app/src/main/res/layout/item_cardview_usuario.xml" value="0.25" />
-        <entry key="..\:/Users/super/AndroidStudioProjects/masfiberhome/app/src/main/res/layout/item_cardview_vlan.xml" value="0.2" />
+        <entry key="..\:/Users/super/AndroidStudioProjects/masfiberhome/app/src/main/res/layout/item_cardview_vlan.xml" value="0.46153846153846156" />
         <entry key="..\:/Users/super/AndroidStudioProjects/masfiberhome/app/src/main/res/layout/nav_header_main.xml" value="0.4" />
         <entry key="..\:/Users/super/AndroidStudioProjects/masfiberhome/app/src/main/res/menu/activity_main_drawer.xml" value="0.536" />
         <entry key="..\:/Users/super/AndroidStudioProjects/masfiberhome/app/src/main/res/menu/main.xml" value="0.25" />
