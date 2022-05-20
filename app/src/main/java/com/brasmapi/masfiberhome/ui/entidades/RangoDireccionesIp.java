@@ -4,7 +4,10 @@ public class RangoDireccionesIp {
     private int id_rangoDireccionIp,id_vlan,id_direccionIp,ip_rangoDireccionesIp;
     private String estado;
 
-    public RangoDireccionesIp(int id_rangoDireccionIp, Integer id_vlan, Integer id_direccionIp, int ip_rangoDireccionesIp, String estado) {
+    public RangoDireccionesIp() {
+    }
+
+    public RangoDireccionesIp(int id_rangoDireccionIp, int id_vlan, int id_direccionIp, int ip_rangoDireccionesIp, String estado) {
         this.id_rangoDireccionIp = id_rangoDireccionIp;
         this.id_vlan = id_vlan;
         this.id_direccionIp = id_direccionIp;

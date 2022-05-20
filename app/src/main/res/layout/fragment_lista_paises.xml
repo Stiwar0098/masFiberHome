@@ -42,7 +42,8 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp">
+            android:layout_marginRight="10dp"
+            android:layout_weight="1">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView_ListaPaises"
@@ -53,26 +54,23 @@
                 android:layout_marginRight="10dp"></androidx.recyclerview.widget.RecyclerView>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <Button
-            android:id="@+id/btnCrearPais_ListaPais"
+        <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:insetBottom="6dp"
-            android:text="Crear nuevo pais"
-            android:textColor="@color/white" />
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btnCrearPais_ListaPais"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:insetBottom="6dp"
+                android:text="Crear nuevo pais"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
     </LinearLayout>
 
     <TextView

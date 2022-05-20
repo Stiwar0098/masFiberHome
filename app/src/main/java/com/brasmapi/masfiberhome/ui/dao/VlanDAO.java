@@ -153,7 +153,6 @@ public class VlanDAO {
                     if (interfaz!=null){
                         interfaz.limpiar();
                     }
-                    Procesos.cargandoDetener();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

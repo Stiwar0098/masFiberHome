@@ -81,7 +81,8 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
-            android:layout_marginRight="10dp">
+            android:layout_marginRight="10dp"
+            android:layout_weight="1">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView_ListaUsuarios"
@@ -92,25 +93,22 @@
                 android:layout_marginRight="10dp"></androidx.recyclerview.widget.RecyclerView>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <Button
-            android:id="@+id/btnCrearUsuario_listaUsusarios"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:insetBottom="6dp"
-            android:text="Crear nuevo usuario"
-            android:textColor="@color/white" />
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btnCrearUsuario_listaUsusarios"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:insetBottom="6dp"
+                android:text="Crear nuevo usuario"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
     </LinearLayout>
 
     <TextView

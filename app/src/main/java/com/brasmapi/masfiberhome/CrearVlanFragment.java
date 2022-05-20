@@ -133,7 +133,6 @@ public class CrearVlanFragment extends Fragment implements VlanDAO.interfazVlanD
                         fin=Procesos.extraerNumerosDeIp(ipfin);
                         ini=inicio[3];
                         totalIps=fin[3]-ini+1;
-                        Toast.makeText(context, totalIps+"", Toast.LENGTH_SHORT).show();
                         vlanDAO.crearVlan(new Vlan(0,
                                 nombre,
                                 numeroOlt,
@@ -190,5 +189,6 @@ public class CrearVlanFragment extends Fragment implements VlanDAO.interfazVlanD
         txtIpFin.setErrorEnabled(false);
         txtMascara.setErrorEnabled(false);
         txtGateway.setErrorEnabled(false);
+        Procesos.cargandoDetener();
     }
 }
