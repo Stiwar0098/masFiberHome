@@ -37,11 +37,17 @@
         <action
             android:id="@+id/action_nav_administrar_to_listaVlansFragment"
             app:destination="@id/listaVlansFragment" />
+        <action
+            android:id="@+id/action_nav_administrar_to_listaCajasNivel1Fragment"
+            app:destination="@id/listaCajasNivel1Fragment" />
+        <action
+            android:id="@+id/action_nav_administrar_to_crearCajaNivel1Fragment"
+            app:destination="@id/crearCajaNivel1Fragment" />
     </fragment>
 
     <fragment
         android:id="@+id/nav_crearCliente"
-        android:name="com.brasmapi.masfiberhome.ui.CrearClienteFragment"
+        android:name="com.brasmapi.masfiberhome.ui.crear.CrearClienteFragment"
         android:label="Crear cliente"
         tools:layout="@layout/fragment_crearcliente" >
         <action
@@ -51,7 +57,7 @@
 
     <fragment
         android:id="@+id/nav_migrarCliente"
-        android:name="com.brasmapi.masfiberhome.MigrarClienteFragment"
+        android:name="com.brasmapi.masfiberhome.ui.MigrarClienteFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_migrar_cliente" >
         <action
@@ -60,7 +66,7 @@
     </fragment>
     <fragment
         android:id="@+id/listaUsuariosFragment"
-        android:name="com.brasmapi.masfiberhome.ListaUsuariosFragment"
+        android:name="com.brasmapi.masfiberhome.ui.listar.ListaUsuariosFragment"
         android:label="fragment_lista_usuarios"
         tools:layout="@layout/fragment_lista_usuarios" >
         <action
@@ -72,7 +78,7 @@
     </fragment>
     <fragment
         android:id="@+id/crearUsuariosFragment"
-        android:name="com.brasmapi.masfiberhome.CrearUsuariosFragment"
+        android:name="com.brasmapi.masfiberhome.ui.crear.CrearUsuariosFragment"
         android:label="fragment_crearusuarios"
         tools:layout="@layout/fragment_crearusuarios" >
         <action
@@ -81,7 +87,7 @@
     </fragment>
     <fragment
         android:id="@+id/listaPaisesFragment"
-        android:name="com.brasmapi.masfiberhome.ListaPaisesFragment"
+        android:name="com.brasmapi.masfiberhome.ui.listar.ListaPaisesFragment"
         android:label="fragment_lista_paises"
         tools:layout="@layout/fragment_lista_paises" >
         <action
@@ -93,7 +99,7 @@
     </fragment>
     <fragment
         android:id="@+id/crearPaisFragment"
-        android:name="com.brasmapi.masfiberhome.CrearPaisFragment"
+        android:name="com.brasmapi.masfiberhome.ui.crear.CrearPaisFragment"
         android:label="fragment_crear_pais"
         tools:layout="@layout/fragment_crear_pais" >
         <action
@@ -102,7 +108,7 @@
     </fragment>
     <fragment
         android:id="@+id/listaProvinciasFragment"
-        android:name="com.brasmapi.masfiberhome.ListaProvinciasFragment"
+        android:name="com.brasmapi.masfiberhome.ui.listar.ListaProvinciasFragment"
         android:label="fragment_lista_provincias"
         tools:layout="@layout/fragment_lista_provincias" >
         <action
@@ -114,7 +120,7 @@
     </fragment>
     <fragment
         android:id="@+id/crearProvinciaFragment"
-        android:name="com.brasmapi.masfiberhome.CrearProvinciaFragment"
+        android:name="com.brasmapi.masfiberhome.ui.crear.CrearProvinciaFragment"
         android:label="fragment_crear_provincia"
         tools:layout="@layout/fragment_crear_provincia" >
         <action
@@ -123,7 +129,7 @@
     </fragment>
     <fragment
         android:id="@+id/listaCiudadesFragment"
-        android:name="com.brasmapi.masfiberhome.ListaCiudadesFragment"
+        android:name="com.brasmapi.masfiberhome.ui.listar.ListaCiudadesFragment"
         android:label="fragment_lista_ciudades"
         tools:layout="@layout/fragment_lista_ciudades" >
         <action
@@ -135,7 +141,7 @@
     </fragment>
     <fragment
         android:id="@+id/crearCiudadFragment"
-        android:name="com.brasmapi.masfiberhome.CrearCiudadFragment"
+        android:name="com.brasmapi.masfiberhome.ui.crear.CrearCiudadFragment"
         android:label="fragment_crear_ciudad"
         tools:layout="@layout/fragment_crear_ciudad" >
         <action
@@ -144,7 +150,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_migrarip"
-        android:name="com.brasmapi.masfiberhome.MigrarIpFragment"
+        android:name="com.brasmapi.masfiberhome.ui.MigrarIpFragment"
         android:label="fragment_migrar_ip"
         tools:layout="@layout/fragment_migrar_ip" >
         <action
@@ -153,7 +159,7 @@
     </fragment>
     <fragment
         android:id="@+id/listaVlansFragment"
-        android:name="com.brasmapi.masfiberhome.ListaVlansFragment"
+        android:name="com.brasmapi.masfiberhome.ui.listar.ListaVlansFragment"
         android:label="fragment_lista_vlans"
         tools:layout="@layout/fragment_lista_vlans" >
         <action
@@ -165,10 +171,26 @@
     </fragment>
     <fragment
         android:id="@+id/crearVlanFragment"
-        android:name="com.brasmapi.masfiberhome.CrearVlanFragment"
+        android:name="com.brasmapi.masfiberhome.ui.crear.CrearVlanFragment"
         tools:layout="@layout/fragment_crear_vlan">
         <action
             android:id="@+id/action_crearVlanFragment_to_nav_administrar"
+            app:destination="@id/nav_administrar" />
+    </fragment>
+    <fragment
+        android:id="@+id/listaCajasNivel1Fragment"
+        android:name="com.brasmapi.masfiberhome.ui.listar.ListaCajasNivel1Fragment"
+        tools:layout="@layout/fragment_lista_cajas_nivel1">
+        <action
+            android:id="@+id/action_listaCajasNivel1Fragment_to_nav_administrar"
+            app:destination="@id/nav_administrar" />
+    </fragment>
+    <fragment
+        android:id="@+id/crearCajaNivel1Fragment"
+        android:name="com.brasmapi.masfiberhome.ui.crear.CrearCajaNivel1Fragment"
+        tools:layout="@layout/fragment_crear_caja_nivel1">
+        <action
+            android:id="@+id/action_crearCajaNivel1Fragment_to_nav_administrar"
             app:destination="@id/nav_administrar" />
     </fragment>
 </navigation>

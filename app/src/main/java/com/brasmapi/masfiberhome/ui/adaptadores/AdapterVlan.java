@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.brasmapi.masfiberhome.R;
-import com.brasmapi.masfiberhome.ui.entidades.Vlan;
+import com.brasmapi.masfiberhome.entidades.Vlan;
 
 import java.util.List;
 

@@ -1,36 +1,42 @@
 package com.brasmapi.masfiberhome;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.brasmapi.masfiberhome.ui.entidades.Usuario;
+import com.brasmapi.masfiberhome.entidades.Usuario;
+import com.brasmapi.masfiberhome.entidades.Vlan;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Procesos extends AppCompatActivity {
     public static String id;
-    public static final String url="https://app.masfiberhome.com/webservicesbrasmapi/api";
+    public static final String url = "https://app.masfiberhome.com/webservicesbrasmapi/api";
     public static ProgressDialog cargando;
-    public static boolean isPost =false;
-    public static Usuario user=null;
+    public static boolean isPost = false;
+    public static Usuario user = null;
     static int i = 0;
     //private static DatabaseReference fireReference;
 
@@ -57,8 +63,7 @@ public class Procesos extends AppCompatActivity {
         cargando.dismiss();
     }
 
-    public static boolean validarDireccionIp(String ip)
-    {
+    public static boolean validarDireccionIp(String ip) {
 
         // Regex for digit from 0 to 255.
         String zeroTo255
@@ -80,10 +85,10 @@ public class Procesos extends AppCompatActivity {
         ip = ip.trim();
         // If the IP address is empty
         // return false
-        if (ip == null || ip.isEmpty() ) {
+        if (ip == null || ip.isEmpty()) {
             return false;
         }
-        if ((ip.length() < 6) & (ip.length() > 15)){
+        if ((ip.length() < 6) & (ip.length() > 15)) {
             return false;
         }
         // Pattern class contains matcher() method
@@ -95,6 +100,7 @@ public class Procesos extends AppCompatActivity {
         // matched the ReGex
         return m.matches();
     }
+
     public static void cerrarTeclado(FragmentActivity activity) {
         View view = activity.getCurrentFocus();
         if (view != null) {
@@ -103,13 +109,91 @@ public class Procesos extends AppCompatActivity {
         }
     }
 
-    public static int[] extraerNumerosDeIp(String ip){
-        String[] ar=ip.split("\\.");
-        int[] array=new int[4];
-        array[0]=Integer.parseInt(ar[0]);
-        array[1]=Integer.parseInt(ar[1]);
-        array[2]=Integer.parseInt(ar[2]);
-        array[3]=Integer.parseInt(ar[3]);
+    public static int[] extraerNumerosDeIp(String ip) {
+        String[] ar = ip.split("\\.");
+        int[] array = new int[4];
+        array[0] = Integer.parseInt(ar[0]);
+        array[1] = Integer.parseInt(ar[1]);
+        array[2] = Integer.parseInt(ar[2]);
+        array[3] = Integer.parseInt(ar[3]);
         return array;
+    }
+
+   /* private static FusedLocationProviderClient ubicacion;
+    private LocationManager mLocMgr;
+    private static final long MIN_CAMBIO_DISTANCIA_PARA_UPDATES = 10; // 10 metros
+    //Minimo tiempo para updates en Milisegundos
+    private static final long MIN_TIEMPO_ENTRE_UPDATES = 1000 * 60 * 1; // 1 minuto
+    @SuppressLint("MissingPermission")
+    public String[] obtenerLatitudLongitud(Context context) {
+        String[] aux = new String[2];
+        //mLocMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIEMPO_ENTRE_UPDATES, MIN_CAMBIO_DISTANCIA_PARA_UPDATES, locListener, Looper.getMainLooper());
+        ubicacion = LocationServices.getFusedLocationProviderClient(context);
+        ubicacion.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                if (location != null) {
+                    aux[0]= String.valueOf(location.getLatitude());
+                    aux[1]= String.valueOf(location.getLongitude());
+                }
+            }
+        });
+        return aux;
+    }
+    private static final String TAG = "LocationActivity";
+    public LocationListener locListener = new LocationListener() {
+        public void onLocationChanged(Location location) {
+            Log.i(TAG, "Lat " + location.getLatitude() + " Long " + location.getLongitude());
+        }
+
+        public void onProviderDisabled(String provider) {
+            Log.i(TAG, "onProviderDisabled()");
+        }
+
+        public void onProviderEnabled(String provider) {
+            Log.i(TAG, "onProviderEnabled()");
+        }
+
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+            Log.i(TAG, "onStatusChanged()");
+        }
+    };
+*/
+   private static FusedLocationProviderClient ubicacion;
+    private LocationManager mLocMgr;
+    private static final long MIN_CAMBIO_DISTANCIA_PARA_UPDATES = 10; // 10 metros
+    //Minimo tiempo para updates en Milisegundos
+    private static final long MIN_TIEMPO_ENTRE_UPDATES = 1000 * 60 * 1; // 1 minuto
+    private LatitudLongitud interfaceLatLon;
+    @SuppressLint("MissingPermission")
+    public void obtenerLatitudLongitud(Context context) {
+        //mLocMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIEMPO_ENTRE_UPDATES, MIN_CAMBIO_DISTANCIA_PARA_UPDATES, locListener, Looper.getMainLooper());
+        ubicacion = LocationServices.getFusedLocationProviderClient(context);
+        ubicacion.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                if (location != null) {
+                    interfaceLatLon.setLatitudLongitud(location.getLatitude()+"",location.getLongitude()+"");
+                    //startActivity(Procesos.comoLlegar(getActivity(),txtLatitud.getEditText().getText().toString(),txtLongitud.getEditText().getText().toString()));
+                }
+            }
+        });
+    }
+
+    public static Intent comoLlegar(FragmentActivity getActiviti,String latitud,String longitud){
+        String latitudlongitud="";
+        Uri gmmIntentUri;
+        Intent mapIntent;
+        latitudlongitud = latitud+", "+longitud;
+        gmmIntentUri = Uri.parse("google.navigation:q=" + latitudlongitud);
+        mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        if (mapIntent.resolveActivity(getActiviti.getPackageManager()) != null) {
+            return mapIntent;
+        }
+        return mapIntent;
+    }
+    public interface LatitudLongitud {
+        void setLatitudLongitud(String latitud, String longitud);
     }
 }

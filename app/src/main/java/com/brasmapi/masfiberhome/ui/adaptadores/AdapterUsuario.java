@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.brasmapi.masfiberhome.R;
-import com.brasmapi.masfiberhome.ui.entidades.Usuario;
+import com.brasmapi.masfiberhome.entidades.Usuario;
 
 import java.util.List;
 

@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.brasmapi.masfiberhome.R;
-import com.brasmapi.masfiberhome.ui.entidades.Ciudad;
+import com.brasmapi.masfiberhome.entidades.Ciudad;
 
 import java.util.List;
 
