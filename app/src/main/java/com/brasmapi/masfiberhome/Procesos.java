@@ -3,9 +3,11 @@ package com.brasmapi.masfiberhome;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -13,10 +15,13 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
@@ -25,6 +30,9 @@ import androidx.fragment.app.FragmentActivity;
 import com.brasmapi.masfiberhome.entidades.Usuario;
 import com.brasmapi.masfiberhome.entidades.Vlan;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
@@ -159,26 +167,6 @@ public class Procesos extends AppCompatActivity {
         }
     };
 */
-   private static FusedLocationProviderClient ubicacion;
-    private LocationManager mLocMgr;
-    private static final long MIN_CAMBIO_DISTANCIA_PARA_UPDATES = 10; // 10 metros
-    //Minimo tiempo para updates en Milisegundos
-    private static final long MIN_TIEMPO_ENTRE_UPDATES = 1000 * 60 * 1; // 1 minuto
-    private LatitudLongitud interfaceLatLon;
-    @SuppressLint("MissingPermission")
-    public void obtenerLatitudLongitud(Context context) {
-        //mLocMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIEMPO_ENTRE_UPDATES, MIN_CAMBIO_DISTANCIA_PARA_UPDATES, locListener, Looper.getMainLooper());
-        ubicacion = LocationServices.getFusedLocationProviderClient(context);
-        ubicacion.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-            @Override
-            public void onSuccess(Location location) {
-                if (location != null) {
-                    interfaceLatLon.setLatitudLongitud(location.getLatitude()+"",location.getLongitude()+"");
-                    //startActivity(Procesos.comoLlegar(getActivity(),txtLatitud.getEditText().getText().toString(),txtLongitud.getEditText().getText().toString()));
-                }
-            }
-        });
-    }
 
     public static Intent comoLlegar(FragmentActivity getActiviti,String latitud,String longitud){
         String latitudlongitud="";
@@ -193,7 +181,54 @@ public class Procesos extends AppCompatActivity {
         }
         return mapIntent;
     }
+
+
     public interface LatitudLongitud {
         void setLatitudLongitud(String latitud, String longitud);
     }
+    public static LatitudLongitud interfaceLatLon;
+    public static FusedLocationProviderClient mFusedLocationClient;
+    static LocationRequest locationRequest;
+    static LocationCallback locationCallback;
+
+    @SuppressLint("MissingPermission")
+    public static void obtenerLatitudLongitud(Context context,LatitudLongitud inte,ContentResolver getContentResolver){
+        interfaceLatLon=inte;
+        if(!gpsEncendido(getContentResolver)){
+            Toast.makeText(context, "Active el GPS para poder obtener lat y long en automatico", Toast.LENGTH_LONG).show();
+        }
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
+        locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(5 * 1000);
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                if (locationResult == null) {
+
+                }
+                for (Location location : locationResult.getLocations()) {
+                    if (location != null) {
+                        interfaceLatLon.setLatitudLongitud(location.getLatitude()+"",location.getLongitude()+"");
+                    }
+                }
+            }
+        };
+        mFusedLocationClient.requestLocationUpdates(locationRequest,locationCallback, Looper.myLooper());
+    }
+    public static void detenerObtenerLatitudLongitud(){
+        if (mFusedLocationClient != null) {
+            mFusedLocationClient.removeLocationUpdates(locationCallback);
+
+        }
+    }
+    public static boolean gpsEncendido(ContentResolver getContentResolver) {
+        String provider = Settings.Secure.getString(getContentResolver, Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+        System.out.println("Provider contains=> " + provider);
+        if (provider.contains("gps") || provider.contains("network")){
+            return true;
+        }
+        return false;
+    }
+
 }

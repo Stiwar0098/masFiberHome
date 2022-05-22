@@ -112,7 +112,6 @@
                             android:layout_marginLeft="5dp"
                             android:layout_marginTop="5dp"
                             android:layout_marginRight="10dp"
-                            android:enabled="true"
                             android:textColorHint="@color/textColorHint"
                             app:boxStrokeColor="@color/boxStrokeColor"
                             app:endIconCheckable="false"
@@ -122,6 +121,7 @@
                             <com.google.android.material.textfield.TextInputEditText
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:enabled="false"
                                 android:hint="Ingrese la latitud" />
                         </com.google.android.material.textfield.TextInputLayout>
 
@@ -142,24 +142,47 @@
                             <com.google.android.material.textfield.TextInputEditText
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:enabled="true"
+                                android:enabled="false"
                                 android:hint="Ingrese la longitud" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
 
-                    <Button
-                        android:id="@+id/btnObtenerLatitudLongitud_CrearCajaNivel1"
+                    <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
-                        android:text="Obtener" />
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <Switch
+                            android:id="@+id/switch_CrearCajaNivel1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:text="Automático"
+                            android:thumbTint="@color/botones" />
+
+                        <Button
+                            android:id="@+id/btnObtenerLatitudLongitud_CrearCajaNivel1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            android:text="Obtener" />
+
+                        <Button
+                            android:id="@+id/btnVerUbicacion_CrearCajaNivel1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            android:text="Ver Ubicacion" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:gravity="center"
@@ -171,6 +194,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginRight="5dp"
+                    android:layout_marginBottom="5dp"
                     android:layout_weight="1"
                     android:textColorHint="@color/textColorHint"
                     app:boxStrokeColor="@color/boxStrokeColor"
@@ -189,7 +213,7 @@
                     android:id="@+id/btnBuscarVlan_CrearCajaNivel1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="5dp"
                     android:layout_weight="1"
                     tools:ignore="SpeakableTextPresentCheck" />
 
@@ -197,7 +221,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:gravity="center"
@@ -209,6 +233,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginRight="5dp"
+                    android:layout_marginBottom="5dp"
                     android:layout_weight="1"
                     android:textColorHint="@color/textColorHint"
                     app:boxStrokeColor="@color/boxStrokeColor"
@@ -227,7 +252,7 @@
                     android:id="@+id/btnBuscarCiudad_CrearCajaNivel1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="5dp"
                     android:layout_weight="1"
                     tools:ignore="SpeakableTextPresentCheck" />
 

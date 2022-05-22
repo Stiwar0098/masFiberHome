@@ -145,6 +145,7 @@ public class ListaCajasNivel1Fragment extends Fragment  implements CajaNivel1DAO
                 refreshLayout.setRefreshing(false);
             }
         });
+        Procesos.detenerObtenerLatitudLongitud();
         return vista;
     }
 

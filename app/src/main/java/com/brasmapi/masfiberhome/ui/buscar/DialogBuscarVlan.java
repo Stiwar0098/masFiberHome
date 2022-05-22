@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.brasmapi.masfiberhome.Procesos;
 import com.brasmapi.masfiberhome.R;
@@ -35,6 +36,7 @@ public class DialogBuscarVlan implements VlanDAO.interfazVlanDAO
     TextInputLayout txtBuscarVlan;
     private static finalizoDialogBuscarVlan interfaz;
     static VlanDAO vlanDAO;
+    SwipeRefreshLayout refreshLayout;
 
     public DialogBuscarVlan(Context context1, finalizoDialogBuscarVlan actividad) {
         interfaz = actividad;
@@ -45,6 +47,7 @@ public class DialogBuscarVlan implements VlanDAO.interfazVlanDAO
         dialogo.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialogo.setContentView(R.layout.dialog_buscar_vlan);
 
+        refreshLayout=(SwipeRefreshLayout)dialogo.findViewById(R.id.refreshRecycler_DialogBuscarVlan);
         lblSinVlan =(TextView)dialogo.findViewById(R.id.lblVlanRegistrados);
         txtBuscarVlan=(TextInputLayout) dialogo.findViewById(R.id.txtImputBuscarVlan_DialogBuscarVlan);
         txtBuscarVlan.getEditText().addTextChangedListener(new TextWatcher() {
@@ -67,7 +70,13 @@ public class DialogBuscarVlan implements VlanDAO.interfazVlanDAO
 
             }
         });
-
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mostrarDatos("");
+                refreshLayout.setRefreshing(false);
+            }
+        });
         dialogo.show();
         mostrarDatos("");
     }

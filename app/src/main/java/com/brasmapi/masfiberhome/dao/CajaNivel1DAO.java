@@ -120,25 +120,19 @@ public class CajaNivel1DAO {
                 parametros.put("id_vlan", cajaNivel1.getId_vlan());
                 parametros.put("id_ciudad", cajaNivel1.getId_ciudad());
                 parametros.put("estado_cajanivel1", cajaNivel1.getEstado_cajaNivel1());
-
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         } else {
-            consulta = Procesos.url + "/cajaNivel1/crearCajaNivel1.php?"
-                    +"nombre_cajanivel1=" +  cajaNivel1.getNombre_cajaNivel1()
-                    +"direccion_cajanivel1=" +  cajaNivel1.getDireccion_cajaNivel1()
-                    +"referencia_cajanivel1=" +  cajaNivel1.getReferencia_cajaNivel1()
-                    +"latitud_cajanivel1=" +  cajaNivel1.getLatitud_cajaNivel1()
-                    +"longitud_cajanivel1=" +  cajaNivel1.getLongitud_cajaNivel1()
-                    +"id_vlan=" +  cajaNivel1.getId_vlan()
-                    +"id_ciudad=" +  cajaNivel1.getId_ciudad()
-                    +"estado_cajanivel1=" +  cajaNivel1.getEstado_cajaNivel1();
-
-
-
-
+            consulta = Procesos.url + "/cajanivel1/crearCajaNivel1.php?"
+                    +"&nombre_cajanivel1=" +  cajaNivel1.getNombre_cajaNivel1()
+                    +"&direccion_cajanivel1=" +  cajaNivel1.getDireccion_cajaNivel1()
+                    +"&referencia_cajanivel1=" +  cajaNivel1.getReferencia_cajaNivel1()
+                    +"&latitud_cajanivel1=" +  cajaNivel1.getLatitud_cajaNivel1()
+                    +"&longitud_cajanivel1=" +  cajaNivel1.getLongitud_cajaNivel1()
+                    +"&id_vlan=" +  cajaNivel1.getId_vlan()
+                    +"&id_ciudad=" +  cajaNivel1.getId_ciudad()
+                    +"&estado_cajanivel1=" +  cajaNivel1.getEstado_cajaNivel1();
             metodo = Request.Method.GET;
         }
         JsonObjectRequest requerimiento = new JsonObjectRequest(metodo, consulta, parametros, new Response.Listener<JSONObject>() {
@@ -195,15 +189,15 @@ public class CajaNivel1DAO {
             }
         } else {
             consulta = Procesos.url + "/cajanivel1/editarCajaNivel1.php?"
-                    +"id_cajanivel1=" +  cajaNivel1.getId_cajaNivel1()
-                    +"nombre_cajanivel1=" +  cajaNivel1.getNombre_cajaNivel1()
-                    +"direccion_cajanivel1=" +  cajaNivel1.getDireccion_cajaNivel1()
-                    +"referencia_cajanivel1=" +  cajaNivel1.getReferencia_cajaNivel1()
-                    +"latitud_cajanivel1=" +  cajaNivel1.getLatitud_cajaNivel1()
-                    +"longitud_cajanivel1=" +  cajaNivel1.getLongitud_cajaNivel1()
-                    +"id_vlan=" +  cajaNivel1.getId_vlan()
-                    +"id_ciudad=" +  cajaNivel1.getId_ciudad()
-                    +"estado_cajanivel1=" +  cajaNivel1.getEstado_cajaNivel1();
+                    +"&id_cajanivel1=" +  cajaNivel1.getId_cajaNivel1()
+                    +"&nombre_cajanivel1=" +  cajaNivel1.getNombre_cajaNivel1()
+                    +"&direccion_cajanivel1=" +  cajaNivel1.getDireccion_cajaNivel1()
+                    +"&referencia_cajanivel1=" +  cajaNivel1.getReferencia_cajaNivel1()
+                    +"&latitud_cajanivel1=" +  cajaNivel1.getLatitud_cajaNivel1()
+                    +"&longitud_cajanivel1=" +  cajaNivel1.getLongitud_cajaNivel1()
+                    +"&id_vlan=" +  cajaNivel1.getId_vlan()
+                    +"&id_ciudad=" +  cajaNivel1.getId_ciudad()
+                    +"&estado_cajanivel1=" +  cajaNivel1.getEstado_cajaNivel1();
             metodo = Request.Method.GET;
         }
         JsonObjectRequest requerimiento = new JsonObjectRequest(metodo, consulta, parametros, new Response.Listener<JSONObject>() {

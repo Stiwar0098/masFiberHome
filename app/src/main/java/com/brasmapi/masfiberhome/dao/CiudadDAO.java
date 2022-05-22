@@ -48,9 +48,6 @@ public class CiudadDAO {
                        as.add(new Ciudad(object.getInt("id_ciudad"), object.getString("nombre_ciudad"), object.getInt("id_provincia"),object.getString("nombre_provincia"), object.getString("estado_ciudad")));
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        e.printStackTrace();
-                        e.printStackTrace();
-                        e.printStackTrace();
                     }
                 }
                 if(interfaz!=null){

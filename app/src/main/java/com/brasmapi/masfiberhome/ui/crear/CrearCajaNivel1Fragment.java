@@ -1,21 +1,16 @@
 package com.brasmapi.masfiberhome.ui.crear;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
-import android.location.Location;
-import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 
 import com.brasmapi.masfiberhome.Procesos;
 import com.brasmapi.masfiberhome.R;
@@ -25,11 +20,7 @@ import com.brasmapi.masfiberhome.entidades.Ciudad;
 import com.brasmapi.masfiberhome.entidades.Vlan;
 import com.brasmapi.masfiberhome.ui.MainActivity;
 import com.brasmapi.masfiberhome.ui.buscar.DialogBuscarCiudad;
-import com.brasmapi.masfiberhome.ui.buscar.DialogBuscarProvincia;
 import com.brasmapi.masfiberhome.ui.buscar.DialogBuscarVlan;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.List;
@@ -89,9 +80,10 @@ public class CrearCajaNivel1Fragment extends Fragment implements CajaNivel1DAO.i
 
     Ciudad ciudad=null;
     Vlan vlan=null;
-    Button btnBuscarVlan,btnBuscarCiudad,btnObtenerLatLon;
-
+    Button btnBuscarVlan,btnBuscarCiudad,btnObtenerLatLon,btnVerUbicacoin;
+    Switch switchAutoManu;
     String nombre, direccion, referencia, latitud, longitud;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -101,8 +93,10 @@ public class CrearCajaNivel1Fragment extends Fragment implements CajaNivel1DAO.i
         Button btnguardar=(Button)vista.findViewById(R.id.btnGuardar_CrearCajaNivel1);
         btnBuscarCiudad=(Button)vista.findViewById(R.id.btnBuscarCiudad_CrearCajaNivel1);
         btnBuscarVlan=(Button)vista.findViewById(R.id.btnBuscarVlan_CrearCajaNivel1);
+        btnVerUbicacoin=(Button)vista.findViewById(R.id.btnVerUbicacion_CrearCajaNivel1);
         btnObtenerLatLon=(Button)vista.findViewById(R.id.btnObtenerLatitudLongitud_CrearCajaNivel1);
         txtNombreCajaNivel1 =vista.findViewById(R.id.txtNombreCajaNivel1_CrearCajaNivel1);
+        switchAutoManu =vista.findViewById(R.id.switch_CrearCajaNivel1);
         txtDireccion =vista.findViewById(R.id.txtDireccion_CrearCajaNivel1);
         txtReferencia =vista.findViewById(R.id.txtReferencia_CrearCajaNivel1);
         txtLatitud =vista.findViewById(R.id.txtLatitud_CrearCajaNivel1);
@@ -110,7 +104,7 @@ public class CrearCajaNivel1Fragment extends Fragment implements CajaNivel1DAO.i
         txtNombreVlan =vista.findViewById(R.id.txtVlan_CrearCajaNivel1);
         txtNombreCiudad =vista.findViewById(R.id.txtCiudad_CrearCajaNivel1);
         cajaNivel1DAO =new CajaNivel1DAO(CrearCajaNivel1Fragment.this);
-        ((MainActivity)getActivity()).setTitle("Crear CajaNivel1");
+        ((MainActivity)getActivity()).setTitle("Crear caja nivel 1");
         if (opc.equals("editar")){
             btnguardar.setText("Editar");
             txtNombreCajaNivel1.getEditText().setText(cajaNivel1.getNombre_cajaNivel1());
@@ -120,15 +114,43 @@ public class CrearCajaNivel1Fragment extends Fragment implements CajaNivel1DAO.i
             txtLongitud.getEditText().setText(cajaNivel1.getLongitud_cajaNivel1());
             txtNombreVlan.getEditText().setText(cajaNivel1.getNombreVlan());
             txtNombreCiudad.getEditText().setText(cajaNivel1.getNombreCiudad());
-            ((MainActivity)getActivity()).setTitle("Editar CajaNivel1");
+            ((MainActivity)getActivity()).setTitle("Editar caja nivel 1");
+            switchAutoManu.setChecked(false);
+            latLonAutomaticoApagado();
+        }else {
+            latLonAutomaticoEncendido();
         }
         btnguardar.setOnClickListener(this);
         btnBuscarCiudad.setOnClickListener(this);
         btnBuscarVlan.setOnClickListener(this);
         btnObtenerLatLon.setOnClickListener(this);
+        btnVerUbicacoin.setOnClickListener(this);
+        switchAutoManu.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    latLonAutomaticoEncendido();
+                }else{
+                    latLonAutomaticoApagado();
+                    txtLatitud.getEditText().setText("");
+                    txtLongitud.getEditText().setText("");
+                }
+            }
+        });
         return vista;
     }
-
+    public void latLonAutomaticoApagado(){
+        switchAutoManu.setText("Manual");
+        txtLatitud.getEditText().setEnabled(true);
+        txtLongitud.getEditText().setEnabled(true);
+        Procesos.detenerObtenerLatitudLongitud();
+    }
+    public void latLonAutomaticoEncendido(){
+        switchAutoManu.setText("Automático");
+        txtLatitud.getEditText().setEnabled(false);
+        txtLongitud.getEditText().setEnabled(false);
+        Procesos.obtenerLatitudLongitud(context, CrearCajaNivel1Fragment.this,getActivity().getContentResolver());
+    }
     @Override
     public void setCajaNivel1(CajaNivel1 CajaNivel1) {
 
@@ -174,6 +196,7 @@ public class CrearCajaNivel1Fragment extends Fragment implements CajaNivel1DAO.i
 
     @Override
     public void onClick(View v) {
+
         switch (v.getId()){
             case R.id.btnGuardar_CrearCajaNivel1:
                 nombre=txtNombreCajaNivel1.getEditText().getText().toString().trim();
@@ -182,7 +205,7 @@ public class CrearCajaNivel1Fragment extends Fragment implements CajaNivel1DAO.i
                 latitud = txtLatitud.getEditText().getText().toString().trim();
                 longitud =txtLongitud.getEditText().getText().toString().trim();
                 if (opc.equals("crear")){
-                    cajaNivel1DAO.crearCajaNivel1(new CajaNivel1(0,
+                   cajaNivel1DAO.crearCajaNivel1(new CajaNivel1(0,
                             nombre,
                             direccion,
                             referencia,
@@ -213,29 +236,15 @@ public class CrearCajaNivel1Fragment extends Fragment implements CajaNivel1DAO.i
                 new DialogBuscarVlan(context,CrearCajaNivel1Fragment.this);
                 break;
             case R.id.btnObtenerLatitudLongitud_CrearCajaNivel1:
-                obtenerLatitudLongitud();
+                Procesos.obtenerLatitudLongitud(context, CrearCajaNivel1Fragment.this,getActivity().getContentResolver());
+                //Procesos.obtenerLatitudLongitud(context,CrearCajaNivel1Fragment.this);
+                break;
+            case R.id.btnVerUbicacion_CrearCajaNivel1:
+                startActivity(Procesos.comoLlegar(getActivity(),txtLatitud.getEditText().getText().toString(),txtLongitud.getEditText().getText().toString()));
                 break;
         }
     }
-    private static FusedLocationProviderClient ubicacion;
-    private LocationManager mLocMgr;
-    private static final long MIN_CAMBIO_DISTANCIA_PARA_UPDATES = 10; // 10 metros
-    //Minimo tiempo para updates en Milisegundos
-    private static final long MIN_TIEMPO_ENTRE_UPDATES = 1000 * 60 * 1; // 1 minuto
-    @SuppressLint("MissingPermission")
-    public void obtenerLatitudLongitud() {
-        //mLocMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIEMPO_ENTRE_UPDATES, MIN_CAMBIO_DISTANCIA_PARA_UPDATES, locListener, Looper.getMainLooper());
-        ubicacion = LocationServices.getFusedLocationProviderClient(context);
-        ubicacion.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-            @Override
-            public void onSuccess(Location location) {
-                if (location != null) {
 
-                    //startActivity(Procesos.comoLlegar(getActivity(),txtLatitud.getEditText().getText().toString(),txtLongitud.getEditText().getText().toString()));
-                }
-            }
-        });
-    }
 
     @Override
     public void setLatitudLongitud(String latitud, String longitud) {
