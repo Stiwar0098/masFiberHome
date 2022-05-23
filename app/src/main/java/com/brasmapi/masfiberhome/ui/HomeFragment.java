@@ -14,29 +14,34 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.Navigation;
 
+import com.brasmapi.masfiberhome.Procesos;
 import com.brasmapi.masfiberhome.R;
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
 
     View vista;
     Context context;
-    CardView btnListarUsuario,btnListarProvincia,btnListarPais, btnListarCiudad,btnListarVlans,btnListarCajaNivel1;
+    CardView btnListarUsuario,btnListarProvincia,btnListarPais, btnListarCiudad,btnListarVlans,btnListarCajaNivel1,btnListarCajaNivel2;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         vista=inflater.inflate(R.layout.fragment_home, container, false);
         context=getActivity();
+        Procesos.detenerObtenerLatitudLongitud();
+        Procesos.cerrarTeclado(getActivity());
         btnListarUsuario =vista.findViewById(R.id.btnCrearusuario_administrador);
         btnListarProvincia =vista.findViewById(R.id.btnListarProvincia_administrador);
         btnListarPais = vista.findViewById(R.id.btnListarPais_administrador);
         btnListarCiudad = vista.findViewById(R.id.btnListarCiudad_administrador);
         btnListarVlans = vista.findViewById(R.id.btnListarVlans_administrador);
         btnListarCajaNivel1 = vista.findViewById(R.id.btnListarCajaNivel1_administrador);
+        btnListarCajaNivel2 = vista.findViewById(R.id.btnListarCajaNivel2_Administrador);
         btnListarCiudad.setOnClickListener(this);
         btnListarUsuario.setOnClickListener(this);
         btnListarPais.setOnClickListener(this);
         btnListarProvincia.setOnClickListener(this);
         btnListarVlans.setOnClickListener(this);
         btnListarCajaNivel1.setOnClickListener(this);
+        btnListarCajaNivel2.setOnClickListener(this);
         return vista;
     }
 
@@ -87,6 +92,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 Navigation.findNavController(v).navigate(R.id.listaCajasNivel1Fragment);
                 //fragmentTransaction.replace(R.id.contenedor, new ListaCiudadesFragment());
                 titulo="Listar cajas nivel 1";
+                break;
+            case R.id.btnListarCajaNivel2_Administrador:
+                Navigation.findNavController(v).navigate(R.id.listaCajasNivel2Fragment);
+                //fragmentTransaction.replace(R.id.contenedor, new ListaCiudadesFragment());
+                titulo="Listar cajas nivel 2";
                 break;
         }
         fragmentTransaction.addToBackStack(null);

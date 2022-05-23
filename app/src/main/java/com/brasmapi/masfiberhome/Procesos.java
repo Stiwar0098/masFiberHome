@@ -3,6 +3,8 @@ package com.brasmapi.masfiberhome;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +21,7 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -35,6 +38,7 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -127,47 +131,6 @@ public class Procesos extends AppCompatActivity {
         return array;
     }
 
-   /* private static FusedLocationProviderClient ubicacion;
-    private LocationManager mLocMgr;
-    private static final long MIN_CAMBIO_DISTANCIA_PARA_UPDATES = 10; // 10 metros
-    //Minimo tiempo para updates en Milisegundos
-    private static final long MIN_TIEMPO_ENTRE_UPDATES = 1000 * 60 * 1; // 1 minuto
-    @SuppressLint("MissingPermission")
-    public String[] obtenerLatitudLongitud(Context context) {
-        String[] aux = new String[2];
-        //mLocMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIEMPO_ENTRE_UPDATES, MIN_CAMBIO_DISTANCIA_PARA_UPDATES, locListener, Looper.getMainLooper());
-        ubicacion = LocationServices.getFusedLocationProviderClient(context);
-        ubicacion.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-            @Override
-            public void onSuccess(Location location) {
-                if (location != null) {
-                    aux[0]= String.valueOf(location.getLatitude());
-                    aux[1]= String.valueOf(location.getLongitude());
-                }
-            }
-        });
-        return aux;
-    }
-    private static final String TAG = "LocationActivity";
-    public LocationListener locListener = new LocationListener() {
-        public void onLocationChanged(Location location) {
-            Log.i(TAG, "Lat " + location.getLatitude() + " Long " + location.getLongitude());
-        }
-
-        public void onProviderDisabled(String provider) {
-            Log.i(TAG, "onProviderDisabled()");
-        }
-
-        public void onProviderEnabled(String provider) {
-            Log.i(TAG, "onProviderEnabled()");
-        }
-
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-            Log.i(TAG, "onStatusChanged()");
-        }
-    };
-*/
-
     public static Intent comoLlegar(FragmentActivity getActiviti,String latitud,String longitud){
         String latitudlongitud="";
         Uri gmmIntentUri;
@@ -229,6 +192,13 @@ public class Procesos extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+    public static void copiarEnElPortapapeles(Context context, TextInputLayout texts, FragmentActivity getActiviti){
+        String text = texts.getEditText().getText().toString();
+        ClipboardManager clipboard = (ClipboardManager) getActiviti.getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("text",  text);
+        clipboard.setPrimaryClip(clip);
+        Toast.makeText(context, "Copiado en el portapapeles", Toast.LENGTH_SHORT).show();
     }
 
 }
