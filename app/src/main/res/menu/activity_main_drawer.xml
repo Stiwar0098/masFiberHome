@@ -16,8 +16,8 @@
     <group  android:id="@+id/group2"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_crearCliente"
-            android:title="Crear cliente" />
+            android:id="@+id/nav_crearServicio"
+            android:title="Crear Servicio" />
         <item
             android:id="@+id/nav_migrarCliente"
             android:title="Migrar cliente" />

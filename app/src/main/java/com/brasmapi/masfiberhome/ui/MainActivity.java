@@ -13,8 +13,6 @@ import android.view.Menu;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.Manifest;
 
 import com.brasmapi.masfiberhome.Procesos;
 import com.brasmapi.masfiberhome.R;
@@ -23,7 +21,6 @@ import com.brasmapi.masfiberhome.entidades.Usuario;
 import com.brasmapi.masfiberhome.ui.crear.CrearClienteFragment;
 import com.google.android.material.navigation.NavigationView;
 
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
@@ -71,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         obtenerPermisosDeUbicacion();
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_administrar,R.id.nav_pendiente, R.id.nav_crearCliente, R.id.nav_migrarCliente,R.id.nav_migrarip,R.id.nav_CerrarSesion_menu)
+                R.id.nav_administrar,R.id.nav_pendiente, R.id.nav_crearServicio, R.id.nav_migrarCliente,R.id.nav_migrarip,R.id.nav_CerrarSesion_menu)
                 .setDrawerLayout(drawer)
                 .build();
 
@@ -174,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_pendiente:
             case R.id.nav_migrarCliente:
             case R.id.nav_migrarip:
-            case R.id.nav_crearCliente:
+            case R.id.nav_crearServicio:
               NavigationUI.onNavDestinationSelected(item,navController);
                 ocultarMenu();
                 //cambiarFragment(new CrearClienteFragment(), "Crear Cliente",itemMenuSeleccionadoAnterior,2);

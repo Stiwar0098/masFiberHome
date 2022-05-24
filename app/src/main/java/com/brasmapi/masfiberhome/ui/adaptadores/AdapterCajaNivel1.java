@@ -40,6 +40,7 @@ public class AdapterCajaNivel1 extends RecyclerView.Adapter<AdapterCajaNivel1.Vi
         holder.txtReferencia.setText(lista.get(position).getReferencia_cajaNivel1());
         holder.txtNombreVlan.setText(lista.get(position).getNombreVlan());
         holder.txtNombreCiudad.setText(lista.get(position).getNombreCiudad());
+        holder.txtAbreviatura.setText(lista.get(position).getAbreviatura_cajaNivel1());
     }
 
     @Override
@@ -68,7 +69,7 @@ public class AdapterCajaNivel1 extends RecyclerView.Adapter<AdapterCajaNivel1.Vi
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView txtnombreCajaNivel1, txtDireccion, txtReferencia, txtNombreVlan, txtNombreCiudad;
+        TextView txtnombreCajaNivel1, txtDireccion, txtReferencia, txtNombreVlan, txtNombreCiudad,txtAbreviatura;
         Context context;
 
         public ViewHolder(View itemView) {
@@ -79,6 +80,7 @@ public class AdapterCajaNivel1 extends RecyclerView.Adapter<AdapterCajaNivel1.Vi
             txtReferencia = (TextView) itemView.findViewById(R.id.lblReferencia_ItemCajaNivel);
             txtNombreVlan = (TextView) itemView.findViewById(R.id.lblNombreVlan_ItemCajaNivel1);
             txtNombreCiudad = (TextView) itemView.findViewById(R.id.lblNombreCiudad_ItemCajaNivel1);
+            txtAbreviatura = (TextView) itemView.findViewById(R.id.lblAbreviatura_itemCajaNivel1);
         }
     }
 

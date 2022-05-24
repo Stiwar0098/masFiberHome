@@ -70,6 +70,16 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/textView24"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Abreviatura"
+                            android:textColor="@color/letras"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
                             android:id="@+id/textView16"
                             android:layout_width="70dp"
                             android:layout_height="wrap_content"

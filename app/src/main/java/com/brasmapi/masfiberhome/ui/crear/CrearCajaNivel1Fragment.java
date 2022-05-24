@@ -8,8 +8,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.Spinner;
 import android.widget.Switch;
 
 import com.brasmapi.masfiberhome.Procesos;
@@ -73,7 +75,7 @@ public class CrearCajaNivel1Fragment extends Fragment implements CajaNivel1DAO.i
     }
     View vista;
     Context context;
-    TextInputLayout txtNombreCajaNivel1, txtDireccion, txtReferencia, txtLatitud, txtLongitud, txtNombreVlan, txtNombreCiudad;
+    TextInputLayout txtNombreCajaNivel1, txtDireccion, txtReferencia, txtLatitud, txtLongitud, txtNombreVlan, txtNombreCiudad,txtAbreviatura;
     CajaNivel1DAO cajaNivel1DAO;
     public static CajaNivel1 cajaNivel1;
     public static String opc=""; // editar/crear
@@ -82,7 +84,9 @@ public class CrearCajaNivel1Fragment extends Fragment implements CajaNivel1DAO.i
     Vlan vlan=null;
     Button btnBuscarVlan,btnBuscarCiudad,btnObtenerLatLon,btnVerUbicacoin;
     Switch switchAutoManu;
-    String nombre, direccion, referencia, latitud, longitud;
+    String nombre, direccion, referencia, latitud, longitud,abreviatura;
+    int hilos;
+    Spinner spinner;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -103,7 +107,14 @@ public class CrearCajaNivel1Fragment extends Fragment implements CajaNivel1DAO.i
         txtLongitud =vista.findViewById(R.id.txtLongitud_CrearCajaNivel1);
         txtNombreVlan =vista.findViewById(R.id.txtVlan_CrearCajaNivel1);
         txtNombreCiudad =vista.findViewById(R.id.txtCiudad_CrearCajaNivel1);
+        txtAbreviatura =vista.findViewById(R.id.txtAbreviatura_CrearCajaNivel1);
+        spinner =vista.findViewById(R.id.spinnerNumeroHilos_CrearCajaNivel1);
         cajaNivel1DAO =new CajaNivel1DAO(CrearCajaNivel1Fragment.this);
+        spinner=vista.findViewById(R.id.spinnerNumeroHilos_CrearCajaNivel1);
+
+        String [] opciones={"Seleccionar","4","8","16"};
+        ArrayAdapter<String> adapter= new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item,opciones);
+        spinner.setAdapter(adapter);
         ((MainActivity)getActivity()).setTitle("Crear caja nivel 1");
         if (opc.equals("editar")){
             btnguardar.setText("Editar");
@@ -114,6 +125,18 @@ public class CrearCajaNivel1Fragment extends Fragment implements CajaNivel1DAO.i
             txtLongitud.getEditText().setText(cajaNivel1.getLongitud_cajaNivel1());
             txtNombreVlan.getEditText().setText(cajaNivel1.getNombreVlan());
             txtNombreCiudad.getEditText().setText(cajaNivel1.getNombreCiudad());
+            txtAbreviatura.getEditText().setText(cajaNivel1.getAbreviatura_cajaNivel1());
+            switch (cajaNivel1.getNumeroHilos_cajaNivel1()){
+                case 4:
+                    spinner.setSelection(1);
+                    break;
+                case 8:
+                    spinner.setSelection(2);
+                    break;
+                case 16:
+                    spinner.setSelection(3);
+                    break;
+            }
             ((MainActivity)getActivity()).setTitle("Editar caja nivel 1");
             switchAutoManu.setChecked(false);
             latLonAutomaticoApagado();
@@ -170,6 +193,8 @@ public class CrearCajaNivel1Fragment extends Fragment implements CajaNivel1DAO.i
         txtLongitud.getEditText().setText("");
         txtNombreVlan.getEditText().setText("");
         txtNombreCiudad.getEditText().setText("");
+        txtAbreviatura.getEditText().setText("");
+        spinner.setSelection(0);
         txtNombreCajaNivel1.getEditText().requestFocusFromTouch();
         Procesos.cerrarTeclado(getActivity());
         txtNombreCajaNivel1.setErrorEnabled(false);
@@ -179,6 +204,7 @@ public class CrearCajaNivel1Fragment extends Fragment implements CajaNivel1DAO.i
         txtLongitud.setErrorEnabled(false);
         txtNombreVlan.setErrorEnabled(false);
         txtNombreCiudad.setErrorEnabled(false);
+        txtAbreviatura.setErrorEnabled(false);
         Procesos.cargandoDetener();
     }
 
@@ -204,6 +230,8 @@ public class CrearCajaNivel1Fragment extends Fragment implements CajaNivel1DAO.i
                 referencia = txtReferencia.getEditText().getText().toString().trim();
                 latitud = txtLatitud.getEditText().getText().toString().trim();
                 longitud =txtLongitud.getEditText().getText().toString().trim();
+                abreviatura =txtAbreviatura.getEditText().getText().toString().trim();
+                hilos=Integer.parseInt(spinner.getSelectedItem().toString());
                 if (opc.equals("crear")){
                    cajaNivel1DAO.crearCajaNivel1(new CajaNivel1(0,
                             nombre,
@@ -215,13 +243,15 @@ public class CrearCajaNivel1Fragment extends Fragment implements CajaNivel1DAO.i
                             "",
                             ciudad.getId(),
                             "",
-                            "activo"),context);
+                            "activo",abreviatura,hilos),context);
                 }else{//editar
                     cajaNivel1.setNombre_cajaNivel1(nombre);
                     cajaNivel1.setDireccion_cajaNivel1(direccion);
                     cajaNivel1.setReferencia_cajaNivel1(referencia);
                     cajaNivel1.setLatitud_cajaNivel1(latitud);
                     cajaNivel1.setLongitud_cajaNivel1(longitud);
+                    cajaNivel1.setAbreviatura_cajaNivel1(abreviatura);
+                    cajaNivel1.setNumeroHilos_cajaNivel1(hilos);
                     if (vlan!=null && ciudad!=null){
                         cajaNivel1.setId_vlan(vlan.getId());
                         cajaNivel1.setId_ciudad(ciudad.getId());

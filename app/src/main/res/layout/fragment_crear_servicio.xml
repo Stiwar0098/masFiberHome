@@ -4,7 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.crear.CrearCajaNivel1Fragment">
+    android:foregroundTint="@android:color/transparent"
+    tools:context=".CrearServicioFragment">
+
+    <TextView
+        android:id="@+id/textView23"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/fondoarriba"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -28,8 +36,42 @@
                 android:textSize="34sp"
                 android:textStyle="bold" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txtBuscarCliente_CrearServicio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    android:textColorHint="@color/textColorHint"
+                    app:boxStrokeColor="@color/boxStrokeColor"
+                    app:endIconCheckable="true"
+                    app:endIconDrawable="@drawable/ic_buscarpersona"
+                    app:endIconMode="custom"
+                    app:endIconTint="@color/iconos"
+                    app:hintTextColor="@color/hintTextColor"
+                    app:startIconTint="@color/iconos">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusableInTouchMode="false"
+                        android:hint="Buscar cliente" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txtNombreCajaNivel1_CrearCajaNivel1"
+                android:id="@+id/txtUsuario_CrearServicio"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="20dp"
@@ -44,108 +86,11 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Nombre de la caja nivel 1" />
+                    android:hint="Usuario" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/txtVlan_CrearCajaNivel1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_weight="1"
-                    android:textColorHint="@color/textColorHint"
-                    app:boxStrokeColor="@color/boxStrokeColor"
-                    app:endIconCheckable="false"
-                    app:hintTextColor="@color/hintTextColor"
-                    app:startIconTint="@color/iconos">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:enabled="false"
-                        android:hint="Busca la vlan" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <Button
-                    android:id="@+id/btnBuscarVlan_CrearCajaNivel1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="1"
-                    tools:ignore="SpeakableTextPresentCheck" />
-
-            </LinearLayout>
-
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txtAbreviatura_CrearCajaNivel1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
-                android:textColorHint="@color/textColorHint"
-                app:boxStrokeColor="@color/boxStrokeColor"
-                app:endIconCheckable="false"
-                app:hintTextColor="@color/hintTextColor"
-                app:startIconTint="@color/iconos">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Abreviatura" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/txtCiudad_CrearCajaNivel1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_weight="1"
-                    android:textColorHint="@color/textColorHint"
-                    app:boxStrokeColor="@color/boxStrokeColor"
-                    app:endIconCheckable="false"
-                    app:hintTextColor="@color/hintTextColor"
-                    app:startIconTint="@color/iconos">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:enabled="false"
-                        android:hint="Busca la ciudad" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <Button
-                    android:id="@+id/btnBuscarCiudad_CrearCajaNivel1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="1"
-                    tools:ignore="SpeakableTextPresentCheck" />
-
-            </LinearLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txtDireccion_CrearCajaNivel1"
+                android:id="@+id/txtDireccion_CrearServicio"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="20dp"
@@ -164,7 +109,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txtReferencia_CrearCajaNivel1"
+                android:id="@+id/txtReferencia_CrearServicio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
@@ -172,7 +117,8 @@
                 android:layout_marginRight="20dp"
                 android:textColorHint="@color/textColorHint"
                 app:boxStrokeColor="@color/boxStrokeColor"
-                app:endIconCheckable="false"
+                app:endIconMode="custom"
+                app:endIconTint="@color/iconos"
                 app:hintTextColor="@color/hintTextColor"
                 app:startIconTint="@color/iconos">
 
@@ -180,17 +126,109 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Referencia" />
+
             </com.google.android.material.textfield.TextInputLayout>
 
-            <Spinner
-                android:id="@+id/spinnerNumeroHilos_CrearCajaNivel1"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtImputFechaInicio_CrearServicio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="20dp"
                 android:layout_weight="1"
-                android:spinnerMode="dropdown" />
+                android:textColorHint="@color/textColorHint"
+                app:boxStrokeColor="@color/boxStrokeColor"
+                app:endIconCheckable="true"
+                app:endIconDrawable="@drawable/ic_calendar3"
+                app:endIconMode="custom"
+                app:endIconTint="@color/iconos"
+                app:hintTextColor="@color/hintTextColor"
+                app:startIconTint="@color/iconos">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusableInTouchMode="false"
+                    android:hint="Fecha de inicio"
+                    android:inputType="date" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txtDireccionIp_CrearServicio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    android:textColorHint="@color/textColorHint"
+                    app:boxStrokeColor="@color/boxStrokeColor"
+                    app:endIconCheckable="true"
+                    app:endIconMode="custom"
+                    app:endIconTint="@color/iconos"
+                    app:hintTextColor="@color/hintTextColor"
+                    app:startIconTint="@color/iconos">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusableInTouchMode="false"
+                        android:hint="Direccion ip"
+                        android:inputType="date" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Switch
+                    android:id="@+id/switchDireccionIp_CrearServicio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="Automático"
+                    android:thumbTint="@color/botones" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txtOnt_CrearServicio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    android:textColorHint="@color/textColorHint"
+                    app:boxStrokeColor="@color/boxStrokeColor"
+                    app:endIconCheckable="true"
+                    app:endIconDrawable="@drawable/ic_baseline_search_24"
+                    app:endIconMode="custom"
+                    app:endIconTint="@color/iconos"
+                    app:hintTextColor="@color/hintTextColor"
+                    app:startIconTint="@color/iconos">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusableInTouchMode="false"
+                        android:hint="Buscar ont" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -213,7 +251,7 @@
                         android:orientation="vertical">
 
                         <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/txtLatitud_CrearCajaNivel1"
+                            android:id="@+id/txtLatitud_CrearCajaNivel2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
@@ -233,7 +271,7 @@
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/txtLongitud_CrearCajaNivel1"
+                            android:id="@+id/txtLongitud_CrearCajaNivel2"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="5dp"
@@ -261,26 +299,12 @@
                         android:orientation="vertical">
 
                         <Switch
-                            android:id="@+id/switch_CrearCajaNivel1"
+                            android:id="@+id/switchLatitudLongitud_CrearServicio"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:checked="true"
                             android:text="Automático"
                             android:thumbTint="@color/botones" />
-
-                        <Button
-                            android:id="@+id/btnObtenerLatitudLongitud_CrearCajaNivel1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="5dp"
-                            android:text="Obtener" />
-
-                        <Button
-                            android:id="@+id/btnVerUbicacion_CrearCajaNivel1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="5dp"
-                            android:text="Ver Ubicacion" />
 
                     </LinearLayout>
 
@@ -288,7 +312,7 @@
             </androidx.cardview.widget.CardView>
 
             <Button
-                android:id="@+id/btnGuardar_CrearCajaNivel1"
+                android:id="@+id/btnGuardar_CrearCajaNivel2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
@@ -299,11 +323,4 @@
 
         </LinearLayout>
     </ScrollView>
-
-    <TextView
-        android:id="@+id/textView20"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:background="@drawable/fondoarriba"
-        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

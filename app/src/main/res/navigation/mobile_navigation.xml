@@ -27,7 +27,7 @@
             app:destination="@id/nav_migrarCliente" />
         <action
             android:id="@+id/action_nav_administrar_to_nav_crearCliente"
-            app:destination="@id/nav_crearCliente" />
+            app:destination="@id/nav_crearServicio" />
         <action
             android:id="@+id/action_nav_administrar_self"
             app:destination="@id/nav_administrar" />
@@ -49,10 +49,9 @@
     </fragment>
 
     <fragment
-        android:id="@+id/nav_crearCliente"
-        android:name="com.brasmapi.masfiberhome.ui.crear.CrearClienteFragment"
-        android:label="Crear cliente"
-        tools:layout="@layout/fragment_crearcliente" >
+        android:id="@+id/nav_crearServicio"
+        android:name="com.brasmapi.masfiberhome.CrearServicioFragment"
+        tools:layout="@layout/fragment_crear_servicio">
         <action
             android:id="@+id/action_nav_crearCliente_to_nav_administrar"
             app:destination="@id/nav_administrar" />

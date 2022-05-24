@@ -1,13 +1,13 @@
 package com.brasmapi.masfiberhome.entidades;
 
 public class CajaNivel1 {
-    private int id_cajaNivel1,id_vlan,id_ciudad;
-    private String nombre_cajaNivel1,direccion_cajaNivel1,referencia_cajaNivel1,latitud_cajaNivel1,longitud_cajaNivel1,estado_cajaNivel1, nombreVlan,nombreCiudad;
+    private int id_cajaNivel1,id_vlan,id_ciudad, numeroHilos_cajaNivel1;
+    private String nombre_cajaNivel1,direccion_cajaNivel1,referencia_cajaNivel1,latitud_cajaNivel1,longitud_cajaNivel1,estado_cajaNivel1, nombreVlan,nombreCiudad,abreviatura_cajaNivel1;
 
     public CajaNivel1() {
     }
 
-    public CajaNivel1(int id_cajaNivel1, String nombre_cajaNivel1, String direccion_cajaNivel1,String referencia_cajaNivel1, String latitud_cajaNivel1, String longitud_cajaNivel1, int id_vlan, String nombreVlan, int id_ciudad, String nombreCiudad, String estado_cajaNivel1) {
+    public CajaNivel1(int id_cajaNivel1, String nombre_cajaNivel1, String direccion_cajaNivel1,String referencia_cajaNivel1, String latitud_cajaNivel1, String longitud_cajaNivel1, int id_vlan, String nombreVlan, int id_ciudad, String nombreCiudad, String estado_cajaNivel1,String abreviatura,int numeroHilos) {
         this.id_cajaNivel1 = id_cajaNivel1;
         this.id_vlan = id_vlan;
         this.id_ciudad = id_ciudad;
@@ -19,6 +19,24 @@ public class CajaNivel1 {
         this.estado_cajaNivel1 = estado_cajaNivel1;
         this.nombreVlan = nombreVlan;
         this.nombreCiudad = nombreCiudad;
+        this.abreviatura_cajaNivel1=abreviatura;
+        this.numeroHilos_cajaNivel1=numeroHilos;
+    }
+
+    public int getNumeroHilos_cajaNivel1() {
+        return numeroHilos_cajaNivel1;
+    }
+
+    public void setNumeroHilos_cajaNivel1(int numeroHilos_cajaNivel1) {
+        this.numeroHilos_cajaNivel1 = numeroHilos_cajaNivel1;
+    }
+
+    public String getAbreviatura_cajaNivel1() {
+        return abreviatura_cajaNivel1;
+    }
+
+    public void setAbreviatura_cajaNivel1(String abreviatura_cajaNivel1) {
+        this.abreviatura_cajaNivel1 = abreviatura_cajaNivel1;
     }
 
     public int getId_cajaNivel1() {
