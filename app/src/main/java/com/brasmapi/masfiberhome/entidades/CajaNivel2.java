@@ -1,13 +1,13 @@
 package com.brasmapi.masfiberhome.entidades;
 
 public class CajaNivel2 {
-    private int id_CajaNivel2, id_CajaNivel1;
-    private String nombre_CajaNivel2,direccion_CajaNivel2,referencia_CajaNivel2,latitud_CajaNivel2,longitud_CajaNivel2,estado_CajaNivel2, nombreCajaNivel1;
+    private int id_CajaNivel2, id_CajaNivel1,cantidadHilos,hiloCaja1;
+    private String nombre_CajaNivel2,direccion_CajaNivel2,referencia_CajaNivel2,latitud_CajaNivel2,longitud_CajaNivel2,estado_CajaNivel2, nombreCajaNivel1,abreviatura;
 
     public CajaNivel2() {
     }
 
-    public CajaNivel2(int id_CajaNivel2, String nombre_CajaNivel2, String direccion_CajaNivel2, String referencia_CajaNivel2, String latitud_CajaNivel2, String longitud_CajaNivel2, int id_CajaNivel1, String nombreCajaNivel1, String estado_CajaNivel2) {
+    public CajaNivel2(int id_CajaNivel2, String nombre_CajaNivel2, String abreviatura, String direccion_CajaNivel2, String referencia_CajaNivel2, String latitud_CajaNivel2, String longitud_CajaNivel2, int id_CajaNivel1, String nombreCajaNivel1, int hiloCaja1, int cantidadHilos, String estado_CajaNivel2) {
         this.id_CajaNivel2 = id_CajaNivel2;
         this.id_CajaNivel1 = id_CajaNivel1;
         this.nombre_CajaNivel2 = nombre_CajaNivel2;
@@ -17,6 +17,33 @@ public class CajaNivel2 {
         this.longitud_CajaNivel2 = longitud_CajaNivel2;
         this.estado_CajaNivel2 = estado_CajaNivel2;
         this.nombreCajaNivel1 = nombreCajaNivel1;
+        this.abreviatura=abreviatura;
+        this.hiloCaja1=hiloCaja1;
+        this.cantidadHilos=cantidadHilos;
+    }
+
+    public int getCantidadHilos() {
+        return cantidadHilos;
+    }
+
+    public void setCantidadHilos(int cantidadHilos) {
+        this.cantidadHilos = cantidadHilos;
+    }
+
+    public int getHiloCaja1() {
+        return hiloCaja1;
+    }
+
+    public void setHiloCaja1(int hiloCaja1) {
+        this.hiloCaja1 = hiloCaja1;
+    }
+
+    public String getAbreviatura() {
+        return abreviatura;
+    }
+
+    public void setAbreviatura(String abreviatura) {
+        this.abreviatura = abreviatura;
     }
 
     public int getId_CajaNivel2() {

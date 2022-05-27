@@ -50,7 +50,7 @@
 
     <fragment
         android:id="@+id/nav_crearServicio"
-        android:name="com.brasmapi.masfiberhome.CrearServicioFragment"
+        android:name="com.brasmapi.masfiberhome.ui.crear.CrearServicioFragment"
         tools:layout="@layout/fragment_crear_servicio">
         <action
             android:id="@+id/action_nav_crearCliente_to_nav_administrar"

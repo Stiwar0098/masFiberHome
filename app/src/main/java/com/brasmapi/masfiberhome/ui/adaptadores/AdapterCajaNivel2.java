@@ -39,6 +39,9 @@ public class AdapterCajaNivel2 extends RecyclerView.Adapter<AdapterCajaNivel2.Vi
         holder.txtDireccion.setText(lista.get(position).getDireccion_CajaNivel2());
         holder.txtReferencia.setText(lista.get(position).getReferencia_CajaNivel2());
         holder.txtNombreCajaNivel1.setText(lista.get(position).getNombreCajaNivel1());
+        holder.txtAbreviatura.setText(lista.get(position).getAbreviatura());
+        holder.txtCantidadHilos.setText(lista.get(position).getCantidadHilos());
+        holder.txtHiloCaja1.setText(lista.get(position).getHiloCaja1());
     }
 
     @Override
@@ -67,7 +70,7 @@ public class AdapterCajaNivel2 extends RecyclerView.Adapter<AdapterCajaNivel2.Vi
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView txtnombreCajaNivel2, txtDireccion, txtReferencia, txtNombreCajaNivel1;
+        TextView txtnombreCajaNivel2, txtDireccion, txtReferencia, txtNombreCajaNivel1,txtAbreviatura,txtHiloCaja1,txtCantidadHilos;
         Context context;
 
         public ViewHolder(View itemView) {
@@ -76,7 +79,10 @@ public class AdapterCajaNivel2 extends RecyclerView.Adapter<AdapterCajaNivel2.Vi
             txtnombreCajaNivel2 = (TextView) itemView.findViewById(R.id.lblNombreCajaNivel2_itemCajaNivel2);
             txtDireccion = (TextView) itemView.findViewById(R.id.lblDireccion_ItemCajaNivel2);
             txtReferencia = (TextView) itemView.findViewById(R.id.lblReferencia_ItemCajaNivel2);
+            txtAbreviatura = (TextView) itemView.findViewById(R.id.lblAbreviatura_itemCajaNivel2);
             txtNombreCajaNivel1 = (TextView) itemView.findViewById(R.id.lblNombreCajaNivel1_ItemCajaNivel2);
+            txtHiloCaja1 = (TextView) itemView.findViewById(R.id.lblHiloCaja1_itemCajaNivel2);
+            txtCantidadHilos = (TextView) itemView.findViewById(R.id.lblCantidadHilos_itemCajaNivel2);
         }
     }
 

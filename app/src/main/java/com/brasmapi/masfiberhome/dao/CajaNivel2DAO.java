@@ -44,7 +44,7 @@ public class CajaNivel2DAO {
                 for (int i = 0; i < response.length(); i++) {
                     try {
                         JSONObject object = new JSONObject(response.get(i).toString());
-                       as.add(new CajaNivel2(object.getInt("id_cajanivel2"), object.getString("nombre_cajanivel2"), object.getString("direccion_cajanivel2"),object.getString("referencia"), object.getString("latitud_cajanivel2"), object.getString("longitud_cajanivel2"), object.getInt("id_cajanivel1"), object.getString("nombre_cajanivel1"), object.getString("estado_cajanivel2")));
+                       as.add(new CajaNivel2(object.getInt("id_cajanivel2"), object.getString("nombre_cajanivel2"), object.getString("abreviatura_cajanivel2"), object.getString("direccion_cajanivel2"),object.getString("referencia"), object.getString("latitud_cajanivel2"), object.getString("longitud_cajanivel2"), object.getInt("id_cajanivel1"), object.getString("nombre_cajanivel1"), object.getInt("hilocajanivel1_cajanivel2"), object.getInt("cantidadhilos_cajanivel2"), object.getString("estado_cajanivel2")));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -77,7 +77,7 @@ public class CajaNivel2DAO {
                 as = new ArrayList<>();
                 try {
                     JSONObject object = new JSONObject(response.get(0).toString());
-                    as.add(new CajaNivel2(object.getInt("id_cajanivel2"), object.getString("nombre_cajanivel2"), object.getString("direccion_cajanivel2"),object.getString("referencia"), object.getString("latitud_cajanivel2"), object.getString("longitud_cajanivel2"), object.getInt("id_cajanivel1"), object.getString("nombre_cajanivel1"), object.getString("estado_cajanivel2")));
+                    as.add(new CajaNivel2(object.getInt("id_cajanivel2"), object.getString("nombre_cajanivel2"), object.getString("abreviatura_cajanivel2"), object.getString("direccion_cajanivel2"),object.getString("referencia"), object.getString("latitud_cajanivel2"), object.getString("longitud_cajanivel2"), object.getInt("id_cajanivel1"), object.getString("nombre_cajanivel1"), object.getInt("hilocajanivel1_cajanivel2"), object.getInt("cantidadhilos_cajanivel2"), object.getString("estado_cajanivel2")));
                     Procesos.cargandoDetener();
                     if (interfaz != null) {
                         interfaz.setCajaNivel2(as.get(0));
@@ -113,11 +113,14 @@ public class CajaNivel2DAO {
             parametros = new JSONObject();
             try {
                 parametros.put("nombre_cajanivel2", cajaNivel2.getNombre_CajaNivel2());
+                parametros.put("abreviatura_cajanivel2", cajaNivel2.getAbreviatura());
                 parametros.put("direccion_cajanivel2", cajaNivel2.getDireccion_CajaNivel2());
                 parametros.put("referencia", cajaNivel2.getReferencia_CajaNivel2());
                 parametros.put("latitud_cajanivel2", cajaNivel2.getLatitud_CajaNivel2());
                 parametros.put("longitud_cajanivel2", cajaNivel2.getLongitud_CajaNivel2());
                 parametros.put("id_cajanivel1", cajaNivel2.getId_CajaNivel1());
+                parametros.put("hilocajanivel1_cajanivel2", cajaNivel2.getHiloCaja1());
+                parametros.put("cantidadhilos_cajanivel2", cajaNivel2.getCantidadHilos());
                 parametros.put("estado_cajanivel2", cajaNivel2.getEstado_CajaNivel2());
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -125,11 +128,14 @@ public class CajaNivel2DAO {
         } else {
             consulta = Procesos.url + "/cajanivel2/crearCajaNivel2.php?"
                     +"nombre_cajanivel2=" +  cajaNivel2.getNombre_CajaNivel2()
+                    +"&abreviatura_cajanivel2=" +  cajaNivel2.getAbreviatura()
                     +"&direccion_cajanivel2=" +  cajaNivel2.getDireccion_CajaNivel2()
                     +"&referencia=" +  cajaNivel2.getReferencia_CajaNivel2()
                     +"&latitud_cajanivel2=" +  cajaNivel2.getLatitud_CajaNivel2()
                     +"&longitud_cajanivel2=" +  cajaNivel2.getLongitud_CajaNivel2()
                     +"&id_cajanivel1=" +  cajaNivel2.getId_CajaNivel1()
+                    +"&hilocajanivel1_cajanivel2=" +  cajaNivel2.getHiloCaja1()
+                    +"&cantidadhilos_cajanivel2=" +  cajaNivel2.getCantidadHilos()
                     +"&estado_cajanivel2=" +  cajaNivel2.getEstado_CajaNivel2();
             metodo = Request.Method.GET;
         }
@@ -174,11 +180,14 @@ public class CajaNivel2DAO {
             try {
                 parametros.put("id_cajanivel2", cajaNivel2.getId_CajaNivel2());
                 parametros.put("nombre_cajanivel2", cajaNivel2.getNombre_CajaNivel2());
+                parametros.put("abreviatura_cajanivel2", cajaNivel2.getAbreviatura());
                 parametros.put("direccion_cajanivel2", cajaNivel2.getDireccion_CajaNivel2());
                 parametros.put("referencia", cajaNivel2.getReferencia_CajaNivel2());
                 parametros.put("latitud_cajanivel2", cajaNivel2.getLatitud_CajaNivel2());
                 parametros.put("longitud_cajanivel2", cajaNivel2.getLongitud_CajaNivel2());
                 parametros.put("id_cajanivel1", cajaNivel2.getId_CajaNivel1());
+                parametros.put("hilocajanivel1_cajanivel2", cajaNivel2.getHiloCaja1());
+                parametros.put("cantidadhilos_cajanivel2", cajaNivel2.getCantidadHilos());
                 parametros.put("estado_cajanivel2", cajaNivel2.getEstado_CajaNivel2());
 
             } catch (JSONException e) {
@@ -188,11 +197,14 @@ public class CajaNivel2DAO {
             consulta = Procesos.url + "/cajanivel2/editarCajaNivel2.php?"
                     +"id_cajanivel2=" +  cajaNivel2.getId_CajaNivel2()
                     +"&nombre_cajanivel2=" +  cajaNivel2.getNombre_CajaNivel2()
+                    +"&abreviatura_cajanivel2=" +  cajaNivel2.getAbreviatura()
                     +"&direccion_cajanivel2=" +  cajaNivel2.getDireccion_CajaNivel2()
                     +"&referencia=" +  cajaNivel2.getReferencia_CajaNivel2()
                     +"&latitud_cajanivel2=" +  cajaNivel2.getLatitud_CajaNivel2()
                     +"&longitud_cajanivel2=" +  cajaNivel2.getLongitud_CajaNivel2()
                     +"&id_cajanivel1=" +  cajaNivel2.getId_CajaNivel1()
+                    +"&hilocajanivel1_cajanivel2=" +  cajaNivel2.getHiloCaja1()
+                    +"&cantidadhilos_cajanivel2=" +  cajaNivel2.getCantidadHilos()
                     +"&estado_cajanivel2=" +  cajaNivel2.getEstado_CajaNivel2();
             metodo = Request.Method.GET;
         }

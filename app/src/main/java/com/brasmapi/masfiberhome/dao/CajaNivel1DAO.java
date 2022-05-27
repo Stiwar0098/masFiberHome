@@ -127,7 +127,7 @@ public class CajaNivel1DAO {
             }
         } else {
             consulta = Procesos.url + "/cajanivel1/crearCajaNivel1.php?"
-                    +"&nombre_cajanivel1=" +  cajaNivel1.getNombre_cajaNivel1()
+                    +"nombre_cajanivel1=" +  cajaNivel1.getNombre_cajaNivel1()
                     +"&abreviatura_cajanivel1=" +  cajaNivel1.getAbreviatura_cajaNivel1()
                     +"&direccion_cajanivel1=" +  cajaNivel1.getDireccion_cajaNivel1()
                     +"&referencia_cajanivel1=" +  cajaNivel1.getReferencia_cajaNivel1()
@@ -195,7 +195,7 @@ public class CajaNivel1DAO {
             }
         } else {
             consulta = Procesos.url + "/cajanivel1/editarCajaNivel1.php?"
-                    +"&id_cajanivel1=" +  cajaNivel1.getId_cajaNivel1()
+                    +"id_cajanivel1=" +  cajaNivel1.getId_cajaNivel1()
                     +"&nombre_cajanivel1=" +  cajaNivel1.getNombre_cajaNivel1()
                     +"&abreviatura_cajanivel1=" +  cajaNivel1.getAbreviatura_cajaNivel1()
                     +"&direccion_cajanivel1=" +  cajaNivel1.getDireccion_cajaNivel1()

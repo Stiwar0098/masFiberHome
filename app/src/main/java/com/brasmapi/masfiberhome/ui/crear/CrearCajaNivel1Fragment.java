@@ -112,7 +112,7 @@ public class CrearCajaNivel1Fragment extends Fragment implements CajaNivel1DAO.i
         cajaNivel1DAO =new CajaNivel1DAO(CrearCajaNivel1Fragment.this);
         spinner=vista.findViewById(R.id.spinnerNumeroHilos_CrearCajaNivel1);
 
-        String [] opciones={"Seleccionar","4","8","16"};
+        String [] opciones={"Seleccionar cantidad hilos","4","8","16"};
         ArrayAdapter<String> adapter= new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item,opciones);
         spinner.setAdapter(adapter);
         ((MainActivity)getActivity()).setTitle("Crear caja nivel 1");

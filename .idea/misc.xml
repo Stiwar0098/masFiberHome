@@ -3,6 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/layout/fragment_crear_caja_nivel1.xml" value="0.24547101449275363" />
+        <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/layout/fragment_crear_caja_nivel2.xml" value="0.24547101449275363" />
+        <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/layout/fragment_lista_cajas_nivel2.xml" value="0.17617753623188406" />
+        <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/layout/item_cardview_caja_nivel1.xml" value="0.24547101449275363" />
+        <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/layout/item_cardview_caja_nivel2.xml" value="0.24547101449275363" />
         <entry key="..\:/Users/super/AndroidStudioProjects/masfiberhome/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1421875" />
         <entry key="..\:/Users/super/AndroidStudioProjects/masfiberhome/app/src/main/res/drawable/backgroud_redondeado.xml" value="0.14322916666666666" />
         <entry key="..\:/Users/super/AndroidStudioProjects/masfiberhome/app/src/main/res/drawable/ciudad.xml" value="0.26614583333333336" />
