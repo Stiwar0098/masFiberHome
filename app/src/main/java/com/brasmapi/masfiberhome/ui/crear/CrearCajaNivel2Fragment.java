@@ -1,8 +1,10 @@
 package com.brasmapi.masfiberhome.ui.crear;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -85,12 +87,10 @@ public class CrearCajaNivel2Fragment extends Fragment implements DialogBuscarCaj
     Spinner spinner;
     String abreviatura;
     int hiloCaja1,hilos;
-
-    Button btnBuscarCajaNivel1;
-    RangoHilosCaja1 rangoHilosCaja1;
     Switch switchAutoManu, switchHiloAutoManu;
     String nombre, direccion, referencia, latitud, longitud;
 
+    RangoHilosCaja1 rangoHilosCaja1,rangoHilosCaja1Anterior;
     RangoHilosCaja1DAO rangoHilosCaja1DAO;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -99,8 +99,8 @@ public class CrearCajaNivel2Fragment extends Fragment implements DialogBuscarCaj
         vista= inflater.inflate(R.layout.fragment_crear_caja_nivel2, container, false);
         context=getActivity();
         rangoHilosCaja1DAO=new RangoHilosCaja1DAO(CrearCajaNivel2Fragment.this);
+        rangoHilosCaja1=new RangoHilosCaja1();
         Button btnguardar=(Button)vista.findViewById(R.id.btnGuardar_CrearCajaNivel2);
-        btnBuscarCajaNivel1 =(Button)vista.findViewById(R.id.btnBuscarCajaNivel1_CrearCajaNivel2);
         txtNombreCajaNivel2 =vista.findViewById(R.id.txtNombreCajaNivel2_CrearCajaNivel2);
         switchAutoManu =vista.findViewById(R.id.switch_CrearCajaNivel2);
         switchHiloAutoManu =vista.findViewById(R.id.switchHilo_CrearCajaNivel2);
@@ -111,12 +111,19 @@ public class CrearCajaNivel2Fragment extends Fragment implements DialogBuscarCaj
         txtNombreCajaNivel1 =vista.findViewById(R.id.txtCajaNivel1_CrearCajaNivel2);
         txtAbreviatura =vista.findViewById(R.id.txtAbreviatura_CrearCajaNivel2);
         txtHiloCaja1 =vista.findViewById(R.id.txtHiloCaja1_CrearCajaNivel2);
-        spinner =vista.findViewById(R.id.txtCajaNivel1_CrearCajaNivel2);
+        spinner =vista.findViewById(R.id.spinnerNumeroHilos_CrearCajaNive2);
         cajaNivel2DAO =new CajaNivel2DAO(CrearCajaNivel2Fragment.this);
         String [] opciones={"Seleccionar cantidad hilos","4","8","16"};
         ArrayAdapter<String> adapter= new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item,opciones);
         spinner.setAdapter(adapter);
         ((MainActivity)getActivity()).setTitle("Crear caja nivel 2");
+
+        txtNombreCajaNivel1.setEndIconOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new DialogBuscarCajaNivel1(context,CrearCajaNivel2Fragment.this);
+            }
+        });
         if (opc.equals("editar")){
             btnguardar.setText("Editar");
             txtNombreCajaNivel2.getEditText().setText(cajaNivel2.getNombre_CajaNivel2());
@@ -126,7 +133,7 @@ public class CrearCajaNivel2Fragment extends Fragment implements DialogBuscarCaj
             txtLongitud.getEditText().setText(cajaNivel2.getLongitud_CajaNivel2());
             txtNombreCajaNivel1.getEditText().setText(cajaNivel2.getNombreCajaNivel1());
             txtAbreviatura.getEditText().setText(cajaNivel2.getAbreviatura());
-            txtHiloCaja1.getEditText().setText(cajaNivel2.getHiloCaja1());
+            txtHiloCaja1.getEditText().setText(cajaNivel2.getHiloCaja1()+"");
             switch (cajaNivel2.getCantidadHilos()){
                 case 4:
                     spinner.setSelection(1);
@@ -140,6 +147,8 @@ public class CrearCajaNivel2Fragment extends Fragment implements DialogBuscarCaj
             }
             ((MainActivity)getActivity()).setTitle("Editar caja nivel 2");
             switchAutoManu.setChecked(false);
+            rangoHilosCaja1DAO.obtenerHiloAnterior(cajaNivel2.getId_CajaNivel1(),cajaNivel2.getId_CajaNivel2(),context);
+            spinner.setEnabled(false);
             switchHiloAutoManu.setChecked(false);
             latLonAutomaticoApagado();
             hiloCaja1AutomaticoApagado();
@@ -148,7 +157,6 @@ public class CrearCajaNivel2Fragment extends Fragment implements DialogBuscarCaj
             hiloCaja1AutomaticoEncendido();
         }
         btnguardar.setOnClickListener(this);
-        btnBuscarCajaNivel1.setOnClickListener(this);
         switchAutoManu.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -176,25 +184,25 @@ public class CrearCajaNivel2Fragment extends Fragment implements DialogBuscarCaj
     }
     public void hiloCaja1AutomaticoApagado(){
         switchHiloAutoManu.setText("Manual");
-        txtHiloCaja1.getEditText().setEnabled(true);
+        txtHiloCaja1.getEditText().setFocusableInTouchMode(true);
     }
     public void hiloCaja1AutomaticoEncendido(){
         switchHiloAutoManu.setText("Automático");
-        txtHiloCaja1.getEditText().setEnabled(false);
+        txtHiloCaja1.getEditText().setFocusableInTouchMode(false);
         if(cajaNivel1Seleccionada!=null){
             rangoHilosCaja1DAO.obtenerHiloAutomatico(cajaNivel1Seleccionada.getId_cajaNivel1(),context);
         }
     }
     public void latLonAutomaticoApagado(){
         switchAutoManu.setText("Manual");
-        txtLatitud.getEditText().setEnabled(true);
-        txtLongitud.getEditText().setEnabled(true);
+        txtLatitud.getEditText().setFocusableInTouchMode(true);
+        txtLongitud.getEditText().setFocusableInTouchMode(true);
         Procesos.detenerObtenerLatitudLongitud();
     }
     public void latLonAutomaticoEncendido(){
         switchAutoManu.setText("Automático");
-        txtLatitud.getEditText().setEnabled(false);
-        txtLongitud.getEditText().setEnabled(false);
+        txtLatitud.getEditText().setFocusableInTouchMode(false);
+        txtLongitud.getEditText().setFocusableInTouchMode(false);
         Procesos.obtenerLatitudLongitud(context, CrearCajaNivel2Fragment.this,getActivity().getContentResolver());
     }
     @Override
@@ -234,6 +242,8 @@ public class CrearCajaNivel2Fragment extends Fragment implements DialogBuscarCaj
         txtNombreCajaNivel1.setErrorEnabled(false);
         spinner.setSelection(0);
         Procesos.cargandoDetener();
+        rangoHilosCaja1.setEstado("activo");
+        rangoHilosCaja1DAO.editarRangoHilosCaja1(rangoHilosCaja1,nombre,context);
         if (opc.equals("editar")){
             Navigation.findNavController(getActivity().getCurrentFocus()).navigate(R.id.listaCajasNivel2Fragment);
         }
@@ -263,26 +273,50 @@ public class CrearCajaNivel2Fragment extends Fragment implements DialogBuscarCaj
                  if (switchHiloAutoManu.isChecked()){
                      crearEditar();
                  }else{
-                    rangoHilosCaja1DAO.verificarHiloManual(cajaNivel1Seleccionada.getId_cajaNivel1(),hiloCaja1,context);
+                     if (cajaNivel2 != null) {
+                         if (cajaNivel1Seleccionada!=null){
+                             rangoHilosCaja1DAO.verificarHiloManual(cajaNivel1Seleccionada.getId_cajaNivel1(),hiloCaja1,context);
+                         }else{
+                             if(cajaNivel2.getHiloCaja1()!=hiloCaja1){
+                                 rangoHilosCaja1DAO.verificarHiloManual(cajaNivel2.getId_CajaNivel1(),hiloCaja1,context);
+                             }else{
+                                 crearEditar();
+                             }
+                         }
+                     }else{
+                         rangoHilosCaja1DAO.verificarHiloManual(cajaNivel1Seleccionada.getId_cajaNivel1(),hiloCaja1,context);
+                     }
                  }
                 break;
-            case R.id.btnBuscarCajaNivel1_CrearCajaNivel2:
-                new DialogBuscarCajaNivel1(context,CrearCajaNivel2Fragment.this);
-                break;
+        }
+    }
+    @Override
+    public void hiloAutomatico(RangoHilosCaja1 rangoHilosCaja1) {
+        if (rangoHilosCaja1!=null){
+        txtHiloCaja1.getEditText().setText(rangoHilosCaja1.getNumero_rangocaja1()+"");
+        this.rangoHilosCaja1=rangoHilosCaja1;
+        }else{
+            Toast.makeText(context, "No hay hilos disponible en esta caja nivel 1", Toast.LENGTH_LONG).show();
         }
     }
 
     @Override
-    public void rangoAutomatico(RangoHilosCaja1 rangoHilosCaja1) {
-        if (rangoHilosCaja1!=null){
-        txtHiloCaja1.getEditText().setText(rangoHilosCaja1.getNumero_rangocaja1());
-        this.rangoHilosCaja1=rangoHilosCaja1;
+    public void validarHiloManual(RangoHilosCaja1 rangoHilos) {
+        if (rangoHilos!=null){
+            this.rangoHilosCaja1=rangoHilos;
+            crearEditar();
         }else{
-            Toast.makeText(context, "No hay hilos dispoble en esta caja nivel 1", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "Numero de hilo incorrecto o no disponible", Toast.LENGTH_LONG).show();
         }
-        Procesos.cargandoDetener();
     }
-public void crearEditar(){
+
+    @Override
+    public void hiloAnterior(RangoHilosCaja1 rangoHilos) {
+        rangoHilosCaja1Anterior=rangoHilos;
+        Toast.makeText(context, rangoHilosCaja1Anterior.getId_rangocaja1()+"", Toast.LENGTH_SHORT).show();
+    }
+
+    public void crearEditar(){
     if (opc.equals("crear")){
         cajaNivel2DAO.crearCajaNivel2(new CajaNivel2(0,
                 nombre,
@@ -297,26 +331,26 @@ public void crearEditar(){
                 hilos,
                 "activo"),context);
     }else{//editar
+        String nombre=cajaNivel2.getNombre_CajaNivel2();
         cajaNivel2.setNombre_CajaNivel2(nombre);
         cajaNivel2.setDireccion_CajaNivel2(direccion);
         cajaNivel2.setReferencia_CajaNivel2(referencia);
         cajaNivel2.setLatitud_CajaNivel2(latitud);
         cajaNivel2.setLongitud_CajaNivel2(longitud);
         cajaNivel2.setAbreviatura(abreviatura);
-        cajaNivel2.setHiloCaja1(hiloCaja1);
         cajaNivel2.setCantidadHilos(hilos);
         if (cajaNivel1Seleccionada !=null){
             cajaNivel2.setId_CajaNivel1(cajaNivel1Seleccionada.getId_cajaNivel1());
+            cajaNivel2.setHiloCaja1(hiloCaja1);
+            rangoHilosCaja1DAO.editarRangoHilosCaja1Anterior(rangoHilosCaja1Anterior.getId_rangocaja1(),context);
+        }else{
+            if(cajaNivel2.getHiloCaja1()!=hiloCaja1){
+                rangoHilosCaja1DAO.editarRangoHilosCaja1Anterior(rangoHilosCaja1Anterior.getId_rangocaja1(),context);
+                cajaNivel2.setHiloCaja1(hiloCaja1);
+            }
         }
         cajaNivel2DAO.editarCajaNivel2(cajaNivel2,context,false);
-    }
-}
-    @Override
-    public void validarRangoManual(boolean b) {
-        if (b){
-        crearEditar();
-        }else{
-            Toast.makeText(context, "Ese hilo no esta disponible en la caja nivel 1", Toast.LENGTH_LONG).show();
         }
     }
+
 }

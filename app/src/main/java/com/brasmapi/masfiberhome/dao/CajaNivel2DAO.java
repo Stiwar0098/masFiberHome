@@ -145,11 +145,11 @@ public class CajaNivel2DAO {
                 try {
                     if (response.get("respuesta").toString().equals("ok")) {
                         Toast.makeText(context, "Los datos se cargaron correctamente", Toast.LENGTH_SHORT).show();
+                        if (interfaz!=null){
+                            interfaz.limpiar();
+                        }
                     } else {
                         Toast.makeText(context, response.get("respuesta").toString(), Toast.LENGTH_SHORT).show();
-                    }
-                    if (interfaz!=null){
-                        interfaz.limpiar();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

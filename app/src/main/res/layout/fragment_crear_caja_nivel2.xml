@@ -47,44 +47,29 @@
                     android:hint="Nombre de la caja nivel 2" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <LinearLayout
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtCajaNivel1_CrearCajaNivel2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginRight="20dp"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:focusableInTouchMode="false"
+                android:textColorHint="@color/textColorHint"
+                app:boxStrokeColor="@color/boxStrokeColor"
+                app:endIconCheckable="true"
+                app:endIconDrawable="@drawable/ic_baseline_search_24"
+                app:endIconMode="custom"
+                app:endIconTint="@color/iconos"
+                app:hintTextColor="@color/hintTextColor"
+                app:startIconTint="@color/iconos">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/txtCajaNivel1_CrearCajaNivel2"
+                <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_weight="1"
-                    android:textColorHint="@color/textColorHint"
-                    app:boxStrokeColor="@color/boxStrokeColor"
-                    app:endIconCheckable="false"
-                    app:hintTextColor="@color/hintTextColor"
-                    app:startIconTint="@color/iconos">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:enabled="false"
-                        android:hint="Busca caja nivel 1" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <Button
-                    android:id="@+id/btnBuscarCajaNivel1_CrearCajaNivel2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="1"
-                    tools:ignore="SpeakableTextPresentCheck" />
-
-            </LinearLayout>
+                    android:focusableInTouchMode="false"
+                    android:hint="Busca caja nivel 1" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/txtAbreviatura_CrearCajaNivel2"
@@ -133,6 +118,7 @@
                             android:layout_marginTop="5dp"
                             android:layout_marginRight="20dp"
                             android:layout_marginBottom="5dp"
+                            android:focusableInTouchMode="false"
                             android:textColorHint="@color/textColorHint"
                             app:boxStrokeColor="@color/boxStrokeColor"
                             app:endIconCheckable="false"
@@ -142,7 +128,8 @@
                             <com.google.android.material.textfield.TextInputEditText
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:hint="Hilo en la caja 1" />
+                                android:hint="Hilo en la caja 1"
+                                android:inputType="number" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                     </LinearLayout>
@@ -250,8 +237,9 @@
                             <com.google.android.material.textfield.TextInputEditText
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:enabled="false"
-                                android:hint="Ingrese la latitud" />
+                                android:focusableInTouchMode="false"
+                                android:hint="Ingrese la latitud"
+                                android:inputType="number" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -271,8 +259,9 @@
                             <com.google.android.material.textfield.TextInputEditText
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:enabled="false"
-                                android:hint="Ingrese la longitud" />
+                                android:focusableInTouchMode="false"
+                                android:hint="Ingrese la longitud"
+                                android:inputType="number" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
 

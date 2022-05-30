@@ -41,7 +41,7 @@ public class AdapterCajaNivel1 extends RecyclerView.Adapter<AdapterCajaNivel1.Vi
         holder.txtNombreVlan.setText(lista.get(position).getNombreVlan());
         holder.txtNombreCiudad.setText(lista.get(position).getNombreCiudad());
         holder.txtAbreviatura.setText(lista.get(position).getAbreviatura_cajaNivel1());
-        holder.txtCantidadHilos.setText(lista.get(position).getNumeroHilos_cajaNivel1());
+        holder.txtCantidadHilos.setText(lista.get(position).getNumeroHilos_cajaNivel1()+"");
     }
 
     @Override

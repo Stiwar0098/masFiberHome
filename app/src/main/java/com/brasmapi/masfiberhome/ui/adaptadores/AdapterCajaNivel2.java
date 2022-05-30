@@ -40,8 +40,8 @@ public class AdapterCajaNivel2 extends RecyclerView.Adapter<AdapterCajaNivel2.Vi
         holder.txtReferencia.setText(lista.get(position).getReferencia_CajaNivel2());
         holder.txtNombreCajaNivel1.setText(lista.get(position).getNombreCajaNivel1());
         holder.txtAbreviatura.setText(lista.get(position).getAbreviatura());
-        holder.txtCantidadHilos.setText(lista.get(position).getCantidadHilos());
-        holder.txtHiloCaja1.setText(lista.get(position).getHiloCaja1());
+        holder.txtCantidadHilos.setText(lista.get(position).getCantidadHilos()+"");
+        holder.txtHiloCaja1.setText(lista.get(position).getHiloCaja1()+"");
     }
 
     @Override

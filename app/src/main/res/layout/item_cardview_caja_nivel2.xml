@@ -47,19 +47,6 @@
                     android:textSize="14sp" />
 
                 <TextView
-                    android:id="@+id/lblDireccion_ItemCajaNivel2"
-                    android:layout_width="250dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-
-                    android:layout_marginTop="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginBottom="2dp"
-                    android:text="22/22/22"
-                    android:textColor="@color/letras"
-                    android:textSize="14sp" />
-
-                <TextView
                     android:id="@+id/lblReferencia_ItemCajaNivel2"
                     android:layout_width="180dp"
                     android:layout_height="wrap_content"
@@ -73,6 +60,19 @@
                     android:textSize="14sp" />
 
                 <TextView
+                    android:id="@+id/lblDireccion_ItemCajaNivel2"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="2dp"
+                    android:text="22/22/22"
+                    android:textColor="@color/letras"
+                    android:textSize="14sp" />
+
+                <TextView
                     android:id="@+id/lblCantidadHilos_itemCajaNivel2"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
@@ -80,7 +80,6 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginRight="5dp"
                     android:layout_marginBottom="2dp"
-                    android:layout_weight="1"
                     android:gravity="center"
                     android:text="16"
                     android:textColor="@color/letras"
