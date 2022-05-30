@@ -223,29 +223,38 @@ public class CrearCajaNivel2Fragment extends Fragment implements DialogBuscarCaj
 
     @Override
     public void limpiar() {
-        txtNombreCajaNivel2.getEditText().setText("");
-        txtAbreviatura.getEditText().setText("");
-        txtDireccion.getEditText().setText("");
-        txtReferencia.getEditText().setText("");
-        txtLatitud.getEditText().setText("");
-        txtLongitud.getEditText().setText("");
-        txtNombreCajaNivel1.getEditText().setText("");
-        txtHiloCaja1.getEditText().setText("");
-        switchHiloAutoManu.setChecked(true);
-        txtNombreCajaNivel2.getEditText().requestFocusFromTouch();
+        if (!opc.equals("editar")){
+            txtNombreCajaNivel2.getEditText().setText("");
+            txtAbreviatura.getEditText().setText("");
+            txtDireccion.getEditText().setText("");
+            txtReferencia.getEditText().setText("");
+            txtLatitud.getEditText().setText("");
+            txtLongitud.getEditText().setText("");
+            txtNombreCajaNivel1.getEditText().setText("");
+            txtHiloCaja1.getEditText().setText("");
+            switchHiloAutoManu.setChecked(true);
+            txtNombreCajaNivel2.getEditText().requestFocusFromTouch();
+            txtNombreCajaNivel2.setErrorEnabled(false);
+            txtDireccion.setErrorEnabled(false);
+            txtReferencia.setErrorEnabled(false);
+            txtLatitud.setErrorEnabled(false);
+            txtLongitud.setErrorEnabled(false);
+            txtNombreCajaNivel1.setErrorEnabled(false);
+            spinner.setSelection(0);
+        }
         Procesos.cerrarTeclado(getActivity());
-        txtNombreCajaNivel2.setErrorEnabled(false);
-        txtDireccion.setErrorEnabled(false);
-        txtReferencia.setErrorEnabled(false);
-        txtLatitud.setErrorEnabled(false);
-        txtLongitud.setErrorEnabled(false);
-        txtNombreCajaNivel1.setErrorEnabled(false);
-        spinner.setSelection(0);
         Procesos.cargandoDetener();
-        rangoHilosCaja1.setEstado("activo");
-        rangoHilosCaja1DAO.editarRangoHilosCaja1(rangoHilosCaja1,nombre,context);
+        if (hiloModificado){
+            rangoHilosCaja1.setEstado("activo");
+            rangoHilosCaja1DAO.editarRangoHilosCaja1(rangoHilosCaja1,nombre,context);
+        }
         if (opc.equals("editar")){
-            Navigation.findNavController(getActivity().getCurrentFocus()).navigate(R.id.listaCajasNivel2Fragment);
+            getActivity().onBackPressed();// para retrocede sin que se guarde el activiti anterior  ejemplo a b c
+            // con el codigo de abajo si lo aplico en c para ir a b quedaria asi
+            //a b c b al momento de dar vuelta atras se ir nuevamente a c y luego a b
+            //al aplicar el codigo de arriba en el mismo ejemplo si lo aplicamos en c quedaria asi
+            //a b por ende si doy atras nuevamente se iria a a y ya no a c como el en anterior
+            //Navigation.findNavController(getActivity().getCurrentFocus()).navigate(R.id.listaCajasNivel2Fragment);
         }
     }
 
@@ -313,11 +322,11 @@ public class CrearCajaNivel2Fragment extends Fragment implements DialogBuscarCaj
     @Override
     public void hiloAnterior(RangoHilosCaja1 rangoHilos) {
         rangoHilosCaja1Anterior=rangoHilos;
-        Toast.makeText(context, rangoHilosCaja1Anterior.getId_rangocaja1()+"", Toast.LENGTH_SHORT).show();
     }
-
+    boolean hiloModificado=true;
     public void crearEditar(){
     if (opc.equals("crear")){
+        hiloModificado=true;
         cajaNivel2DAO.crearCajaNivel2(new CajaNivel2(0,
                 nombre,
                 abreviatura,
@@ -348,6 +357,7 @@ public class CrearCajaNivel2Fragment extends Fragment implements DialogBuscarCaj
                 rangoHilosCaja1DAO.editarRangoHilosCaja1Anterior(rangoHilosCaja1Anterior.getId_rangocaja1(),context);
                 cajaNivel2.setHiloCaja1(hiloCaja1);
             }
+            hiloModificado=false;
         }
         cajaNivel2DAO.editarCajaNivel2(cajaNivel2,context,false);
         }
