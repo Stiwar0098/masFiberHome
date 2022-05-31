@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,13 +70,13 @@ public class CrearVlanFragment extends Fragment implements VlanDAO.interfazVlanD
     }
     View vista;
     Context context;
-    TextInputLayout txtNombreVlan, txtNumeroOlt,txtTarjetaOlt,txtPuertoOlt,txtIpInicio,txtIpFin,txtMascara,txtGateway;
+    TextInputLayout txtNombreVlan, txtNumeroOlt,txtTarjetaOlt,txtPuertoOlt,txtIpInicio,txtIpFin,txtMascara,txtGateway, txtNumeroVlan;
     VlanDAO vlanDAO;
     public static Vlan vlan;
     public static String opc=""; // editar/crear
 
     String nombre,ipInicio,ipfin,mascara,gateway;
-    int numeroOlt,tarjetaOlt,puertoOlt;
+    int numeroOlt,tarjetaOlt,puertoOlt,numeroVlan;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -90,6 +92,7 @@ public class CrearVlanFragment extends Fragment implements VlanDAO.interfazVlanD
         txtIpFin =vista.findViewById(R.id.txtIpFin_CrearVlan);
         txtMascara =vista.findViewById(R.id.txtMascara_CrearVlan);
         txtGateway =vista.findViewById(R.id.txtGateway_CrearVlan);
+        txtNumeroVlan =vista.findViewById(R.id.txtNumeroVlan_CrearVlan);
         vlanDAO =new VlanDAO(CrearVlanFragment.this);
         ((MainActivity)getActivity()).setTitle("Crear Vlan");
         if (opc.equals("editar")){
@@ -115,6 +118,7 @@ public class CrearVlanFragment extends Fragment implements VlanDAO.interfazVlanD
                 ipfin=txtIpFin.getEditText().getText().toString().trim();
                 mascara=txtMascara.getEditText().getText().toString().trim();
                 gateway=txtGateway.getEditText().getText().toString().trim();
+                numeroVlan=Integer.parseInt(txtNumeroVlan.getEditText().getText().toString().trim());
                 if(!Procesos.validarDireccionIp(ipInicio)){
                     Toast.makeText(context, "Ip inicio incorrecta", Toast.LENGTH_SHORT).show();
                     txtIpInicio.setError("Error");
@@ -135,7 +139,7 @@ public class CrearVlanFragment extends Fragment implements VlanDAO.interfazVlanD
                         fin=Procesos.extraerNumerosDeIp(ipfin);
                         ini=inicio[3];
                         totalIps=fin[3]-ini+1;
-                        vlanDAO.crearVlan(new Vlan(0,
+                        vlanDAO.crearVlan(new Vlan(0,numeroVlan,
                                 nombre,
                                 numeroOlt,
                                 tarjetaOlt,
@@ -146,6 +150,7 @@ public class CrearVlanFragment extends Fragment implements VlanDAO.interfazVlanD
                                 gateway,
                                 "activo"),context,ini,totalIps);
                     }else{//editar
+                        vlan.setNumeroVlan(numeroVlan);
                         vlan.setNombreVlan(nombre);
                         vlan.setNumeroOlt(numeroOlt);
                         vlan.setTarjetaOlt(tarjetaOlt);
@@ -157,6 +162,26 @@ public class CrearVlanFragment extends Fragment implements VlanDAO.interfazVlanD
                         vlanDAO.editarVlan(vlan,context,false);
                     }
                 }
+            }
+        });
+        txtNumeroVlan.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(!charSequence.toString().equals("")){
+                    txtNombreVlan.getEditText().setText("Vlan "+charSequence);
+                }else{
+                    txtNombreVlan.getEditText().setText("Vlan");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
         return vista;
@@ -181,7 +206,8 @@ public class CrearVlanFragment extends Fragment implements VlanDAO.interfazVlanD
         txtIpFin.getEditText().setText("10.170.");
         txtMascara.getEditText().setText("255.255.255.128");
         txtGateway.getEditText().setText("10.170.");
-        txtNombreVlan.getEditText().requestFocusFromTouch();
+        txtNumeroVlan.getEditText().setText("");
+        txtNumeroVlan.getEditText().requestFocusFromTouch();
         Procesos.cerrarTeclado(getActivity());
         txtNombreVlan.setErrorEnabled(false);
         txtNumeroOlt.setErrorEnabled(false);

@@ -2,6 +2,7 @@ package com.brasmapi.masfiberhome.entidades;
 
 public class Vlan {
     private int id;
+    private int numeroVlan;
     private String nombreVlan;
     private int numeroOlt;
     private int tarjetaOlt;
@@ -15,8 +16,9 @@ public class Vlan {
     public Vlan() {
     }
 
-    public Vlan(int id, String nombreVlan, int numeroOlt, int tarjetaOlt, int puertoOlt, String ipInicio, String ipFin, String mascara, String gateway, String estado) {
+    public Vlan(int id, int numeroVlan, String nombreVlan, int numeroOlt, int tarjetaOlt, int puertoOlt, String ipInicio, String ipFin, String mascara, String gateway, String estado) {
         this.id = id;
+        this.numeroVlan=numeroVlan;
         this.nombreVlan = nombreVlan;
         this.numeroOlt = numeroOlt;
         this.tarjetaOlt = tarjetaOlt;
@@ -26,6 +28,14 @@ public class Vlan {
         this.mascara = mascara;
         this.gateway = gateway;
         this.estado = estado;
+    }
+
+    public int getNumeroVlan() {
+        return numeroVlan;
+    }
+
+    public void setNumeroVlan(int numeroVlan) {
+        this.numeroVlan = numeroVlan;
     }
 
     public int getId() {

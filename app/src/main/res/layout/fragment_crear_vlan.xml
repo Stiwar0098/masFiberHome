@@ -29,6 +29,27 @@
                 android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
+
+                android:id="@+id/txtNumeroVlan_CrearVlan"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:textColorHint="@color/textColorHint"
+                app:boxStrokeColor="@color/boxStrokeColor"
+                app:endIconCheckable="false"
+                app:hintTextColor="@color/hintTextColor"
+                app:startIconTint="@color/iconos">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Numero de vlan"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/txtNombreVlan_CrearVlan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -44,7 +65,9 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Nombre de la Vlan" />
+                    android:focusableInTouchMode="false"
+                    android:hint="Nombre de la Vlan"
+                    android:text="Vlan" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout

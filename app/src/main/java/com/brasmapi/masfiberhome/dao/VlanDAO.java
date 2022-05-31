@@ -44,7 +44,7 @@ public class VlanDAO {
                 for (int i = 0; i < response.length(); i++) {
                     try {
                         JSONObject object = new JSONObject(response.get(i).toString());
-                       as.add(new Vlan(object.getInt("id_vlan"), object.getString("nombre_vlan"), object.getInt("numeroolt_vlan"),object.getInt("tarjetaolt_vlan"), object.getInt("puertoolt_vlan"), object.getString("ipinicio_vlan"), object.getString("ipfin_vlan"), object.getString("mascara_vlan"), object.getString("gateway_vlan"), object.getString("estado_vlan")));
+                        as.add(new Vlan(object.getInt("id_vlan"),object.getInt("numerovlan_vlan"), object.getString("nombre_vlan"), object.getInt("numeroolt_vlan"),object.getInt("tarjetaolt_vlan"), object.getInt("puertoolt_vlan"), object.getString("ipinicio_vlan"), object.getString("ipfin_vlan"), object.getString("mascara_vlan"), object.getString("gateway_vlan"), object.getString("estado_vlan")));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -77,7 +77,7 @@ public class VlanDAO {
                 as = new ArrayList<>();
                 try {
                     JSONObject object = new JSONObject(response.get(0).toString());
-                    as.add(new Vlan(object.getInt("id_vlan"), object.getString("nombre_vlan"), object.getInt("numeroolt_vlan"),object.getInt("tarjetaolt_vlan"), object.getInt("puertoolt_vlan"), object.getString("ipinicio_vlan"), object.getString("ipfin_vlan"), object.getString("mascara_vlan"), object.getString("gateway_vlan"), object.getString("estado_vlan")));
+                    as.add(new Vlan(object.getInt("id_vlan"),object.getInt("numerovlan_vlan"), object.getString("nombre_vlan"), object.getInt("numeroolt_vlan"),object.getInt("tarjetaolt_vlan"), object.getInt("puertoolt_vlan"), object.getString("ipinicio_vlan"), object.getString("ipfin_vlan"), object.getString("mascara_vlan"), object.getString("gateway_vlan"), object.getString("estado_vlan")));
                     Procesos.cargandoDetener();
                     if (interfaz != null) {
                         interfaz.setVlan(as.get(0));
@@ -112,6 +112,7 @@ public class VlanDAO {
             metodo = Request.Method.POST;
             parametros = new JSONObject();
             try {
+                parametros.put("numerovlan_vlan", vlan.getNumeroVlan());
                 parametros.put("nombre_vlan", vlan.getNombreVlan());
                 parametros.put("numeroolt_vlan", vlan.getNumeroOlt());
                 parametros.put("tarjetaolt_vlan", vlan.getTarjetaOlt());
@@ -126,6 +127,7 @@ public class VlanDAO {
             }
         } else {
             consulta = Procesos.url + "/vlan/crearVlan.php?nombre_vlan=" + vlan.getNombreVlan()
+                    + "&numerovlan_vlan=" + vlan.getNumeroVlan()
                     + "&numeroolt_vlan=" + vlan.getNumeroOlt()
                     + "&tarjetaolt_vlan=" + vlan.getTarjetaOlt()
                     + "&puertoolt_vlan=" + vlan.getPuertoOlt()
@@ -179,6 +181,7 @@ public class VlanDAO {
             parametros = new JSONObject();
             try {
                 parametros.put("id_vlan", vlan.getId());
+                parametros.put("numerovlan_vlan", vlan.getNombreVlan());
                 parametros.put("nombre_vlan", vlan.getNombreVlan());
                 parametros.put("numeroolt_vlan", vlan.getNumeroOlt());
                 parametros.put("tarjetaolt_vlan", vlan.getTarjetaOlt());
@@ -193,6 +196,7 @@ public class VlanDAO {
             }
         } else {
             consulta = Procesos.url + "/vlan/editarVlan.php?nombre_vlan=" + vlan.getNombreVlan()
+                    + "&numerovlan_vlan=" + vlan.getNumeroOlt()
                     + "&numeroolt_vlan=" + vlan.getNumeroOlt()
                     + "&tarjetaolt_vlan=" + vlan.getTarjetaOlt()
                     + "&puertoolt_vlan=" + vlan.getPuertoOlt()
