@@ -32,9 +32,6 @@
             android:id="@+id/action_nav_administrar_self"
             app:destination="@id/nav_administrar" />
         <action
-            android:id="@+id/action_nav_administrar_to_nav_migrarip"
-            app:destination="@id/nav_migrarip" />
-        <action
             android:id="@+id/action_nav_administrar_to_listaVlansFragment"
             app:destination="@id/listaVlansFragment" />
         <action
@@ -149,15 +146,6 @@
         <action
             android:id="@+id/action_crearCiudadFragment_to_listaCiudadesFragment"
             app:destination="@id/listaCiudadesFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/nav_migrarip"
-        android:name="com.brasmapi.masfiberhome.ui.MigrarIpFragment"
-        android:label="fragment_migrar_ip"
-        tools:layout="@layout/fragment_migrar_ip" >
-        <action
-            android:id="@+id/action_nav_migrarip_to_nav_administrar"
-            app:destination="@id/nav_administrar" />
     </fragment>
     <fragment
         android:id="@+id/listaVlansFragment"

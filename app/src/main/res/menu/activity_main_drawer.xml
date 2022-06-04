@@ -21,9 +21,6 @@
         <item
             android:id="@+id/nav_migrarCliente"
             android:title="Migrar cliente" />
-        <item
-            android:id="@+id/nav_migrarip"
-            android:title="Migrar ip" />
     </group>
     <group  android:id="@+id/group3"
             android:checkableBehavior="single">

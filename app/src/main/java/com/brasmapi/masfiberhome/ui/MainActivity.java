@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         obtenerPermisosDeUbicacion();
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_administrar,R.id.nav_pendiente, R.id.nav_crearServicio, R.id.nav_migrarCliente,R.id.nav_migrarip,R.id.nav_CerrarSesion_menu)
+                R.id.nav_administrar,R.id.nav_pendiente, R.id.nav_crearServicio, R.id.nav_migrarCliente,R.id.nav_CerrarSesion_menu)
                 .setDrawerLayout(drawer)
                 .build();
 
@@ -170,7 +170,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return true;*/
             case R.id.nav_pendiente:
             case R.id.nav_migrarCliente:
-            case R.id.nav_migrarip:
             case R.id.nav_crearServicio:
               NavigationUI.onNavDestinationSelected(item,navController);
                 ocultarMenu();
