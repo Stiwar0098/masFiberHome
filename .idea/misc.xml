@@ -12,8 +12,11 @@
         <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/layout/fragment_crear_caja_nivel2.xml" value="0.24547101449275363" />
         <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/layout/fragment_crear_ciudad.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/layout/fragment_crear_clientes.xml" value="0.17346014492753623" />
+        <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/layout/fragment_crear_modelo_ont.xml" value="0.18704710144927536" />
         <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/layout/fragment_crear_ont.xml" value="0.20878623188405798" />
         <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/layout/fragment_crear_pais.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/layout/fragment_crear_planes.xml" value="0.19067028985507245" />
+        <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/layout/fragment_crear_provincia.xml" value="0.19067028985507245" />
         <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/layout/fragment_crear_servicio.xml" value="0.2" />
         <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/layout/fragment_crear_vlan.xml" value="0.264" />
         <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/layout/fragment_crearcliente.xml" value="0.13858695652173914" />
@@ -21,12 +24,19 @@
         <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/layout/fragment_home.xml" value="0.264" />
         <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/layout/fragment_lista_cajas_nivel1.xml" value="0.12360688956433637" />
         <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/layout/fragment_lista_cajas_nivel2.xml" value="0.17617753623188406" />
+        <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/layout/fragment_lista_modelo_ont.xml" value="0.19157608695652173" />
+        <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/layout/fragment_lista_planes.xml" value="0.19067028985507245" />
+        <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/layout/fragment_lista_vlans.xml" value="0.19067028985507245" />
         <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/layout/fragment_listar_clientes.xml" value="0.2" />
+        <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/layout/fragment_listar_ont.xml" value="0.19157608695652173" />
         <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/layout/fragment_migrar_ip.xml" value="0.12360688956433637" />
         <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/layout/fragment_slideshow.xml" value="0.12360688956433637" />
         <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/layout/item_cardview_caja_nivel1.xml" value="0.24547101449275363" />
         <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/layout/item_cardview_caja_nivel2.xml" value="0.24547101449275363" />
         <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/layout/item_cardview_clientes.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/layout/item_cardview_modelos_ont.xml" value="0.18704710144927536" />
+        <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/layout/item_cardview_planes.xml" value="0.19067028985507245" />
+        <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/layout/item_cardview_provincia.xml" value="0.19067028985507245" />
         <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/layout/nav_header_main.xml" value="0.12360688956433637" />
         <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/menu/activity_main_drawer.xml" value="0.25025641025641027" />
         <entry key="..\:/Users/super/AndroidStudioProjects/masfiberhome/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1421875" />

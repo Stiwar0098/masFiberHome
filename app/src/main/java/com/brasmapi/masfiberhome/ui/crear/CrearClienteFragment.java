@@ -15,7 +15,7 @@ public class CrearClienteFragment extends Fragment {
     View vista;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        vista=inflater.inflate(R.layout.fragment_crearcliente, container, false);
+        vista=inflater.inflate(R.layout.fragment_crear_clientes, container, false);
 
         return vista;
     }

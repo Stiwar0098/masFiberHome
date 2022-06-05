@@ -22,14 +22,19 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:background="@drawable/fondoarriba" />
+
             <TableLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="85dp">
+                    android:layout_height="match_parent">
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/btnCrearusuario_administrador"
@@ -105,6 +110,7 @@
                     android:layout_marginTop="7dp">
 
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/btnClientes_adminsitrador"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:layout_marginLeft="20dp"
@@ -135,6 +141,46 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/btnPlanes_administrador"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:foreground="?selectableItemBackground">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="5dp"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:src="@drawable/ciudad" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="Planes"
+                                android:textColor="@color/black"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="7dp">
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/btnOnt_administrador"
@@ -169,13 +215,6 @@
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="7dp">
-
                     <androidx.cardview.widget.CardView
                         android:id="@+id/btnModeloOnt_administrador"
                         android:layout_width="100dp"
@@ -208,6 +247,13 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="7dp">
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/btnListarCajaNivel1_administrador"
@@ -242,13 +288,6 @@
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="7dp">
-
                     <androidx.cardview.widget.CardView
                         android:id="@+id/btnListarCajaNivel2_Administrador"
                         android:layout_width="100dp"
@@ -281,6 +320,13 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="7dp">
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/btnListarVlans_administrador"
@@ -315,13 +361,6 @@
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="7dp">
-
                     <androidx.cardview.widget.CardView
                         android:id="@+id/btnListarPais_administrador"
                         android:layout_width="100dp"
@@ -355,6 +394,13 @@
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="7dp">
+
                     <androidx.cardview.widget.CardView
                         android:id="@+id/btnListarProvincia_administrador"
                         android:layout_width="100dp"
@@ -387,13 +433,6 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
-
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="7dp">
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/btnListarCiudad_administrador"
@@ -439,14 +478,5 @@
 
         </LinearLayout>
     </ScrollView>
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="100dp"
-        android:background="@drawable/fondoarriba"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

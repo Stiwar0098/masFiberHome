@@ -43,6 +43,24 @@
         <action
             android:id="@+id/action_nav_administrar_to_listaCajasNivel2Fragment"
             app:destination="@id/listaCajasNivel2Fragment" />
+        <action
+            android:id="@+id/action_nav_administrar_to_listaPlanesFragment"
+            app:destination="@id/listaPlanesFragment" />
+        <action
+            android:id="@+id/action_nav_administrar_to_listaModeloOntFragment"
+            app:destination="@id/listaModeloOntFragment" />
+        <action
+            android:id="@+id/action_nav_administrar_self2"
+            app:destination="@id/nav_administrar" />
+        <action
+            android:id="@+id/action_nav_administrar_to_listarClientesFragment"
+            app:destination="@id/listarClientesFragment" />
+        <action
+            android:id="@+id/action_nav_administrar_to_listarOntFragment"
+            app:destination="@id/listarOntFragment" />
+        <action
+            android:id="@+id/action_nav_administrar_to_listarServiciosFragment"
+            app:destination="@id/listarServiciosFragment" />
     </fragment>
 
     <fragment
@@ -52,6 +70,9 @@
         <action
             android:id="@+id/action_nav_crearCliente_to_nav_administrar"
             app:destination="@id/nav_administrar" />
+        <action
+            android:id="@+id/action_nav_crearServicio_to_listarServiciosFragment"
+            app:destination="@id/listarServiciosFragment" />
     </fragment>
 
     <fragment
@@ -201,5 +222,101 @@
         <action
             android:id="@+id/action_crearCajaNivel2Fragment_to_listaCajasNivel2Fragment"
             app:destination="@id/listaCajasNivel2Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/crearPlanesFragment"
+        android:name="com.brasmapi.masfiberhome.CrearPlanesFragment"
+        android:label="fragment_crear_planes"
+        tools:layout="@layout/fragment_crear_planes" >
+        <action
+            android:id="@+id/action_crearPlanesFragment_to_listaPlanesFragment"
+            app:destination="@id/listaPlanesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/listaPlanesFragment"
+        android:name="com.brasmapi.masfiberhome.ListaPlanesFragment"
+        android:label="fragment_lista_planes"
+        tools:layout="@layout/fragment_lista_planes" >
+        <action
+            android:id="@+id/action_listaPlanesFragment_to_crearPlanesFragment"
+            app:destination="@id/crearPlanesFragment" />
+        <action
+            android:id="@+id/action_listaPlanesFragment_to_nav_administrar"
+            app:destination="@id/nav_administrar" />
+    </fragment>
+    <fragment
+        android:id="@+id/crearClientesFragment"
+        android:name="com.brasmapi.masfiberhome.CrearClientesFragment"
+        android:label="fragment_crear_clientes"
+        tools:layout="@layout/fragment_crear_clientes" >
+        <action
+            android:id="@+id/action_crearClientesFragment_to_listarClientesFragment"
+            app:destination="@id/listarClientesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/crearModeloOntFragment"
+        android:name="com.brasmapi.masfiberhome.CrearModeloOntFragment"
+        android:label="fragment_crear_modelo_ont"
+        tools:layout="@layout/fragment_crear_modelo_ont" >
+        <action
+            android:id="@+id/action_crearModeloOntFragment_to_listaModeloOntFragment"
+            app:destination="@id/listaModeloOntFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/listaModeloOntFragment"
+        android:name="com.brasmapi.masfiberhome.ListaModeloOntFragment"
+        android:label="fragment_lista_modelo_ont"
+        tools:layout="@layout/fragment_lista_modelo_ont" >
+        <action
+            android:id="@+id/action_listaModeloOntFragment_to_crearModeloOntFragment"
+            app:destination="@id/crearModeloOntFragment" />
+        <action
+            android:id="@+id/action_listaModeloOntFragment_to_nav_administrar"
+            app:destination="@id/nav_administrar" />
+    </fragment>
+    <fragment
+        android:id="@+id/listarClientesFragment"
+        android:name="com.brasmapi.masfiberhome.ListarClientesFragment"
+        android:label="fragment_listar_clientes"
+        tools:layout="@layout/fragment_listar_clientes" >
+        <action
+            android:id="@+id/action_listarClientesFragment_to_crearClientesFragment"
+            app:destination="@id/crearClientesFragment" />
+        <action
+            android:id="@+id/action_listarClientesFragment_to_nav_administrar"
+            app:destination="@id/nav_administrar" />
+    </fragment>
+    <fragment
+        android:id="@+id/listarOntFragment"
+        android:name="com.brasmapi.masfiberhome.ListarOntFragment"
+        android:label="fragment_listar_ont"
+        tools:layout="@layout/fragment_listar_ont" >
+        <action
+            android:id="@+id/action_listarOntFragment_to_crearOntFragment"
+            app:destination="@id/crearOntFragment" />
+        <action
+            android:id="@+id/action_listarOntFragment_to_nav_administrar"
+            app:destination="@id/nav_administrar" />
+    </fragment>
+    <fragment
+        android:id="@+id/crearOntFragment"
+        android:name="com.brasmapi.masfiberhome.CrearOntFragment"
+        android:label="fragment_crear_ont"
+        tools:layout="@layout/fragment_crear_ont" >
+        <action
+            android:id="@+id/action_crearOntFragment_to_listarOntFragment"
+            app:destination="@id/listarOntFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/listarServiciosFragment"
+        android:name="com.brasmapi.masfiberhome.ListarServiciosFragment"
+        android:label="fragment_listar_servicios"
+        tools:layout="@layout/fragment_listar_servicios" >
+        <action
+            android:id="@+id/action_listarServiciosFragment_to_nav_crearServicio"
+            app:destination="@id/nav_crearServicio" />
+        <action
+            android:id="@+id/action_listarServiciosFragment_to_nav_administrar"
+            app:destination="@id/nav_administrar" />
     </fragment>
 </navigation>

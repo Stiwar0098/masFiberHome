@@ -21,7 +21,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     View vista;
     Context context;
-    CardView btnListarUsuario,btnListarProvincia,btnListarPais, btnListarCiudad,btnListarVlans,btnListarCajaNivel1,btnListarCajaNivel2;
+    CardView btnListarUsuario,btnListarProvincia,btnListarPais, btnListarCiudad,btnListarVlans,btnListarCajaNivel1
+            ,btnListarCajaNivel2,btnListarPlanes,btnListarModeloOnt,btnListarClientes,btnListarOnt,btnListarServicio;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         vista=inflater.inflate(R.layout.fragment_home, container, false);
@@ -35,6 +37,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         btnListarVlans = vista.findViewById(R.id.btnListarVlans_administrador);
         btnListarCajaNivel1 = vista.findViewById(R.id.btnListarCajaNivel1_administrador);
         btnListarCajaNivel2 = vista.findViewById(R.id.btnListarCajaNivel2_Administrador);
+        btnListarPlanes = vista.findViewById(R.id.btnPlanes_administrador);
+        btnListarModeloOnt = vista.findViewById(R.id.btnModeloOnt_administrador);
+        btnListarClientes = vista.findViewById(R.id.btnClientes_adminsitrador);
+        btnListarOnt = vista.findViewById(R.id.btnOnt_administrador);
+        btnListarServicio = vista.findViewById(R.id.btnServicio_administrador);
+        btnListarPlanes.setOnClickListener(this);
+        btnListarServicio.setOnClickListener(this);
+        btnListarOnt.setOnClickListener(this);
+        btnListarClientes.setOnClickListener(this);
+        btnListarModeloOnt.setOnClickListener(this);
         btnListarCiudad.setOnClickListener(this);
         btnListarUsuario.setOnClickListener(this);
         btnListarPais.setOnClickListener(this);
@@ -97,6 +109,31 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 Navigation.findNavController(v).navigate(R.id.listaCajasNivel2Fragment);
                 //fragmentTransaction.replace(R.id.contenedor, new ListaCiudadesFragment());
                 titulo="Listar cajas nivel 2";
+                break;
+            case R.id.btnPlanes_administrador:
+                Navigation.findNavController(v).navigate(R.id.listaPlanesFragment);
+                //fragmentTransaction.replace(R.id.contenedor, new ListaCiudadesFragment());
+                titulo="Listar planes";
+                break;
+            case R.id.btnModeloOnt_administrador:
+                Navigation.findNavController(v).navigate(R.id.listaModeloOntFragment);
+                //fragmentTransaction.replace(R.id.contenedor, new ListaCiudadesFragment());
+                titulo="Listar modelos ont";
+                break;
+            case R.id.btnClientes_adminsitrador:
+                Navigation.findNavController(v).navigate(R.id.listarClientesFragment);
+                //fragmentTransaction.replace(R.id.contenedor, new ListaCiudadesFragment());
+                titulo="Listar clientes";
+                break;
+            case R.id.btnOnt_administrador:
+                Navigation.findNavController(v).navigate(R.id.listarOntFragment);
+                //fragmentTransaction.replace(R.id.contenedor, new ListaCiudadesFragment());
+                titulo="Listar onts";
+                break;
+            case R.id.btnServicio_administrador:
+                Navigation.findNavController(v).navigate(R.id.listarServiciosFragment);
+                //fragmentTransaction.replace(R.id.contenedor, new ListaCiudadesFragment());
+                titulo="Listar servicios";
                 break;
         }
         fragmentTransaction.addToBackStack(null);
