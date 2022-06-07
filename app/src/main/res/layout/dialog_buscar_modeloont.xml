@@ -52,6 +52,7 @@
                 android:layout_weight="1">
 
                 <TextView
+                    android:id="@+id/lblModelosOntRegistrados"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
@@ -60,7 +61,7 @@
                     android:paddingTop="5dp"
                     android:paddingRight="20dp"
                     android:paddingBottom="5dp"
-                    android:text="No hay vlans registradas"
+                    android:text="No hay modelos registrados"
                     android:textColor="@color/letras"
                     android:visibility="gone"
                     app:layout_constraintTop_toTopOf="parent"

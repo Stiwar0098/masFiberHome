@@ -1,8 +1,8 @@
 package com.brasmapi.masfiberhome.entidades;
 
 public class Planes {
-    int id,nombre;
-    String estado;
+    private int id,nombre;
+    private String estado;
 
     public Planes() {
     }

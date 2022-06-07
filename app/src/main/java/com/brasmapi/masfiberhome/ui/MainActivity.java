@@ -14,11 +14,13 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.brasmapi.masfiberhome.CrearClientesFragment;
 import com.brasmapi.masfiberhome.Procesos;
 import com.brasmapi.masfiberhome.R;
 import com.brasmapi.masfiberhome.dao.UsuariosDAO;
 import com.brasmapi.masfiberhome.entidades.Usuario;
 import com.brasmapi.masfiberhome.ui.crear.CrearClienteFragment;
+import com.brasmapi.masfiberhome.ui.crear.CrearServicioFragment;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
@@ -185,27 +187,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return super.onOptionsItemSelected(item);
         }
     }
-    public  void cambiarFragment(Fragment fragment, String titulo, int anterior,int actual){
-        if(anterior!=actual){
-            MenuItem menuItem = navigationView.getMenu().getItem(anterior);
-            menuItem.setChecked(false);
-        }
-        itemMenuSeleccionadoAnterior=actual;
-        MenuItem item = navigationView.getMenu().getItem(actual);
-        item.setChecked(true);
-        // Crear fragmento de tu clase
-        // Obtener el administrador de fragmentos a través de la actividad
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        // Definir una transacción
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        // Remplazar el contenido principal por el fragmento
-        fragmentTransaction.replace(R.id.contenedor, fragment);
-        fragmentTransaction.addToBackStack(null);
-        // Cambiar
-        fragmentTransaction.commit();
-        setTitle(titulo);
-        ocultarMenu();
-    }
 
     public void validadRolUsuario(){
         if(Procesos.user!=null){
@@ -220,11 +201,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ((TextView) header.findViewById(R.id.lblNombre_menu)).setText(Procesos.user.getNombre());
             ((TextView) header.findViewById(R.id.lblRol_menu)).setText(rol);
             if(Procesos.user.getRol()==2){// si es tecnico
-                cambiarFragment(new CrearClienteFragment(),"Crear cliente",itemMenuSeleccionadoAnterior,1);
                 MenuItem menuItem = navigationView.getMenu().getItem(0);
                 menuItem.setVisible(false);
                 menuItem = navigationView.getMenu().getItem(1);
                 menuItem.setVisible(false);
+                navController.navigate(R.id.nav_crearServicio);
+                //cambiarFragment(new CrearServicioFragment(),"Crear cliente",itemMenuSeleccionadoAnterior,1);
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                // Definir una transacción
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                // Remplazar el contenido principal por el fragmento
+                //fragmentTransaction.replace(R.id.contenedor, fragment);
+                fragmentTransaction.addToBackStack(null);
+                // Cambiar
+                fragmentTransaction.commit();
+                ocultarMenu();
+            }else{
+                Procesos.cargandoDetener();
             }
         }
     }

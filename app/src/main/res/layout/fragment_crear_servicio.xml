@@ -65,6 +65,7 @@
                     android:id="@+id/switchServiport_CrearServicio"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:checked="true"
                     android:text="Automático"
                     android:thumbTint="@color/botones" />
@@ -274,6 +275,7 @@
                     android:id="@+id/switchHiloCaja2_CrearServicio"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:checked="true"
                     android:text="Automático"
                     android:thumbTint="@color/botones" />
@@ -316,6 +318,7 @@
                     android:id="@+id/switchDireccionIp_CrearServicio"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
                     android:checked="true"
                     android:text="Automático"
                     android:thumbTint="@color/botones" />

@@ -1,4 +1,4 @@
-package com.brasmapi.masfiberhome;
+package com.brasmapi.masfiberhome.ui.crear;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -8,13 +8,12 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Spinner;
-import android.widget.Toast;
 
-import com.brasmapi.masfiberhome.dao.ModeloOntDAO;
-import com.brasmapi.masfiberhome.entidades.ModeloOnt;
+import com.brasmapi.masfiberhome.Procesos;
+import com.brasmapi.masfiberhome.R;
+import com.brasmapi.masfiberhome.dao.PlanesDAO;
+import com.brasmapi.masfiberhome.entidades.Planes;
 import com.brasmapi.masfiberhome.ui.MainActivity;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -22,10 +21,10 @@ import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link CrearModeloOntFragment#newInstance} factory method to
+ * Use the {@link CrearPlanesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CrearModeloOntFragment extends Fragment implements ModeloOntDAO.interfazModeloOntDAO {
+public class CrearPlanesFragment extends Fragment implements PlanesDAO.interfazPlanesDAO {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -36,7 +35,7 @@ public class CrearModeloOntFragment extends Fragment implements ModeloOntDAO.int
     private String mParam1;
     private String mParam2;
 
-    public CrearModeloOntFragment() {
+    public CrearPlanesFragment() {
         // Required empty public constructor
     }
 
@@ -46,11 +45,11 @@ public class CrearModeloOntFragment extends Fragment implements ModeloOntDAO.int
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment CrearModeloOntFragment.
+     * @return A new instance of fragment CrearPlanesFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static CrearModeloOntFragment newInstance(String param1, String param2) {
-        CrearModeloOntFragment fragment = new CrearModeloOntFragment();
+    public static CrearPlanesFragment newInstance(String param1, String param2) {
+        CrearPlanesFragment fragment = new CrearPlanesFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -68,49 +67,37 @@ public class CrearModeloOntFragment extends Fragment implements ModeloOntDAO.int
     }
     View vista;
     Context context;
-    TextInputLayout txtNombreModeloOnt;
-    Spinner spinnerTipoModeloOnt;
-    ModeloOntDAO modeloOntDAO;
-    public static ModeloOnt modeloOnt;
+    TextInputLayout txtNombrePlanes;
+    PlanesDAO PlanesDAO;
+    public static Planes planes;
     public static String opc=""; // editar/crear
-    String nombre,tipo;
+    int nombre;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        vista= inflater.inflate(R.layout.fragment_crear_modelo_ont, container, false);
+        vista= inflater.inflate(R.layout.fragment_crear_planes, container, false);
         context=getActivity();
-        Button btnguardar=(Button)vista.findViewById(R.id.btnGuardar_CrearModeloOnt);
-        txtNombreModeloOnt =vista.findViewById(R.id.txtNombre_crearModeloOnt);
-        spinnerTipoModeloOnt =vista.findViewById(R.id.spinnerTipo_CrearModeloOnt);
-        modeloOntDAO =new ModeloOntDAO(CrearModeloOntFragment.this);
-        String [] opciones={"Selecionar tipo de ont","NORMAL","DOBLE BANDA","BRIDGE"};
-        ArrayAdapter<String> adapter= new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item,opciones);
-        spinnerTipoModeloOnt.setAdapter(adapter);
-        ((MainActivity)getActivity()).setTitle("Crear ModeloOnt");
+        Button btnguardar=(Button)vista.findViewById(R.id.btnGuardar_CrearPlanes);
+        txtNombrePlanes =vista.findViewById(R.id.txtNombrePlan_CrearPlan);
+        PlanesDAO =new PlanesDAO(CrearPlanesFragment.this);
+        ((MainActivity)getActivity()).setTitle("Crear Planes");
         if (opc.equals("editar")){
             btnguardar.setText("Editar");
-            txtNombreModeloOnt.getEditText().setText(modeloOnt.getNombre_modeloOnt());
-            for (int i=0;i<opciones.length;i++){
-                if(modeloOnt.getTipo_modeloOnt().equals(spinnerTipoModeloOnt.getItemAtPosition(i))){
-                    spinnerTipoModeloOnt.setSelection(i);
-                }
-            }
-            ((MainActivity)getActivity()).setTitle("Editar ModeloOnt");
+            txtNombrePlanes.getEditText().setText(planes.getNombre()+"");
+            ((MainActivity)getActivity()).setTitle("Editar Planes");
         }
         btnguardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nombre = txtNombreModeloOnt.getEditText().getText().toString().trim();
-                tipo=spinnerTipoModeloOnt.getSelectedItem().toString();
+                nombre = Integer.parseInt(txtNombrePlanes.getEditText().getText().toString().trim());
                 if (opc.equals("crear")) {
-                    modeloOntDAO.crearModeloOnt(new ModeloOnt(0,
-                            nombre,tipo,
+                    PlanesDAO.crearPlanes(new Planes(0,
+                            nombre,
                             "activo"), context);
                 } else {//editar
-                    modeloOnt.setNombre_modeloOnt(nombre);
-                    modeloOnt.setTipo_modeloOnt(tipo);
-                    modeloOntDAO.editarModeloOnt(modeloOnt, context, false);
+                    planes.setNombre(nombre);
+                    PlanesDAO.editarPlanes(planes, context, false);
                 }
             }
         });
@@ -118,19 +105,18 @@ public class CrearModeloOntFragment extends Fragment implements ModeloOntDAO.int
     }
 
     @Override
-    public void setModeloOnt(ModeloOnt ModeloOnt) {
+    public void setPlanes(Planes Planes) {
         
     }
 
     @Override
-    public void setListaModeloOnt(List<ModeloOnt> lista) {
+    public void setListaPlanes(List<Planes> lista) {
 
     }
 
     @Override
     public void limpiar() {
-        txtNombreModeloOnt.getEditText().setText("");
-        spinnerTipoModeloOnt.setSelection(0);
+        txtNombrePlanes.getEditText().setText("");
         Procesos.cerrarTeclado(getActivity());
         Procesos.cargandoDetener();
         if (opc.equals("editar")){

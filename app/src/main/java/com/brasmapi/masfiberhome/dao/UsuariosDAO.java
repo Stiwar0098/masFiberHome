@@ -82,7 +82,6 @@ public class UsuariosDAO {
                         JSONObject object = new JSONObject(response.get(0).toString());
                         as.add(new Usuario(Integer.parseInt(object.getString("id_usuario")),object.getString("nombre_usuario"),object.getString("usuario_usuario"),object.getString("contraseña_usuario"),Integer.parseInt(object.getString("id_rol")),object.getString("estado_usuario")));
                         Procesos.user= as.get(0);
-                        Procesos.cargandoDetener();
                         if (interfaz!=null){
                             interfaz.usuarioSelecionado();
                         }

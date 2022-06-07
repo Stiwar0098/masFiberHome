@@ -225,7 +225,7 @@
     </fragment>
     <fragment
         android:id="@+id/crearPlanesFragment"
-        android:name="com.brasmapi.masfiberhome.CrearPlanesFragment"
+        android:name="com.brasmapi.masfiberhome.ui.crear.CrearPlanesFragment"
         android:label="fragment_crear_planes"
         tools:layout="@layout/fragment_crear_planes" >
         <action
@@ -234,7 +234,7 @@
     </fragment>
     <fragment
         android:id="@+id/listaPlanesFragment"
-        android:name="com.brasmapi.masfiberhome.ListaPlanesFragment"
+        android:name="com.brasmapi.masfiberhome.ui.listar.ListaPlanesFragment"
         android:label="fragment_lista_planes"
         tools:layout="@layout/fragment_lista_planes" >
         <action
@@ -255,7 +255,7 @@
     </fragment>
     <fragment
         android:id="@+id/crearModeloOntFragment"
-        android:name="com.brasmapi.masfiberhome.CrearModeloOntFragment"
+        android:name="com.brasmapi.masfiberhome.ui.crear.CrearModeloOntFragment"
         android:label="fragment_crear_modelo_ont"
         tools:layout="@layout/fragment_crear_modelo_ont" >
         <action
@@ -264,7 +264,7 @@
     </fragment>
     <fragment
         android:id="@+id/listaModeloOntFragment"
-        android:name="com.brasmapi.masfiberhome.ListaModeloOntFragment"
+        android:name="com.brasmapi.masfiberhome.ui.listar.ListaModeloOntFragment"
         android:label="fragment_lista_modelo_ont"
         tools:layout="@layout/fragment_lista_modelo_ont" >
         <action

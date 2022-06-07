@@ -149,7 +149,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:insetBottom="6dp"
-                android:text="Crear nueva Caja"
+                android:text="Crear nuevo cliente"
                 android:textColor="@color/white" />
         </LinearLayout>
 

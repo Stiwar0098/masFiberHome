@@ -1,4 +1,4 @@
-package com.brasmapi.masfiberhome;
+package com.brasmapi.masfiberhome.ui.listar;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -23,12 +23,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.brasmapi.masfiberhome.dao.ModeloOntDAO;
-import com.brasmapi.masfiberhome.entidades.ModeloOnt;
-import com.brasmapi.masfiberhome.entidades.ModeloOnt;
+import com.brasmapi.masfiberhome.ui.crear.CrearPlanesFragment;
+import com.brasmapi.masfiberhome.Procesos;
+import com.brasmapi.masfiberhome.R;
+import com.brasmapi.masfiberhome.dao.PlanesDAO;
+import com.brasmapi.masfiberhome.entidades.Planes;
 import com.brasmapi.masfiberhome.ui.MainActivity;
-import com.brasmapi.masfiberhome.ui.adaptadores.AdapterModeloOnt;
-import com.brasmapi.masfiberhome.ui.adaptadores.AdapterModeloOnt;
+import com.brasmapi.masfiberhome.ui.adaptadores.AdapterPlanes;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
@@ -36,10 +37,10 @@ import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ListaModeloOntFragment#newInstance} factory method to
+ * Use the {@link ListaPlanesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ListaModeloOntFragment extends Fragment implements ModeloOntDAO.interfazModeloOntDAO {
+public class ListaPlanesFragment extends Fragment implements PlanesDAO.interfazPlanesDAO {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -50,7 +51,7 @@ public class ListaModeloOntFragment extends Fragment implements ModeloOntDAO.int
     private String mParam1;
     private String mParam2;
 
-    public ListaModeloOntFragment() {
+    public ListaPlanesFragment() {
         // Required empty public constructor
     }
 
@@ -60,11 +61,11 @@ public class ListaModeloOntFragment extends Fragment implements ModeloOntDAO.int
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ListaModeloOntFragment.
+     * @return A new instance of fragment ListaPlanesFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ListaModeloOntFragment newInstance(String param1, String param2) {
-        ListaModeloOntFragment fragment = new ListaModeloOntFragment();
+    public static ListaPlanesFragment newInstance(String param1, String param2) {
+        ListaPlanesFragment fragment = new ListaPlanesFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -83,10 +84,10 @@ public class ListaModeloOntFragment extends Fragment implements ModeloOntDAO.int
     View vista;
     Button btnCrear;
     static Context context;
-    static ModeloOntDAO ModeloOntDAO;
-    public static AdapterModeloOnt adaptador;
+    static PlanesDAO planesDAO;
+    public static AdapterPlanes adaptador;
     public static RecyclerView recyclerView;
-    public static List<ModeloOnt> lista;
+    public static List<Planes> lista;
     TextInputLayout txtBuscar;
     FragmentManager fragmentManager;
     static FragmentTransaction fragmentTransaction;
@@ -95,14 +96,14 @@ public class ListaModeloOntFragment extends Fragment implements ModeloOntDAO.int
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        vista= inflater.inflate(R.layout.fragment_lista_modelo_ont, container, false);
+        vista= inflater.inflate(R.layout.fragment_lista_planes, container, false);
         context=getActivity();
-        ModeloOntDAO =new ModeloOntDAO(ListaModeloOntFragment.this);
-        ((MainActivity)getActivity()).setTitle("Listar ModeloOnt");
+        planesDAO =new PlanesDAO(ListaPlanesFragment.this);
+        ((MainActivity)getActivity()).setTitle("Listar Planes");
         mostrarDatos("");
-        btnCrear =(Button)vista.findViewById(R.id.btnCrearModeloOnt_ListaModeloOnt);
-        txtBuscar=(TextInputLayout)vista.findViewById(R.id.txtBuscar_ListaModeloOnt);
-        refreshLayout=(SwipeRefreshLayout)vista.findViewById(R.id.refreshRecycler_listaModeloOnt);
+        btnCrear =(Button)vista.findViewById(R.id.btnCrearPlan_ListaPlan);
+        txtBuscar=(TextInputLayout)vista.findViewById(R.id.txtBuscar_ListaPlan);
+        refreshLayout=(SwipeRefreshLayout)vista.findViewById(R.id.refreshRecycler_listaPlan);
         fragmentManager = getActivity().getSupportFragmentManager();
         // Definir una transacción
         fragmentTransaction = fragmentManager.beginTransaction();
@@ -110,8 +111,8 @@ public class ListaModeloOntFragment extends Fragment implements ModeloOntDAO.int
         btnCrear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CrearModeloOntFragment.opc="crear";
-                Navigation.findNavController(v).navigate(R.id.crearModeloOntFragment);
+                CrearPlanesFragment.opc="crear";
+                Navigation.findNavController(v).navigate(R.id.crearPlanesFragment);
                 fragmentTransaction.addToBackStack(null);
                 // Cambiar
                 fragmentTransaction.commit();
@@ -148,29 +149,29 @@ public class ListaModeloOntFragment extends Fragment implements ModeloOntDAO.int
     }
     public void mostrarDatos(String filtrar){
         // crear lista de carview dentro del recycleview
-        recyclerView = (RecyclerView)vista.findViewById(R.id.recyclerView_ListaModeloOnt);
+        recyclerView = (RecyclerView)vista.findViewById(R.id.recyclerView_ListaPlan);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        ModeloOntDAO.filtarModeloOnt(filtrar, vista.getContext(),false);
+        planesDAO.filtarPlanes(filtrar, vista.getContext(),false);
     }
     public static void cargar(){
         if(lista==null){
-            Toast.makeText(context, "No hay ModeloOnt", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "No hay Planes", Toast.LENGTH_SHORT).show();
             lista= new ArrayList<>();
-            adaptador = new AdapterModeloOnt(lista);
+            adaptador = new AdapterPlanes(lista);
             recyclerView.setAdapter(adaptador);
             adaptador.notifyDataSetChanged();
         }else{
-            adaptador = new AdapterModeloOnt(lista);
+            adaptador = new AdapterPlanes(lista);
             recyclerView.setAdapter(adaptador);
             adaptador.notifyDataSetChanged();
             adaptador.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    CrearModeloOntFragment.opc="editar";
-                    ModeloOnt us = lista.get(recyclerView.getChildAdapterPosition(v));
+                    CrearPlanesFragment.opc="editar";
+                    Planes us = lista.get(recyclerView.getChildAdapterPosition(v));
 
-                    CrearModeloOntFragment.modeloOnt =us;
-                    Navigation.findNavController(v).navigate(R.id.crearModeloOntFragment);
+                    CrearPlanesFragment.planes =us;
+                    Navigation.findNavController(v).navigate(R.id.crearPlanesFragment);
                     fragmentTransaction.addToBackStack(null);
                     // Cambiar
                     fragmentTransaction.commit();
@@ -179,7 +180,7 @@ public class ListaModeloOntFragment extends Fragment implements ModeloOntDAO.int
             adaptador.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    ModeloOnt us = lista.get(recyclerView.getChildAdapterPosition(v));
+                    Planes us = lista.get(recyclerView.getChildAdapterPosition(v));
                     eliminarRegistroDialog(us);
                     return true;
                 }
@@ -188,29 +189,29 @@ public class ListaModeloOntFragment extends Fragment implements ModeloOntDAO.int
         }
         Procesos.cargandoDetener();
     }
-    private static void eliminarRegistroDialog(ModeloOnt us) {
+    private static void eliminarRegistroDialog(Planes us) {
         AlertDialog.Builder builder= new AlertDialog.Builder(context);
         builder.setTitle("Opciones");
-        builder.setMessage("¿Elija la opcion que desea con: "+us.getNombre_modeloOnt()+" ?")
+        builder.setMessage("¿Elija la opcion que desea con: "+us.getNombre()+" ?")
                 .setPositiveButton("Eliminar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(final DialogInterface dialog, int which) {
                         dialog.dismiss();
                         AlertDialog.Builder builder= new AlertDialog.Builder(context);
                         builder.setTitle("Eliminar");
-                        builder.setMessage("¿Que tipo de eliminacion desea realizar: "+us.getNombre_modeloOnt()+" ?")
+                        builder.setMessage("¿Que tipo de eliminacion desea realizar: "+us.getNombre()+" ?")
                                 .setPositiveButton("Normal", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(final DialogInterface dialog, int which) {
                                         dialog.dismiss();
                                         AlertDialog.Builder builder= new AlertDialog.Builder(context);
                                         builder.setTitle("Eliminar normal");
-                                        builder.setMessage("¿Está seguro que desea realizar una eliminacion normal: "+us.getNombre_modeloOnt()+" ?")
+                                        builder.setMessage("¿Está seguro que desea realizar una eliminacion normal: "+us.getNombre()+" ?")
                                                 .setPositiveButton("Si", new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(final DialogInterface dialog, int which) {
                                                         dialog.dismiss();
-                                                        ModeloOntDAO.eliminarModeloOnt(us.getId_modeloOnt(),context);
+                                                        planesDAO.eliminarPlanes(us.getId(),context);
                                                     }
                                                 })
                                                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -231,13 +232,13 @@ public class ListaModeloOntFragment extends Fragment implements ModeloOntDAO.int
                                         final EditText contraAdmin = new EditText(context);
                                         contraAdmin.setInputType(InputType.TYPE_CLASS_TEXT);
                                         dial.setView(contraAdmin);
-                                        dial.setMessage("Para poder elimanar en cascada: "+us.getNombre_modeloOnt()+"%n ingrese la contraseña admin ")
+                                        dial.setMessage("Para poder elimanar en cascada: "+us.getNombre()+"%n ingrese la contraseña admin ")
                                                 .setPositiveButton("Eliminar", new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(final DialogInterface dialog, int which) {
                                                         dialog.dismiss();
                                                         if (contraAdmin.getText().toString().trim().equals("pullasancho")){
-                                                            ModeloOntDAO.eliminarModeloOntCascada(us.getId_modeloOnt(),context);
+                                                            planesDAO.eliminarPlanesCascada(us.getId(),context);
                                                         }else{
                                                             Toast.makeText(context, "contraseña incorrecta", Toast.LENGTH_SHORT).show();
                                                             contraAdmin.setText("");
@@ -268,13 +269,13 @@ public class ListaModeloOntFragment extends Fragment implements ModeloOntDAO.int
                         dialog.dismiss();
                         AlertDialog.Builder builder= new AlertDialog.Builder(context);
                         builder.setTitle("Desactivar");
-                        builder.setMessage("¿Está seguro que desea desactivar: "+us.getNombre_modeloOnt()+" ?")
+                        builder.setMessage("¿Está seguro que desea desactivar: "+us.getNombre()+" ?")
                                 .setPositiveButton("Si", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(final DialogInterface dialog, int which) {
                                         dialog.dismiss();
-                                        us.setEstado_modeloOnt("desactivo");
-                                        ModeloOntDAO.editarModeloOnt(us,context,true);
+                                        us.setEstado("desactivo");
+                                        planesDAO.editarPlanes(us,context,true);
                                     }
                                 })
                                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -299,24 +300,24 @@ public class ListaModeloOntFragment extends Fragment implements ModeloOntDAO.int
     private void filtrar(String filtrar){
         if (lista!=null){
             Procesos.cargandoIniciar(context);
-            List<ModeloOnt> aux2=new ArrayList<>();
-            for (ModeloOnt aux:lista) {
-                if(String.valueOf(aux.getNombre_modeloOnt()).toLowerCase().contains(filtrar.toLowerCase())){
+            List<Planes> aux2=new ArrayList<>();
+            for (Planes aux:lista) {
+                if(String.valueOf(aux.getNombre()).toLowerCase().contains(filtrar.toLowerCase())){
                     aux2.add(aux);
                 }
             }
-            adaptador.setAdapterItemBuscarModeloOnt(aux2);
+            adaptador.setAdapterItemBuscarPlanes(aux2);
             adaptador.notifyDataSetChanged();
             Procesos.cargandoDetener();
         }
     }
     @Override
-    public void setModeloOnt(ModeloOnt ModeloOnt) {
+    public void setPlanes(Planes Planes) {
 
     }
 
     @Override
-    public void setListaModeloOnt(List<ModeloOnt> lista) {
+    public void setListaPlanes(List<Planes> lista) {
         this.lista=lista;
         cargar();
     }

@@ -1,5 +1,6 @@
 package com.brasmapi.masfiberhome;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,13 +8,25 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Spinner;
+
+import com.brasmapi.masfiberhome.dao.OntDAO;
+import com.brasmapi.masfiberhome.entidades.ModeloOnt;
+import com.brasmapi.masfiberhome.entidades.Ont;
+import com.brasmapi.masfiberhome.ui.MainActivity;
+import com.brasmapi.masfiberhome.ui.buscar.DialogBuscarModeloOnt;
+import com.google.android.material.textfield.TextInputLayout;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link CrearOntFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CrearOntFragment extends Fragment {
+public class CrearOntFragment extends Fragment implements OntDAO.interfazOntDAO, DialogBuscarModeloOnt.finalizoDialogBuscarModeloOnt {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -54,11 +67,97 @@ public class CrearOntFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
+    View vista;
+    Context context;
+    TextInputLayout txtserie,txtmodelo;
+    Spinner spinnerResponsable;
+    OntDAO OntDAO;
+    ModeloOnt modeloOnt=null;
+    public static Ont ont;
+    public static String opc=""; // editar/crear
+    String serie,modelo,responsable;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_crear_ont, container, false);
+        vista= inflater.inflate(R.layout.fragment_crear_ont, container, false);
+        context=getActivity();
+        Button btnguardar=(Button)vista.findViewById(R.id.btnGuardar_CrearOnt);
+        txtserie =vista.findViewById(R.id.txtSerieOnt_CrearOnt);
+        txtmodelo =vista.findViewById(R.id.txtIdModelo_CrearOnt);
+        spinnerResponsable =vista.findViewById(R.id.spinnerResponsable_CrearOnt);
+        String [] opciones={"Selecionar el responsable","CLIENTE","EMPRESA"};
+        ArrayAdapter<String> adapter= new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item,opciones);
+        spinnerResponsable.setAdapter(adapter);
+        OntDAO =new OntDAO(CrearOntFragment.this);
+        ((MainActivity)getActivity()).setTitle("Crear Ont");
+        if (opc.equals("editar")){
+            btnguardar.setText("Editar");
+            txtserie.getEditText().setText(ont.getSerieOnt());
+            txtmodelo.getEditText().setText(ont.getNombreModelo());
+            for (int i=0;i<opciones.length;i++){
+                if(ont.getResponsable().equals(spinnerResponsable.getItemAtPosition(i))){
+                    spinnerResponsable.setSelection(i);
+                }
+            }
+            ((MainActivity)getActivity()).setTitle("Editar Ont");
+        }
+        txtmodelo.setEndIconOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        btnguardar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                serie = txtserie.getEditText().getText().toString().trim();
+                modelo = txtmodelo.getEditText().getText().toString().trim();
+                responsable = spinnerResponsable.getSelectedItem().toString();
+                if (opc.equals("crear")) {
+                    //OntDAO.crearOnt(new Ont(0,cedula,
+                      //      nombre,apellido,correo,telefono1,telefono2,
+                        //    "activo"), context);
+                } else if(opc.equals("editar")) {//editar
+                    ont.setSerieOnt(serie);
+                    if (modeloOnt!=null){
+                        ont.setId_modeloOnt(modeloOnt.getId_modeloOnt());
+                        ont.setNombreModelo(modeloOnt.getNombre_modeloOnt());
+                    }
+                    ont.setResponsable(responsable);
+                    OntDAO.editarOnt(ont, context, false);
+                }
+            }
+        });
+        return vista;
+    }
+
+    @Override
+    public void setOnt(Ont Ont) {
+
+    }
+
+    @Override
+    public void setListaOnt(List<Ont> lista) {
+
+    }
+
+    @Override
+    public void limpiar() {
+        Procesos.cerrarTeclado(getActivity());
+        Procesos.cargandoDetener();
+        if (opc.equals("editar")){
+            getActivity().onBackPressed();// para retrocede sin que se guarde el activiti anterior  ejemplo a b c
+            // con el codigo de abajo si lo aplico en c para ir a b quedaria asi
+            //a b c b al momento de dar vuelta atras se ir nuevamente a c y luego a b
+            //al aplicar el codigo de arriba en el mismo ejemplo si lo aplicamos en c quedaria asi
+            //a b por ende si doy atras nuevamente se iria a a y ya no a c como el en anterior
+            //Navigation.findNavController(getActivity().getCurrentFocus()).navigate(R.id.listaCajasNivel2Fragment);
+        }
+    }
+
+    @Override
+    public void ModeloOntSelecionado(ModeloOnt modeloOnt) {
+    this.modeloOnt =modeloOnt;
     }
 }

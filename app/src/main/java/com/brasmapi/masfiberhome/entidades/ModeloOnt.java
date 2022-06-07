@@ -1,8 +1,8 @@
 package com.brasmapi.masfiberhome.entidades;
 
 public class ModeloOnt {
-    int id_modeloOnt;
-    String nombre_modeloOnt,tipo_modeloOnt,estado_modeloOnt;
+    private int id_modeloOnt;
+    private String nombre_modeloOnt,tipo_modeloOnt,estado_modeloOnt;
 
     public ModeloOnt() {
     }

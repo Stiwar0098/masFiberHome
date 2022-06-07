@@ -11,7 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 
+import com.brasmapi.masfiberhome.Procesos;
 import com.brasmapi.masfiberhome.R;
+import com.brasmapi.masfiberhome.ui.MainActivity;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Calendar;
@@ -74,6 +76,8 @@ public class CrearServicioFragment extends Fragment {
         // Inflate the layout for this fragment
          vista=inflater.inflate(R.layout.fragment_crear_servicio, container, false);
         context=getActivity();
+        ((MainActivity)getActivity()).setTitle("Crear servicio");
+        Procesos.cargandoDetener();
         txtFechaInstalacion= (TextInputLayout) vista.findViewById(R.id.txtImputFechaInicio_CrearServicio);
         dia = calendar.get(Calendar.DAY_OF_MONTH);
         mes = calendar.get(Calendar.MONTH);
@@ -91,6 +95,5 @@ public class CrearServicioFragment extends Fragment {
             }
         });
         return vista;
-
     }
 }
