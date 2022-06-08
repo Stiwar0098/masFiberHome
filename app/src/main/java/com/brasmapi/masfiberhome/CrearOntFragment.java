@@ -1,23 +1,41 @@
 package com.brasmapi.masfiberhome;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.brasmapi.masfiberhome.dao.OntDAO;
 import com.brasmapi.masfiberhome.entidades.ModeloOnt;
 import com.brasmapi.masfiberhome.entidades.Ont;
 import com.brasmapi.masfiberhome.ui.MainActivity;
+import com.brasmapi.masfiberhome.ui.buscar.DialogBuscarCajaNivel1;
 import com.brasmapi.masfiberhome.ui.buscar.DialogBuscarModeloOnt;
+import com.brasmapi.masfiberhome.ui.crear.CrearCajaNivel2Fragment;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.client.android.Intents;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
+import com.journeyapps.barcodescanner.CaptureManager;
+import com.journeyapps.barcodescanner.DecoratedBarcodeView;
+import com.journeyapps.barcodescanner.ScanContract;
+import com.journeyapps.barcodescanner.ScanOptions;
+import com.journeyapps.barcodescanner.ViewfinderView;
 
 import java.util.List;
 
@@ -76,6 +94,7 @@ public class CrearOntFragment extends Fragment implements OntDAO.interfazOntDAO,
     public static Ont ont;
     public static String opc=""; // editar/crear
     String serie,modelo,responsable;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -129,7 +148,41 @@ public class CrearOntFragment extends Fragment implements OntDAO.interfazOntDAO,
                 }
             }
         });
+        txtserie.setEndIconOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setUpQRCode();
+            }
+        });
+        txtmodelo.setEndIconOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new DialogBuscarModeloOnt(context, CrearOntFragment.this);
+            }
+        });
         return vista;
+    }
+    private final ActivityResultLauncher<ScanOptions> barcodeLauncher = registerForActivityResult(new ScanContract(),
+            result -> {
+                if(result.getContents() == null) {
+                    Intent originalIntent = result.getOriginalIntent();
+                    if (originalIntent == null) {
+                        Log.d("MainActivity", "Cancelled scan");
+                        Toast.makeText(getActivity(), "Cancelled", Toast.LENGTH_LONG).show();
+                    } else if(originalIntent.hasExtra(Intents.Scan.MISSING_CAMERA_PERMISSION)) {
+                        Log.d("MainActivity", "Cancelled scan due to missing camera permission");
+                        Toast.makeText(getActivity(), "Cancelled due to missing camera permission", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Log.d("MainActivity", "Scanned");
+                    txtserie.getEditText().setText(result.getContents()+"");
+                    Toast.makeText(getActivity(), "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+                }
+            });
+    public void setUpQRCode(){
+        ScanOptions options = new ScanOptions().setOrientationLocked(false).setCaptureActivity(CustomScannerActivity.class);
+        options.setBeepEnabled(false);
+        barcodeLauncher.launch(options);
     }
 
     @Override
@@ -160,4 +213,5 @@ public class CrearOntFragment extends Fragment implements OntDAO.interfazOntDAO,
     public void ModeloOntSelecionado(ModeloOnt modeloOnt) {
     this.modeloOnt =modeloOnt;
     }
+
 }

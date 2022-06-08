@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.brasmapi.masfiberhome.Procesos;
 import com.brasmapi.masfiberhome.R;
@@ -35,7 +36,7 @@ public class DialogBuscarModeloOnt implements ModeloOntDAO.interfazModeloOntDAO
     TextInputLayout txtBuscarModeloOnt;
     private static finalizoDialogBuscarModeloOnt interfaz;
     static ModeloOntDAO ModeloOntDAO;
-
+    SwipeRefreshLayout refreshLayout;
     public DialogBuscarModeloOnt(Context context1, finalizoDialogBuscarModeloOnt actividad) {
         interfaz = actividad;
         context = context1;
@@ -45,6 +46,7 @@ public class DialogBuscarModeloOnt implements ModeloOntDAO.interfazModeloOntDAO
         dialogo.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialogo.setContentView(R.layout.dialog_buscar_modeloont);
 
+        refreshLayout=(SwipeRefreshLayout)dialogo.findViewById(R.id.refreshRecycler_DialogBuscarModeloOnt);
         lblSinModeloOntes =(TextView)dialogo.findViewById(R.id.lblModelosOntRegistrados);
         txtBuscarModeloOnt=(TextInputLayout) dialogo.findViewById(R.id.txtImputBuscarModeloOnt_DialogBuscarModeloOnt);
         txtBuscarModeloOnt.getEditText().addTextChangedListener(new TextWatcher() {
@@ -67,7 +69,13 @@ public class DialogBuscarModeloOnt implements ModeloOntDAO.interfazModeloOntDAO
 
             }
         });
-
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mostrarDatos("");
+                refreshLayout.setRefreshing(false);
+            }
+        });
         dialogo.show();
         mostrarDatos("");
     }

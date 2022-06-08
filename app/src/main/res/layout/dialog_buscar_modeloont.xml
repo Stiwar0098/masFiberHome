@@ -107,7 +107,7 @@
                                         android:layout_width="150dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:text="Nombre caja"
+                                        android:text="Nombre Modelo"
                                         android:textColor="@color/letras"
                                         android:textSize="16sp"
                                         android:textStyle="bold" />
@@ -117,37 +117,7 @@
                                         android:layout_width="70dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:text="Direccion"
-                                        android:textColor="@color/letras"
-                                        android:textSize="16sp"
-                                        android:textStyle="bold" />
-
-                                    <TextView
-                                        android:id="@+id/textView14"
-                                        android:layout_width="80dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:text="Referencia"
-                                        android:textColor="@color/letras"
-                                        android:textSize="16sp"
-                                        android:textStyle="bold" />
-
-                                    <TextView
-                                        android:id="@+id/textView15"
-                                        android:layout_width="120dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:text="Vlan"
-                                        android:textColor="@color/letras"
-                                        android:textSize="16sp"
-                                        android:textStyle="bold" />
-
-                                    <TextView
-                                        android:id="@+id/textView18"
-                                        android:layout_width="120dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:text="Ciudad"
+                                        android:text="Tipo"
                                         android:textColor="@color/letras"
                                         android:textSize="16sp"
                                         android:textStyle="bold" />

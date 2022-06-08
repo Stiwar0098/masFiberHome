@@ -28,6 +28,7 @@
                     android:layout_marginRight="5dp"
                     android:layout_marginBottom="2dp"
                     android:layout_weight="1"
+                    android:gravity="clip_horizontal"
                     android:text="TextView"
                     android:textColor="@color/letras"
                     android:textSize="14sp" />
@@ -42,6 +43,7 @@
 
                     android:layout_marginBottom="2dp"
                     android:layout_weight="1"
+                    android:gravity="clip_horizontal"
                     android:text="TextView"
                     android:textColor="@color/letras"
                     android:textSize="14sp" />
