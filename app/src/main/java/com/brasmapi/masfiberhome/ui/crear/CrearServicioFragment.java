@@ -13,10 +13,15 @@ import android.widget.DatePicker;
 
 import com.brasmapi.masfiberhome.Procesos;
 import com.brasmapi.masfiberhome.R;
+import com.brasmapi.masfiberhome.entidades.CajaNivel2;
+import com.brasmapi.masfiberhome.entidades.Clientes;
+import com.brasmapi.masfiberhome.entidades.Ont;
+import com.brasmapi.masfiberhome.entidades.Vlan;
 import com.brasmapi.masfiberhome.ui.MainActivity;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -70,6 +75,11 @@ public class CrearServicioFragment extends Fragment {
     View vista;
     TextInputLayout txtFechaInstalacion;
     int ano,mes,dia;
+    Vlan vlan;
+    Clientes clientes;
+    CajaNivel2 cajaNivel2;
+    Ont ont;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -95,5 +105,40 @@ public class CrearServicioFragment extends Fragment {
             }
         });
         return vista;
+    }
+
+    public void llenarComandoPlanes(){
+        String conca,serviport,plan;
+        serviport=txtFechaInstalacion.getEditText().getText().toString().trim();
+        if (!serviport.equals("") && serviport!=null ){
+            plan=txtFechaInstalacion.getEditText().getText().toString().trim();
+            conca="service-port "+serviport+" inbound traffic-table index "+plan+" outbound traffic-table index "+plan;
+            txtFechaInstalacion.getEditText().setText(conca);
+        }
+
+    }
+    public void llenarUsuario(){
+        if(clientes!=null && cajaNivel2!=null){
+            String conca;
+            conca=obtenerPrimerLetra(clientes.getNombre())+obtenerPrimerApellido(clientes.getApellido())+"_"+cajaNivel2.getAbreviaturaCajaNivel1()+"_"+cajaNivel2.getAbreviatura();
+            txtFechaInstalacion.getEditText().setText(conca);
+        }
+    }
+
+    private String obtenerPrimerApellido(String apellido) {
+        if(apellido == null || apellido.length() == 0){
+            return null;
+        } else{
+            String[] ar = apellido.split("\\s+");
+            return ar[0];
+        }
+    }
+
+    private String obtenerPrimerLetra(String nombre) {
+        if(nombre == null || nombre.length() == 0){
+            return null;
+        } else{
+            return nombre.substring(0, 1);
+        }
     }
 }

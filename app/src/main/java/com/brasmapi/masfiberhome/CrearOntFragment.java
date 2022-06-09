@@ -211,7 +211,8 @@ public class CrearOntFragment extends Fragment implements OntDAO.interfazOntDAO,
 
     @Override
     public void ModeloOntSelecionado(ModeloOnt modeloOnt) {
-    this.modeloOnt =modeloOnt;
+        txtmodelo.getEditText().setText(modeloOnt.getNombre_modeloOnt());
+        this.modeloOnt =modeloOnt;
     }
 
 }

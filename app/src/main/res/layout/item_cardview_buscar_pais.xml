@@ -25,7 +25,7 @@
                 android:gravity="center"
                 android:text="TextView"
                 android:textColor="@color/letras"
-                android:textSize="24sp" />
+                android:textSize="16sp" />
 
             <View
                 android:id="@+id/divider"

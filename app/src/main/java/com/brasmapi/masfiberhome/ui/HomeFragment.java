@@ -128,7 +128,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             case R.id.btnOnt_administrador:
                 Navigation.findNavController(v).navigate(R.id.listarOntFragment);
                 //fragmentTransaction.replace(R.id.contenedor, new ListaCiudadesFragment());
-                titulo="Listar onts";
+                titulo="Listar Onts";
                 break;
             case R.id.btnServicio_administrador:
                 Navigation.findNavController(v).navigate(R.id.listarServiciosFragment);

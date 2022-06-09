@@ -338,7 +338,7 @@ public class CrearCajaNivel2Fragment extends Fragment implements DialogBuscarCaj
                 "",
                 hiloCaja1,
                 hilos,
-                "activo"),context);
+                "activo",""),context);
     }else{//editar
         String nombre=cajaNivel2.getNombre_CajaNivel2();
         cajaNivel2.setNombre_CajaNivel2(nombre);

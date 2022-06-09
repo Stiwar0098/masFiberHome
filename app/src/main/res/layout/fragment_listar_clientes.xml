@@ -64,60 +64,59 @@
 
                         <TextView
                             android:id="@+id/textView17"
-                            android:layout_width="150dp"
+                            android:layout_width="90dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Nombre caja"
+                            android:layout_marginRight="10dp"
+                            android:text="Cedula"
                             android:textColor="@color/letras"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/textView24"
-                            android:layout_width="100dp"
+                            android:layout_width="125dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Abreviatura"
+                            android:layout_marginRight="10dp"
+                            android:text="Nombre"
                             android:textColor="@color/letras"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/textView16"
-                            android:layout_width="70dp"
+                            android:layout_width="125dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Direccion"
+                            android:layout_marginRight="10dp"
+                            android:text="Apellido"
                             android:textColor="@color/letras"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/textView14"
-                            android:layout_width="80dp"
+                            android:layout_width="210dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Referencia"
+                            android:layout_marginRight="10dp"
+                            android:text="Correo"
                             android:textColor="@color/letras"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/textView15"
-                            android:layout_width="120dp"
+                            android:layout_width="90dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Vlan"
+                            android:layout_marginRight="10dp"
+                            android:text="Telefono 1"
                             android:textColor="@color/letras"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/textView18"
-                            android:layout_width="120dp"
+                            android:layout_width="90dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Ciudad"
+                            android:text="Telefono 2"
                             android:textColor="@color/letras"
                             android:textSize="16sp"
                             android:textStyle="bold" />

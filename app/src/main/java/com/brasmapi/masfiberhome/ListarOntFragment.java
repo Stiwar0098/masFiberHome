@@ -96,7 +96,7 @@ public class ListarOntFragment extends Fragment implements OntDAO.interfazOntDAO
         vista= inflater.inflate(R.layout.fragment_listar_ont, container, false);
         context=getActivity();
         ontDAO =new OntDAO(ListarOntFragment.this);
-        ((MainActivity)getActivity()).setTitle("Listar Ont");
+        ((MainActivity)getActivity()).setTitle("Listar Onts");
         mostrarDatos("");
         btnCrear =(Button)vista.findViewById(R.id.btnCrearOnt_ListaOnt);
         txtBuscar=(TextInputLayout)vista.findViewById(R.id.txtBuscar_ListaOnt);
@@ -108,7 +108,7 @@ public class ListarOntFragment extends Fragment implements OntDAO.interfazOntDAO
         btnCrear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //CrearOntFragment.opc="crear";
+                CrearOntFragment.opc="crear";
                 Navigation.findNavController(v).navigate(R.id.crearOntFragment);
                 fragmentTransaction.addToBackStack(null);
                 // Cambiar

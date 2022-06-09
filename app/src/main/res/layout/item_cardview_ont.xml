@@ -13,13 +13,13 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <TextView
@@ -48,7 +48,7 @@
 
                 <TextView
                     android:id="@+id/lblResponsable_itemOnt"
-                    android:layout_width="70dp"
+                    android:layout_width="110dp"
                     android:layout_height="wrap_content"
 
                     android:layout_marginLeft="5dp"
@@ -61,13 +61,14 @@
 
                 <TextView
                     android:id="@+id/lblNumero_itemOnt"
-                    android:layout_width="70dp"
+                    android:layout_width="80dp"
 
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginRight="5dp"
                     android:layout_marginBottom="2dp"
+                    android:gravity="center"
                     android:text="22/22/22"
                     android:textColor="@color/letras"
                     android:textSize="14sp" />

@@ -19,36 +19,36 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/lblCedula_itemClientes"
-                    android:layout_width="150dp"
+                    android:layout_width="90dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginRight="5dp"
                     android:layout_marginBottom="2dp"
-                    android:text="Lared_Mcordova_C115_N2003h16"
+                    android:text="0705820694"
                     android:textColor="@color/letras"
                     android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/lblNombre_itemClientes"
-                    android:layout_width="100dp"
+                    android:layout_width="125dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginRight="5dp"
                     android:layout_marginBottom="2dp"
-                    android:text="C1002"
+                    android:text="Brayan Macas"
                     android:textColor="@color/letras"
                     android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/lblApellidos_itemClientes"
-                    android:layout_width="70dp"
+                    android:layout_width="125dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
 
@@ -61,34 +61,33 @@
 
                 <TextView
                     android:id="@+id/lblCorreo_itemClientes"
-                    android:layout_width="70dp"
+                    android:layout_width="210dp"
                     android:layout_height="wrap_content"
 
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginRight="5dp"
                     android:layout_marginBottom="2dp"
-                    android:text="22/22/22"
+                    android:text="brayan98macas@gmail.com"
                     android:textColor="@color/letras"
                     android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/lblTelefono1_itemClientes"
-                    android:layout_width="120dp"
+                    android:layout_width="90dp"
                     android:layout_height="wrap_content"
 
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginRight="5dp"
                     android:layout_marginBottom="2dp"
-                    android:layout_weight="1"
-                    android:text="TextView"
+                    android:text="0985760431"
                     android:textColor="@color/letras"
                     android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/lblTelefono2_itemClientes"
-                    android:layout_width="120dp"
+                    android:layout_width="90dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
 

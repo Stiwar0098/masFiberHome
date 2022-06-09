@@ -78,8 +78,7 @@
     <fragment
         android:id="@+id/nav_migrarCliente"
         android:name="com.brasmapi.masfiberhome.ui.MigrarClienteFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_migrar_cliente" >
+        tools:layout="@layout/fragment_migrar_cliente">
         <action
             android:id="@+id/action_nav_migrarCliente_to_nav_administrar"
             app:destination="@id/nav_administrar" />
@@ -87,8 +86,7 @@
     <fragment
         android:id="@+id/listaUsuariosFragment"
         android:name="com.brasmapi.masfiberhome.ui.listar.ListaUsuariosFragment"
-        android:label="fragment_lista_usuarios"
-        tools:layout="@layout/fragment_lista_usuarios" >
+        tools:layout="@layout/fragment_lista_usuarios">
         <action
             android:id="@+id/action_listaUsuariosFragment_to_crearUsuariosFragment"
             app:destination="@id/crearUsuariosFragment" />
@@ -99,8 +97,7 @@
     <fragment
         android:id="@+id/crearUsuariosFragment"
         android:name="com.brasmapi.masfiberhome.ui.crear.CrearUsuariosFragment"
-        android:label="fragment_crearusuarios"
-        tools:layout="@layout/fragment_crearusuarios" >
+        tools:layout="@layout/fragment_crearusuarios">
         <action
             android:id="@+id/action_crearUsuariosFragment_to_listaUsuariosFragment"
             app:destination="@id/listaUsuariosFragment" />
@@ -108,8 +105,7 @@
     <fragment
         android:id="@+id/listaPaisesFragment"
         android:name="com.brasmapi.masfiberhome.ui.listar.ListaPaisesFragment"
-        android:label="fragment_lista_paises"
-        tools:layout="@layout/fragment_lista_paises" >
+        tools:layout="@layout/fragment_lista_paises">
         <action
             android:id="@+id/action_listaPaisesFragment_to_crearPaisFragment"
             app:destination="@id/crearPaisFragment" />
@@ -120,8 +116,7 @@
     <fragment
         android:id="@+id/crearPaisFragment"
         android:name="com.brasmapi.masfiberhome.ui.crear.CrearPaisFragment"
-        android:label="fragment_crear_pais"
-        tools:layout="@layout/fragment_crear_pais" >
+        tools:layout="@layout/fragment_crear_pais">
         <action
             android:id="@+id/action_crearPaisFragment_to_listaPaisesFragment"
             app:destination="@id/listaPaisesFragment" />
@@ -129,8 +124,7 @@
     <fragment
         android:id="@+id/listaProvinciasFragment"
         android:name="com.brasmapi.masfiberhome.ui.listar.ListaProvinciasFragment"
-        android:label="fragment_lista_provincias"
-        tools:layout="@layout/fragment_lista_provincias" >
+        tools:layout="@layout/fragment_lista_provincias">
         <action
             android:id="@+id/action_listaProvinciasFragment_to_crearProvinciaFragment"
             app:destination="@id/crearProvinciaFragment" />
@@ -141,8 +135,7 @@
     <fragment
         android:id="@+id/crearProvinciaFragment"
         android:name="com.brasmapi.masfiberhome.ui.crear.CrearProvinciaFragment"
-        android:label="fragment_crear_provincia"
-        tools:layout="@layout/fragment_crear_provincia" >
+        tools:layout="@layout/fragment_crear_provincia">
         <action
             android:id="@+id/action_crearProvinciaFragment_to_listaProvinciasFragment"
             app:destination="@id/listaProvinciasFragment" />
@@ -150,8 +143,7 @@
     <fragment
         android:id="@+id/listaCiudadesFragment"
         android:name="com.brasmapi.masfiberhome.ui.listar.ListaCiudadesFragment"
-        android:label="fragment_lista_ciudades"
-        tools:layout="@layout/fragment_lista_ciudades" >
+        tools:layout="@layout/fragment_lista_ciudades">
         <action
             android:id="@+id/action_listaCiudadesFragment_to_crearCiudadFragment"
             app:destination="@id/crearCiudadFragment" />
@@ -162,8 +154,7 @@
     <fragment
         android:id="@+id/crearCiudadFragment"
         android:name="com.brasmapi.masfiberhome.ui.crear.CrearCiudadFragment"
-        android:label="fragment_crear_ciudad"
-        tools:layout="@layout/fragment_crear_ciudad" >
+        tools:layout="@layout/fragment_crear_ciudad">
         <action
             android:id="@+id/action_crearCiudadFragment_to_listaCiudadesFragment"
             app:destination="@id/listaCiudadesFragment" />
@@ -171,8 +162,7 @@
     <fragment
         android:id="@+id/listaVlansFragment"
         android:name="com.brasmapi.masfiberhome.ui.listar.ListaVlansFragment"
-        android:label="fragment_lista_vlans"
-        tools:layout="@layout/fragment_lista_vlans" >
+        tools:layout="@layout/fragment_lista_vlans">
         <action
             android:id="@+id/action_listaVlansFragment_to_nav_administrar"
             app:destination="@id/nav_administrar" />
@@ -226,8 +216,7 @@
     <fragment
         android:id="@+id/crearPlanesFragment"
         android:name="com.brasmapi.masfiberhome.ui.crear.CrearPlanesFragment"
-        android:label="fragment_crear_planes"
-        tools:layout="@layout/fragment_crear_planes" >
+        tools:layout="@layout/fragment_crear_planes">
         <action
             android:id="@+id/action_crearPlanesFragment_to_listaPlanesFragment"
             app:destination="@id/listaPlanesFragment" />
@@ -235,8 +224,7 @@
     <fragment
         android:id="@+id/listaPlanesFragment"
         android:name="com.brasmapi.masfiberhome.ui.listar.ListaPlanesFragment"
-        android:label="fragment_lista_planes"
-        tools:layout="@layout/fragment_lista_planes" >
+        tools:layout="@layout/fragment_lista_planes">
         <action
             android:id="@+id/action_listaPlanesFragment_to_crearPlanesFragment"
             app:destination="@id/crearPlanesFragment" />
@@ -256,8 +244,7 @@
     <fragment
         android:id="@+id/crearModeloOntFragment"
         android:name="com.brasmapi.masfiberhome.ui.crear.CrearModeloOntFragment"
-        android:label="fragment_crear_modelo_ont"
-        tools:layout="@layout/fragment_crear_modelo_ont" >
+        tools:layout="@layout/fragment_crear_modelo_ont">
         <action
             android:id="@+id/action_crearModeloOntFragment_to_listaModeloOntFragment"
             app:destination="@id/listaModeloOntFragment" />
@@ -265,8 +252,7 @@
     <fragment
         android:id="@+id/listaModeloOntFragment"
         android:name="com.brasmapi.masfiberhome.ui.listar.ListaModeloOntFragment"
-        android:label="fragment_lista_modelo_ont"
-        tools:layout="@layout/fragment_lista_modelo_ont" >
+        tools:layout="@layout/fragment_lista_modelo_ont">
         <action
             android:id="@+id/action_listaModeloOntFragment_to_crearModeloOntFragment"
             app:destination="@id/crearModeloOntFragment" />
@@ -277,8 +263,7 @@
     <fragment
         android:id="@+id/listarClientesFragment"
         android:name="com.brasmapi.masfiberhome.ListarClientesFragment"
-        android:label="fragment_listar_clientes"
-        tools:layout="@layout/fragment_listar_clientes" >
+        tools:layout="@layout/fragment_listar_clientes">
         <action
             android:id="@+id/action_listarClientesFragment_to_crearClientesFragment"
             app:destination="@id/crearClientesFragment" />
@@ -289,8 +274,7 @@
     <fragment
         android:id="@+id/listarOntFragment"
         android:name="com.brasmapi.masfiberhome.ListarOntFragment"
-        android:label="fragment_listar_ont"
-        tools:layout="@layout/fragment_listar_ont" >
+        tools:layout="@layout/fragment_listar_ont">
         <action
             android:id="@+id/action_listarOntFragment_to_crearOntFragment"
             app:destination="@id/crearOntFragment" />
@@ -301,8 +285,7 @@
     <fragment
         android:id="@+id/crearOntFragment"
         android:name="com.brasmapi.masfiberhome.CrearOntFragment"
-        android:label="fragment_crear_ont"
-        tools:layout="@layout/fragment_crear_ont" >
+        tools:layout="@layout/fragment_crear_ont">
         <action
             android:id="@+id/action_crearOntFragment_to_listarOntFragment"
             app:destination="@id/listarOntFragment" />
@@ -310,8 +293,7 @@
     <fragment
         android:id="@+id/listarServiciosFragment"
         android:name="com.brasmapi.masfiberhome.ListarServiciosFragment"
-        android:label="fragment_listar_servicios"
-        tools:layout="@layout/fragment_listar_servicios" >
+        tools:layout="@layout/fragment_listar_servicios">
         <action
             android:id="@+id/action_listarServiciosFragment_to_nav_crearServicio"
             app:destination="@id/nav_crearServicio" />

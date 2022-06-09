@@ -44,7 +44,7 @@ public class CajaNivel2DAO {
                 for (int i = 0; i < response.length(); i++) {
                     try {
                         JSONObject object = new JSONObject(response.get(i).toString());
-                       as.add(new CajaNivel2(object.getInt("id_cajanivel2"), object.getString("nombre_cajanivel2"), object.getString("abreviatura_cajanivel2"), object.getString("direccion_cajanivel2"),object.getString("referencia"), object.getString("latitud_cajanivel2"), object.getString("longitud_cajanivel2"), object.getInt("id_cajanivel1"), object.getString("nombre_cajanivel1"), object.getInt("hilocajanivel1_cajanivel2"), object.getInt("cantidadhilos_cajanivel2"), object.getString("estado_cajanivel2")));
+                        as.add(new CajaNivel2(object.getInt("id_cajanivel2"), object.getString("nombre_cajanivel2"), object.getString("abreviatura_cajanivel2"), object.getString("direccion_cajanivel2"),object.getString("referencia"), object.getString("latitud_cajanivel2"), object.getString("longitud_cajanivel2"), object.getInt("id_cajanivel1"), object.getString("nombre_cajanivel1"), object.getInt("hilocajanivel1_cajanivel2"), object.getInt("cantidadhilos_cajanivel2"), object.getString("estado_cajanivel2"), object.getString("abreviatura_cajanivel1")));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -77,7 +77,7 @@ public class CajaNivel2DAO {
                 as = new ArrayList<>();
                 try {
                     JSONObject object = new JSONObject(response.get(0).toString());
-                    as.add(new CajaNivel2(object.getInt("id_cajanivel2"), object.getString("nombre_cajanivel2"), object.getString("abreviatura_cajanivel2"), object.getString("direccion_cajanivel2"),object.getString("referencia"), object.getString("latitud_cajanivel2"), object.getString("longitud_cajanivel2"), object.getInt("id_cajanivel1"), object.getString("nombre_cajanivel1"), object.getInt("hilocajanivel1_cajanivel2"), object.getInt("cantidadhilos_cajanivel2"), object.getString("estado_cajanivel2")));
+                    as.add(new CajaNivel2(object.getInt("id_cajanivel2"), object.getString("nombre_cajanivel2"), object.getString("abreviatura_cajanivel2"), object.getString("direccion_cajanivel2"),object.getString("referencia"), object.getString("latitud_cajanivel2"), object.getString("longitud_cajanivel2"), object.getInt("id_cajanivel1"), object.getString("nombre_cajanivel1"), object.getInt("hilocajanivel1_cajanivel2"), object.getInt("cantidadhilos_cajanivel2"), object.getString("estado_cajanivel2"), object.getString("abreviatura_cajanivel1")));
                     Procesos.cargandoDetener();
                     if (interfaz != null) {
                         interfaz.setCajaNivel2(as.get(0));

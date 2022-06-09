@@ -63,8 +63,8 @@
                             android:id="@+id/textView17"
                             android:layout_width="150dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Nombre caja"
+                            android:layout_marginRight="10dp"
+                            android:text="Serie"
                             android:textColor="@color/letras"
                             android:textSize="16sp"
                             android:textStyle="bold" />
@@ -73,18 +73,18 @@
                             android:id="@+id/textView24"
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Abreviatura"
+                            android:layout_marginRight="10dp"
+                            android:text="Modelo"
                             android:textColor="@color/letras"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/textView16"
-                            android:layout_width="70dp"
+                            android:layout_width="110dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Direccion"
+                            android:layout_marginRight="10dp"
+                            android:text="Responsable"
                             android:textColor="@color/letras"
                             android:textSize="16sp"
                             android:textStyle="bold" />
@@ -93,28 +93,8 @@
                             android:id="@+id/textView14"
                             android:layout_width="80dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Referencia"
-                            android:textColor="@color/letras"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/textView15"
-                            android:layout_width="120dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Vlan"
-                            android:textColor="@color/letras"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/textView18"
-                            android:layout_width="120dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Ciudad"
+                            android:gravity="center"
+                            android:text="Numero"
                             android:textColor="@color/letras"
                             android:textSize="16sp"
                             android:textStyle="bold" />
@@ -125,7 +105,6 @@
                         android:id="@+id/recyclerView_ListaOnt"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:scrollbars="horizontal|vertical">
 
                     </androidx.recyclerview.widget.RecyclerView>
