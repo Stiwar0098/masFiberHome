@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             SharedPreferences sp= getSharedPreferences("credenciales", Context.MODE_PRIVATE);
             usuariosDAO.buscarUsuario(sp.getString("Usuario",""),context);
         }
+
         setSupportActionBar(binding.appBarMain.toolbar);
         drawer = binding.drawerLayout;
         navigationView = binding.navView;

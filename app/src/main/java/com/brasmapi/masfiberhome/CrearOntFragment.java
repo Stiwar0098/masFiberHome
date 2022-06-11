@@ -20,6 +20,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.brasmapi.masfiberhome.dao.OntDAO;
+import com.brasmapi.masfiberhome.entidades.Clientes;
 import com.brasmapi.masfiberhome.entidades.ModeloOnt;
 import com.brasmapi.masfiberhome.entidades.Ont;
 import com.brasmapi.masfiberhome.ui.MainActivity;
@@ -94,7 +95,6 @@ public class CrearOntFragment extends Fragment implements OntDAO.interfazOntDAO,
     public static Ont ont;
     public static String opc=""; // editar/crear
     String serie,modelo,responsable;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -124,7 +124,7 @@ public class CrearOntFragment extends Fragment implements OntDAO.interfazOntDAO,
         txtmodelo.setEndIconOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                new DialogBuscarModeloOnt(context,CrearOntFragment.this);
             }
         });
         btnguardar.setOnClickListener(new View.OnClickListener() {
@@ -134,9 +134,6 @@ public class CrearOntFragment extends Fragment implements OntDAO.interfazOntDAO,
                 modelo = txtmodelo.getEditText().getText().toString().trim();
                 responsable = spinnerResponsable.getSelectedItem().toString();
                 if (opc.equals("crear")) {
-                    //OntDAO.crearOnt(new Ont(0,cedula,
-                      //      nombre,apellido,correo,telefono1,telefono2,
-                        //    "activo"), context);
                 } else if(opc.equals("editar")) {//editar
                     ont.setSerieOnt(serie);
                     if (modeloOnt!=null){
@@ -162,7 +159,7 @@ public class CrearOntFragment extends Fragment implements OntDAO.interfazOntDAO,
         });
         return vista;
     }
-    private final ActivityResultLauncher<ScanOptions> barcodeLauncher = registerForActivityResult(new ScanContract(),
+    private final ActivityResultLauncher<ScanOptions> barcodeLauncher =registerForActivityResult(new ScanContract(),
             result -> {
                 if(result.getContents() == null) {
                     Intent originalIntent = result.getOriginalIntent();
@@ -214,5 +211,4 @@ public class CrearOntFragment extends Fragment implements OntDAO.interfazOntDAO,
         txtmodelo.getEditText().setText(modeloOnt.getNombre_modeloOnt());
         this.modeloOnt =modeloOnt;
     }
-
 }

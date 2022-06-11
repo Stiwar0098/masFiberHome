@@ -29,7 +29,7 @@
                 android:paddingBottom="3dp">
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/txtImputBuscarClientes_DialogBuscarClientes"
+                    android:id="@+id/txtImputBuscarCajaNivel2_DialogBuscarCajaNivel2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="20dp"
@@ -41,7 +41,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:hint="Buscar clientes" />
+                        android:hint="Buscar caja" />
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
@@ -52,7 +52,7 @@
                 android:layout_weight="1">
 
                 <TextView
-                    android:id="@+id/lblClientesRegistrados"
+                    android:id="@+id/lblCajaNivel2Registrados"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
@@ -77,13 +77,12 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                        android:id="@+id/refreshRecycler_DialogBuscarClientes"
+                        android:id="@+id/refreshRecycler_DialogBuscarCajaNivel2"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="5dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_weight="1">
+                        android:layout_marginRight="10dp">
 
                         <HorizontalScrollView
                             android:layout_width="match_parent"
@@ -103,59 +102,72 @@
 
                                     <TextView
                                         android:id="@+id/textView17"
-                                        android:layout_width="90dp"
+                                        android:layout_width="110dp"
                                         android:layout_height="wrap_content"
                                         android:layout_marginRight="10dp"
-                                        android:text="Cedula"
+                                        android:text="Nombre caja"
                                         android:textColor="@color/letras"
                                         android:textSize="16sp"
                                         android:textStyle="bold" />
 
                                     <TextView
-                                        android:id="@+id/textView24"
-                                        android:layout_width="125dp"
+                                        android:id="@+id/textView25"
+                                        android:layout_width="100dp"
                                         android:layout_height="wrap_content"
                                         android:layout_marginRight="10dp"
-                                        android:text="Nombre"
+                                        android:text="Abreviatura"
                                         android:textColor="@color/letras"
                                         android:textSize="16sp"
                                         android:textStyle="bold" />
 
                                     <TextView
                                         android:id="@+id/textView16"
-                                        android:layout_width="125dp"
+                                        android:layout_width="250dp"
                                         android:layout_height="wrap_content"
                                         android:layout_marginRight="10dp"
-                                        android:text="Apellido"
+                                        android:text="Direccion"
                                         android:textColor="@color/letras"
                                         android:textSize="16sp"
                                         android:textStyle="bold" />
 
                                     <TextView
                                         android:id="@+id/textView14"
-                                        android:layout_width="210dp"
+                                        android:layout_width="180dp"
                                         android:layout_height="wrap_content"
                                         android:layout_marginRight="10dp"
-                                        android:text="Correo"
+                                        android:text="Referencia"
+                                        android:textColor="@color/letras"
+                                        android:textSize="16sp"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:id="@+id/textView37"
+                                        android:layout_width="60dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginRight="10dp"
+                                        android:layout_weight="1"
+                                        android:gravity="center"
+                                        android:text="Hilos"
                                         android:textColor="@color/letras"
                                         android:textSize="16sp"
                                         android:textStyle="bold" />
 
                                     <TextView
                                         android:id="@+id/textView15"
-                                        android:layout_width="90dp"
+                                        android:layout_width="130dp"
                                         android:layout_height="wrap_content"
                                         android:layout_marginRight="10dp"
-                                        android:text="Telefono 1"
+                                        android:text="Caja nivel 1"
                                         android:textColor="@color/letras"
                                         android:textSize="16sp"
                                         android:textStyle="bold" />
 
                                     <TextView
-                                        android:id="@+id/textView18"
-                                        android:layout_width="90dp"
+                                        android:id="@+id/textView26"
+                                        android:layout_width="150dp"
                                         android:layout_height="wrap_content"
-                                        android:text="Telefono 2"
+                                        android:gravity="center"
+                                        android:text="Hilo en caja nivel 1"
                                         android:textColor="@color/letras"
                                         android:textSize="16sp"
                                         android:textStyle="bold" />
@@ -163,7 +175,7 @@
                                 </LinearLayout>
 
                                 <androidx.recyclerview.widget.RecyclerView
-                                    android:id="@+id/recyclerView_DialogBuscarClientes"
+                                    android:id="@+id/recyclerView_DialogBuscarCajaNivel2"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:scrollbars="horizontal|vertical">

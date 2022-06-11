@@ -110,9 +110,6 @@ public class ListarOntFragment extends Fragment implements OntDAO.interfazOntDAO
             public void onClick(View v) {
                 CrearOntFragment.opc="crear";
                 Navigation.findNavController(v).navigate(R.id.crearOntFragment);
-                fragmentTransaction.addToBackStack(null);
-                // Cambiar
-                fragmentTransaction.commit();
             }
         });
         txtBuscar.getEditText().addTextChangedListener(new TextWatcher() {

@@ -58,7 +58,8 @@
                         android:layout_height="wrap_content"
                         android:enabled="false"
                         android:hint="Servi Port"
-                        android:inputType="number" />
+                        android:inputType="number"
+                        android:text="5" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <Switch
@@ -390,7 +391,7 @@
                         android:orientation="vertical">
 
                         <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/txtLatitud_CrearCajaNivel2"
+                            android:id="@+id/txtLatitud_CrearServicio"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
@@ -410,7 +411,7 @@
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/txtLongitud_CrearCajaNivel2"
+                            android:id="@+id/txtLongitud_CrearServicio"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="5dp"
@@ -609,7 +610,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:enabled="false"
-                    android:hint="Agregar servicio" />
+                    android:hint="Agregar servicio al puerto" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout

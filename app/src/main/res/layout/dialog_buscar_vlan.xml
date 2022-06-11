@@ -156,7 +156,6 @@
                                     android:id="@+id/recyclerView_DialogBuscarVlan"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="1"
                                     android:scrollbars="horizontal|vertical">
 
                                 </androidx.recyclerview.widget.RecyclerView>

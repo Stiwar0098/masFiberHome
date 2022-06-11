@@ -1,13 +1,13 @@
 package com.brasmapi.masfiberhome.entidades;
 
 public class CajaNivel2 {
-    private int id_CajaNivel2, id_CajaNivel1,cantidadHilos,hiloCaja1;
+    private int id_CajaNivel2, id_CajaNivel1,cantidadHilos,hiloCaja1,idvlan;
     private String nombre_CajaNivel2,direccion_CajaNivel2,referencia_CajaNivel2,latitud_CajaNivel2,longitud_CajaNivel2,estado_CajaNivel2, nombreCajaNivel1,abreviatura,abreviaturaCajaNivel1;
 
     public CajaNivel2() {
     }
 
-    public CajaNivel2(int id_CajaNivel2, String nombre_CajaNivel2, String abreviatura, String direccion_CajaNivel2, String referencia_CajaNivel2, String latitud_CajaNivel2, String longitud_CajaNivel2, int id_CajaNivel1, String nombreCajaNivel1, int hiloCaja1, int cantidadHilos, String estado_CajaNivel2,String abreviaturaCajaNivel1) {
+    public CajaNivel2(int id_CajaNivel2, String nombre_CajaNivel2, String abreviatura, String direccion_CajaNivel2, String referencia_CajaNivel2, String latitud_CajaNivel2, String longitud_CajaNivel2, int id_CajaNivel1, String nombreCajaNivel1, int hiloCaja1, int cantidadHilos, String estado_CajaNivel2,String abreviaturaCajaNivel1,int idvlan) {
         this.id_CajaNivel2 = id_CajaNivel2;
         this.id_CajaNivel1 = id_CajaNivel1;
         this.nombre_CajaNivel2 = nombre_CajaNivel2;
@@ -21,6 +21,15 @@ public class CajaNivel2 {
         this.hiloCaja1=hiloCaja1;
         this.cantidadHilos=cantidadHilos;
         this.abreviaturaCajaNivel1=abreviaturaCajaNivel1;
+        this.idvlan=idvlan;
+    }
+
+    public int getIdvlan() {
+        return idvlan;
+    }
+
+    public void setIdvlan(int idvlan) {
+        this.idvlan = idvlan;
     }
 
     public String getAbreviaturaCajaNivel1() {
