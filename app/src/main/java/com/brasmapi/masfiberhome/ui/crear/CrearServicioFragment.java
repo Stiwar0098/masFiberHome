@@ -961,7 +961,7 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
     public void setUsuarioRepetido(boolean estaRepetido) {
         if (estaRepetido){
             //Math.floor(Math.random()*(N-M+1)+M);  // Valor entre M y N, ambos incluidos.
-            //usuarioRepetido=Math.floor(Math.random()*(1-99+1)+99)+"";
+            //usuarioRepetido=Math.floor(Math.random()*(1-99+1)+99)+" ";
             Random rand = new Random();
             usuarioRepetido= rand.nextInt(99)+""; // Gives n such that 0 <= n < 20
             llenarUsuario();
