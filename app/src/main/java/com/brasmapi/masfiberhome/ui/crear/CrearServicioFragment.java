@@ -7,7 +7,6 @@ import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,25 +16,31 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import com.brasmapi.masfiberhome.CrearOntFragment;
 import com.brasmapi.masfiberhome.Procesos;
 import com.brasmapi.masfiberhome.R;
 import com.brasmapi.masfiberhome.dao.ModeloOntDAO;
-import com.brasmapi.masfiberhome.dao.OntDAO;
+import com.brasmapi.masfiberhome.dao.RangoHilosCaja2DAO;
+import com.brasmapi.masfiberhome.dao.RangoOntDAO;
+import com.brasmapi.masfiberhome.dao.ServicioDAO;
+import com.brasmapi.masfiberhome.dao.ServiportDAO;
 import com.brasmapi.masfiberhome.dao.VlanDAO;
 import com.brasmapi.masfiberhome.entidades.CajaNivel2;
 import com.brasmapi.masfiberhome.entidades.Clientes;
 import com.brasmapi.masfiberhome.entidades.ModeloOnt;
 import com.brasmapi.masfiberhome.entidades.Ont;
+import com.brasmapi.masfiberhome.entidades.RangoHilosCaja2;
+import com.brasmapi.masfiberhome.entidades.RangoOnt;
+import com.brasmapi.masfiberhome.entidades.Servicios;
 import com.brasmapi.masfiberhome.entidades.Vlan;
 import com.brasmapi.masfiberhome.ui.MainActivity;
-import com.brasmapi.masfiberhome.ui.buscar.DialogBuscarCajaNivel1;
 import com.brasmapi.masfiberhome.ui.buscar.DialogBuscarCajaNivel2;
 import com.brasmapi.masfiberhome.ui.buscar.DialogBuscarCliente;
 import com.google.android.material.textfield.TextInputLayout;
@@ -45,13 +50,22 @@ import com.journeyapps.barcodescanner.ScanOptions;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link CrearServicioFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CrearServicioFragment extends Fragment implements DialogBuscarCliente.finalizoDialogBuscarClientes,DialogBuscarCajaNivel2.finalizoDialogBuscarCajaNivel2, VlanDAO.interfazVlanDAO,DialogCrearOnt.finalizoDialogCrearOnt, ModeloOntDAO.interfazModeloOntDAO {
+public class CrearServicioFragment extends Fragment implements DialogBuscarCliente.finalizoDialogBuscarClientes,
+        DialogBuscarCajaNivel2.finalizoDialogBuscarCajaNivel2,
+        VlanDAO.interfazVlanDAO,
+        DialogCrearOnt.finalizoDialogCrearOnt,
+        ModeloOntDAO.interfazModeloOntDAO,
+        Procesos.LatitudLongitud,
+        RangoHilosCaja2DAO.interfazRangoCaja2DAO,
+        RangoOntDAO.interfazRangoOnt,
+        ServiportDAO.interfazServiport, ServicioDAO.interfazServicio{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -93,6 +107,7 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
         }
     }
     Calendar calendar = Calendar.getInstance();
+    public static String opc;//editar / crear
     Context context;
     DatePickerDialog datePickerDialog;
     View vista;
@@ -108,7 +123,24 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
     Spinner spinnerPlan;
     TextInputLayout txtServiPort,txtCliente,txtCajaNivel2,txtOnt,txtQuit,txtNumeroOnt,txtUsuario,txtDireccion,txtReferencia,txtHiloEnCaja2,txtDireccionIp,txtLatitud,txtLongitud;
     TextInputLayout txtComandoPlanes,txtInterfazPoncard,txtAgregarOnt,txtEquipoBridge,txtEliminarServicio, txtAgregarServicioAlPuerto,txtAgregarPlanCliente,txtAgregarDescripcionPuerto,txtEliminarOnt;
-    Switch switchServiPort,switchNumeroOnt,switchHiloEnCaja2,switchLatLon,switchDireccionIp;
+    Switch switchNumeroOnt,switchHiloEnCaja2,switchLatLon,switchDireccionIp;
+    Button btnGuardar;
+    LinearLayout groupComando;
+    RangoHilosCaja2DAO rangoHilosCaja2DAO;
+    RangoHilosCaja2 rangoHilosCaja2;
+    RangoHilosCaja2 rangoHilosCaja2Anterior;
+
+    RangoOntDAO rangoOntDAO;
+    RangoOnt rangoOnt;
+    RangoOnt rangoOntAnterior;
+
+    ServiportDAO serviportDAO;
+
+    Servicios servicios;
+    ServicioDAO servicioDAO;
+
+    int numeroHiloCaja2,numeroOnt;
+    String nombreCaja2;
     private final ActivityResultLauncher<ScanOptions> barcodeLauncher = registerForActivityResult(new ScanContract(),
             result -> {
                 if(result.getContents() == null) {
@@ -138,7 +170,14 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
         Procesos.cargandoDetener();
         modeloOntDAO=new ModeloOntDAO(CrearServicioFragment.this);
         vlanDAO=new VlanDAO(CrearServicioFragment.this);
-        switchServiPort=(Switch)vista.findViewById(R.id.switchServiport_CrearServicio);
+        rangoHilosCaja2DAO=new RangoHilosCaja2DAO(CrearServicioFragment.this);
+        serviportDAO=new ServiportDAO(CrearServicioFragment.this);
+        rangoOntDAO=new RangoOntDAO(CrearServicioFragment.this);
+        servicioDAO=new ServicioDAO(CrearServicioFragment.this);
+        rangoHilosCaja2=new RangoHilosCaja2();
+        rangoOnt=new RangoOnt();
+        groupComando=(LinearLayout) vista.findViewById(R.id.linearGrupoComando_CrearServicio);
+        btnGuardar=(Button) vista.findViewById(R.id.btnGuardar_CrearServicio);
         switchNumeroOnt=(Switch)vista.findViewById(R.id.switchNumeroOnt_CrearServicio);
         switchHiloEnCaja2=(Switch)vista.findViewById(R.id.switchHiloCaja2_CrearServicio);
         switchLatLon=(Switch)vista.findViewById(R.id.switchLatitudLongitud_CrearServicio);
@@ -170,9 +209,6 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
         String [] opciones={"Seleccionar el plan","40 megas","80 megas","16 megas"};
         ArrayAdapter<String> adapter= new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item,opciones);
         spinnerPlan.setAdapter(adapter);
-        dia = calendar.get(Calendar.DAY_OF_MONTH);
-        mes = calendar.get(Calendar.MONTH);
-        ano = calendar.get(Calendar.YEAR);
         txtFechaInstalacion.setEndIconOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -185,12 +221,49 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
                 datePickerDialog.show();
             }
         });
+        if (opc.equals("editar")){
+            latLonAutomaticoApagado();
+            String[] fecha= obtenerFechaPorDiaMesAno(servicios.getFecha());
+            dia = Integer.parseInt(fecha[0]);
+            mes = Integer.parseInt(fecha[1]);
+            ano = Integer.parseInt(fecha[2]);
+            rangoHilosCaja2DAO.obtenerHiloCaja2Anterior(servicios.getId_cajanivel2(),servicios.getId_servicio(),context);
+            rangoOntDAO.obtenerNumeroOntAnterior(vlan.getId(),servicios.getId_ont(),context);
+        }else{
+            dia = calendar.get(Calendar.DAY_OF_MONTH);
+            mes = calendar.get(Calendar.MONTH);
+            ano = calendar.get(Calendar.YEAR);
+            serviportAutomatico();
+            latLonAutomaticoEncendido();
+        }
+        if (Procesos.user!=null){
+            if (Procesos.user.getRol()!=1){
+                groupComando.setVisibility(View.GONE);
+            }
+        }
+        btnGuardar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                numeroHiloCaja2 =Procesos.obtenerTxtEnEntero(txtHiloEnCaja2);
+                nombreCaja2=Procesos.obtenerTxtEnString(txtCajaNivel2);
+                numeroOnt=Procesos.obtenerTxtEnEntero(txtNumeroOnt);
+                validar1HiloEnCaja2();
+            }
+        });
+        serviportDAO.obtenerServiportAutomatico(context);
         addTextChangedListener();
         setOnCheckedChangeListener();
         setEndIconOnClickListener();
         return vista;
     }
 
+    public void crearEditar(){
+        if (opc.equals("crear")){
+
+        }else if(opc.equals("editar")) {
+
+        }
+    }
     private void setEndIconOnClickListener() {
         txtCliente.setEndIconOnClickListener(new View.OnClickListener() {
             @Override
@@ -291,31 +364,75 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
             }
         });
     }
-
-    private void setOnCheckedChangeListener() {
-        switchServiPort.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b){
-                    serviportAutomatico();
-                    txtServiPort.getEditText().setEnabled(false);
-                }else{
-                    txtServiPort.getEditText().setEnabled(true);
-                    txtServiPort.getEditText().setText("");
+    boolean hiloModificadoCreado=true;
+    public void validar1HiloEnCaja2(){
+        if (switchHiloEnCaja2.isChecked()){
+            validar2NumeroOnt();
+        }else{//manual
+            if (servicios!=null){//quiere decir que opc=editar
+                if(cajaNivel2!=null){//si es diferente a null es decir que si se seleciono otra caja y debemos validar el nuevo numero de hilo
+                    rangoHilosCaja2DAO.verificarHiloCaja2Manual(cajaNivel2.getId_CajaNivel2(), numeroHiloCaja2,context);
+                    rangoHilosCaja2DAO.editarRangoHilosCaja2Anterior(rangoHilosCaja2Anterior.getId_rangocaja2(),context);
+                    servicios.setId_cajanivel2(cajaNivel2.getId_CajaNivel2());
+                    servicios.setHiloCajaNivel2(numeroHiloCaja2);
+                }else{//si es = null es decir que no se seleciono otra caja
+                    if (servicios.getHiloCajaNivel2()!=numeroHiloCaja2){//como no se seleciono otra caja se verifica si cambiaron el numero manualmente
+                        // si los numeros son diferentes es decir que cambiaron el numero de hilo manualmente y debemos validar
+                        rangoHilosCaja2DAO.verificarHiloCaja2Manual(cajaNivel2.getId_CajaNivel2(), numeroHiloCaja2,context);
+                        rangoHilosCaja2DAO.editarRangoHilosCaja2Anterior(rangoHilosCaja2Anterior.getId_rangocaja2(),context);
+                        servicios.setHiloCajaNivel2(numeroHiloCaja2);
+                    }else{// los numeros de hilo son los mismos no es necesario validar nuevamente
+                        hiloModificadoCreado=false;
+                        validar2NumeroOnt();//ojo en cada validar true se llama al siguiente validar
+                    }
                 }
+            }else{//quiere decir que opc=crear por ende se debe validar
+                hiloModificadoCreado=true;
+                rangoHilosCaja2DAO.verificarHiloCaja2Manual(cajaNivel2.getId_CajaNivel2(), numeroHiloCaja2,context);
             }
-        });
+        }
+    }
+    boolean numeroOntModificadoCreado=true;
+    public void validar2NumeroOnt(){
+        if (switchNumeroOnt.isChecked()){
+            validar3ServiPort();
+        }else{//manual
+            if (servicios!=null){//quiere decir que opc=editar
+                if(vlan!=null){//si es diferente a null es decir que si se seleciono otra caja y debemos validar el nuevo numero de hilo
+                    rangoOntDAO.verificarNumeroOntManual(vlan.getId(), numeroOnt,context);
+                    rangoOntDAO.editarRangoOntAnterior(rangoOntAnterior.getId_rangoont(),context);
+                    //servicios.setId_cajanivel2(cajaNivel2.getId_CajaNivel2());
+                    //servicios.setHiloCajaNivel2(numeroHiloCaja2);
+                    ont.setNumeroOnt(numeroOnt);
+                }else{//si es = null es decir que no se seleciono otra caja
+                    if (ont.getNumeroOnt()!=numeroOnt){//como no se seleciono otra caja se verifica si cambiaron el numero manualmente
+                        // si los numeros son diferentes es decir que cambiaron el numero de hilo manualmente y debemos validar
+                        rangoOntDAO.verificarNumeroOntManual(vlan.getId(), numeroOnt,context);
+                        rangoOntDAO.editarRangoOntAnterior(rangoOntAnterior.getId_rangoont(),context);
+                        ont.setNumeroOnt(numeroOnt);
+                        //servicios.setHiloCajaNivel2(numeroHiloCaja2);
+                    }else{// los numeros de hilo son los mismos no es necesario validar nuevamente
+                        numeroOntModificadoCreado=false;
+                        validar3ServiPort();//ojo en cada validar true se llama al siguiente validar
+                    }
+                }
+            }else{//quiere decir que opc=crear por ende se debe validar
+                numeroOntModificadoCreado=true;
+                rangoOntDAO.verificarNumeroOntManual(vlan.getId(), numeroOnt,context);
+            }
+        }
+    }
+    public void validar3ServiPort(){
+
+    }
+    private void setOnCheckedChangeListener() {
         switchLatLon.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(b){
                     latLonAutomaticoEncendido();
-                    txtLatitud.getEditText().setEnabled(false);
-                    txtLongitud.getEditText().setEnabled(false);
                 }else{
                     latLonAutomaticoApagado();
-                    txtLatitud.getEditText().setEnabled(true);
-                    txtLongitud.getEditText().setEnabled(true);
                     txtLatitud.getEditText().setText("");
                     txtLongitud.getEditText().setText("");
                 }
@@ -325,9 +442,11 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(b){
+                    switchNumeroOnt.setText("Automático");
                     numeroOntAutomatico();
                     txtNumeroOnt.getEditText().setEnabled(false);
                 }else{
+                    switchNumeroOnt.setText("Manual");
                     txtNumeroOnt.getEditText().setEnabled(true);
                     txtNumeroOnt.getEditText().setText("");
                 }
@@ -337,9 +456,11 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(b){
+                    switchHiloEnCaja2.setText("Automático");
                     hiloEnCaja2Automatico();
                     txtHiloEnCaja2.getEditText().setEnabled(false);
                 }else{
+                    switchHiloEnCaja2.setText("Manual");
                     txtHiloEnCaja2.getEditText().setEnabled(true);
                     txtHiloEnCaja2.getEditText().setText("");
                 }
@@ -349,9 +470,11 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(b){
+                    switchDireccionIp.setText("Automático");
                     direccionIpAutomatico();
                     txtDireccionIp.getEditText().setEnabled(false);
                 }else{
+                    switchDireccionIp.setText("Manual");
                     txtDireccionIp.getEditText().setEnabled(true);
                     txtDireccionIp.getEditText().setText("");
                 }
@@ -363,15 +486,31 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
     }
 
     private void hiloEnCaja2Automatico() {
+        txtHiloEnCaja2.getEditText().setEnabled(false);
+        if(cajaNivel2!=null){
+            rangoHilosCaja2DAO.obtenerHiloCaja2Automatico(cajaNivel2.getId_CajaNivel2(),context);
+        }
     }
 
     private void numeroOntAutomatico() {
+        txtNumeroOnt.getEditText().setEnabled(false);
+        if(vlan!=null){
+            rangoOntDAO.obtenerNumeroOntAutomatico(vlan.getId(),context);
+        }
     }
 
     private void latLonAutomaticoApagado() {
+        switchLatLon.setText("Manual");
+        txtLatitud.getEditText().setEnabled(true);
+        txtLongitud.getEditText().setEnabled(true);
+        Procesos.detenerObtenerLatitudLongitud();
     }
 
     private void latLonAutomaticoEncendido() {
+        switchLatLon.setText("Automático");
+        txtLatitud.getEditText().setEnabled(false);
+        txtLongitud.getEditText().setEnabled(false);
+        Procesos.obtenerLatitudLongitud(context, CrearServicioFragment.this,getActivity().getContentResolver());
     }
 
     private void serviportAutomatico() {
@@ -411,6 +550,8 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
                     txtComandoPlanes.getEditText().setText("");
                 }else{
                     llenarComandoPlanes();
+                    usuarioRepetido="brayan222222";
+                    llenarUsuario();
                 }
             }
 
@@ -593,12 +734,13 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
             txtComandoPlanes.getEditText().setText(conca);
         }
     }
-
+    String usuarioRepetido="";
     public void llenarUsuario(){
         if(clientes!=null && cajaNivel2!=null){
             String conca;
-            conca=obtenerPrimerLetra(clientes.getNombre())+obtenerPrimerApellido(clientes.getApellido())+"_"+cajaNivel2.getAbreviaturaCajaNivel1()+"_"+cajaNivel2.getAbreviatura();
+            conca=obtenerPrimerLetra(clientes.getNombre())+obtenerPrimerApellido(clientes.getApellido())+usuarioRepetido+"_"+cajaNivel2.getAbreviaturaCajaNivel1()+"_"+cajaNivel2.getAbreviatura();
             txtUsuario.getEditText().setText(conca);
+            servicioDAO.validarUsuario(conca,context);
         }
     }
     public void llenarInterfazPoncard(){
@@ -669,6 +811,15 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
         }
     }
 
+    private String[] obtenerFechaPorDiaMesAno(String fecha) {
+        if(fecha == null || fecha.length() == 0){
+            return null;
+        } else{
+            String[] ar = fecha.split("/");
+            return ar;
+        }
+    }
+
     private String obtenerPrimerLetra(String nombre) {
         if(nombre == null || nombre.length() == 0){
             return null;
@@ -698,6 +849,12 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
         llenarAgregarServicioAlPuerto();
         llenarEquipoBridge();
         llenarEliminarOnt();
+
+        //----
+        numeroOntAutomatico();
+        hiloEnCaja2Automatico();
+        direccionIpAutomatico();
+
     }
 
     @Override
@@ -717,8 +874,15 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
     }
 
     @Override
-    public void limpiar() {
-
+    public void limpiar() {//debe ser el limpiar de servicioDao
+        if(hiloModificadoCreado){
+            rangoHilosCaja2.setEstado("activo");
+            rangoHilosCaja2DAO.editarRangoHilosCaja2(rangoHilosCaja2,nombreCaja2,context);
+        }
+        if(numeroOntModificadoCreado){
+            rangoOnt.setEstado("activo");
+            rangoOntDAO.editarRangoOnt(rangoOnt,vlan.getNombreVlan(),context);
+        }
     }
 
     @Override
@@ -726,5 +890,81 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
         this.ont=ont;
         txtOnt.getEditText().setText(ont.getSerieOnt());
         modeloOntDAO.buscarModeloOnt(ont.getId_modeloOnt()+"",context);
+    }
+
+    @Override
+    public void setLatitudLongitud(String latitud, String longitud) {
+        txtLatitud.getEditText().setText(latitud);
+        txtLongitud.getEditText().setText(longitud);
+    }
+
+    @Override
+    public void hiloCaja2Automatico(RangoHilosCaja2 rangoHilosCaja2) {
+        if (rangoHilosCaja2!=null){
+            txtHiloEnCaja2.getEditText().setText(rangoHilosCaja2.getNumero_rangocaja2()+"");
+            this.rangoHilosCaja2=rangoHilosCaja2;
+        }else{
+            Toast.makeText(context, "No hay hilos disponible en esta caja nivel 2", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void validarHiloCaja2Manual(RangoHilosCaja2 rangoHilosCaja2) {
+        if (rangoHilosCaja2 !=null){
+            this.rangoHilosCaja2= rangoHilosCaja2;
+            validar2NumeroOnt();
+        }else{
+            Toast.makeText(context, "Numero de hilo incorrecto o no disponible", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void hiloCaja2Anterior(RangoHilosCaja2 rangoHilosCaja2) {
+        rangoHilosCaja2Anterior= rangoHilosCaja2;
+    }
+
+    @Override
+    public void numeroOntAutomatico(RangoOnt rangoOnt) {
+        if (rangoHilosCaja2!=null){
+            txtNumeroOnt.getEditText().setText(rangoOnt.getNumero_rangoont()+"");
+            this.rangoOnt= rangoOnt;
+        }else{
+            Toast.makeText(context, "No hay numero de ont disponible en esta vlan", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void validarNumeroOntManual(RangoOnt rangoOnt) {
+        if (rangoOnt !=null){
+            this.rangoOnt= rangoOnt;
+            validar3ServiPort();
+        }else{
+            Toast.makeText(context, "Numero de ont incorrecto o no disponible", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void numeroOntAnterior(RangoOnt rangoOnt) {
+        if (rangoOnt !=null){
+            rangoOntAnterior= rangoOnt;
+        }else{
+            Toast.makeText(context, "Numero de ont anterior incorrecto o no disponible", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void serviportAutomatico(Integer Serviport) {
+        txtServiPort.getEditText().setText(Serviport+"");
+    }
+
+    @Override
+    public void setUsuarioRepetido(boolean estaRepetido) {
+        if (estaRepetido){
+            //Math.floor(Math.random()*(N-M+1)+M);  // Valor entre M y N, ambos incluidos.
+            //usuarioRepetido=Math.floor(Math.random()*(1-99+1)+99)+"";
+            Random rand = new Random();
+            usuarioRepetido= rand.nextInt(99)+""; // Gives n such that 0 <= n < 20
+            llenarUsuario();
+        }
     }
 }

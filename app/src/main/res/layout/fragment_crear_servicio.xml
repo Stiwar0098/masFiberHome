@@ -62,15 +62,6 @@
                         android:text="5" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <Switch
-                    android:id="@+id/switchServiport_CrearServicio"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:checked="true"
-                    android:text="Automático"
-                    android:thumbTint="@color/botones" />
-
             </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -451,239 +442,247 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txtComandoPlanes_CrearServicio"
+
+            <LinearLayout
+                android:id="@+id/linearGrupoComando_CrearServicio"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
-                android:textColorHint="@color/textColorHint"
-                app:boxStrokeColor="@color/boxStrokeColor"
-                app:endIconCheckable="true"
-                app:endIconDrawable="@drawable/ic_baseline_content_copy_24"
-                app:endIconMode="custom"
-                app:endIconTint="@color/iconos"
-                app:hintTextColor="@color/hintTextColor"
-                app:startIconTint="@color/iconos">
+                android:orientation="vertical">
 
-                <com.google.android.material.textfield.TextInputEditText
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txtComandoPlanes_CrearServicio"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:hint="Comando planes" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp"
+                    android:textColorHint="@color/textColorHint"
+                    app:boxStrokeColor="@color/boxStrokeColor"
+                    app:endIconCheckable="true"
+                    app:endIconDrawable="@drawable/ic_baseline_content_copy_24"
+                    app:endIconMode="custom"
+                    app:endIconTint="@color/iconos"
+                    app:hintTextColor="@color/hintTextColor"
+                    app:startIconTint="@color/iconos">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txtInterfazPoncard_CrearServicio"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
-                android:textColorHint="@color/textColorHint"
-                app:boxStrokeColor="@color/boxStrokeColor"
-                app:endIconCheckable="true"
-                app:endIconDrawable="@drawable/ic_baseline_content_copy_24"
-                app:endIconMode="custom"
-                app:endIconTint="@color/iconos"
-                app:hintTextColor="@color/hintTextColor"
-                app:startIconTint="@color/iconos">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:hint="Comando planes" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txtInterfazPoncard_CrearServicio"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:hint="Interfaz Poncard" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp"
+                    android:textColorHint="@color/textColorHint"
+                    app:boxStrokeColor="@color/boxStrokeColor"
+                    app:endIconCheckable="true"
+                    app:endIconDrawable="@drawable/ic_baseline_content_copy_24"
+                    app:endIconMode="custom"
+                    app:endIconTint="@color/iconos"
+                    app:hintTextColor="@color/hintTextColor"
+                    app:startIconTint="@color/iconos">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txtAgregarOnt_CrearServicio"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
-                android:textColorHint="@color/textColorHint"
-                app:boxStrokeColor="@color/boxStrokeColor"
-                app:endIconCheckable="true"
-                app:endIconDrawable="@drawable/ic_baseline_content_copy_24"
-                app:endIconMode="custom"
-                app:endIconTint="@color/iconos"
-                app:hintTextColor="@color/hintTextColor"
-                app:startIconTint="@color/iconos">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:hint="Interfaz Poncard" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txtAgregarOnt_CrearServicio"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:hint="Agregar ont" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp"
+                    android:textColorHint="@color/textColorHint"
+                    app:boxStrokeColor="@color/boxStrokeColor"
+                    app:endIconCheckable="true"
+                    app:endIconDrawable="@drawable/ic_baseline_content_copy_24"
+                    app:endIconMode="custom"
+                    app:endIconTint="@color/iconos"
+                    app:hintTextColor="@color/hintTextColor"
+                    app:startIconTint="@color/iconos">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txtEquipoBridge_CrearServicio"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
-                android:textColorHint="@color/textColorHint"
-                app:boxStrokeColor="@color/boxStrokeColor"
-                app:endIconCheckable="true"
-                app:endIconDrawable="@drawable/ic_baseline_content_copy_24"
-                app:endIconMode="custom"
-                app:endIconTint="@color/iconos"
-                app:hintTextColor="@color/hintTextColor"
-                app:startIconTint="@color/iconos">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:hint="Agregar ont" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txtEquipoBridge_CrearServicio"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:hint="Equipo bridge" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp"
+                    android:textColorHint="@color/textColorHint"
+                    app:boxStrokeColor="@color/boxStrokeColor"
+                    app:endIconCheckable="true"
+                    app:endIconDrawable="@drawable/ic_baseline_content_copy_24"
+                    app:endIconMode="custom"
+                    app:endIconTint="@color/iconos"
+                    app:hintTextColor="@color/hintTextColor"
+                    app:startIconTint="@color/iconos">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txtQuit_CrearServicio"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
-                android:textColorHint="@color/textColorHint"
-                app:boxStrokeColor="@color/boxStrokeColor"
-                app:endIconCheckable="true"
-                app:endIconDrawable="@drawable/ic_baseline_content_copy_24"
-                app:endIconMode="custom"
-                app:endIconTint="@color/iconos"
-                app:hintTextColor="@color/hintTextColor"
-                app:startIconTint="@color/iconos">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:hint="Equipo bridge" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txtQuit_CrearServicio"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:hint="Quit"
-                    android:text="quit" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp"
+                    android:textColorHint="@color/textColorHint"
+                    app:boxStrokeColor="@color/boxStrokeColor"
+                    app:endIconCheckable="true"
+                    app:endIconDrawable="@drawable/ic_baseline_content_copy_24"
+                    app:endIconMode="custom"
+                    app:endIconTint="@color/iconos"
+                    app:hintTextColor="@color/hintTextColor"
+                    app:startIconTint="@color/iconos">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txtEliminarServicio__CrearServicio"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
-                android:textColorHint="@color/textColorHint"
-                app:boxStrokeColor="@color/boxStrokeColor"
-                app:endIconCheckable="true"
-                app:endIconDrawable="@drawable/ic_baseline_content_copy_24"
-                app:endIconMode="custom"
-                app:endIconTint="@color/iconos"
-                app:hintTextColor="@color/hintTextColor"
-                app:startIconTint="@color/iconos">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:hint="Quit"
+                        android:text="quit" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txtEliminarServicio__CrearServicio"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:hint="Eliminar servicio" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp"
+                    android:textColorHint="@color/textColorHint"
+                    app:boxStrokeColor="@color/boxStrokeColor"
+                    app:endIconCheckable="true"
+                    app:endIconDrawable="@drawable/ic_baseline_content_copy_24"
+                    app:endIconMode="custom"
+                    app:endIconTint="@color/iconos"
+                    app:hintTextColor="@color/hintTextColor"
+                    app:startIconTint="@color/iconos">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txtAgregarServicioAlPuerto_CrearServicio"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
-                android:textColorHint="@color/textColorHint"
-                app:boxStrokeColor="@color/boxStrokeColor"
-                app:endIconCheckable="true"
-                app:endIconDrawable="@drawable/ic_baseline_content_copy_24"
-                app:endIconMode="custom"
-                app:endIconTint="@color/iconos"
-                app:hintTextColor="@color/hintTextColor"
-                app:startIconTint="@color/iconos">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:hint="Eliminar servicio" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txtAgregarServicioAlPuerto_CrearServicio"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:hint="Agregar servicio al puerto" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp"
+                    android:textColorHint="@color/textColorHint"
+                    app:boxStrokeColor="@color/boxStrokeColor"
+                    app:endIconCheckable="true"
+                    app:endIconDrawable="@drawable/ic_baseline_content_copy_24"
+                    app:endIconMode="custom"
+                    app:endIconTint="@color/iconos"
+                    app:hintTextColor="@color/hintTextColor"
+                    app:startIconTint="@color/iconos">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txtAgregarPlanAlCliente_CrearServicio"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
-                android:textColorHint="@color/textColorHint"
-                app:boxStrokeColor="@color/boxStrokeColor"
-                app:endIconCheckable="true"
-                app:endIconDrawable="@drawable/ic_baseline_content_copy_24"
-                app:endIconMode="custom"
-                app:endIconTint="@color/iconos"
-                app:hintTextColor="@color/hintTextColor"
-                app:startIconTint="@color/iconos">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:hint="Agregar servicio al puerto" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txtAgregarPlanAlCliente_CrearServicio"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:hint="Agregar plan al cliente" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp"
+                    android:textColorHint="@color/textColorHint"
+                    app:boxStrokeColor="@color/boxStrokeColor"
+                    app:endIconCheckable="true"
+                    app:endIconDrawable="@drawable/ic_baseline_content_copy_24"
+                    app:endIconMode="custom"
+                    app:endIconTint="@color/iconos"
+                    app:hintTextColor="@color/hintTextColor"
+                    app:startIconTint="@color/iconos">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txtAgregarDescipcionAlPuerto_CrearServicio"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
-                android:textColorHint="@color/textColorHint"
-                app:boxStrokeColor="@color/boxStrokeColor"
-                app:endIconCheckable="true"
-                app:endIconDrawable="@drawable/ic_baseline_content_copy_24"
-                app:endIconMode="custom"
-                app:endIconTint="@color/iconos"
-                app:hintTextColor="@color/hintTextColor"
-                app:startIconTint="@color/iconos">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:hint="Agregar plan al cliente" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txtAgregarDescipcionAlPuerto_CrearServicio"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:hint="Agregar descripcion al puerto" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp"
+                    android:textColorHint="@color/textColorHint"
+                    app:boxStrokeColor="@color/boxStrokeColor"
+                    app:endIconCheckable="true"
+                    app:endIconDrawable="@drawable/ic_baseline_content_copy_24"
+                    app:endIconMode="custom"
+                    app:endIconTint="@color/iconos"
+                    app:hintTextColor="@color/hintTextColor"
+                    app:startIconTint="@color/iconos">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/txtEliminarOnt_CrearServicio"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
-                android:textColorHint="@color/textColorHint"
-                app:boxStrokeColor="@color/boxStrokeColor"
-                app:endIconCheckable="true"
-                app:endIconDrawable="@drawable/ic_baseline_content_copy_24"
-                app:endIconMode="custom"
-                app:endIconTint="@color/iconos"
-                app:hintTextColor="@color/hintTextColor"
-                app:startIconTint="@color/iconos">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:hint="Agregar descripcion al puerto" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/txtEliminarOnt_CrearServicio"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:hint="Eliminar ont" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp"
+                    android:textColorHint="@color/textColorHint"
+                    app:boxStrokeColor="@color/boxStrokeColor"
+                    app:endIconCheckable="true"
+                    app:endIconDrawable="@drawable/ic_baseline_content_copy_24"
+                    app:endIconMode="custom"
+                    app:endIconTint="@color/iconos"
+                    app:hintTextColor="@color/hintTextColor"
+                    app:startIconTint="@color/iconos">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:hint="Eliminar ont" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
 
             <Button
-                android:id="@+id/btnGuardar_CrearCajaNivel2"
+                android:id="@+id/btnGuardar_CrearServicio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"

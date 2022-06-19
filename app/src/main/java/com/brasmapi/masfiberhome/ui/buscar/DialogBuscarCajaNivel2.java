@@ -29,6 +29,7 @@ public class DialogBuscarCajaNivel2 implements CajaNivel2DAO.interfazCajaNivel2D
 {
     static Context context;
     static List<CajaNivel2> listaCajaNivel2;
+    static List<CajaNivel2> listaCajaNivel2aux;
     static Dialog dialogo;
     static AdapterCajaNivel2 adaptadorItemBuscarCajaNivel2;
     static RecyclerView recyclerViewBuscarCajaNivel2;
@@ -46,7 +47,6 @@ public class DialogBuscarCajaNivel2 implements CajaNivel2DAO.interfazCajaNivel2D
         dialogo.setCancelable(true);//false
         dialogo.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialogo.setContentView(R.layout.dialog_buscar_caja_nivel2);
-
         refreshLayout=(SwipeRefreshLayout)dialogo.findViewById(R.id.refreshRecycler_DialogBuscarCajaNivel2);
         lblSinCajaNivel2 =(TextView)dialogo.findViewById(R.id.lblCajaNivel2Registrados);
         txtBuscarCajaNivel2=(TextInputLayout) dialogo.findViewById(R.id.txtImputBuscarCajaNivel2_DialogBuscarCajaNivel2);
@@ -96,13 +96,19 @@ public class DialogBuscarCajaNivel2 implements CajaNivel2DAO.interfazCajaNivel2D
             recyclerViewBuscarCajaNivel2.setAdapter(adaptadorItemBuscarCajaNivel2);
             adaptadorItemBuscarCajaNivel2.notifyDataSetChanged();
         }else{
+            listaCajaNivel2aux=null;
             adaptadorItemBuscarCajaNivel2 = new AdapterCajaNivel2(listaCajaNivel2);
             recyclerViewBuscarCajaNivel2.setAdapter(adaptadorItemBuscarCajaNivel2);
             adaptadorItemBuscarCajaNivel2.notifyDataSetChanged();
             adaptadorItemBuscarCajaNivel2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    CajaNivel2 us = listaCajaNivel2.get(recyclerViewBuscarCajaNivel2.getChildAdapterPosition(v));
+                    CajaNivel2 us;
+                    if (listaCajaNivel2aux==null){
+                        us = listaCajaNivel2.get(recyclerViewBuscarCajaNivel2.getChildAdapterPosition(v));
+                    }else{
+                        us = listaCajaNivel2aux.get(recyclerViewBuscarCajaNivel2.getChildAdapterPosition(v));
+                    }
                     interfaz.CajaNivel2Selecionado(us);
                     dialogo.dismiss();
                 }
@@ -111,14 +117,15 @@ public class DialogBuscarCajaNivel2 implements CajaNivel2DAO.interfazCajaNivel2D
         Procesos.cargandoDetener();
     }
     private void filtrar(String buscar){
+        listaCajaNivel2aux=null;
         if (listaCajaNivel2!=null){
-            List<CajaNivel2> aux2=new ArrayList<>();
+            listaCajaNivel2aux= new ArrayList<>();
             for (CajaNivel2 aux:listaCajaNivel2) {
                 if(aux.getNombre_CajaNivel2().toLowerCase().contains(buscar.toLowerCase())){
-                    aux2.add(aux);
+                    listaCajaNivel2aux.add(aux);
                 }
             }
-            adaptadorItemBuscarCajaNivel2.setAdapterItemBuscarCajaNivel2(aux2);
+            adaptadorItemBuscarCajaNivel2.setAdapterItemBuscarCajaNivel2(listaCajaNivel2aux);
             adaptadorItemBuscarCajaNivel2.notifyDataSetChanged();
         }
 

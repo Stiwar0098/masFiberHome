@@ -56,7 +56,12 @@ public class Procesos extends AppCompatActivity {
     public Procesos() {
 
     }
-
+    public static String obtenerTxtEnString(TextInputLayout txt){
+        return txt.getEditText().getText().toString().trim();
+    }
+    public static Integer obtenerTxtEnEntero(TextInputLayout txt){
+        return Integer.parseInt(txt.getEditText().getText().toString().trim());
+    }
     public static void cargandoIniciar(Context context) {
         //inicializamos progres dialog
         cargando = new ProgressDialog(context);

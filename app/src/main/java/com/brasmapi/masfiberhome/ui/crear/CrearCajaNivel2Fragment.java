@@ -356,8 +356,9 @@ public class CrearCajaNivel2Fragment extends Fragment implements DialogBuscarCaj
             if(cajaNivel2.getHiloCaja1()!=hiloCaja1){
                 rangoHilosCaja1DAO.editarRangoHilosCaja1Anterior(rangoHilosCaja1Anterior.getId_rangocaja1(),context);
                 cajaNivel2.setHiloCaja1(hiloCaja1);
+            }else{
+                hiloModificado=false;
             }
-            hiloModificado=false;
         }
         cajaNivel2DAO.editarCajaNivel2(cajaNivel2,context,false);
         }

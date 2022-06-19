@@ -174,6 +174,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_pendiente:
             case R.id.nav_migrarCliente:
             case R.id.nav_crearServicio:
+                try {
+                    CrearServicioFragment.opc="crear";
+                }catch (Exception e){
+
+                }
               NavigationUI.onNavDestinationSelected(item,navController);
                 ocultarMenu();
                 //cambiarFragment(new CrearClienteFragment(), "Crear Cliente",itemMenuSeleccionadoAnterior,2);
@@ -207,6 +212,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 menuItem = navigationView.getMenu().getItem(1);
                 menuItem.setVisible(false);
                 navController.navigate(R.id.nav_crearServicio);
+                CrearServicioFragment.opc="crear";
                 //cambiarFragment(new CrearServicioFragment(),"Crear cliente",itemMenuSeleccionadoAnterior,1);
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 // Definir una transacción
