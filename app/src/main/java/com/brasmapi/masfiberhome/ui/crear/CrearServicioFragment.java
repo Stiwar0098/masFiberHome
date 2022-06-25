@@ -27,6 +27,9 @@ import android.widget.Toast;
 import com.brasmapi.masfiberhome.Procesos;
 import com.brasmapi.masfiberhome.R;
 import com.brasmapi.masfiberhome.dao.ModeloOntDAO;
+import com.brasmapi.masfiberhome.dao.OntDAO;
+import com.brasmapi.masfiberhome.dao.PlanesDAO;
+import com.brasmapi.masfiberhome.dao.RangoDireccionIpDAO;
 import com.brasmapi.masfiberhome.dao.RangoHilosCaja2DAO;
 import com.brasmapi.masfiberhome.dao.RangoOntDAO;
 import com.brasmapi.masfiberhome.dao.ServicioDAO;
@@ -36,6 +39,8 @@ import com.brasmapi.masfiberhome.entidades.CajaNivel2;
 import com.brasmapi.masfiberhome.entidades.Clientes;
 import com.brasmapi.masfiberhome.entidades.ModeloOnt;
 import com.brasmapi.masfiberhome.entidades.Ont;
+import com.brasmapi.masfiberhome.entidades.Planes;
+import com.brasmapi.masfiberhome.entidades.RangoDireccionIp;
 import com.brasmapi.masfiberhome.entidades.RangoHilosCaja2;
 import com.brasmapi.masfiberhome.entidades.RangoOnt;
 import com.brasmapi.masfiberhome.entidades.Servicios;
@@ -65,7 +70,11 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
         Procesos.LatitudLongitud,
         RangoHilosCaja2DAO.interfazRangoCaja2DAO,
         RangoOntDAO.interfazRangoOnt,
-        ServiportDAO.interfazServiport, ServicioDAO.interfazServicio{
+        ServiportDAO.interfazServiport,
+        ServicioDAO.interfazServicio,
+        PlanesDAO.interfazPlanesDAO,
+        RangoDireccionIpDAO.interfazRangoDireccionIp,
+        OntDAO.interfazOntDAO {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -112,7 +121,7 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
     DatePickerDialog datePickerDialog;
     View vista;
     TextInputLayout txtFechaInstalacion;
-    int ano,mes,dia;
+    int anio,mes,dia;
     Vlan vlan;
     VlanDAO vlanDAO;
     Clientes clientes;
@@ -134,13 +143,21 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
     RangoOnt rangoOnt;
     RangoOnt rangoOntAnterior;
 
+    RangoDireccionIpDAO rangoDireccionIpDAO;
+    RangoDireccionIp rangoDireccionIp;
+    RangoDireccionIp rangoDireccionIpAnterior;
+
     ServiportDAO serviportDAO;
 
     Servicios servicios;
     ServicioDAO servicioDAO;
+    OntDAO ontDAO;
 
-    int numeroHiloCaja2,numeroOnt;
-    String nombreCaja2;
+    PlanesDAO planesDAO;
+    int numeroHiloCaja2,numeroOnt,idplanes;
+    int ip_numero,serviport;
+    String nombreCaja2,direccionIp,usuario,equipoBridge;
+    String direccion,referencia,fecha,longitud,latitud,comandoPlanes,iterfazPonCard,agregarOnt,quit,eliminarServicio,agregarServicioPuerto,agregarDescripcionPuerto,eliminarOnt,agregarPlanCliente;
     private final ActivityResultLauncher<ScanOptions> barcodeLauncher = registerForActivityResult(new ScanContract(),
             result -> {
                 if(result.getContents() == null) {
@@ -157,7 +174,7 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
                     //txtserie.getEditText().setText(result.getContents()+"");
                     DialogCrearOnt.txtserie.getEditText().setText(result.getContents());
                     //interfazScanerCrearServicio.setEscaner(result.getContents());
-                    Toast.makeText(getActivity(), "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getActivity(), "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
                 }
             });
     @Override
@@ -169,13 +186,17 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
         ((MainActivity)getActivity()).setTitle("Crear servicio");
         Procesos.cargandoDetener();
         modeloOntDAO=new ModeloOntDAO(CrearServicioFragment.this);
+        ontDAO=new OntDAO(CrearServicioFragment.this);
         vlanDAO=new VlanDAO(CrearServicioFragment.this);
         rangoHilosCaja2DAO=new RangoHilosCaja2DAO(CrearServicioFragment.this);
+        rangoDireccionIpDAO=new RangoDireccionIpDAO(CrearServicioFragment.this);
         serviportDAO=new ServiportDAO(CrearServicioFragment.this);
         rangoOntDAO=new RangoOntDAO(CrearServicioFragment.this);
+        planesDAO=new PlanesDAO(CrearServicioFragment.this);
         servicioDAO=new ServicioDAO(CrearServicioFragment.this);
         rangoHilosCaja2=new RangoHilosCaja2();
         rangoOnt=new RangoOnt();
+        rangoDireccionIp=new RangoDireccionIp();
         groupComando=(LinearLayout) vista.findViewById(R.id.linearGrupoComando_CrearServicio);
         btnGuardar=(Button) vista.findViewById(R.id.btnGuardar_CrearServicio);
         switchNumeroOnt=(Switch)vista.findViewById(R.id.switchNumeroOnt_CrearServicio);
@@ -206,18 +227,16 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
         txtInterfazPoncard= (TextInputLayout) vista.findViewById(R.id.txtInterfazPoncard_CrearServicio);
         txtQuit= (TextInputLayout) vista.findViewById(R.id.txtQuit_CrearServicio);
         spinnerPlan =vista.findViewById(R.id.spinnerPlan_CrearUsuario);
-        String [] opciones={"Seleccionar el plan","40 megas","80 megas","16 megas"};
-        ArrayAdapter<String> adapter= new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item,opciones);
-        spinnerPlan.setAdapter(adapter);
         txtFechaInstalacion.setEndIconOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Procesos.cerrarTeclado(getActivity());
                 datePickerDialog = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         txtFechaInstalacion.getEditText().setText(dayOfMonth + "-" + (month + 1) + "-" + year);
                     }
-                }, ano, mes, dia);
+                }, anio, mes, dia);
                 datePickerDialog.show();
             }
         });
@@ -226,15 +245,16 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
             String[] fecha= obtenerFechaPorDiaMesAno(servicios.getFecha());
             dia = Integer.parseInt(fecha[0]);
             mes = Integer.parseInt(fecha[1]);
-            ano = Integer.parseInt(fecha[2]);
+            anio = Integer.parseInt(fecha[2]);
             rangoHilosCaja2DAO.obtenerHiloCaja2Anterior(servicios.getId_cajanivel2(),servicios.getId_servicio(),context);
             rangoOntDAO.obtenerNumeroOntAnterior(vlan.getId(),servicios.getId_ont(),context);
         }else{
             dia = calendar.get(Calendar.DAY_OF_MONTH);
             mes = calendar.get(Calendar.MONTH);
-            ano = calendar.get(Calendar.YEAR);
+            anio = calendar.get(Calendar.YEAR);
             serviportAutomatico();
             latLonAutomaticoEncendido();
+            txtFechaInstalacion.getEditText().setText(dia+"-"+(mes+1)+"-"+ anio);
         }
         if (Procesos.user!=null){
             if (Procesos.user.getRol()!=1){
@@ -244,13 +264,43 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
         btnGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                numeroHiloCaja2 =Procesos.obtenerTxtEnEntero(txtHiloEnCaja2);
-                nombreCaja2=Procesos.obtenerTxtEnString(txtCajaNivel2);
-                numeroOnt=Procesos.obtenerTxtEnEntero(txtNumeroOnt);
-                validar1HiloEnCaja2();
+                Procesos.cerrarTeclado(getActivity());
+                if(Procesos.validarTxtEstaLleno(txtServiPort)&&Procesos.validarTxtEstaLleno(txtCliente)&&Procesos.validarTxtEstaLleno(txtCajaNivel2)&&Procesos.validarTxtEstaLleno(txtOnt)&&Procesos.validarTxtEstaLleno(txtNumeroOnt)&&Procesos.validarTxtEstaLleno(txtUsuario)&&spinnerPlan.getSelectedItemPosition()!=0&&Procesos.validarTxtEstaLleno(txtDireccionIp)&&Procesos.validarTxtEstaLleno(txtDireccion)&&Procesos.validarTxtEstaLleno(txtReferencia)&&Procesos.validarTxtEstaLleno(txtFechaInstalacion)&&Procesos.validarTxtEstaLleno(txtHiloEnCaja2)&&Procesos.validarTxtEstaLleno(txtLatitud)&&Procesos.validarTxtEstaLleno(txtLongitud)&&Procesos.validarTxtEstaLleno(txtComandoPlanes)&&Procesos.validarTxtEstaLleno(txtInterfazPoncard)&&Procesos.validarTxtEstaLleno(txtAgregarOnt)&&Procesos.validarTxtEstaLleno(txtQuit)&&Procesos.validarTxtEstaLleno(txtEliminarServicio)&&Procesos.validarTxtEstaLleno(txtAgregarServicioAlPuerto)&&Procesos.validarTxtEstaLleno(txtAgregarPlanCliente)&&Procesos.validarTxtEstaLleno(txtAgregarDescripcionPuerto)&&Procesos.validarTxtEstaLleno(txtEliminarOnt)){
+                    if (!Procesos.validarTxtEstaLleno(txtEquipoBridge)){
+                        equipoBridge="SN";
+                    }else{
+                        equipoBridge=Procesos.obtenerTxtEnString(txtEquipoBridge);
+                    }
+                    ont.setNumeroOnt(Procesos.obtenerTxtEnEntero(txtNumeroOnt));
+                    serviport=Procesos.obtenerTxtEnEntero(txtServiPort);
+                    numeroOnt=Procesos.obtenerTxtEnEntero(txtNumeroOnt);
+                    usuario=Procesos.obtenerTxtEnString(txtUsuario);
+                    idplanes=obtenerIdDePlanes();
+                    direccion=Procesos.obtenerTxtEnString(txtDireccion);
+                    referencia=Procesos.obtenerTxtEnString(txtReferencia);
+                    fecha=Procesos.obtenerTxtEnString(txtFechaInstalacion);
+                    numeroHiloCaja2 =Procesos.obtenerTxtEnEntero(txtHiloEnCaja2);
+                    nombreCaja2=Procesos.obtenerTxtEnString(txtCajaNivel2);
+                    direccionIp=Procesos.obtenerTxtEnString(txtDireccionIp);
+                    latitud=Procesos.obtenerTxtEnString(txtLatitud);
+                    longitud=Procesos.obtenerTxtEnString(txtLongitud);
+                    comandoPlanes=Procesos.obtenerTxtEnString(txtComandoPlanes);
+                    iterfazPonCard=Procesos.obtenerTxtEnString(txtInterfazPoncard);
+                    agregarOnt=Procesos.obtenerTxtEnString(txtAgregarOnt);
+                    quit=Procesos.obtenerTxtEnString(txtQuit);
+                    eliminarServicio=Procesos.obtenerTxtEnString(txtEliminarServicio);
+                    agregarServicioPuerto=Procesos.obtenerTxtEnString(txtAgregarServicioAlPuerto);
+                    agregarPlanCliente=Procesos.obtenerTxtEnString(txtAgregarPlanCliente);
+                    agregarDescripcionPuerto=Procesos.obtenerTxtEnString(txtAgregarDescripcionPuerto);
+                    eliminarOnt=Procesos.obtenerTxtEnString(txtEliminarOnt);
+                    validar0ontExistente();
+                }else {
+                    Toast.makeText(context, "Ingrese todos los campos", Toast.LENGTH_SHORT).show();
+                }
             }
         });
-        serviportDAO.obtenerServiportAutomatico(context);
+        planesDAO.filtarPlanes("",context,false);
+        serviportAutomatico();
         addTextChangedListener();
         setOnCheckedChangeListener();
         setEndIconOnClickListener();
@@ -259,7 +309,7 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
 
     public void crearEditar(){
         if (opc.equals("crear")){
-
+            ontDAO.crearOnt(ont,context);//primero guarda el ont una vez guardado llama al metodo limpiaront que ejecuta el guardar servicio
         }else if(opc.equals("editar")) {
 
         }
@@ -364,6 +414,13 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
             }
         });
     }
+    public void validar0ontExistente(){
+        if (ont!=null){
+            ontDAO.buscarOnt(ont.getSerieOnt(),context);
+        }else{
+            Toast.makeText(context, "Ingrese una ont", Toast.LENGTH_SHORT).show();
+        }
+    }
     boolean hiloModificadoCreado=true;
     public void validar1HiloEnCaja2(){
         if (switchHiloEnCaja2.isChecked()){
@@ -372,14 +429,12 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
             if (servicios!=null){//quiere decir que opc=editar
                 if(cajaNivel2!=null){//si es diferente a null es decir que si se seleciono otra caja y debemos validar el nuevo numero de hilo
                     rangoHilosCaja2DAO.verificarHiloCaja2Manual(cajaNivel2.getId_CajaNivel2(), numeroHiloCaja2,context);
-                    rangoHilosCaja2DAO.editarRangoHilosCaja2Anterior(rangoHilosCaja2Anterior.getId_rangocaja2(),context);
                     servicios.setId_cajanivel2(cajaNivel2.getId_CajaNivel2());
                     servicios.setHiloCajaNivel2(numeroHiloCaja2);
                 }else{//si es = null es decir que no se seleciono otra caja
                     if (servicios.getHiloCajaNivel2()!=numeroHiloCaja2){//como no se seleciono otra caja se verifica si cambiaron el numero manualmente
                         // si los numeros son diferentes es decir que cambiaron el numero de hilo manualmente y debemos validar
                         rangoHilosCaja2DAO.verificarHiloCaja2Manual(cajaNivel2.getId_CajaNivel2(), numeroHiloCaja2,context);
-                        rangoHilosCaja2DAO.editarRangoHilosCaja2Anterior(rangoHilosCaja2Anterior.getId_rangocaja2(),context);
                         servicios.setHiloCajaNivel2(numeroHiloCaja2);
                     }else{// los numeros de hilo son los mismos no es necesario validar nuevamente
                         hiloModificadoCreado=false;
@@ -395,12 +450,11 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
     boolean numeroOntModificadoCreado=true;
     public void validar2NumeroOnt(){
         if (switchNumeroOnt.isChecked()){
-            validar3ServiPort();
+            validar3DireccionIp();
         }else{//manual
             if (servicios!=null){//quiere decir que opc=editar
                 if(vlan!=null){//si es diferente a null es decir que si se seleciono otra caja y debemos validar el nuevo numero de hilo
                     rangoOntDAO.verificarNumeroOntManual(vlan.getId(), numeroOnt,context);
-                    rangoOntDAO.editarRangoOntAnterior(rangoOntAnterior.getId_rangoont(),context);
                     //servicios.setId_cajanivel2(cajaNivel2.getId_CajaNivel2());
                     //servicios.setHiloCajaNivel2(numeroHiloCaja2);
                     ont.setNumeroOnt(numeroOnt);
@@ -408,12 +462,11 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
                     if (ont.getNumeroOnt()!=numeroOnt){//como no se seleciono otra caja se verifica si cambiaron el numero manualmente
                         // si los numeros son diferentes es decir que cambiaron el numero de hilo manualmente y debemos validar
                         rangoOntDAO.verificarNumeroOntManual(vlan.getId(), numeroOnt,context);
-                        rangoOntDAO.editarRangoOntAnterior(rangoOntAnterior.getId_rangoont(),context);
                         ont.setNumeroOnt(numeroOnt);
                         //servicios.setHiloCajaNivel2(numeroHiloCaja2);
                     }else{// los numeros de hilo son los mismos no es necesario validar nuevamente
                         numeroOntModificadoCreado=false;
-                        validar3ServiPort();//ojo en cada validar true se llama al siguiente validar
+                        validar3DireccionIp();//ojo en cada validar true se llama al siguiente validar
                     }
                 }
             }else{//quiere decir que opc=crear por ende se debe validar
@@ -422,9 +475,53 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
             }
         }
     }
-    public void validar3ServiPort(){
-
+    boolean direccionIpModificadoCreado=true;
+    public void validar3DireccionIp(){
+        if (switchDireccionIp.isChecked()){
+            validar4ServiPortASidoUtilizado();
+        }else{//manual
+            if(Procesos.validarDireccionIp(direccionIp)){
+                int[] ipDescompuesta=Procesos.descomponerDireccionIp(direccionIp);
+                int[] ipDescompuestaIpVlanInicio=Procesos.descomponerDireccionIp(vlan.getIpInicio());
+                int[] ipDescompuestaIpVlanFin=Procesos.descomponerDireccionIp(vlan.getIpFin());
+                if ((ipDescompuesta[0]==ipDescompuestaIpVlanInicio[0]) && (ipDescompuesta[1]==ipDescompuestaIpVlanInicio[1]) && (ipDescompuesta[2]==ipDescompuestaIpVlanInicio[2]) && (ipDescompuesta[3]>=ipDescompuestaIpVlanInicio[3] && ipDescompuesta[3]<=ipDescompuestaIpVlanFin[3])){
+                    if (servicios!=null){//quiere decir que opc=editar
+                        if(vlan!=null && !direccionIp.equals("")){//si es diferente a null es decir que si se seleciono otra caja y debemos validar el nuevo numero de hilo
+                            rangoDireccionIpDAO.verificarDireccionIpManual(vlan.getId(), ipDescompuesta[3],context);
+                        }else{//si es = null es decir que no se seleciono otra caja
+                            if (servicios.getDireccionip()!=direccionIp){//como no se seleciono otra caja se verifica si cambiaron el numero manualmente
+                                // si los numeros son diferentes es decir que cambiaron el numero de hilo manualmente y debemos validar
+                                rangoDireccionIpDAO.verificarDireccionIpManual(vlan.getId(), ipDescompuesta[3],context);
+                            }else{// los numeros de hilo son los mismos no es necesario validar nuevamente
+                                direccionIpModificadoCreado=false;
+                                validar4ServiPortASidoUtilizado();//ojo en cada validar true se llama al siguiente validar
+                            }
+                        }
+                    }else{//quiere decir que opc=crear por ende se debe validar
+                        direccionIpModificadoCreado=true;
+                        rangoDireccionIpDAO.verificarDireccionIpManual(vlan.getId(), ipDescompuesta[3],context);
+                    }
+                }else{
+                    Toast.makeText(context, "La direccion ip ingresada no esta en el rango de ips de la caja selecionada", Toast.LENGTH_LONG).show();
+                }
+            }else{
+                Toast.makeText(context, "Extructura de la direccion ip incorrecta", Toast.LENGTH_LONG).show();
+            }
+        }
     }
+    public void validar4ServiPortASidoUtilizado(){
+        validar5NumeroOntASidoUtilizado();
+    }
+    public void validar5NumeroOntASidoUtilizado(){
+        validar6HiloEnCaja2ASidoUtilizado();
+    }
+    public void validar6HiloEnCaja2ASidoUtilizado(){
+        validar7DireccionIpASidoUtilizado();
+    }
+    public void validar7DireccionIpASidoUtilizado(){
+        crearEditar();
+    }
+
     private void setOnCheckedChangeListener() {
         switchLatLon.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -477,12 +574,20 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
                     switchDireccionIp.setText("Manual");
                     txtDireccionIp.getEditText().setEnabled(true);
                     txtDireccionIp.getEditText().setText("");
+                    if (vlan!=null){
+                        int[] ip=Procesos.descomponerDireccionIp(vlan.getIpInicio());
+                        txtDireccionIp.getEditText().setText(ip[0]+"."+ip[1]+"."+ip[2]+".");
+                    }
                 }
             }
         });
     }
 
     private void direccionIpAutomatico() {
+        txtDireccionIp.getEditText().setEnabled(false);
+        if(vlan!=null){
+            rangoDireccionIpDAO.obtenerDireccionIpAutomatico(vlan.getId(),context);
+        }
     }
 
     private void hiloEnCaja2Automatico() {
@@ -514,6 +619,7 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
     }
 
     private void serviportAutomatico() {
+        serviportDAO.obtenerServiportAutomatico(context);
     }
 
     public void addTextChangedListener(){
@@ -550,7 +656,6 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
                     txtComandoPlanes.getEditText().setText("");
                 }else{
                     llenarComandoPlanes();
-                    usuarioRepetido="brayan222222";
                     llenarUsuario();
                 }
             }
@@ -728,7 +833,7 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
     public void llenarComandoPlanes(){
         String conca,serviport,plan;
         serviport=txtServiPort.getEditText().getText().toString().trim();
-        if (!serviport.equals("") && serviport!=null && spinnerPlan.getSelectedItemPosition()!=0){
+        if (!serviport.equals("") && serviport!=null && spinnerPlan.getSelectedItemPosition()!=0 && clientes!=null){
             plan=obtenerPrimerApellido(spinnerPlan.getSelectedItem().toString());
             conca="service-port "+serviport+" inbound traffic-table index "+plan+" outbound traffic-table index "+plan;
             txtComandoPlanes.getEditText().setText(conca);
@@ -844,6 +949,10 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
     @Override
     public void setVlan(Vlan Vlan) {
         this.vlan=Vlan;
+        int[] ip=Procesos.descomponerDireccionIp(vlan.getIpInicio());
+        if (!switchDireccionIp.isChecked()){
+            txtDireccionIp.getEditText().setText(ip[0]+"."+ip[1]+"."+ip[2]+".");
+        }
         llenarInterfazPoncard();
         llenarAgregarOnt();
         llenarAgregarServicioAlPuerto();
@@ -874,22 +983,86 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
     }
 
     @Override
+    public void setPlanes(Planes Planes) {
+
+    }
+    List<Planes> listaPlanes;
+    @Override
+    public void setListaPlanes(List<Planes> lista) {
+        listaPlanes=lista;
+        String[] a=new String[lista.size()+1];
+        a[0]="Selecionar el plan";
+        int i=1;
+        for (Planes as:lista) {
+            a[i]= String.valueOf(as.getNombre()+" megas");
+            i++;
+        }
+        ArrayAdapter<String> adapter= new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item,a);
+        spinnerPlan.setAdapter(adapter);
+        if (opc.equals("crear")){
+            spinnerPlan.setSelection(1);
+        }
+        Procesos.cargandoDetener();
+    }
+    public Integer obtenerIdDePlanes(){
+        for (Planes ase: listaPlanes) {
+            String aux=ase.getNombre()+" megas";
+            if (aux.equals(spinnerPlan.getSelectedItem().toString())){
+             return ase.getId();
+            }
+        }
+        return null;
+    }
+
+    @Override
     public void limpiar() {//debe ser el limpiar de servicioDao
         if(hiloModificadoCreado){
             rangoHilosCaja2.setEstado("activo");
-            rangoHilosCaja2DAO.editarRangoHilosCaja2(rangoHilosCaja2,nombreCaja2,context);
+            rangoHilosCaja2DAO.editarRangoHilosCaja2(rangoHilosCaja2,usuario,context);
+            if (rangoHilosCaja2Anterior!=null){
+                rangoHilosCaja2DAO.editarRangoHilosCaja2Anterior(rangoHilosCaja2Anterior.getId_rangocaja2(),context);
+            }
         }
         if(numeroOntModificadoCreado){
             rangoOnt.setEstado("activo");
-            rangoOntDAO.editarRangoOnt(rangoOnt,vlan.getNombreVlan(),context);
+            rangoOntDAO.editarRangoOnt(rangoOnt, ont.getSerieOnt(),context);
+            if(rangoOntAnterior!=null){
+                rangoOntDAO.editarRangoOntAnterior(rangoOntAnterior.getId_rangoont(),context);
+            }
+        }
+        if(direccionIpModificadoCreado){
+            rangoDireccionIp.setEstado("activo");
+            rangoDireccionIpDAO.editarRangoDireccionIp(rangoDireccionIp,usuario,context);
+            if(rangoDireccionIpAnterior!=null){
+                rangoDireccionIpDAO.editarRangoDireccionIpAnterior(rangoDireccionIpAnterior.getid_rangodireccionesip(),context);
+            }
         }
     }
 
     @Override
-    public void setOnt(Ont ont) {
+    public void setOntDialogoCrearOnt(Ont ont) {
         this.ont=ont;
         txtOnt.getEditText().setText(ont.getSerieOnt());
         modeloOntDAO.buscarModeloOnt(ont.getId_modeloOnt()+"",context);
+    }
+
+    @Override
+    public void setOnt(Ont Ont) {
+        if (Ont!=null){
+            Toast.makeText(context, "La serie de la ont ya existe", Toast.LENGTH_SHORT).show();
+        }else{
+            validar1HiloEnCaja2();
+        }
+    }
+
+    @Override
+    public void setListaOnt(List<Ont> lista) {
+
+    }
+
+    @Override
+    public void limpiarOnt() {
+        servicioDAO.crearServicio(new Servicios(serviport,usuario,direccion,referencia,fecha,longitud,latitud,idplanes,ont.getId(),cajaNivel2.getId_CajaNivel2(),clientes.getId_cliente(),numeroHiloCaja2,direccionIp,ip_numero,comandoPlanes,iterfazPonCard,agregarOnt,equipoBridge,quit,eliminarServicio,agregarServicioPuerto,agregarDescripcionPuerto,eliminarOnt,Procesos.user.getId(),"pendiente"),ont.getSerieOnt(),context);
     }
 
     @Override
@@ -937,7 +1110,7 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
     public void validarNumeroOntManual(RangoOnt rangoOnt) {
         if (rangoOnt !=null){
             this.rangoOnt= rangoOnt;
-            validar3ServiPort();
+            validar3DireccionIp();
         }else{
             Toast.makeText(context, "Numero de ont incorrecto o no disponible", Toast.LENGTH_LONG).show();
         }
@@ -965,6 +1138,47 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
             Random rand = new Random();
             usuarioRepetido= rand.nextInt(99)+""; // Gives n such that 0 <= n < 20
             llenarUsuario();
+        }
+    }
+
+    @Override
+    public void setServicio(Servicios servicios) {
+
+    }
+
+    @Override
+    public void setListaServicio(List<Servicios> lista) {
+
+    }
+
+    @Override
+    public void direccionIptAutomatico(RangoDireccionIp rangoDireccionIp) {
+        if (rangoDireccionIp!=null && vlan!=null){
+            ip_numero=rangoDireccionIp.getip_rangodireccionesip();
+            int[] ipDescompuestaIpVlanInicio=Procesos.descomponerDireccionIp(vlan.getIpInicio());
+            txtDireccionIp.getEditText().setText( ipDescompuestaIpVlanInicio[0]+"."+ipDescompuestaIpVlanInicio[1]+"."+ipDescompuestaIpVlanInicio[2]+"."+ip_numero);
+            this.rangoDireccionIp= rangoDireccionIp;
+        }else{
+            Toast.makeText(context, "No hay numero de ip disponible en esta vlan", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void validarDireccionIpManual(RangoDireccionIp rangoDireccionIp) {
+        if (rangoDireccionIp !=null){
+            this.rangoDireccionIp= rangoDireccionIp;
+            validar4ServiPortASidoUtilizado();
+        }else{
+            Toast.makeText(context, "Numero de ip incorrecto o no disponible", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void direccionIpAnterior(RangoDireccionIp rangoDireccionIp) {
+        if (rangoDireccionIp !=null){
+            rangoDireccionIpAnterior= rangoDireccionIp;
+        }else{
+            Toast.makeText(context, "Numero de ip anterior incorrecto o no disponible", Toast.LENGTH_LONG).show();
         }
     }
 }

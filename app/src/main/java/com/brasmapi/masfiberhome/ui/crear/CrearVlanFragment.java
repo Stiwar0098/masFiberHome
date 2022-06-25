@@ -135,8 +135,8 @@ public class CrearVlanFragment extends Fragment implements VlanDAO.interfazVlanD
                     if (opc.equals("crear")){
                         int[] inicio,fin;
                         int totalIps,ini;
-                        inicio=Procesos.extraerNumerosDeIp(ipInicio);
-                        fin=Procesos.extraerNumerosDeIp(ipfin);
+                        inicio=Procesos.descomponerDireccionIp(ipInicio);
+                        fin=Procesos.descomponerDireccionIp(ipfin);
                         ini=inicio[3];
                         totalIps=fin[3]-ini+1;
                         vlanDAO.crearVlan(new Vlan(0,numeroVlan,

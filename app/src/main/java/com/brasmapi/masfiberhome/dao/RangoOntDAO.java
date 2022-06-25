@@ -154,7 +154,7 @@ public class RangoOntDAO {
             public void onResponse(JSONObject response) {
                 try {
                     if (response.get("respuesta").toString().equals("ok")) {
-                        //Toast.makeText(context, "Los datos se modificaron correctamente", Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(context, "Los datos se modificaron correctamente rangont", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(context, response.get("respuesta").toString(), Toast.LENGTH_SHORT).show();
                     }
@@ -166,7 +166,7 @@ public class RangoOntDAO {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Problema con el servidor rangoontdao-editarrango1", Toast.LENGTH_SHORT).show();
             }
         });
         queue.add(requerimiento);

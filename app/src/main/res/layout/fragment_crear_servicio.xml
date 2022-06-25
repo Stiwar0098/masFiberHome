@@ -165,7 +165,7 @@
                         android:layout_height="wrap_content"
                         android:enabled="false"
                         android:hint="Numero Ont"
-                        android:inputType="number" />
+                        android:inputType="date" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <Switch
@@ -347,7 +347,7 @@
                         android:layout_height="wrap_content"
                         android:enabled="false"
                         android:hint="Direccion ip"
-                        android:inputType="date" />
+                        android:inputType="number" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <Switch

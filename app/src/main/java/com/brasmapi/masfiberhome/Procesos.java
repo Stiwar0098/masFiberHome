@@ -60,7 +60,19 @@ public class Procesos extends AppCompatActivity {
         return txt.getEditText().getText().toString().trim();
     }
     public static Integer obtenerTxtEnEntero(TextInputLayout txt){
-        return Integer.parseInt(txt.getEditText().getText().toString().trim());
+        if (!txt.getEditText().getText().toString().trim().equals("")){
+            return Integer.parseInt(txt.getEditText().getText().toString().trim());
+        }else{
+            return -1;
+        }
+    }
+    public static boolean validarTxtEstaLleno(TextInputLayout txt){
+        String aux=txt.getEditText().getText().toString().trim();
+        if (aux!=null || !aux.equals("") || !aux.equals("null")){
+            return true;
+        }else{
+            return false;
+        }
     }
     public static void cargandoIniciar(Context context) {
         //inicializamos progres dialog
@@ -126,7 +138,7 @@ public class Procesos extends AppCompatActivity {
         }
     }
 
-    public static int[] extraerNumerosDeIp(String ip) {
+    public static int[] descomponerDireccionIp(String ip) {
         String[] ar = ip.split("\\.");
         int[] array = new int[4];
         array[0] = Integer.parseInt(ar[0]);

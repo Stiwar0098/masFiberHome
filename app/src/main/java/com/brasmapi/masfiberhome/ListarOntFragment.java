@@ -187,6 +187,69 @@ public class ListarOntFragment extends Fragment implements OntDAO.interfazOntDAO
         AlertDialog.Builder builder= new AlertDialog.Builder(context);
         builder.setTitle("Opciones");
         builder.setMessage("¿Elija la opcion que desea con: "+us.getSerieOnt()+" ?")
+                .setNegativeButton("Eliminar en Cascada", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        AlertDialog.Builder dial=new AlertDialog.Builder(context);
+                        dial.setTitle("Eliminar en cascada");
+                        final EditText contraAdmin = new EditText(context);
+                        contraAdmin.setInputType(InputType.TYPE_CLASS_TEXT);
+                        dial.setView(contraAdmin);
+                        dial.setMessage("Esta eliminacion, eliminara toda la data relacionada con: "+us.getSerieOnt()+" \n Porfavor verifique que ha modificado la dependecia de este dato en: \n -Servicios")
+                                .setPositiveButton("Siguiente", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(final DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                        AlertDialog.Builder dial=new AlertDialog.Builder(context);
+                                        dial.setTitle("Eliminar en cascada");
+                                        final EditText contraAdmin = new EditText(context);
+                                        contraAdmin.setInputType(InputType.TYPE_CLASS_TEXT);
+                                        dial.setView(contraAdmin);
+                                        dial.setMessage("Para poder elimanar en cascada: "+us.getSerieOnt()+"\n ingrese la contraseña admin ")
+                                                .setPositiveButton("Eliminar", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(final DialogInterface dialog, int which) {
+                                                        dialog.dismiss();
+                                                        if (contraAdmin.getText().toString().trim().equals("pullasancho")){
+                                                            ontDAO.eliminarOntCascada(us.getId(),context);
+                                                        }else{
+                                                            Toast.makeText(context, "contraseña incorrecta", Toast.LENGTH_SHORT).show();
+                                                            contraAdmin.setText("");
+                                                        }
+                                                    }
+                                                })
+                                                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        Toast.makeText(context, "Cancelado", Toast.LENGTH_SHORT).show();
+                                                        dialog.dismiss();
+                                                    }
+                                                }).show();
+                                    }
+                                })
+                                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Toast.makeText(context, "Cancelado", Toast.LENGTH_SHORT).show();
+                                        dialog.dismiss();
+                                    }
+                                }).show();
+                    }
+                })
+                .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(context, "Cancelado", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+    }
+    /*private static void eliminarRegistroDialog(Ont us) {
+        AlertDialog.Builder builder= new AlertDialog.Builder(context);
+        builder.setTitle("Opciones");
+        builder.setMessage("¿Elija la opcion que desea con: "+us.getSerieOnt()+" ?")
                 .setPositiveButton("Eliminar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(final DialogInterface dialog, int which) {
@@ -289,7 +352,7 @@ public class ListarOntFragment extends Fragment implements OntDAO.interfazOntDAO
                     }
                 })
                 .show();
-    }
+    }*/
 
     private void filtrar(String filtrar){
         if (lista!=null){
@@ -317,7 +380,8 @@ public class ListarOntFragment extends Fragment implements OntDAO.interfazOntDAO
     }
 
     @Override
-    public void limpiar() {
+    public void limpiarOnt() {
 
     }
+
 }

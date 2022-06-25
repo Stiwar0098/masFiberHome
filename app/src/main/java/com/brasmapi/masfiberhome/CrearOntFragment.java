@@ -193,7 +193,7 @@ public class CrearOntFragment extends Fragment implements OntDAO.interfazOntDAO,
     }
 
     @Override
-    public void limpiar() {
+    public void limpiarOnt() {
         Procesos.cerrarTeclado(getActivity());
         Procesos.cargandoDetener();
         if (opc.equals("editar")){

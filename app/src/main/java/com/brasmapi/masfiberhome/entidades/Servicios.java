@@ -1,14 +1,15 @@
 package com.brasmapi.masfiberhome.entidades;
 
 public class Servicios {
-    private int id_servicio,id_planes,id_ont,id_cajanivel2,id_cliente,hiloCajaNivel2,id_usuario;
-    private String usuario,direccion,referencia,fecha,longitud,latitud,estado,direccionip,comandoPlanes,iterfazPonCard,agregarOnt,equipoBridge,quit,eliminarServicio,agregarServicioPuerto,agregarDescripcionPuerto,eliminarOnt;
+    private int id_servicio,id_planes,id_ont,id_cajanivel2,id_cliente,hiloCajaNivel2,id_usuario,ip_cliente;
+    private String usuario,agregarPlan_cliente,direccion,referencia,fecha,longitud,latitud,estado,direccionip,comandoPlanes,iterfazPonCard,agregarOnt,equipoBridge,quit,eliminarServicio,agregarServicioPuerto,agregarDescripcionPuerto,eliminarOnt, todosLosComandos;
 
     public Servicios() {
     }
 
-    public Servicios(int id_servicio, int id_planes, int id_ont, int id_cajanivel2, int id_cliente, int hiloCajaNivel2, int id_usuario, String usuario, String direccion, String referencia, String fecha, String longitud, String latitud, String estado, String direccionip, String comandoPlanes, String iterfazPonCard, String agregarOnt, String equipoBridge, String quit, String eliminarServicio, String agregarServicioPuerto, String agregarDescripcionPuerto, String eliminarOnt) {
+    public Servicios(int id_servicio, String usuario, String direccion, String referencia, String fecha, String longitud, String latitud, int id_planes, int id_ont, int id_cajanivel2, int id_cliente, int hiloCajaNivel2, String direccionip,int ip_cliente, String comandoPlanes, String iterfazPonCard, String agregarOnt, String equipoBridge, String quit, String eliminarServicio, String agregarServicioPuerto, String agregarDescripcionPuerto, String eliminarOnt, int id_usuario, String estado) {
         this.id_servicio = id_servicio;
+        this.agregarPlan_cliente=comandoPlanes;
         this.id_planes = id_planes;
         this.id_ont = id_ont;
         this.id_cajanivel2 = id_cajanivel2;
@@ -32,6 +33,28 @@ public class Servicios {
         this.agregarServicioPuerto = agregarServicioPuerto;
         this.agregarDescripcionPuerto = agregarDescripcionPuerto;
         this.eliminarOnt = eliminarOnt;
+        this.ip_cliente=ip_cliente;
+        if (equipoBridge.equals("SN")){
+            this.todosLosComandos=comandoPlanes+"\n"+iterfazPonCard+"\n"+agregarOnt+"\n"+quit+"\n"+eliminarServicio+"\n"+agregarServicioPuerto+"\n"+agregarDescripcionPuerto+"\n"+eliminarOnt;
+        }else {
+            this.todosLosComandos=comandoPlanes+"\n"+iterfazPonCard+"\n"+agregarOnt+"\n"+equipoBridge+"\n"+quit+"\n"+eliminarServicio+"\n"+agregarServicioPuerto+"\n"+agregarDescripcionPuerto+"\n"+eliminarOnt;
+        }
+    }
+
+    public int getIp_cliente() {
+        return ip_cliente;
+    }
+
+    public void setIp_cliente(int ip_cliente) {
+        this.ip_cliente = ip_cliente;
+    }
+
+    public String getTodosLosComandos() {
+        return todosLosComandos;
+    }
+
+    public void setTodosLosComandos(String todosLosComandos) {
+        this.todosLosComandos = todosLosComandos;
     }
 
     public int getId_servicio() {

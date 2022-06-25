@@ -2,35 +2,23 @@ package com.brasmapi.masfiberhome.ui.crear;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import com.brasmapi.masfiberhome.CustomScannerActivity;
 import com.brasmapi.masfiberhome.R;
 import com.brasmapi.masfiberhome.entidades.ModeloOnt;
 import com.brasmapi.masfiberhome.entidades.Ont;
-import com.brasmapi.masfiberhome.ui.MainActivity;
 import com.brasmapi.masfiberhome.ui.buscar.DialogBuscarModeloOnt;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.zxing.client.android.Intents;
-import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
 
 public class DialogCrearOnt implements DialogBuscarModeloOnt.finalizoDialogBuscarModeloOnt
@@ -68,7 +56,7 @@ public class DialogCrearOnt implements DialogBuscarModeloOnt.finalizoDialogBusca
                 modelo = txtmodelo.getEditText().getText().toString().trim();
                 responsable = spinnerResponsable.getSelectedItem().toString();
                if(modeloOnt!=null){
-                   interfaz.setOnt(new Ont(0, serie, modeloOnt.getId_modeloOnt(), modelo, responsable, -1, "activo"));
+                   interfaz.setOntDialogoCrearOnt(new Ont(0, serie, modeloOnt.getId_modeloOnt(), modelo, responsable, -1, "activo"));
                    dialogo.dismiss();
                }
             }
@@ -103,6 +91,6 @@ public class DialogCrearOnt implements DialogBuscarModeloOnt.finalizoDialogBusca
 
 
     public interface finalizoDialogCrearOnt {
-        void setOnt(Ont Ont);
+        void setOntDialogoCrearOnt(Ont Ont);
     }
 }

@@ -11,7 +11,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.brasmapi.masfiberhome.Procesos;
-import com.brasmapi.masfiberhome.entidades.Ont;
+import com.brasmapi.masfiberhome.entidades.RangoDireccionIp;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,55 +20,17 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OntDAO {
-    List<Ont> as;
+public class RangoDireccionIpDAO {
+    List<RangoDireccionIp> as;
     RequestQueue queue;
     Context context;
-    private interfazOntDAO interfaz;
+    private interfazRangoDireccionIp interfaz;
 
-    public OntDAO(interfazOntDAO inte) {
+    public RangoDireccionIpDAO(RangoDireccionIpDAO.interfazRangoDireccionIp inte) {
         interfaz=inte;
     }
-
-    public void filtarOnt(String buscar, Context con, boolean isElim) {
-        if (!isElim) {
-            Procesos.cargandoIniciar(con);
-        }
-        String consulta = Procesos.url + "/Ont/filtrarOnt.php?filtrar=" + buscar;
-        context = con;
-        queue = Volley.newRequestQueue(context);
-        JsonArrayRequest requerimiento = new JsonArrayRequest(Request.Method.GET, consulta, null, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                as = new ArrayList<>();
-                for (int i = 0; i < response.length(); i++) {
-                    try {
-                        JSONObject object = new JSONObject(response.get(i).toString());
-                       as.add(new Ont(object.getInt("id_ont"), object.getString("serie_ont"), object.getInt("id_modelo"), object.getString("nombre_modelosont"), object.getString("responsable_ont"), object.getInt("numeroont"), object.getString("estado_ont")));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-                if(interfaz!=null){
-                    interfaz.setListaOnt(as);
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
-                as=null;
-                if(interfaz!=null){
-                    interfaz.setListaOnt(as);
-                }
-            }
-        });
-        queue.add(requerimiento);
-    }
-
-    public void buscarOnt(String buscar, Context con) {
-        Procesos.cargandoIniciar(con);
-        String consulta = Procesos.url + "/Ont/buscarOnt.php?filtrar=" + buscar;
+    public void verificarDireccionIpManual(int id_vlan, int ip_RangoDireccionIp , Context con) {
+        String consulta = Procesos.url + "/RangoDireccionIp/verificarHiloManual.php?id_vlan=" + id_vlan+"&ip_rangodireccionesip="+ip_RangoDireccionIp;
         context = con;
         queue = Volley.newRequestQueue(context);
         JsonArrayRequest requerimiento = new JsonArrayRequest(Request.Method.GET, consulta, null, new Response.Listener<JSONArray>() {
@@ -77,70 +39,16 @@ public class OntDAO {
                 as = new ArrayList<>();
                 try {
                     JSONObject object = new JSONObject(response.get(0).toString());
-                    as.add(new Ont(object.getInt("id_ont"), object.getString("serie_ont"), object.getInt("id_modelo"), object.getString("nombre_modelosont"), object.getString("responsable_ont"), object.getInt("numeroont"), object.getString("estado_ont")));
+                    if (!response.get(0).toString().contains("error")){
+                        as.add(new RangoDireccionIp(object.getInt("id_rangodireccionesip"),null, null, object.getInt("ip_rangodireccionesip"), ""));
+                        if (interfaz != null) {
+                            interfaz.validarDireccionIpManual(as.get(0));
+                        }
+                    }else{
+                        interfaz.validarDireccionIpManual(null);
+                    }
+                } catch (JSONException e) {
                     Procesos.cargandoDetener();
-                    if (interfaz != null) {
-                        interfaz.setOnt(as.get(0));
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Procesos.cargandoDetener();
-                if (interfaz != null) {
-                    interfaz.setOnt(null);
-                }
-            }
-        });
-        queue.add(requerimiento);
-    }
-
-    public void crearOnt(Ont Ont, Context con) {
-        Procesos.cargandoIniciar(con);
-        context = con;
-        String consulta;
-        int metodo = 0;
-        JSONObject parametros = null;
-        queue = Volley.newRequestQueue(context);
-        if (Procesos.isPost) {
-            consulta = Procesos.url + "/Ont/crearOnt.php";
-            metodo = Request.Method.POST;
-            parametros = new JSONObject();
-            try {
-                parametros.put("serie_ont", Ont.getSerieOnt());
-                parametros.put("id_modelo", Ont.getId_modeloOnt());
-                parametros.put("responsable_ont", Ont.getResponsable());
-                parametros.put("numeroont", Ont.getNumeroOnt());
-                parametros.put("estado_ont", Ont.getEstado());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        } else {
-            consulta = Procesos.url + "/Ont/crearOnt.php?"
-                    +"serie_ont=" +  Ont.getSerieOnt()
-                    +"&id_modelo=" +  Ont.getId_modeloOnt()
-                    +"&responsable_ont=" +  Ont.getResponsable()
-                    +"&numeroont=" +  Ont.getNumeroOnt()
-                    +"&estado_ont=" +  Ont.getEstado();
-
-            metodo = Request.Method.GET;
-        }
-        JsonObjectRequest requerimiento = new JsonObjectRequest(metodo, consulta, parametros, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    if (response.get("respuesta").toString().equals("ok")) {
-                        //Toast.makeText(context, "Los datos se cargaron correctamente", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(context, response.get("respuesta").toString(), Toast.LENGTH_SHORT).show();
-                    }
-                    if (interfaz!=null){
-                        interfaz.limpiarOnt();
-                    }
-                } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
@@ -148,42 +56,96 @@ public class OntDAO {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(context, "Problema con el servidor ontdao-crear", Toast.LENGTH_SHORT).show();
-                Procesos.cargandoDetener();
+                if(interfaz!=null){
+                    interfaz.validarDireccionIpManual(null);
+                }
             }
         });
         queue.add(requerimiento);
     }
 
-    public void editarOnt(Ont Ont, Context con, boolean esDesactivar) {
-        Procesos.cargandoIniciar(con);
+    public void obtenerDireccionIpAutomatico(int id_vlan, Context con) {
+        String consulta = Procesos.url + "/RangoDireccionIp/obtenerHiloAutomatico.php?id_vlan=" + id_vlan;
+        context = con;
+        queue = Volley.newRequestQueue(context);
+        JsonArrayRequest requerimiento = new JsonArrayRequest(Request.Method.GET, consulta, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                as = new ArrayList<>();
+                try {
+                    JSONObject object = new JSONObject(response.get(0).toString());
+                    as.add(new RangoDireccionIp(object.getInt("id_rangodireccionesip"),null, null, object.getInt("ip_rangodireccionesip"), ""));
+                    if (interfaz != null) {
+                        interfaz.direccionIptAutomatico(as.get(0));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context, "Problema con el servidor rangodireccionipdao-ipautomatica", Toast.LENGTH_SHORT).show();
+                if (interfaz != null) {
+                    interfaz.direccionIptAutomatico(null);// no hay hilos disponibles en esa caja
+                }
+            }
+        });
+        queue.add(requerimiento);
+    }
+
+    public void obtenerDireccionIpAnterior(int id_vlan, int id_cliente, Context con) {
+        String consulta = Procesos.url + "/RangoDireccionIp/obtenerHiloAnterior.php?id_vlan=" + id_vlan+"&id_cliente="+id_cliente;
+        context = con;
+        queue = Volley.newRequestQueue(context);
+        JsonArrayRequest requerimiento = new JsonArrayRequest(Request.Method.GET, consulta, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                as = new ArrayList<>();
+                try {
+                    JSONObject object = new JSONObject(response.get(0).toString());
+                    as.add(new RangoDireccionIp(object.getInt("id_rangodireccionesip"),null, null, object.getInt("ip_rangodireccionesip"), ""));
+                    if (interfaz != null) {
+                        interfaz.direccionIpAnterior(as.get(0));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
+                if (interfaz != null) {
+                    interfaz.direccionIpAnterior(null);// no hay hilos disponibles en esa caja
+                }
+            }
+        });
+        queue.add(requerimiento);
+    }
+
+    public void editarRangoDireccionIp(RangoDireccionIp RangoDireccionIp, String usuario, Context con) {
         context = con;
         String consulta;
         int metodo = 0;
         JSONObject parametros = null;
         queue = Volley.newRequestQueue(context);
         if (Procesos.isPost) {
-            consulta = Procesos.url + "/Ont/editarOnt.php";
+            consulta = Procesos.url + "/RangoDireccionIp/editar.php";
             metodo = Request.Method.POST;
             parametros = new JSONObject();
             try {
-                parametros.put("id_ont", Ont.getId());
-                parametros.put("serie_ont", Ont.getSerieOnt());
-                parametros.put("id_modelo", Ont.getId_modeloOnt());
-                parametros.put("responsable_ont", Ont.getResponsable());
-                parametros.put("numeroont", Ont.getNumeroOnt());
-                parametros.put("estado_ont", Ont.getEstado());
+                parametros.put("id_rangodireccionesip", RangoDireccionIp.getid_rangodireccionesip());
+                parametros.put("estado_rangodireccionesip", RangoDireccionIp.getEstado());
+                parametros.put("usuario_cliente", usuario);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         } else {
-            consulta = Procesos.url + "/Ont/editarOnt.php?"
-                    +"id_ont=" +  Ont.getId()
-                    +"&serie_ont=" +  Ont.getSerieOnt()
-                    +"&id_modelo=" +  Ont.getId_modeloOnt()
-                    +"&responsable_ont=" +  Ont.getResponsable()
-                    +"&numeroont=" +  Ont.getNumeroOnt()
-                    +"&estado_ont=" +  Ont.getEstado();
+            consulta = Procesos.url + "/RangoDireccionIp/editar.php?"
+                    +"id_rangodireccionesip=" +  RangoDireccionIp.getid_rangodireccionesip()
+                    +"&estado_rangodireccionesip=" +  RangoDireccionIp.getEstado()
+                    +"&usuario_cliente=" +  usuario;
             metodo = Request.Method.GET;
         }
         JsonObjectRequest requerimiento = new JsonObjectRequest(metodo, consulta, parametros, new Response.Listener<JSONObject>() {
@@ -195,12 +157,91 @@ public class OntDAO {
                     } else {
                         Toast.makeText(context, response.get("respuesta").toString(), Toast.LENGTH_SHORT).show();
                     }
-                    if (!esDesactivar) {
-                        if (interfaz != null) {
-                            interfaz.limpiarOnt();
-                        }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Problema con el servidor rangodireccionipdao-editarRangodireccionip", Toast.LENGTH_SHORT).show();
+            }
+        });
+        queue.add(requerimiento);
+    }
+    public void editarRangoDireccionIpAnterior(int idRangoDireccionIp, Context con) {
+        context = con;
+        String consulta;
+        int metodo = 0;
+        JSONObject parametros = null;
+        queue = Volley.newRequestQueue(context);
+        if (Procesos.isPost) {
+            consulta = Procesos.url + "/RangoDireccionIp/editarHiloAnterior.php";
+            metodo = Request.Method.POST;
+            parametros = new JSONObject();
+            try {
+                parametros.put("id_rangodireccionesip", idRangoDireccionIp);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
+            consulta = Procesos.url + "/RangoDireccionIp/editarHiloAnterior.php?"
+                    +"id_rangodireccionesip=" +  idRangoDireccionIp;
+            metodo = Request.Method.GET;
+        }
+        JsonObjectRequest requerimiento = new JsonObjectRequest(metodo, consulta, parametros, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    if (response.get("respuesta").toString().equals("ok")) {
+                        //Toast.makeText(context, "Los datos se modificaron correctamente", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(context, response.get("respuesta").toString(), Toast.LENGTH_SHORT).show();
                     }
-                    Procesos.cargandoDetener();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
+            }
+        });
+        queue.add(requerimiento);
+    }
+
+    public void eliminarDireccionIp(int id, Context con) {
+        Procesos.cargandoIniciar(con);
+        context = con;
+        String consulta;
+        int metodo = 0;
+        JSONObject parametros = null;
+        queue = Volley.newRequestQueue(context);
+        if (Procesos.isPost) {
+            consulta = Procesos.url + "/RangoDireccionIp/eliminarRangoDireccionIp.php";
+            metodo = Request.Method.POST;
+            parametros = new JSONObject();
+            try {
+                parametros.put("id", id);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
+            consulta = Procesos.url + "/RangoDireccionIp/eliminarRangoDireccionIp.php?id=" + id;
+            metodo = Request.Method.GET;
+        }
+        JsonObjectRequest requerimiento = new JsonObjectRequest(metodo, consulta, parametros, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    if (response.get("respuesta").toString().equals("ok")) {
+                        Toast.makeText(context, "Los datos se eliminaron correctamente", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(context, response.get("respuesta").toString(), Toast.LENGTH_SHORT).show();
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -216,98 +257,9 @@ public class OntDAO {
         queue.add(requerimiento);
     }
 
-    public void eliminarOnt(int id, Context con) {
-        Procesos.cargandoIniciar(con);
-        context = con;
-        String consulta;
-        int metodo = 0;
-        JSONObject parametros = null;
-        queue = Volley.newRequestQueue(context);
-        if (Procesos.isPost) {
-            consulta = Procesos.url + "/Ont/eliminarOnt.php";
-            metodo = Request.Method.POST;
-            parametros = new JSONObject();
-            try {
-                parametros.put("id", id);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        } else {
-            consulta = Procesos.url + "/Ont/eliminarOnt.php?id=" + id;
-            metodo = Request.Method.GET;
-        }
-        JsonObjectRequest requerimiento = new JsonObjectRequest(metodo, consulta, parametros, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    if (response.get("respuesta").toString().equals("ok")) {
-                        Toast.makeText(context, "Los datos se eliminaron correctamente", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(context, response.get("respuesta").toString(), Toast.LENGTH_SHORT).show();
-                    }
-                    filtarOnt("", con, true);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
-                Procesos.cargandoDetener();
-            }
-        });
-        queue.add(requerimiento);
-    }
-
-    public void eliminarOntCascada(int id, Context con) {
-        Procesos.cargandoIniciar(con);
-        context = con;
-        String consulta;
-        int metodo = 0;
-        JSONObject parametros = null;
-        queue = Volley.newRequestQueue(context);
-        if (Procesos.isPost) {
-            consulta = Procesos.url + "Ont/eliminarCascadaOnt.php";
-            metodo = Request.Method.POST;
-            parametros = new JSONObject();
-            try {
-                parametros.put("id", id);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        } else {
-            consulta = Procesos.url + "/Ont/eliminarCascadaOnt.php?id=" + id;
-            metodo = Request.Method.GET;
-        }
-        JsonObjectRequest requerimiento = new JsonObjectRequest(metodo, consulta, parametros, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    if (response.get("respuesta").toString().equals("ok")) {
-                        Toast.makeText(context, "Los datos se eliminaron correctamente", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(context, response.get("respuesta").toString(), Toast.LENGTH_SHORT).show();
-                    }
-                    filtarOnt("", con, true);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
-                Procesos.cargandoDetener();
-            }
-        });
-        queue.add(requerimiento);
-    }
-    public interface interfazOntDAO {
-        void setOnt(Ont Ont);
-        void setListaOnt(List<Ont> lista);
-        void limpiarOnt();
+    public interface interfazRangoDireccionIp {
+        void direccionIptAutomatico(RangoDireccionIp rangoDireccionIp);
+        void validarDireccionIpManual(RangoDireccionIp rangoDireccionIp);
+        void direccionIpAnterior(RangoDireccionIp rangoDireccionIp);
     }
 }

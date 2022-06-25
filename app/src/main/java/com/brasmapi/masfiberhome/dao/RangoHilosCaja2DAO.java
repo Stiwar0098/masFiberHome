@@ -67,7 +67,6 @@ public class RangoHilosCaja2DAO {
     public void obtenerHiloCaja2Automatico(int id_cajanivel2, Context con) {
         String consulta = Procesos.url + "/RangoHilosCaja2/obtenerHiloAutomatico.php?id_cajanivel2=" + id_cajanivel2;
         context = con;
-        Toast.makeText(con, id_cajanivel2+"", Toast.LENGTH_SHORT).show();
         queue = Volley.newRequestQueue(context);
         JsonArrayRequest requerimiento = new JsonArrayRequest(Request.Method.GET, consulta, null, new Response.Listener<JSONArray>() {
             @Override
@@ -154,7 +153,7 @@ public class RangoHilosCaja2DAO {
             public void onResponse(JSONObject response) {
                 try {
                     if (response.get("respuesta").toString().equals("ok")) {
-                        //Toast.makeText(context, "Los datos se modificaron correctamente", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(context, "Los datos se modificaron correctamente rangohilocaja2", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(context, response.get("respuesta").toString(), Toast.LENGTH_SHORT).show();
                     }
@@ -166,7 +165,7 @@ public class RangoHilosCaja2DAO {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Problema con el servidor rangohiloscaja2-editarrango1", Toast.LENGTH_SHORT).show();
             }
         });
         queue.add(requerimiento);
