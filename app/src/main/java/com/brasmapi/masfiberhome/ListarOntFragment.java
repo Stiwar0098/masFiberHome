@@ -185,7 +185,7 @@ public class ListarOntFragment extends Fragment implements OntDAO.interfazOntDAO
     }
     private static void eliminarRegistroDialog(Ont us) {
         AlertDialog.Builder builder= new AlertDialog.Builder(context);
-        builder.setTitle("Opciones");
+        builder.setTitle("Opciones ");
         builder.setMessage("¿Elija la opcion que desea con: "+us.getSerieOnt()+" ?")
                 .setNegativeButton("Eliminar en Cascada", new DialogInterface.OnClickListener() {
                     @Override
