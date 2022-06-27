@@ -48,7 +48,7 @@ public class RangoDireccionIpDAO {
                         interfaz.validarDireccionIpManual(null);
                     }
                 } catch (JSONException e) {
-                    Procesos.cargandoDetener();
+                    interfaz.validarDireccionIpManual(null);
                     e.printStackTrace();
                 }
             }
@@ -74,11 +74,16 @@ public class RangoDireccionIpDAO {
                 as = new ArrayList<>();
                 try {
                     JSONObject object = new JSONObject(response.get(0).toString());
-                    as.add(new RangoDireccionIp(object.getInt("id_rangodireccionesip"),null, null, object.getInt("ip_rangodireccionesip"), ""));
-                    if (interfaz != null) {
-                        interfaz.direccionIptAutomatico(as.get(0));
+                    if (!response.get(0).toString().contains("error")) {
+                        as.add(new RangoDireccionIp(object.getInt("id_rangodireccionesip"), null, null, object.getInt("ip_rangodireccionesip"), ""));
+                        if (interfaz != null) {
+                            interfaz.direccionIpAutomatico(as.get(0));
+                        }
+                    }else{
+                        interfaz.direccionIpAutomatico(null);
                     }
                 } catch (JSONException e) {
+                    interfaz.direccionIpAutomatico(null);
                     e.printStackTrace();
                 }
             }
@@ -87,7 +92,7 @@ public class RangoDireccionIpDAO {
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(context, "Problema con el servidor rangodireccionipdao-ipautomatica", Toast.LENGTH_SHORT).show();
                 if (interfaz != null) {
-                    interfaz.direccionIptAutomatico(null);// no hay hilos disponibles en esa caja
+                    interfaz.direccionIpAutomatico(null);// no hay hilos disponibles en esa caja
                 }
             }
         });
@@ -115,7 +120,7 @@ public class RangoDireccionIpDAO {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Problema con el servidor obtenerDireccionIpAnterior", Toast.LENGTH_SHORT).show();
                 if (interfaz != null) {
                     interfaz.direccionIpAnterior(null);// no hay hilos disponibles en esa caja
                 }
@@ -153,11 +158,14 @@ public class RangoDireccionIpDAO {
             public void onResponse(JSONObject response) {
                 try {
                     if (response.get("respuesta").toString().equals("ok")) {
-                        Toast.makeText(context, "Los datos se modificaron correctamente", Toast.LENGTH_SHORT).show();
+                        Procesos.cargandoDetener();
+                        Toast.makeText(context, "Los datos se crearon correctamente", Toast.LENGTH_SHORT).show();
                     } else {
+                        Procesos.cargandoDetener();
                         Toast.makeText(context, response.get("respuesta").toString(), Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
+                    Procesos.cargandoDetener();
                     e.printStackTrace();
                 }
             }
@@ -166,6 +174,7 @@ public class RangoDireccionIpDAO {
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
                 Toast.makeText(context, "Problema con el servidor rangodireccionipdao-editarRangodireccionip", Toast.LENGTH_SHORT).show();
+                Procesos.cargandoDetener();
             }
         });
         queue.add(requerimiento);
@@ -197,9 +206,11 @@ public class RangoDireccionIpDAO {
                     if (response.get("respuesta").toString().equals("ok")) {
                         //Toast.makeText(context, "Los datos se modificaron correctamente", Toast.LENGTH_SHORT).show();
                     } else {
+                        Procesos.cargandoDetener();
                         Toast.makeText(context, response.get("respuesta").toString(), Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
+                    Procesos.cargandoDetener();
                     e.printStackTrace();
                 }
             }
@@ -207,7 +218,8 @@ public class RangoDireccionIpDAO {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Problema con el servidor editarRangoDireccionIpAnterior", Toast.LENGTH_SHORT).show();
+                Procesos.cargandoDetener();
             }
         });
         queue.add(requerimiento);
@@ -250,7 +262,7 @@ public class RangoDireccionIpDAO {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Problema con el servidor eliminarDireccionIp", Toast.LENGTH_SHORT).show();
                 Procesos.cargandoDetener();
             }
         });
@@ -258,7 +270,7 @@ public class RangoDireccionIpDAO {
     }
 
     public interface interfazRangoDireccionIp {
-        void direccionIptAutomatico(RangoDireccionIp rangoDireccionIp);
+        void direccionIpAutomatico(RangoDireccionIp rangoDireccionIp);
         void validarDireccionIpManual(RangoDireccionIp rangoDireccionIp);
         void direccionIpAnterior(RangoDireccionIp rangoDireccionIp);
     }

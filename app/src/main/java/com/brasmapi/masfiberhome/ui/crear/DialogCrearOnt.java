@@ -9,19 +9,23 @@ import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.fragment.app.FragmentActivity;
 
 import com.brasmapi.masfiberhome.CustomScannerActivity;
 import com.brasmapi.masfiberhome.R;
+import com.brasmapi.masfiberhome.dao.ModeloOntDAO;
 import com.brasmapi.masfiberhome.entidades.ModeloOnt;
 import com.brasmapi.masfiberhome.entidades.Ont;
 import com.brasmapi.masfiberhome.ui.buscar.DialogBuscarModeloOnt;
 import com.google.android.material.textfield.TextInputLayout;
 import com.journeyapps.barcodescanner.ScanOptions;
 
-public class DialogCrearOnt implements DialogBuscarModeloOnt.finalizoDialogBuscarModeloOnt
+import java.util.List;
+
+public class DialogCrearOnt implements DialogBuscarModeloOnt.finalizoDialogBuscarModeloOnt, ModeloOntDAO.interfazModeloOntDAO
 {
     static Context context;
     static Dialog dialogo;
@@ -29,11 +33,12 @@ public class DialogCrearOnt implements DialogBuscarModeloOnt.finalizoDialogBusca
     Button btnGuardar;
     Spinner spinnerResponsable;
     ModeloOnt modeloOnt=null;
+    ModeloOntDAO modeloOntDAO;
     String serie,modelo,responsable;
     public static finalizoDialogCrearOnt interfaz;
     FragmentActivity fragmentActivity;
     ActivityResultLauncher<ScanOptions> barcodeLauncher;
-    public DialogCrearOnt(Context context1, finalizoDialogCrearOnt actividad, ActivityResultLauncher<ScanOptions> barcodeLauncher) {
+    public DialogCrearOnt(Context context1,Ont ont, finalizoDialogCrearOnt actividad, ActivityResultLauncher<ScanOptions> barcodeLauncher) {
         interfaz = actividad;
         context = context1;
         this.barcodeLauncher=barcodeLauncher;
@@ -42,6 +47,7 @@ public class DialogCrearOnt implements DialogBuscarModeloOnt.finalizoDialogBusca
         dialogo.setCancelable(true);//false
         dialogo.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialogo.setContentView(R.layout.dialog_crear_ont);
+        modeloOntDAO=new ModeloOntDAO(DialogCrearOnt.this);
         txtserie=(TextInputLayout) dialogo.findViewById(R.id.txtSerieOnt_DialogCrearOnt);
         txtmodelo=(TextInputLayout)dialogo.findViewById(R.id.txtIdModelo_DialogCrearOnt);
         spinnerResponsable=(Spinner) dialogo.findViewById(R.id.spinnerResponsable_DialogCrearOnt);
@@ -49,6 +55,19 @@ public class DialogCrearOnt implements DialogBuscarModeloOnt.finalizoDialogBusca
         String [] opciones={"Selecionar el responsable","CLIENTE","EMPRESA"};
         ArrayAdapter<String> adapter= new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item,opciones);
         spinnerResponsable.setAdapter(adapter);
+        if (ont!=null){
+            txtserie.getEditText().setText(ont.getSerieOnt());
+            modeloOntDAO.buscarModeloOnt(ont.getId_modeloOnt()+"",context1);
+            txtmodelo.getEditText().setText(ont.getNombreModelo());
+            int aux=0;
+            if (ont.getResponsable().equals("CLIENTE")){
+                aux=1;
+            }else if (ont.getResponsable().equals("EMPRESA")){
+                aux=2;
+            }
+            spinnerResponsable.setSelection(aux);
+        }
+
         btnGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -87,6 +106,21 @@ public class DialogCrearOnt implements DialogBuscarModeloOnt.finalizoDialogBusca
     public void ModeloOntSelecionado(ModeloOnt ModeloOnt) {
         this.modeloOnt=ModeloOnt;
         txtmodelo.getEditText().setText(modeloOnt.getNombre_modeloOnt());
+    }
+
+    @Override
+    public void setModeloOnt(ModeloOnt ModeloOnt) {
+        this.modeloOnt=ModeloOnt;
+    }
+
+    @Override
+    public void setListaModeloOnt(List<ModeloOnt> lista) {
+
+    }
+
+    @Override
+    public void limpiarModeloOnt() {
+
     }
 
 

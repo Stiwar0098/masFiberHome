@@ -11,7 +11,6 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.brasmapi.masfiberhome.Procesos;
-import com.brasmapi.masfiberhome.entidades.CajaNivel2;
 import com.brasmapi.masfiberhome.entidades.Servicios;
 
 import org.json.JSONArray;
@@ -21,13 +20,13 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServicioDAO {
+public class ServiciosDAO {
     RequestQueue queue;
     List<Servicios> as;
     Context context;
     private interfazServicio interfaz;
 
-    public ServicioDAO(ServicioDAO.interfazServicio inte) {
+    public ServiciosDAO(ServiciosDAO.interfazServicio inte) {
         interfaz=inte;
     }
     public void filtarServicio(String buscar, Context con, boolean isElim) {
@@ -52,9 +51,13 @@ public class ServicioDAO {
                                 object.getString("longitud_cliente"),
                                 object.getString("latitud_cliente"),
                                 object.getInt("id_planes"),
+                                object.getString("nombre_planes"),
                                 object.getInt("id_ont"),
+                                object.getString("serie_ont"),
                                 object.getInt("id_cajanivel2"),
+                                object.getString("nombre_cajanivel2"),
                                 object.getInt("id_clientepersona"),
+                                object.getString("nombre_clientepersona"),
                                 object.getInt("hilocajanivel2_cliente"),
                                 object.getString("direccionip_cliente"),
                                 object.getInt("ip_cliente"),
@@ -110,9 +113,13 @@ public class ServicioDAO {
                             object.getString("longitud_cliente"),
                             object.getString("latitud_cliente"),
                             object.getInt("id_planes"),
+                            object.getString("nombre_planes"),
                             object.getInt("id_ont"),
+                            object.getString("serie_ont"),
                             object.getInt("id_cajanivel2"),
+                            object.getString("nombre_cajanivel2"),
                             object.getInt("id_clientepersona"),
+                            object.getString("nombre_clientepersona"),
                             object.getInt("hilocajanivel2_cliente"),
                             object.getString("direccionip_cliente"),
                             object.getInt("ip_cliente"),
@@ -140,7 +147,7 @@ public class ServicioDAO {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Problema con el servidor buscarServicio", Toast.LENGTH_SHORT).show();
                 Procesos.cargandoDetener();
                 if (interfaz != null) {
                     interfaz.setServicio(null);
@@ -150,7 +157,6 @@ public class ServicioDAO {
         queue.add(requerimiento);
     }
     public void crearServicio(Servicios servicios,String serie_ont, Context con) {
-        Procesos.cargandoIniciar(con);
         context = con;
         String consulta;
         int metodo = 0;
@@ -229,12 +235,14 @@ public class ServicioDAO {
                     if (response.get("respuesta").toString().equals("ok")) {
                         //Toast.makeText(context, "Los datos se cargaron correctamente", Toast.LENGTH_SHORT).show();
                         if (interfaz!=null){
-                            interfaz.limpiar();
+                            interfaz.limpiarServicio();
                         }
                     } else {
+                        Procesos.cargandoDetener();
                         Toast.makeText(context, response.get("respuesta").toString(), Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
+                    Procesos.cargandoDetener();
                     e.printStackTrace();
                 }
             }
@@ -282,7 +290,6 @@ public class ServicioDAO {
         queue.add(requerimiento);
     }
     public void editarServicio(Servicios servicios, Context con, boolean esDesactivar) {
-        Procesos.cargandoIniciar(con);
         context = con;
         String consulta;
         int metodo = 0;
@@ -364,11 +371,11 @@ public class ServicioDAO {
                     }
                     if (!esDesactivar) {
                         if (interfaz != null) {
-                            interfaz.limpiar();
+                            interfaz.limpiarServicio();
                         }
                     }
-                    Procesos.cargandoDetener();
                 } catch (JSONException e) {
+                    Procesos.cargandoDetener();
                     e.printStackTrace();
                 }
             }
@@ -376,7 +383,7 @@ public class ServicioDAO {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Problema con el servidor editarservicio", Toast.LENGTH_SHORT).show();
                 Procesos.cargandoDetener();
             }
         });
@@ -421,7 +428,7 @@ public class ServicioDAO {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Problema con el servidor eliminarservicio", Toast.LENGTH_SHORT).show();
                 Procesos.cargandoDetener();
             }
         });
@@ -433,6 +440,6 @@ public class ServicioDAO {
         void setUsuarioRepetido(boolean estaRepetido);
         void setServicio(Servicios servicios);
         void setListaServicio(List<Servicios> lista);
-        void limpiar();
+        void limpiarServicio();
     }
 }

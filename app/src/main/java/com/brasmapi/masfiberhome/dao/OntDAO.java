@@ -67,7 +67,6 @@ public class OntDAO {
     }
 
     public void buscarOnt(String buscar, Context con) {
-        Procesos.cargandoIniciar(con);
         String consulta = Procesos.url + "/Ont/buscarOnt.php?filtrar=" + buscar;
         context = con;
         queue = Volley.newRequestQueue(context);
@@ -78,18 +77,18 @@ public class OntDAO {
                 try {
                     JSONObject object = new JSONObject(response.get(0).toString());
                     as.add(new Ont(object.getInt("id_ont"), object.getString("serie_ont"), object.getInt("id_modelo"), object.getString("nombre_modelosont"), object.getString("responsable_ont"), object.getInt("numeroont"), object.getString("estado_ont")));
-                    Procesos.cargandoDetener();
                     if (interfaz != null) {
                         interfaz.setOnt(as.get(0));
                     }
                 } catch (JSONException e) {
+                    Procesos.cargandoDetener();
                     e.printStackTrace();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Procesos.cargandoDetener();
+                //Toast.makeText(context, "Problema con el servidor buscarOnt", Toast.LENGTH_SHORT).show();
                 if (interfaz != null) {
                     interfaz.setOnt(null);
                 }
@@ -99,7 +98,6 @@ public class OntDAO {
     }
 
     public void crearOnt(Ont Ont, Context con) {
-        Procesos.cargandoIniciar(con);
         context = con;
         String consulta;
         int metodo = 0;
@@ -141,6 +139,7 @@ public class OntDAO {
                         interfaz.limpiarOnt();
                     }
                 } catch (JSONException e) {
+                    Procesos.cargandoDetener();
                     e.printStackTrace();
                 }
             }
@@ -209,7 +208,7 @@ public class OntDAO {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Problema con el servidor editarOnt", Toast.LENGTH_SHORT).show();
                 Procesos.cargandoDetener();
             }
         });
@@ -254,7 +253,7 @@ public class OntDAO {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Problema con el servidor eliminarOnt", Toast.LENGTH_SHORT).show();
                 Procesos.cargandoDetener();
             }
         });
@@ -299,7 +298,7 @@ public class OntDAO {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Problema con el servidor eliminarOntCascada", Toast.LENGTH_SHORT).show();
                 Procesos.cargandoDetener();
             }
         });

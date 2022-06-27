@@ -323,7 +323,7 @@ public class ListaModeloOntFragment extends Fragment implements ModeloOntDAO.int
     }
 
     @Override
-    public void limpiar() {
+    public void limpiarModeloOnt() {
 
     }
 }

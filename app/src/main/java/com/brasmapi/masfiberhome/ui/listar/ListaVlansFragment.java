@@ -324,7 +324,7 @@ public class ListaVlansFragment extends Fragment implements VlanDAO.interfazVlan
     }
 
     @Override
-    public void limpiar() {
+    public void limpiarVlan() {
 
     }
 }

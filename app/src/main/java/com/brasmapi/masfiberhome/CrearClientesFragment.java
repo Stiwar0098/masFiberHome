@@ -133,7 +133,7 @@ public class CrearClientesFragment extends Fragment implements ClientesDAO.inter
     }
 
     @Override
-    public void limpiar() {
+    public void limpiarClientes() {
         txtCedulaClientes.getEditText().setText("");
         txtNombreClientes.getEditText().setText("");
         txtApellidoClientes.getEditText().setText("");

@@ -222,7 +222,7 @@ public class CrearCajaNivel2Fragment extends Fragment implements DialogBuscarCaj
     }
 
     @Override
-    public void limpiar() {
+    public void limpiarCajaNivel2() {
         if (!opc.equals("editar")){
             txtNombreCajaNivel2.getEditText().setText("");
             txtAbreviatura.getEditText().setText("");
@@ -303,7 +303,7 @@ public class CrearCajaNivel2Fragment extends Fragment implements DialogBuscarCaj
     public void hiloAutomatico(RangoHilosCaja1 rangoHilosCaja1) {
         if (rangoHilosCaja1!=null){
         txtHiloCaja1.getEditText().setText(rangoHilosCaja1.getNumero_rangocaja1()+"");
-        this.rangoHilosCaja1=rangoHilosCaja1;
+            this.rangoHilosCaja1=rangoHilosCaja1;
         }else{
             Toast.makeText(context, "No hay hilos disponible en esta caja nivel 1", Toast.LENGTH_LONG).show();
         }

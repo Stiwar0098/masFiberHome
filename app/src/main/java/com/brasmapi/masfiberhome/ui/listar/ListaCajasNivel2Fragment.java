@@ -84,7 +84,7 @@ public class ListaCajasNivel2Fragment extends Fragment implements CajaNivel2DAO.
         }
     }
     View vista;
-    Button btnCrear,btnCopiar;
+    Button btnCrear;
     static Context context;
     static CajaNivel2DAO cajaNivel2DAO;
     public static AdapterCajaNivel2 adaptador;
@@ -104,7 +104,6 @@ public class ListaCajasNivel2Fragment extends Fragment implements CajaNivel2DAO.
         ((MainActivity)getActivity()).setTitle("Listar cajas nivel 2");
         mostrarDatos("");
         btnCrear =(Button)vista.findViewById(R.id.btnCrearCajaNivel2_ListaCajaNivel2);
-        btnCopiar =(Button)vista.findViewById(R.id.btnCopiar_ListaCajasNivel2);
         txtBuscar=(TextInputLayout)vista.findViewById(R.id.txtBuscar_ListaCajaNivel2);
         refreshLayout=(SwipeRefreshLayout)vista.findViewById(R.id.refreshRecycler_listaCajaNivel2);
         fragmentManager = getActivity().getSupportFragmentManager();
@@ -146,12 +145,6 @@ public class ListaCajasNivel2Fragment extends Fragment implements CajaNivel2DAO.
             public void onRefresh() {
                 mostrarDatos("");
                 refreshLayout.setRefreshing(false);
-            }
-        });
-        btnCopiar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               Procesos.copiarEnElPortapapeles(context,txtBuscar,getActivity());
             }
         });
         Procesos.detenerObtenerLatitudLongitud();
@@ -334,7 +327,7 @@ public class ListaCajasNivel2Fragment extends Fragment implements CajaNivel2DAO.
     }
 
     @Override
-    public void limpiar() {
+    public void limpiarCajaNivel2() {
 
     }
 }

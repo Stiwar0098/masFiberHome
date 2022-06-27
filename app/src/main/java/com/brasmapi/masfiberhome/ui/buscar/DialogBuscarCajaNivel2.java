@@ -144,7 +144,7 @@ public class DialogBuscarCajaNivel2 implements CajaNivel2DAO.interfazCajaNivel2D
     }
 
     @Override
-    public void limpiar() {
+    public void limpiarCajaNivel2() {
 
     }
 

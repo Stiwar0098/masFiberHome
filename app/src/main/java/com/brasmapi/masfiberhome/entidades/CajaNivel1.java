@@ -14,8 +14,16 @@ public class CajaNivel1 {
         this.nombre_cajaNivel1 = nombre_cajaNivel1;
         this.referencia_cajaNivel1=referencia_cajaNivel1;
         this.direccion_cajaNivel1 = direccion_cajaNivel1;
-        this.latitud_cajaNivel1 = latitud_cajaNivel1;
-        this.longitud_cajaNivel1 = longitud_cajaNivel1;
+        if (latitud_cajaNivel1==null){
+            this.latitud_cajaNivel1="no disponible";
+        }else{
+            this.latitud_cajaNivel1 = latitud_cajaNivel1;
+        }
+        if(longitud_cajaNivel1==null){
+            this.longitud_cajaNivel1="no disponible";
+        }else{
+            this.longitud_cajaNivel1 = longitud_cajaNivel1;
+        }
         this.estado_cajaNivel1 = estado_cajaNivel1;
         this.nombreVlan = nombreVlan;
         this.nombreCiudad = nombreCiudad;

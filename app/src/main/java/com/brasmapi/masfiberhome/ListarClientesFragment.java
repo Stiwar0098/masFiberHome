@@ -320,7 +320,7 @@ public class ListarClientesFragment extends Fragment implements ClientesDAO.inte
     }
 
     @Override
-    public void limpiar() {
+    public void limpiarClientes() {
 
     }
 }

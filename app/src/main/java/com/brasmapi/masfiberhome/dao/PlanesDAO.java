@@ -31,9 +31,6 @@ public class PlanesDAO {
     }
 
     public void filtarPlanes(String buscar, Context con, boolean isElim) {
-        if (!isElim) {
-            Procesos.cargandoIniciar(con);
-        }
         String consulta = Procesos.url + "/Planes/filtrarPlanes.php?filtrar=" + buscar;
         context = con;
         queue = Volley.newRequestQueue(context);
@@ -133,7 +130,7 @@ public class PlanesDAO {
                         Toast.makeText(context, response.get("respuesta").toString(), Toast.LENGTH_SHORT).show();
                     }
                     if (interfaz!=null){
-                        interfaz.limpiar();
+                        interfaz.limpiarPlanes();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -186,7 +183,7 @@ public class PlanesDAO {
                     }
                     if (!esDesactivar) {
                         if (interfaz != null) {
-                            interfaz.limpiar();
+                            interfaz.limpiarPlanes();
                         }
                     }
                     Procesos.cargandoDetener();
@@ -297,6 +294,6 @@ public class PlanesDAO {
     public interface interfazPlanesDAO {
         void setPlanes(Planes Planes);
         void setListaPlanes(List<Planes> lista);
-        void limpiar();
+        void limpiarPlanes();
     }
 }

@@ -136,7 +136,7 @@ public class DialogBuscarModeloOnt implements ModeloOntDAO.interfazModeloOntDAO
     }
 
     @Override
-    public void limpiar() {
+    public void limpiarModeloOnt() {
 
     }
 

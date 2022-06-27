@@ -137,7 +137,7 @@ public class DialogBuscarVlan implements VlanDAO.interfazVlanDAO
     }
 
     @Override
-    public void limpiar() {
+    public void limpiarVlan() {
 
     }
 

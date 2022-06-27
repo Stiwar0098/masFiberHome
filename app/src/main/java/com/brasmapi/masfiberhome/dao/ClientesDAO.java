@@ -67,7 +67,6 @@ public class ClientesDAO {
     }
 
     public void buscarClientes(String buscar, Context con) {
-        Procesos.cargandoIniciar(con);
         String consulta = Procesos.url + "/Clientes/buscarClientes.php?filtrar=" + buscar;
         context = con;
         queue = Volley.newRequestQueue(context);
@@ -78,11 +77,11 @@ public class ClientesDAO {
                 try {
                     JSONObject object = new JSONObject(response.get(0).toString());
                     as.add(new Clientes(object.getInt("id_clientepersona"), object.getString("cedula_clientepersona"), object.getString("nombre_clientepersona"), object.getString("apellido_clientepersona"), object.getString("correo_clientepersona"), object.getString("telefono1_clientepersona"),object.getString("telefono2_clientepersona"),object.getString("estado_clientepersona")));
-                    Procesos.cargandoDetener();
                     if (interfaz != null) {
                         interfaz.setClientes(as.get(0));
                     }
                 } catch (JSONException e) {
+                    Procesos.cargandoDetener();
                     e.printStackTrace();
                 }
             }
@@ -91,7 +90,6 @@ public class ClientesDAO {
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
                 Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
-                Procesos.cargandoDetener();
                 if (interfaz != null) {
                     interfaz.setClientes(null);
                 }
@@ -144,7 +142,7 @@ public class ClientesDAO {
                         Toast.makeText(context, response.get("respuesta").toString(), Toast.LENGTH_SHORT).show();
                     }
                     if (interfaz!=null){
-                        interfaz.limpiar();
+                        interfaz.limpiarClientes();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -207,7 +205,7 @@ public class ClientesDAO {
                     }
                     if (!esDesactivar) {
                         if (interfaz != null) {
-                            interfaz.limpiar();
+                            interfaz.limpiarClientes();
                         }
                     }
                     Procesos.cargandoDetener();
@@ -318,6 +316,6 @@ public class ClientesDAO {
     public interface interfazClientesDAO {
         void setClientes(Clientes Clientes);
         void setListaClientes(List<Clientes> lista);
-        void limpiar();
+        void limpiarClientes();
     }
 }

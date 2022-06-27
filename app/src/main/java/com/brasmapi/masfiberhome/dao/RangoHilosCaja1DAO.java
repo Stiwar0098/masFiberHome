@@ -49,7 +49,7 @@ public class RangoHilosCaja1DAO {
                         interfaz.validarHiloManual(null);
                     }
                 } catch (JSONException e) {
-                    Procesos.cargandoDetener();
+                    interfaz.validarHiloManual(null);
                     e.printStackTrace();
                 }
             }
@@ -75,18 +75,23 @@ public class RangoHilosCaja1DAO {
                 as = new ArrayList<>();
                 try {
                     JSONObject object = new JSONObject(response.get(0).toString());
-                    as.add(new RangoHilosCaja1(object.getInt("id_rangohiloscaja1"),null, null, object.getInt("numero_rangohiloscaja1"), ""));
-                    if (interfaz != null) {
-                        interfaz.hiloAutomatico(as.get(0));
+                    if (!response.get(0).toString().contains("error")) {
+                        as.add(new RangoHilosCaja1(object.getInt("id_rangohiloscaja1"), null, null, object.getInt("numero_rangohiloscaja1"), ""));
+                        if (interfaz != null) {
+                            interfaz.hiloAutomatico(as.get(0));
+                        }
+                    }else{
+                        interfaz.hiloAutomatico(null);
                     }
                 } catch (JSONException e) {
+                    interfaz.hiloAutomatico(null);
                     e.printStackTrace();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Problema con el servidor obtenerHiloAutomatico", Toast.LENGTH_SHORT).show();
                 if (interfaz != null) {
                     interfaz.hiloAutomatico(null);// no hay hilos disponibles en esa caja
                 }
@@ -116,7 +121,7 @@ public class RangoHilosCaja1DAO {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Problema con el servidor obtenerHiloAnterior", Toast.LENGTH_SHORT).show();
                 if (interfaz != null) {
                     interfaz.hiloAnterior(null);// no hay hilos disponibles en esa caja
                 }
@@ -166,7 +171,7 @@ public class RangoHilosCaja1DAO {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Problema con el servidor editarRangoHilosCaja1", Toast.LENGTH_SHORT).show();
             }
         });
         queue.add(requerimiento);
@@ -208,7 +213,7 @@ public class RangoHilosCaja1DAO {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Problema con el servidor editarRangoHilosCaja1Anterior", Toast.LENGTH_SHORT).show();
             }
         });
         queue.add(requerimiento);
@@ -251,7 +256,7 @@ public class RangoHilosCaja1DAO {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Problema con el servidor eliminarRangoHilosCaja1", Toast.LENGTH_SHORT).show();
                 Procesos.cargandoDetener();
             }
         });

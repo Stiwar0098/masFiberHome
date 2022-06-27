@@ -135,7 +135,7 @@ public class ModeloOntDAO {
                         Toast.makeText(context, response.get("respuesta").toString(), Toast.LENGTH_SHORT).show();
                     }
                     if (interfaz!=null){
-                        interfaz.limpiar();
+                        interfaz.limpiarModeloOnt();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -190,7 +190,7 @@ public class ModeloOntDAO {
                     }
                     if (!esDesactivar) {
                         if (interfaz != null) {
-                            interfaz.limpiar();
+                            interfaz.limpiarModeloOnt();
                         }
                     }
                     Procesos.cargandoDetener();
@@ -301,6 +301,6 @@ public class ModeloOntDAO {
     public interface interfazModeloOntDAO {
         void setModeloOnt(ModeloOnt ModeloOnt);
         void setListaModeloOnt(List<ModeloOnt> lista);
-        void limpiar();
+        void limpiarModeloOnt();
     }
 }

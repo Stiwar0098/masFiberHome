@@ -113,22 +113,6 @@
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/btnCrearOnt_ListaOnt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:insetBottom="6dp"
-                android:text="Crear nuevo ont"
-                android:textColor="@color/white" />
-        </LinearLayout>
-
     </LinearLayout>
 
     <TextView

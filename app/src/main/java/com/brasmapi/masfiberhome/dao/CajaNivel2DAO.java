@@ -67,7 +67,6 @@ public class CajaNivel2DAO {
     }
 
     public void buscarCajaNivel2(String buscar, Context con) {
-        Procesos.cargandoIniciar(con);
         String consulta = Procesos.url + "/cajanivel2/buscarCajaNivel2.php?filtrar=" + buscar;
         context = con;
         queue = Volley.newRequestQueue(context);
@@ -78,11 +77,11 @@ public class CajaNivel2DAO {
                 try {
                     JSONObject object = new JSONObject(response.get(0).toString());
                     as.add(new CajaNivel2(object.getInt("id_cajanivel2"), object.getString("nombre_cajanivel2"), object.getString("abreviatura_cajanivel2"), object.getString("direccion_cajanivel2"),object.getString("referencia"), object.getString("latitud_cajanivel2"), object.getString("longitud_cajanivel2"), object.getInt("id_cajanivel1"), object.getString("nombre_cajanivel1"), object.getInt("hilocajanivel1_cajanivel2"), object.getInt("cantidadhilos_cajanivel2"), object.getString("estado_cajanivel2"), object.getString("abreviatura_cajanivel1"),object.getInt("id_vlan")));
-                    Procesos.cargandoDetener();
                     if (interfaz != null) {
                         interfaz.setCajaNivel2(as.get(0));
                     }
                 } catch (JSONException e) {
+                    Procesos.cargandoDetener();
                     e.printStackTrace();
                 }
             }
@@ -91,7 +90,6 @@ public class CajaNivel2DAO {
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
                 Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
-                Procesos.cargandoDetener();
                 if (interfaz != null) {
                     interfaz.setCajaNivel2(null);
                 }
@@ -146,7 +144,7 @@ public class CajaNivel2DAO {
                     if (response.get("respuesta").toString().equals("ok")) {
                         Toast.makeText(context, "Los datos se cargaron correctamente", Toast.LENGTH_SHORT).show();
                         if (interfaz!=null){
-                            interfaz.limpiar();
+                            interfaz.limpiarCajaNivel2();
                         }
                     } else {
                         Toast.makeText(context, response.get("respuesta").toString(), Toast.LENGTH_SHORT).show();
@@ -219,7 +217,7 @@ public class CajaNivel2DAO {
                     }
                     if (!esDesactivar) {
                         if (interfaz != null) {
-                            interfaz.limpiar();
+                            interfaz.limpiarCajaNivel2();
                         }
                     }
                     Procesos.cargandoDetener();
@@ -330,6 +328,6 @@ public class CajaNivel2DAO {
     public interface interfazCajaNivel2DAO {
         void setCajaNivel2(CajaNivel2 CajaNivel2);
         void setListaCajaNivel2(List<CajaNivel2> lista);
-        void limpiar();
+        void limpiarCajaNivel2();
     }
 }

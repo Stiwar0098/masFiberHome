@@ -13,8 +13,16 @@ public class CajaNivel2 {
         this.nombre_CajaNivel2 = nombre_CajaNivel2;
         this.referencia_CajaNivel2=referencia_CajaNivel2;
         this.direccion_CajaNivel2 = direccion_CajaNivel2;
-        this.latitud_CajaNivel2 = latitud_CajaNivel2;
-        this.longitud_CajaNivel2 = longitud_CajaNivel2;
+        if (latitud_CajaNivel2==null){
+            this.latitud_CajaNivel2="no disponible";
+        }else{
+            this.latitud_CajaNivel2 = latitud_CajaNivel2;
+        }
+        if(longitud_CajaNivel2==null){
+            this.longitud_CajaNivel2="no disponible";
+        }else{
+            this.longitud_CajaNivel2 = longitud_CajaNivel2;
+        }
         this.estado_CajaNivel2 = estado_CajaNivel2;
         this.nombreCajaNivel1 = nombreCajaNivel1;
         this.abreviatura=abreviatura;

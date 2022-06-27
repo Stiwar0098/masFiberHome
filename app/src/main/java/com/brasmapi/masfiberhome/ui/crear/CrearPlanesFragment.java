@@ -115,7 +115,7 @@ public class CrearPlanesFragment extends Fragment implements PlanesDAO.interfazP
     }
 
     @Override
-    public void limpiar() {
+    public void limpiarPlanes() {
         txtNombrePlanes.getEditText().setText("");
         Procesos.cerrarTeclado(getActivity());
         Procesos.cargandoDetener();

@@ -137,7 +137,7 @@ public class DialogBuscarCliente implements ClientesDAO.interfazClientesDAO
     }
 
     @Override
-    public void limpiar() {
+    public void limpiarClientes() {
 
     }
 

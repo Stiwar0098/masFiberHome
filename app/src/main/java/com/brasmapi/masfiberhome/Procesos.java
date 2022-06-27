@@ -60,18 +60,19 @@ public class Procesos extends AppCompatActivity {
         return txt.getEditText().getText().toString().trim();
     }
     public static Integer obtenerTxtEnEntero(TextInputLayout txt){
-        if (!txt.getEditText().getText().toString().trim().equals("")){
+        String aux=txt.getEditText().getText().toString();
+        if (aux!=null || !aux.equals("")){
             return Integer.parseInt(txt.getEditText().getText().toString().trim());
         }else{
             return -1;
         }
     }
     public static boolean validarTxtEstaLleno(TextInputLayout txt){
-        String aux=txt.getEditText().getText().toString().trim();
-        if (aux!=null || !aux.equals("") || !aux.equals("null")){
-            return true;
-        }else{
+        String aux=txt.getEditText().getText().toString();
+        if (aux==null || aux.equals("")){
             return false;
+        }else{
+            return true;
         }
     }
     public static void cargandoIniciar(Context context) {
@@ -80,7 +81,7 @@ public class Procesos extends AppCompatActivity {
         //mostramos progres
         cargando.show();
         //no se puede salir
-        cargando.setCancelable(false);
+        cargando.setCancelable(true);
         // enviamos el contenido del dilogo
         cargando.setContentView(R.layout.dialog_activity_cargando);
         //transparente

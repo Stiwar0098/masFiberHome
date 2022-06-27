@@ -49,7 +49,7 @@ public class RangoOntDAO {
                         interfaz.validarNumeroOntManual(null);
                     }
                 } catch (JSONException e) {
-                    Procesos.cargandoDetener();
+                    interfaz.validarNumeroOntManual(null);
                     e.printStackTrace();
                 }
             }
@@ -75,18 +75,23 @@ public class RangoOntDAO {
                 as = new ArrayList<>();
                 try {
                     JSONObject object = new JSONObject(response.get(0).toString());
-                    as.add(new RangoOnt(object.getInt("id_rangoont"),null, null, object.getInt("numero_rangoont"), ""));
-                    if (interfaz != null) {
-                        interfaz.numeroOntAutomatico(as.get(0));
+                    if (!response.get(0).toString().contains("error")) {
+                        as.add(new RangoOnt(object.getInt("id_rangoont"), null, null, object.getInt("numero_rangoont"), ""));
+                        if (interfaz != null) {
+                            interfaz.numeroOntAutomatico(as.get(0));
+                        }
+                    }else{
+                        interfaz.numeroOntAutomatico(null);
                     }
                 } catch (JSONException e) {
+                    interfaz.numeroOntAutomatico(null);
                     e.printStackTrace();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Problema con el servidor obtenerNumeroOntAutomatico", Toast.LENGTH_SHORT).show();
                 if (interfaz != null) {
                     interfaz.numeroOntAutomatico(null);// no hay hilos disponibles en esa caja
                 }
@@ -116,7 +121,7 @@ public class RangoOntDAO {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Problema con el servidor obtenerNumeroOntAnterior", Toast.LENGTH_SHORT).show();
                 if (interfaz != null) {
                     interfaz.numeroOntAnterior(null);// no hay hilos disponibles en esa caja
                 }
@@ -156,9 +161,11 @@ public class RangoOntDAO {
                     if (response.get("respuesta").toString().equals("ok")) {
                        // Toast.makeText(context, "Los datos se modificaron correctamente rangont", Toast.LENGTH_SHORT).show();
                     } else {
+                        Procesos.cargandoDetener();
                         Toast.makeText(context, response.get("respuesta").toString(), Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
+                    Procesos.cargandoDetener();
                     e.printStackTrace();
                 }
             }
@@ -167,6 +174,7 @@ public class RangoOntDAO {
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
                 Toast.makeText(context, "Problema con el servidor rangoontdao-editarrango1", Toast.LENGTH_SHORT).show();
+                Procesos.cargandoDetener();
             }
         });
         queue.add(requerimiento);
@@ -198,9 +206,11 @@ public class RangoOntDAO {
                     if (response.get("respuesta").toString().equals("ok")) {
                         //Toast.makeText(context, "Los datos se modificaron correctamente", Toast.LENGTH_SHORT).show();
                     } else {
+                        Procesos.cargandoDetener();
                         Toast.makeText(context, response.get("respuesta").toString(), Toast.LENGTH_SHORT).show();
                     }
                 } catch (JSONException e) {
+                    Procesos.cargandoDetener();
                     e.printStackTrace();
                 }
             }
@@ -208,7 +218,8 @@ public class RangoOntDAO {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Problema con el servidor editarRangoOntAnterior", Toast.LENGTH_SHORT).show();
+                Procesos.cargandoDetener();
             }
         });
         queue.add(requerimiento);
@@ -251,7 +262,7 @@ public class RangoOntDAO {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Problema con el servidor eliminarNumeroOnt", Toast.LENGTH_SHORT).show();
                 Procesos.cargandoDetener();
             }
         });

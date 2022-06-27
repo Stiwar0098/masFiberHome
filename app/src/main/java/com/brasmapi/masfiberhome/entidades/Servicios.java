@@ -2,14 +2,18 @@ package com.brasmapi.masfiberhome.entidades;
 
 public class Servicios {
     private int id_servicio,id_planes,id_ont,id_cajanivel2,id_cliente,hiloCajaNivel2,id_usuario,ip_cliente;
-    private String usuario,agregarPlan_cliente,direccion,referencia,fecha,longitud,latitud,estado,direccionip,comandoPlanes,iterfazPonCard,agregarOnt,equipoBridge,quit,eliminarServicio,agregarServicioPuerto,agregarDescripcionPuerto,eliminarOnt, todosLosComandos;
+    private String usuario,nombreCliente,nombreCaja,serieOnt,nombrePlan,agregarPlan_cliente,direccion,referencia,fecha,longitud,latitud,estado,direccionip,comandoPlanes,iterfazPonCard,agregarOnt,equipoBridge,quit,eliminarServicio,agregarServicioPuerto,agregarDescripcionPuerto,eliminarOnt, todosLosComandos;
 
     public Servicios() {
     }
 
-    public Servicios(int id_servicio, String usuario, String direccion, String referencia, String fecha, String longitud, String latitud, int id_planes, int id_ont, int id_cajanivel2, int id_cliente, int hiloCajaNivel2, String direccionip,int ip_cliente, String comandoPlanes, String iterfazPonCard, String agregarOnt, String equipoBridge, String quit, String eliminarServicio, String agregarServicioPuerto, String agregarDescripcionPuerto, String eliminarOnt, int id_usuario, String estado) {
+    public Servicios(int id_servicio, String usuario, String direccion, String referencia, String fecha, String longitud, String latitud, int id_planes,String nombrePlan, int id_ont,String serieOnt, int id_cajanivel2,String nombreCaja, int id_cliente,String nombreCliente, int hiloCajaNivel2, String direccionip,int ip_cliente, String comandoPlanes, String iterfazPonCard, String agregarOnt, String equipoBridge, String quit, String eliminarServicio, String agregarServicioPuerto, String agregarDescripcionPuerto, String eliminarOnt, int id_usuario, String estado) {
         this.id_servicio = id_servicio;
         this.agregarPlan_cliente=comandoPlanes;
+        this.nombreCliente=nombreCliente;
+        this.nombreCaja=nombreCaja;
+        this.serieOnt=serieOnt;
+        this.nombrePlan=nombrePlan;
         this.id_planes = id_planes;
         this.id_ont = id_ont;
         this.id_cajanivel2 = id_cajanivel2;
@@ -20,8 +24,16 @@ public class Servicios {
         this.direccion = direccion;
         this.referencia = referencia;
         this.fecha = fecha;
-        this.longitud = longitud;
-        this.latitud = latitud;
+        if (latitud==null){
+            this.latitud="no disponible";
+        }else{
+            this.latitud = latitud;
+        }
+        if(longitud==null){
+            this.longitud="no disponible";
+        }else{
+            this.longitud = longitud;
+        }
         this.estado = estado;
         this.direccionip = direccionip;
         this.comandoPlanes = comandoPlanes;
@@ -39,6 +51,46 @@ public class Servicios {
         }else {
             this.todosLosComandos=comandoPlanes+"\n"+iterfazPonCard+"\n"+agregarOnt+"\n"+equipoBridge+"\n"+quit+"\n"+eliminarServicio+"\n"+agregarServicioPuerto+"\n"+agregarDescripcionPuerto+"\n"+eliminarOnt;
         }
+    }
+
+    public String getNombrePlan() {
+        return nombrePlan;
+    }
+
+    public void setNombrePlan(String nombrePlan) {
+        this.nombrePlan = nombrePlan;
+    }
+
+    public String getSerieOnt() {
+        return serieOnt;
+    }
+
+    public void setSerieOnt(String serieOnt) {
+        this.serieOnt = serieOnt;
+    }
+
+    public String getNombreCliente() {
+        return nombreCliente;
+    }
+
+    public void setNombreCliente(String nombreCliente) {
+        this.nombreCliente = nombreCliente;
+    }
+
+    public String getNombreCaja() {
+        return nombreCaja;
+    }
+
+    public void setNombreCaja(String nombreCaja) {
+        this.nombreCaja = nombreCaja;
+    }
+
+    public String getAgregarPlan_cliente() {
+        return agregarPlan_cliente;
+    }
+
+    public void setAgregarPlan_cliente(String agregarPlan_cliente) {
+        this.agregarPlan_cliente = agregarPlan_cliente;
     }
 
     public int getIp_cliente() {

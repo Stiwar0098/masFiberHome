@@ -11,10 +11,13 @@
             android:title="Administrar" />
         <item
             android:id="@+id/nav_pendiente"
-            android:title="Activacion pendiente" />
+            android:title="Activacion pendiente admin" />
     </group>
     <group  android:id="@+id/group2"
         android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_pendiente_tec"
+            android:title="Activacion pendiente " />
         <item
             android:id="@+id/nav_crearServicio"
             android:title="Crear Servicio" />

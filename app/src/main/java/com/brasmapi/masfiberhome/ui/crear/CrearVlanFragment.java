@@ -197,7 +197,7 @@ public class CrearVlanFragment extends Fragment implements VlanDAO.interfazVlanD
     }
 
     @Override
-    public void limpiar() {
+    public void limpiarVlan() {
         txtNombreVlan.getEditText().setText("");
         txtNumeroOlt.getEditText().setText("0");
         txtTarjetaOlt.getEditText().setText("");

@@ -67,7 +67,6 @@ public class VlanDAO {
     }
 
     public void buscarVlan(String buscar, Context con) {
-        Procesos.cargandoIniciar(con);
         String consulta = Procesos.url + "/vlan/buscarVlan.php?filtrar=" + buscar;
         context = con;
         queue = Volley.newRequestQueue(context);
@@ -78,11 +77,11 @@ public class VlanDAO {
                 try {
                     JSONObject object = new JSONObject(response.get(0).toString());
                     as.add(new Vlan(object.getInt("id_vlan"),object.getInt("numerovlan_vlan"), object.getString("nombre_vlan"), object.getInt("numeroolt_vlan"),object.getInt("tarjetaolt_vlan"), object.getInt("puertoolt_vlan"), object.getString("ipinicio_vlan"), object.getString("ipfin_vlan"), object.getString("mascara_vlan"), object.getString("gateway_vlan"), object.getString("estado_vlan")));
-                    Procesos.cargandoDetener();
                     if (interfaz != null) {
                         interfaz.setVlan(as.get(0));
                     }
                 } catch (JSONException e) {
+                    Procesos.cargandoDetener();
                     e.printStackTrace();
                 }
             }
@@ -91,7 +90,6 @@ public class VlanDAO {
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
                 Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
-                Procesos.cargandoDetener();
                 if (interfaz != null) {
                     interfaz.setVlan(null);
                 }
@@ -151,7 +149,7 @@ public class VlanDAO {
                         Toast.makeText(context, response.get("respuesta").toString(), Toast.LENGTH_SHORT).show();
                     }
                     if (interfaz!=null){
-                        interfaz.limpiar();
+                        interfaz.limpiarVlan();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -219,7 +217,7 @@ public class VlanDAO {
                     }
                     if (!esDesactivar) {
                         if (interfaz != null) {
-                            interfaz.limpiar();
+                            interfaz.limpiarVlan();
                         }
                     }
                     Procesos.cargandoDetener();
@@ -330,6 +328,6 @@ public class VlanDAO {
     public interface interfazVlanDAO {
         void setVlan(Vlan Vlan);
         void setListaVlan(List<Vlan> lista);
-        void limpiar();
+        void limpiarVlan();
     }
 }

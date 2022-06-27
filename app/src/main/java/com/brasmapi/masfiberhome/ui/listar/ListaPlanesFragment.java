@@ -323,7 +323,7 @@ public class ListaPlanesFragment extends Fragment implements PlanesDAO.interfazP
     }
 
     @Override
-    public void limpiar() {
+    public void limpiarPlanes() {
 
     }
 }

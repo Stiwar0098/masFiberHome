@@ -58,8 +58,7 @@
                         android:layout_height="wrap_content"
                         android:enabled="false"
                         android:hint="Servi Port"
-                        android:inputType="number"
-                        android:text="5" />
+                        android:inputType="number" />
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>

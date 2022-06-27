@@ -79,7 +79,6 @@ public class ListarOntFragment extends Fragment implements OntDAO.interfazOntDAO
         }
     }
     View vista;
-    Button btnCrear;
     static Context context;
     static OntDAO ontDAO;
     public static AdapterOnt adaptador;
@@ -98,20 +97,12 @@ public class ListarOntFragment extends Fragment implements OntDAO.interfazOntDAO
         ontDAO =new OntDAO(ListarOntFragment.this);
         ((MainActivity)getActivity()).setTitle("Listar Onts");
         mostrarDatos("");
-        btnCrear =(Button)vista.findViewById(R.id.btnCrearOnt_ListaOnt);
         txtBuscar=(TextInputLayout)vista.findViewById(R.id.txtBuscar_ListaOnt);
         refreshLayout=(SwipeRefreshLayout)vista.findViewById(R.id.refreshRecycler_listaOnt);
         fragmentManager = getActivity().getSupportFragmentManager();
         // Definir una transacción
         fragmentTransaction = fragmentManager.beginTransaction();
         // Remplazar el contenido principal por el fragmento
-        btnCrear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CrearOntFragment.opc="crear";
-                Navigation.findNavController(v).navigate(R.id.crearOntFragment);
-            }
-        });
         txtBuscar.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -185,7 +176,7 @@ public class ListarOntFragment extends Fragment implements OntDAO.interfazOntDAO
     }
     private static void eliminarRegistroDialog(Ont us) {
         AlertDialog.Builder builder= new AlertDialog.Builder(context);
-        builder.setTitle("Opciones ");
+        builder.setTitle("Opciones");
         builder.setMessage("¿Elija la opcion que desea con: "+us.getSerieOnt()+" ?")
                 .setNegativeButton("Eliminar en Cascada", new DialogInterface.OnClickListener() {
                     @Override

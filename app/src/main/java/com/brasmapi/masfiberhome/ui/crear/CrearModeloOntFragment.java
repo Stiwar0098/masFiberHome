@@ -129,7 +129,7 @@ public class CrearModeloOntFragment extends Fragment implements ModeloOntDAO.int
     }
 
     @Override
-    public void limpiar() {
+    public void limpiarModeloOnt() {
         txtNombreModeloOnt.getEditText().setText("");
         spinnerTipoModeloOnt.setSelection(0);
         Procesos.cerrarTeclado(getActivity());
