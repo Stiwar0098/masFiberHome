@@ -24,10 +24,10 @@
             app:destination="@id/listaCiudadesFragment" />
         <action
             android:id="@+id/action_nav_administrar_to_nav_migrarCliente"
-            app:destination="@id/nav_migrarCliente" />
+            app:destination="@id/nav_ListarClientes" />
         <action
             android:id="@+id/action_nav_administrar_to_nav_crearCliente"
-            app:destination="@id/nav_crearServicio" />
+            app:destination="@id/nav_ListarServicios" />
         <action
             android:id="@+id/action_nav_administrar_self"
             app:destination="@id/nav_administrar" />
@@ -64,21 +64,24 @@
     </fragment>
 
     <fragment
-        android:id="@+id/nav_crearServicio"
-        android:name="com.brasmapi.masfiberhome.ui.crear.CrearServicioFragment"
-        tools:layout="@layout/fragment_crear_servicio">
+        android:id="@+id/nav_ListarServicios"
+        android:name="com.brasmapi.masfiberhome.ListarServiciosFragment"
+        tools:layout="@layout/fragment_listar_servicios">
         <action
             android:id="@+id/action_nav_crearCliente_to_nav_administrar"
             app:destination="@id/nav_administrar" />
         <action
             android:id="@+id/action_nav_crearServicio_to_listarServiciosFragment"
             app:destination="@id/listarServiciosFragment" />
+        <action
+            android:id="@+id/action_nav_ListarServicios_to_crearServicioFragment"
+            app:destination="@id/crearServicioFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/nav_migrarCliente"
-        android:name="com.brasmapi.masfiberhome.ui.MigrarClienteFragment"
-        tools:layout="@layout/fragment_migrar_cliente">
+        android:id="@+id/nav_ListarClientes"
+        android:name="com.brasmapi.masfiberhome.ListarClientesFragment"
+        tools:layout="@layout/fragment_listar_clientes">
         <action
             android:id="@+id/action_nav_migrarCliente_to_nav_administrar"
             app:destination="@id/nav_administrar" />
@@ -296,9 +299,35 @@
         tools:layout="@layout/fragment_listar_servicios">
         <action
             android:id="@+id/action_listarServiciosFragment_to_nav_crearServicio"
-            app:destination="@id/nav_crearServicio" />
+            app:destination="@id/nav_ListarServicios" />
         <action
             android:id="@+id/action_listarServiciosFragment_to_nav_administrar"
             app:destination="@id/nav_administrar" />
+        <action
+            android:id="@+id/action_listarServiciosFragment_to_crearServicioFragment"
+            app:destination="@id/crearServicioFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/crearServicioFragment"
+        android:name="com.brasmapi.masfiberhome.ui.crear.CrearServicioFragment"
+        tools:layout="@layout/fragment_crear_servicio">
+        <action
+            android:id="@+id/action_crearServicioFragment_to_nav_ListarServicios"
+            app:destination="@id/nav_ListarServicios" />
+        <action
+            android:id="@+id/action_crearServicioFragment_to_listarServiciosFragment"
+            app:destination="@id/listarServiciosFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_pendiente_tec"
+        android:name="com.brasmapi.masfiberhome.ActivacionesPendientesTecFragment"
+        tools:layout="@layout/fragment_activaciones_pendientes_tec" />
+    <fragment
+        android:id="@+id/nav_pendiente"
+        android:name="com.brasmapi.masfiberhome.ActivacionesPendientesAdminFragment"
+        tools:layout="@layout/fragment_activaciones_pendientes_admin" />
+    <fragment
+        android:id="@+id/nav_crearServicio"
+        android:name="com.brasmapi.masfiberhome.ui.crear.CrearServicioFragment"
+        tools:layout="@layout/fragment_crear_servicio" />
 </navigation>

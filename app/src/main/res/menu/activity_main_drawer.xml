@@ -11,19 +11,23 @@
             android:title="Administrar" />
         <item
             android:id="@+id/nav_pendiente"
-            android:title="Activacion pendiente admin" />
+            android:title="Activaciones pendiente admin" />
     </group>
     <group  android:id="@+id/group2"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_pendiente_tec"
-            android:title="Activacion pendiente " />
-        <item
             android:id="@+id/nav_crearServicio"
-            android:title="Crear Servicio" />
+            android:title="Crear servicio"
+            android:visible="false" />
         <item
-            android:id="@+id/nav_migrarCliente"
-            android:title="Migrar cliente" />
+            android:id="@+id/nav_pendiente_tec"
+            android:title="Activaciones pendiente " />
+        <item
+            android:id="@+id/nav_ListarServicios"
+            android:title="Listar Servicios" />
+        <item
+            android:id="@+id/nav_ListarClientes"
+            android:title="Listar Clientes" />
     </group>
     <group  android:id="@+id/group3"
             android:checkableBehavior="single">

@@ -73,6 +73,7 @@ public class LoginActivity extends AppCompatActivity implements UsuariosDAO.usua
         }
     }
     public void ingresarMenuPrincipal(){
+        Procesos.cargandoDetener();
         if(Procesos.user==null){
             Toast.makeText(context, "Usuario no existe", Toast.LENGTH_SHORT).show();
             txtUsuario.getEditText().setText("");

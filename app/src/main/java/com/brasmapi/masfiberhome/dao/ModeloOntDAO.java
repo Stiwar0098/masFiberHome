@@ -67,7 +67,6 @@ public class ModeloOntDAO {
     }
 
     public void buscarModeloOnt(String buscar, Context con) {
-        Procesos.cargandoIniciar(con);
         String consulta = Procesos.url + "/ModeloOnt/buscarModeloOnt.php?filtrar=" + buscar;
         context = con;
         queue = Volley.newRequestQueue(context);
@@ -78,11 +77,11 @@ public class ModeloOntDAO {
                 try {
                     JSONObject object = new JSONObject(response.get(0).toString());
                     as.add(new ModeloOnt(object.getInt("id_modelosont"), object.getString("nombre_modelosont"), object.getString("tipo_modelosont"), object.getString("estado_modelosont")));
-                    Procesos.cargandoDetener();
                     if (interfaz != null) {
                         interfaz.setModeloOnt(as.get(0));
                     }
                 } catch (JSONException e) {
+                    Procesos.cargandoDetener();
                     e.printStackTrace();
                 }
             }

@@ -14,19 +14,17 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.brasmapi.masfiberhome.CrearClientesFragment;
 import com.brasmapi.masfiberhome.Procesos;
 import com.brasmapi.masfiberhome.R;
 import com.brasmapi.masfiberhome.dao.UsuariosDAO;
+import com.brasmapi.masfiberhome.databinding.ActivityMainBinding;
 import com.brasmapi.masfiberhome.entidades.Usuario;
-import com.brasmapi.masfiberhome.ui.crear.CrearClienteFragment;
 import com.brasmapi.masfiberhome.ui.crear.CrearServicioFragment;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
@@ -35,8 +33,6 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.brasmapi.masfiberhome.databinding.ActivityMainBinding;
 
 import java.util.List;
 
@@ -71,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         obtenerPermisosDeUbicacion();
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_administrar,R.id.nav_pendiente, R.id.nav_crearServicio, R.id.nav_migrarCliente,R.id.nav_CerrarSesion_menu)
+                R.id.nav_administrar,R.id.nav_crearServicio, R.id.nav_pendiente,R.id.nav_pendiente_tec, R.id.nav_ListarServicios, R.id.nav_ListarClientes,R.id.nav_CerrarSesion_menu)
                 .setDrawerLayout(drawer)
                 .build();
 
@@ -172,13 +168,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 ocultarMenu();
                 return true;*/
             case R.id.nav_pendiente:
-            case R.id.nav_migrarCliente:
-            case R.id.nav_crearServicio:
-                try {
-                    CrearServicioFragment.opc="crear";
-                }catch (Exception e){
-
-                }
+            case R.id.nav_pendiente_tec:
+            case R.id.nav_ListarClientes:
+            case R.id.nav_ListarServicios:
               NavigationUI.onNavDestinationSelected(item,navController);
                 ocultarMenu();
                 //cambiarFragment(new CrearClienteFragment(), "Crear Cliente",itemMenuSeleccionadoAnterior,2);
@@ -212,6 +204,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 menuItem = navigationView.getMenu().getItem(1);
                 menuItem.setVisible(false);
                 navController.navigate(R.id.nav_crearServicio);
+                navigationView.getMenu().getItem(4).setChecked(true);
                 CrearServicioFragment.opc="crear";
                 //cambiarFragment(new CrearServicioFragment(),"Crear cliente",itemMenuSeleccionadoAnterior,1);
                 FragmentManager fragmentManager = getSupportFragmentManager();

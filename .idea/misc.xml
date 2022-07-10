@@ -19,6 +19,8 @@
         <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/layout/dialog_buscar_provincia.xml" value="0.18704710144927536" />
         <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/layout/dialog_buscar_vlan.xml" value="0.18704710144927536" />
         <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/layout/dialog_crear_ont.xml" value="0.4" />
+        <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/layout/fragment_activaciones_pendientes_admin.xml" value="0.12360688956433637" />
+        <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/layout/fragment_activaciones_pendientes_tec.xml" value="0.12360688956433637" />
         <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/layout/fragment_crear_caja_nivel1.xml" value="0.24547101449275363" />
         <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/layout/fragment_crear_caja_nivel2.xml" value="0.24547101449275363" />
         <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/layout/fragment_crear_ciudad.xml" value="0.25416666666666665" />
@@ -61,6 +63,7 @@
         <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/layout/item_cardview_vlan.xml" value="0.21965579710144928" />
         <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/layout/nav_header_main.xml" value="0.12360688956433637" />
         <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/menu/activity_main_drawer.xml" value="0.25025641025641027" />
+        <entry key="..\:/Users/super/AndroidStudioProjects/masFiberHome/app/src/main/res/menu/main.xml" value="0.16203703703703703" />
         <entry key="..\:/Users/super/AndroidStudioProjects/masfiberhome/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1421875" />
         <entry key="..\:/Users/super/AndroidStudioProjects/masfiberhome/app/src/main/res/drawable/backgroud_redondeado.xml" value="0.14322916666666666" />
         <entry key="..\:/Users/super/AndroidStudioProjects/masfiberhome/app/src/main/res/drawable/ciudad.xml" value="0.26614583333333336" />

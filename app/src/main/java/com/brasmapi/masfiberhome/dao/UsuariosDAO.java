@@ -86,6 +86,7 @@ public class UsuariosDAO {
                             interfaz.usuarioSelecionado();
                         }
                     } catch (JSONException e) {
+                        Procesos.cargandoDetener();
                         e.printStackTrace();
                     }
             }

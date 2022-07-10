@@ -24,12 +24,12 @@ public class Servicios {
         this.direccion = direccion;
         this.referencia = referencia;
         this.fecha = fecha;
-        if (latitud==null){
+        if (latitud.equals("")){
             this.latitud="no disponible";
         }else{
             this.latitud = latitud;
         }
-        if(longitud==null){
+        if(longitud.equals("")){
             this.longitud="no disponible";
         }else{
             this.longitud = longitud;

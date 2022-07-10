@@ -94,6 +94,129 @@ public class ServiciosDAO {
         queue.add(requerimiento);
     }
 
+    public void filtarServicioPendienteAdmin(Context con) {
+        String consulta = Procesos.url + "/Servicio/filtrarServicioPendienteAdmin.php";
+        context = con;
+        queue = Volley.newRequestQueue(context);
+        JsonArrayRequest requerimiento = new JsonArrayRequest(Request.Method.GET, consulta, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                as = new ArrayList<>();
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        JSONObject object = new JSONObject(response.get(i).toString());
+                        as.add(new Servicios(object.getInt("id_cliente"),
+                                object.getString("usuario_cliente"),
+                                object.getString("direccion_cliente"),
+                                object.getString("referencia_cliente"),
+                                object.getString("fecha_instalacion_cliente"),
+                                object.getString("longitud_cliente"),
+                                object.getString("latitud_cliente"),
+                                object.getInt("id_planes"),
+                                object.getString("nombre_planes"),
+                                object.getInt("id_ont"),
+                                object.getString("serie_ont"),
+                                object.getInt("id_cajanivel2"),
+                                object.getString("nombre_cajanivel2"),
+                                object.getInt("id_clientepersona"),
+                                object.getString("nombre_clientepersona"),
+                                object.getInt("hilocajanivel2_cliente"),
+                                object.getString("direccionip_cliente"),
+                                object.getInt("ip_cliente"),
+                                object.getString("comandoplanes_cliente"),
+                                object.getString("interfazponcard_cliente"),
+                                object.getString("equipobridge_cliente"),
+                                object.getString("quit"),
+                                object.getString("eliminarservicio_cliente"),
+                                object.getString("agregarserviciopuerto_cliente"),
+                                object.getString("agregarplancliente_cliente"),
+                                object.getString("agregardescripcionpuerto_cliente"),
+                                object.getString("eliminaront_cliente"),
+                                object.getInt("id_usuario"),
+                                object.getString("estado_cliente")
+                        ));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                if(interfaz!=null){
+                    interfaz.setListaServicio(as);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                as=null;
+                if(interfaz!=null){
+                    interfaz.setListaServicio(as);
+                }
+            }
+        });
+        queue.add(requerimiento);
+    }
+
+    public void filtarServicioPendienteTec(String tecnico, Context con) {
+        String consulta = Procesos.url + "/Servicio/filtrarServicioPendienteTec.php?filtrar=" + tecnico;
+        context = con;
+        queue = Volley.newRequestQueue(context);
+        JsonArrayRequest requerimiento = new JsonArrayRequest(Request.Method.GET, consulta, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                as = new ArrayList<>();
+                for (int i = 0; i < response.length(); i++) {
+                    try {
+                        JSONObject object = new JSONObject(response.get(i).toString());
+                        as.add(new Servicios(object.getInt("id_cliente"),
+                                object.getString("usuario_cliente"),
+                                object.getString("direccion_cliente"),
+                                object.getString("referencia_cliente"),
+                                object.getString("fecha_instalacion_cliente"),
+                                object.getString("longitud_cliente"),
+                                object.getString("latitud_cliente"),
+                                object.getInt("id_planes"),
+                                object.getString("nombre_planes"),
+                                object.getInt("id_ont"),
+                                object.getString("serie_ont"),
+                                object.getInt("id_cajanivel2"),
+                                object.getString("nombre_cajanivel2"),
+                                object.getInt("id_clientepersona"),
+                                object.getString("nombre_clientepersona"),
+                                object.getInt("hilocajanivel2_cliente"),
+                                object.getString("direccionip_cliente"),
+                                object.getInt("ip_cliente"),
+                                object.getString("comandoplanes_cliente"),
+                                object.getString("interfazponcard_cliente"),
+                                object.getString("equipobridge_cliente"),
+                                object.getString("quit"),
+                                object.getString("eliminarservicio_cliente"),
+                                object.getString("agregarserviciopuerto_cliente"),
+                                object.getString("agregarplancliente_cliente"),
+                                object.getString("agregardescripcionpuerto_cliente"),
+                                object.getString("eliminaront_cliente"),
+                                object.getInt("id_usuario"),
+                                object.getString("estado_cliente")
+                        ));
+                    } catch (JSONException e) {
+                        Procesos.cargandoDetener();
+                        e.printStackTrace();
+                    }
+                }
+                if(interfaz!=null){
+                    interfaz.setListaServicio(as);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                as=null;
+                if(interfaz!=null){
+                    interfaz.setListaServicio(as);
+                }
+            }
+        });
+        queue.add(requerimiento);
+    }
+
     public void buscarServicio(String buscar, Context con) {
         Procesos.cargandoIniciar(con);
         String consulta = Procesos.url + "/Servicio/buscarServicio.php?filtrar=" + buscar;
@@ -135,18 +258,17 @@ public class ServiciosDAO {
                             object.getInt("id_usuario"),
                             object.getString("estado_cliente")
                     ));
-                    Procesos.cargandoDetener();
                     if (interfaz != null) {
                         interfaz.setServicio(as.get(0));
                     }
                 } catch (JSONException e) {
+                    Procesos.cargandoDetener();
                     e.printStackTrace();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
                 Toast.makeText(context, "Problema con el servidor buscarServicio", Toast.LENGTH_SHORT).show();
                 Procesos.cargandoDetener();
                 if (interfaz != null) {
@@ -331,9 +453,9 @@ public class ServiciosDAO {
                 e.printStackTrace();
             }
         } else {
-            consulta = Procesos.url + "/cajanivel2/editarCajaNivel2.php?"
-                    +"id_cliente=" +  servicios.getId_servicio()
-                    +"usuario_cliente="+ servicios.getUsuario()
+            consulta = Procesos.url + "/Servicio/editarServicio.php?"
+                    +"id_cliente="+ servicios.getId_servicio()
+                    +"&usuario_cliente="+ servicios.getUsuario()
                     +"&direccion_cliente="+ servicios.getDireccion()
                     +"&referencia_cliente="+ servicios.getReferencia()
                     +"&fecha_instalacion_cliente="+ servicios.getFecha()
@@ -341,8 +463,8 @@ public class ServiciosDAO {
                     +"&latitud_cliente="+ servicios.getLatitud()
                     +"&id_planes="+ servicios.getId_planes()
                     +"&id_ont="+ servicios.getId_ont()
-                    +"&id_cajanivel2 ="+ servicios.getId_cajanivel2()
-                    +"&id_clientepersona ="+ servicios.getId_cliente()
+                    +"&id_cajanivel2="+ servicios.getId_cajanivel2()
+                    +"&id_clientepersona="+ servicios.getId_cliente()
                     +"&hilocajanivel2_cliente="+ servicios.getHiloCajaNivel2()
                     +"&direccionip_cliente="+ servicios.getDireccionip()
                     +"&ip_cliente="+ servicios.getIp_cliente()
@@ -382,7 +504,7 @@ public class ServiciosDAO {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, error.getMessage()+" error servicio editar dao", Toast.LENGTH_SHORT).show();
                 Toast.makeText(context, "Problema con el servidor editarservicio", Toast.LENGTH_SHORT).show();
                 Procesos.cargandoDetener();
             }

@@ -211,8 +211,7 @@ public class Procesos extends AppCompatActivity {
         }
         return false;
     }
-    public static void copiarEnElPortapapeles(Context context, TextInputLayout texts, FragmentActivity getActiviti){
-        String text = texts.getEditText().getText().toString();
+    public static void copiarEnElPortapapeles(Context context, String text, FragmentActivity getActiviti){
         ClipboardManager clipboard = (ClipboardManager) getActiviti.getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clip = ClipData.newPlainText("text",  text);
         clipboard.setPrimaryClip(clip);

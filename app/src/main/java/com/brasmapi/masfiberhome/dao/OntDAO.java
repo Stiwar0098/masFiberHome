@@ -155,7 +155,6 @@ public class OntDAO {
     }
 
     public void editarOnt(Ont Ont, Context con, boolean esDesactivar) {
-        Procesos.cargandoIniciar(con);
         context = con;
         String consulta;
         int metodo = 0;
@@ -199,8 +198,8 @@ public class OntDAO {
                             interfaz.limpiarOnt();
                         }
                     }
-                    Procesos.cargandoDetener();
                 } catch (JSONException e) {
+                    Procesos.cargandoDetener();
                     e.printStackTrace();
                 }
             }

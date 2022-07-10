@@ -24,12 +24,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.brasmapi.masfiberhome.dao.ServiciosDAO;
-import com.brasmapi.masfiberhome.dao.ServiportDAO;
 import com.brasmapi.masfiberhome.entidades.Servicios;
 import com.brasmapi.masfiberhome.ui.MainActivity;
 import com.brasmapi.masfiberhome.ui.adaptadores.AdapterServicios;
 import com.brasmapi.masfiberhome.ui.crear.CrearServicioFragment;
-import com.brasmapi.masfiberhome.ui.listar.ListaCajasNivel2Fragment;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
@@ -98,6 +96,7 @@ public class ListarServiciosFragment extends Fragment implements ServiciosDAO.in
         // Inflate the layout for this fragment
         vista= inflater.inflate(R.layout.fragment_listar_servicios, container, false);
         context=getActivity();
+        Procesos.cargandoDetener();
         serviciosDAO =new ServiciosDAO(ListarServiciosFragment.this);
         ((MainActivity)getActivity()).setTitle("Listar servicos");
         mostrarDatos("");
@@ -112,7 +111,7 @@ public class ListarServiciosFragment extends Fragment implements ServiciosDAO.in
             @Override
             public void onClick(View v) {
                 CrearServicioFragment.opc="crear";
-                Navigation.findNavController(v).navigate(R.id.nav_crearServicio);
+                Navigation.findNavController(v).navigate(R.id.crearServicioFragment);
                 fragmentTransaction.addToBackStack(null);
                 // Cambiar
                 fragmentTransaction.commit();
@@ -171,7 +170,7 @@ public class ListarServiciosFragment extends Fragment implements ServiciosDAO.in
                     CrearServicioFragment.opc="editar";
                     Servicios us = lista.get(recyclerView.getChildAdapterPosition(v));
                     CrearServicioFragment.servicios =us;
-                    Navigation.findNavController(v).navigate(R.id.nav_crearServicio);
+                    Navigation.findNavController(v).navigate(R.id.crearServicioFragment);
                     fragmentTransaction.addToBackStack(null);
                     // Cambiar
                     fragmentTransaction.commit();

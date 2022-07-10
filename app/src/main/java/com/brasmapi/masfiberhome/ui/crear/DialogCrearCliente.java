@@ -9,7 +9,6 @@ import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.fragment.app.FragmentActivity;
@@ -25,7 +24,7 @@ import com.journeyapps.barcodescanner.ScanOptions;
 
 import java.util.List;
 
-public class DialogCrearOnt implements DialogBuscarModeloOnt.finalizoDialogBuscarModeloOnt, ModeloOntDAO.interfazModeloOntDAO
+public class DialogCrearCliente implements DialogBuscarModeloOnt.finalizoDialogBuscarModeloOnt, ModeloOntDAO.interfazModeloOntDAO
 {
     static Context context;
     static Dialog dialogo;
@@ -38,7 +37,7 @@ public class DialogCrearOnt implements DialogBuscarModeloOnt.finalizoDialogBusca
     public static finalizoDialogCrearOnt interfaz;
     FragmentActivity fragmentActivity;
     ActivityResultLauncher<ScanOptions> barcodeLauncher;
-    public DialogCrearOnt(Context context1,Ont ont, finalizoDialogCrearOnt actividad, ActivityResultLauncher<ScanOptions> barcodeLauncher) {
+    public DialogCrearCliente(Context context1, Ont ont, finalizoDialogCrearOnt actividad, ActivityResultLauncher<ScanOptions> barcodeLauncher) {
         interfaz = actividad;
         context = context1;
         this.barcodeLauncher=barcodeLauncher;
@@ -47,7 +46,7 @@ public class DialogCrearOnt implements DialogBuscarModeloOnt.finalizoDialogBusca
         dialogo.setCancelable(true);//false
         dialogo.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialogo.setContentView(R.layout.dialog_crear_ont);
-        modeloOntDAO=new ModeloOntDAO(DialogCrearOnt.this);
+        modeloOntDAO=new ModeloOntDAO(DialogCrearCliente.this);
         txtserie=(TextInputLayout) dialogo.findViewById(R.id.txtSerieOnt_DialogCrearOnt);
         txtmodelo=(TextInputLayout)dialogo.findViewById(R.id.txtIdModelo_DialogCrearOnt);
         spinnerResponsable=(Spinner) dialogo.findViewById(R.id.spinnerResponsable_DialogCrearOnt);
@@ -85,7 +84,7 @@ public class DialogCrearOnt implements DialogBuscarModeloOnt.finalizoDialogBusca
         txtmodelo.setEndIconOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new DialogBuscarModeloOnt(context,DialogCrearOnt.this);
+                new DialogBuscarModeloOnt(context, DialogCrearCliente.this);
             }
         });
         txtserie.setEndIconOnClickListener(new View.OnClickListener() {
