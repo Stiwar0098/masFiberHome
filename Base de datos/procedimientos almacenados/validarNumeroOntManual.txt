@@ -1,0 +1,6 @@
+id_vlan2 int
+numero_rangoont2 int
+
+BEGIN
+SELECT * FROM `rangoont` WHERE `id_vlan`=id_vlan2 and `numero_rangoont`=numero_rangoont2 and `estado_rangoont`="desactivo";
+END

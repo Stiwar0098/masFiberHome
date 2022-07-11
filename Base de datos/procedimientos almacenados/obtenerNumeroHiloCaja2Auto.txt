@@ -1,0 +1,5 @@
+id_cajanivel22 int 11
+
+BEGIN
+SELECT `id_rangohiloscaja2`,min(`numero_rangohiloscaja2`) as "numero_rangohiloscaja2" FROM `rangohiloscaja2` WHERE `id_cajanivel2`=id_cajanivel22 and `estado_rangohiloscaja2`="desactivo";
+END

@@ -1,0 +1,6 @@
+id_vlan2 int
+ip_rangodireccionesip2 int
+
+BEGIN
+SELECT * FROM `rangodireccionesip` WHERE `id_vlan`=id_vlan2 and `ip_rangodireccionesip`=ip_rangodireccionesip2 and `estado_rangodireccionesip`="desactivo";
+END

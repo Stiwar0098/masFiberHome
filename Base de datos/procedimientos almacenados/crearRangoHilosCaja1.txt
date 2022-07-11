@@ -1,0 +1,13 @@
+hilos int 11
+nombre varchar 50
+
+BEGIN
+    DECLARE i INT;    	
+    DECLARE id_cajanivel12 INT;    	
+    set i=1;
+    set id_cajanivel12=(SELECT id_cajanivel1 FROM cajanivel1 where nombre_cajanivel1=nombre);
+      WHILE i<=hilos DO
+    INSERT INTO rangohiloscaja1 VALUES (0,id_cajanivel12,null,i,"desactivo");    
+    set i=i+1;
+    END WHILE;
+END

@@ -1,0 +1,6 @@
+id_cajanivel22 int 11
+numero_rangohiloscaja22 int 11
+
+BEGIN
+SELECT * FROM `rangohiloscaja2` WHERE `id_cajanivel2`=id_cajanivel22 and `numero_rangohiloscaja2`=numero_rangohiloscaja22 and `estado_rangohiloscaja2`="desactivo";
+END

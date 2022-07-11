@@ -177,8 +177,12 @@ public class ListarClientesFragment extends Fragment implements ClientesDAO.inte
             adaptador.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    Clientes us = lista.get(recyclerView.getChildAdapterPosition(v));
-                    eliminarRegistroDialog(us);
+                    if (Procesos.user.getRol()==1){// si es administrador
+                        Clientes us = lista.get(recyclerView.getChildAdapterPosition(v));
+                        eliminarRegistroDialog(us);
+                    }else{//es tecnico
+                        Toast.makeText(context, "Solo los administradores pueden eliminar", Toast.LENGTH_LONG).show();
+                    }
                     return true;
                 }
             });

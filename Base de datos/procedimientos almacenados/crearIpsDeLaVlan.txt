@@ -1,0 +1,20 @@
+bucle int 11
+ipInicio int 11
+nombre varchar 50
+
+BEGIN
+	DECLARE id_vlan2 INT;          
+    DECLARE i INT;    	
+    set i=1;
+    set id_vlan2=(SELECT id_vlan FROM vlan where nombre_vlan=nombre);
+    WHILE i<=bucle DO
+    INSERT INTO rangodireccionesip VALUES (0,id_vlan2,null,ipInicio,"desactivo");
+    SET ipInicio=ipInicio+1;
+    set i=i+1;
+    END WHILE;
+    set i=0;
+    WHILE i<=127 DO
+    INSERT INTO rangoont VALUES (0,id_vlan2,null,i,"desactivo");    
+    set i=i+1;
+    END WHILE;
+END

@@ -52,6 +52,7 @@ import com.brasmapi.masfiberhome.entidades.Vlan;
 import com.brasmapi.masfiberhome.ui.MainActivity;
 import com.brasmapi.masfiberhome.ui.buscar.DialogBuscarCajaNivel2;
 import com.brasmapi.masfiberhome.ui.buscar.DialogBuscarCliente;
+import com.google.android.gms.dynamic.IFragmentWrapper;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.zxing.client.android.Intents;
 import com.journeyapps.barcodescanner.ScanContract;
@@ -80,7 +81,7 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
         RangoDireccionIpDAO.interfazRangoDireccionIp,
         OntDAO.interfazOntDAO,
         CajaNivel2DAO.interfazCajaNivel2DAO,
-        ClientesDAO.interfazClientesDAO{
+        ClientesDAO.interfazClientesDAO,DialogCrearCliente.finalizoDialogCrearClientes{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -135,6 +136,7 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
     int banderaVlan=1;
 
     Clientes clientes;
+    Clientes clientesAnterior;
     ClientesDAO clientesDAO;
     CajaNivel2 cajaNivel2;//g
     CajaNivel2 cajaNivel2Anterior;
@@ -176,6 +178,10 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
     boolean validarOntEditar=false;
     boolean validarUsuarioEditar=false;
     boolean cajaSelecionadaOeditar=false;
+
+    static boolean isCrearCliente=false;
+    static boolean isEditarCliente=false;
+
 
     int numeroHiloCaja2,numeroOnt,idplanes;
     Integer ip_numero,serviport;
@@ -396,10 +402,17 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
         Procesos.cargandoDetener();
         }
     }
+    String op,op2;
     private void setEndIconOnClickListener() {
         txtCliente.setEndIconOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                op="Editar";
+                op2="Crear";
+                if(Procesos.obtenerTxtEnString(txtCliente).equals("")){
+                    op="Crear";
+                    op2="Cancelar";
+                }
                 AlertDialog.Builder builder= new AlertDialog.Builder(context);
                 builder.setTitle("Opciones");
                 builder.setMessage("¿Que desea hacer?")
@@ -409,17 +422,32 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
                                 new DialogBuscarCliente(context,CrearServicioFragment.this);
                             }
                         })
-                        .setNegativeButton("Crear", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(op, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-
+                                if (op.equals("Crear")){
+                                    DialogCrearCliente.opc="crear";
+                                    isCrearCliente=true;
+                                }else{
+                                    DialogCrearCliente.opc="editar";
+                                    if (!isCrearCliente){
+                                        isEditarCliente=true;
+                                    }
+                                }
+                                new DialogCrearCliente(context,clientes,CrearServicioFragment.this);
                             }
                         })
-                        .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
+                        .setNeutralButton(op2, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(context, "Cancelado", Toast.LENGTH_SHORT).show();
-                                dialog.dismiss();
+                                if (op2.equals("Cancelar")){
+                                    Toast.makeText(context, "Cancelado", Toast.LENGTH_SHORT).show();
+                                    dialog.dismiss();
+                                }else{
+                                    DialogCrearCliente.opc="crear";
+                                    isCrearCliente=true;
+                                    new DialogCrearCliente(context,clientes,CrearServicioFragment.this);
+                                }
                             }
                         })
                         .show();
@@ -1092,6 +1120,8 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
         this.clientes=Clientes;
         txtCliente.getEditText().setText(clientes.getNombre()+" "+clientes.getApellido());
         validarUsuarioEditar=false;
+        isEditarCliente=false;
+        isCrearCliente=false;
         llenarUsuario();
     }
     @Override
@@ -1437,6 +1467,7 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
     @Override
     public void setClientes(Clientes Clientes) {
         this.clientes=Clientes;
+        this.clientesAnterior=clientes;
         txtCliente.getEditText().setText(clientes.getNombre()+" "+clientes.getApellido());
     }
 
@@ -1447,6 +1478,15 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
 
     @Override
     public void limpiarClientes() {
+
+    }
+
+    @Override
+    public void setClientesDialogoCrearClientes(Clientes cliente) {
+        this.clientes=cliente;
+        if (cliente!=null && !cliente.getNombre().equals("")){
+            txtCliente.getEditText().setText(clientes.getNombre()+" "+clientes.getApellido());
+        }
 
     }
 }

@@ -1,0 +1,5 @@
+id_vlan2
+
+BEGIN
+SELECT `id_rangodireccionesip`,min(`ip_rangodireccionesip`) as "ip_rangodireccionesip" FROM `rangodireccionesip` WHERE `id_vlan`=id_vlan2 and `estado_rangodireccionesip`="desactivo";
+EN

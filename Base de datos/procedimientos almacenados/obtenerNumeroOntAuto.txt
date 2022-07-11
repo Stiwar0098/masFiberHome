@@ -1,0 +1,5 @@
+id_vlan2 int
+
+BEGIN
+SELECT `id_rangoont`,min(`numero_rangoont`) as "numero_rangoont" FROM `rangoont` WHERE `id_vlan`=id_vlan2 and `estado_rangoont`="desactivo";
+END
