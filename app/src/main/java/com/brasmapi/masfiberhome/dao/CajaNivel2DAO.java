@@ -67,6 +67,7 @@ public class CajaNivel2DAO {
     }
 
     public void buscarCajaNivel2(String buscar, Context con) {
+        Procesos.cargandoIniciar(con);
         String consulta = Procesos.url + "/cajanivel2/buscarCajaNivel2.php?filtrar=" + buscar;
         context = con;
         queue = Volley.newRequestQueue(context);

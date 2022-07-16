@@ -30,6 +30,7 @@ public class RangoDireccionIpDAO {
         interfaz=inte;
     }
     public void verificarDireccionIpManual(int id_vlan, int ip_RangoDireccionIp , Context con) {
+        Procesos.cargandoIniciar(con);
         String consulta = Procesos.url + "/RangoDireccionIp/verificarHiloManual.php?id_vlan=" + id_vlan+"&ip_rangodireccionesip="+ip_RangoDireccionIp;
         context = con;
         queue = Volley.newRequestQueue(context);
@@ -65,6 +66,7 @@ public class RangoDireccionIpDAO {
     }
 
     public void obtenerDireccionIpAutomatico(int id_vlan, Context con) {
+        Procesos.cargandoIniciar(con);
         String consulta = Procesos.url + "/RangoDireccionIp/obtenerHiloAutomatico.php?id_vlan=" + id_vlan;
         context = con;
         queue = Volley.newRequestQueue(context);
@@ -100,6 +102,7 @@ public class RangoDireccionIpDAO {
     }
 
     public void obtenerDireccionIpAnterior(int id_vlan, int id_cliente, Context con) {
+        Procesos.cargandoIniciar(con);
         String consulta = Procesos.url + "/RangoDireccionIp/obtenerHiloAnterior.php?id_vlan=" + id_vlan+"&id_cliente="+id_cliente;
         context = con;
         queue = Volley.newRequestQueue(context);
@@ -130,6 +133,7 @@ public class RangoDireccionIpDAO {
     }
 
     public void editarRangoDireccionIp(RangoDireccionIp RangoDireccionIp, String usuario, Context con) {
+        Procesos.cargandoIniciar(con);
         context = con;
         String consulta;
         int metodo = 0;
@@ -180,6 +184,7 @@ public class RangoDireccionIpDAO {
         queue.add(requerimiento);
     }
     public void editarRangoDireccionIpAnterior(int idRangoDireccionIp, Context con) {
+        Procesos.cargandoIniciar(con);
         context = con;
         String consulta;
         int metodo = 0;

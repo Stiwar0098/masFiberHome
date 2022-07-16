@@ -67,6 +67,7 @@ public class ModeloOntDAO {
     }
 
     public void buscarModeloOnt(String buscar, Context con) {
+        Procesos.cargandoIniciar(con);
         String consulta = Procesos.url + "/ModeloOnt/buscarModeloOnt.php?filtrar=" + buscar;
         context = con;
         queue = Volley.newRequestQueue(context);

@@ -31,6 +31,7 @@ public class RangoOntDAO {
         interfaz=inte;
     }
     public void verificarNumeroOntManual(int id_vlan, int numero_rangoont , Context con) {
+        Procesos.cargandoIniciar(con);
         String consulta = Procesos.url + "/RangoOnt/verificarHiloManual.php?id_vlan=" + id_vlan+"&numero_rangoont="+numero_rangoont;
         context = con;
         queue = Volley.newRequestQueue(context);
@@ -66,6 +67,7 @@ public class RangoOntDAO {
     }
 
     public void obtenerNumeroOntAutomatico(int id_vlan, Context con) {
+        Procesos.cargandoIniciar(con);
         String consulta = Procesos.url + "/RangoOnt/obtenerHiloAutomatico.php?id_vlan=" + id_vlan;
         context = con;
         queue = Volley.newRequestQueue(context);
@@ -101,6 +103,7 @@ public class RangoOntDAO {
     }
 
     public void obtenerNumeroOntAnterior(int id_vlan, int id_ont, Context con) {
+        Procesos.cargandoIniciar(con);
         String consulta = Procesos.url + "/RangoOnt/obtenerHiloAnterior.php?id_vlan=" + id_vlan+"&id_ont="+id_ont;
         context = con;
         queue = Volley.newRequestQueue(context);
@@ -131,6 +134,7 @@ public class RangoOntDAO {
     }
 
     public void editarRangoOnt(RangoOnt rangoont, String serieOnt, Context con) {
+        Procesos.cargandoIniciar(con);
         context = con;
         String consulta;
         int metodo = 0;
@@ -180,6 +184,7 @@ public class RangoOntDAO {
         queue.add(requerimiento);
     }
     public void editarRangoOntAnterior(int idRangoOnt, Context con) {
+        Procesos.cargandoIniciar(con);
         context = con;
         String consulta;
         int metodo = 0;

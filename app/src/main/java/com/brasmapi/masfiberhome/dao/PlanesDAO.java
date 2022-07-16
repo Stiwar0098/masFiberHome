@@ -31,6 +31,9 @@ public class PlanesDAO {
     }
 
     public void filtarPlanes(String buscar, Context con, boolean isElim) {
+        if (!isElim){
+            Procesos.cargandoIniciar(con);
+        }
         String consulta = Procesos.url + "/Planes/filtrarPlanes.php?filtrar=" + buscar;
         context = con;
         queue = Volley.newRequestQueue(context);

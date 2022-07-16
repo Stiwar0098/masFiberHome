@@ -67,6 +67,7 @@ public class ClientesDAO {
     }
 
     public void buscarClientes(String buscar, Context con) {
+        Procesos.cargandoIniciar(con);
         String consulta = Procesos.url + "/Clientes/buscarClientes.php?filtrar=" + buscar;
         context = con;
         queue = Volley.newRequestQueue(context);
@@ -100,6 +101,7 @@ public class ClientesDAO {
 
 
     public void crearClientes(Clientes Clientes, Context con) {
+        Procesos.cargandoIniciar(con);
         context = con;
         String consulta;
         int metodo = 0;
@@ -162,6 +164,7 @@ public class ClientesDAO {
     }
 
     public void editarClientes(Clientes Clientes, Context con, boolean esDesactivar) {
+        Procesos.cargandoIniciar(con);
         context = con;
         String consulta;
         int metodo = 0;

@@ -31,6 +31,7 @@ public class RangoHilosCaja1DAO {
     }
 
     public void verificarHiloManual(int id_cajanivel1, int numero_rangohiloscaja1 , Context con) {
+        Procesos.cargandoIniciar(con);
         String consulta = Procesos.url + "/RangoHilosCaja1/verificarHiloManual.php?id_cajanivel1=" + id_cajanivel1+"&numero_rangohiloscaja1="+numero_rangohiloscaja1;
         context = con;
         queue = Volley.newRequestQueue(context);
@@ -66,6 +67,7 @@ public class RangoHilosCaja1DAO {
     }
 
     public void obtenerHiloAutomatico(int id_cajanivel1, Context con) {
+        Procesos.cargandoIniciar(con);
         String consulta = Procesos.url + "/RangoHilosCaja1/obtenerHiloAutomatico.php?id_cajanivel1=" + id_cajanivel1;
         context = con;
         queue = Volley.newRequestQueue(context);
@@ -101,6 +103,7 @@ public class RangoHilosCaja1DAO {
     }
 
     public void obtenerHiloAnterior(int id_cajanivel1,int id_cajanivel2, Context con) {
+        Procesos.cargandoIniciar(con);
         String consulta = Procesos.url + "/RangoHilosCaja1/obtenerHiloAnterior.php?id_cajanivel1=" + id_cajanivel1+"&id_cajanivel2="+id_cajanivel2;
         context = con;
         queue = Volley.newRequestQueue(context);
@@ -131,6 +134,7 @@ public class RangoHilosCaja1DAO {
     }
 
     public void editarRangoHilosCaja1(RangoHilosCaja1 RangoHilosCaja1,String nombreCaja2, Context con) {
+        Procesos.cargandoIniciar(con);
         context = con;
         String consulta;
         int metodo = 0;
@@ -177,6 +181,7 @@ public class RangoHilosCaja1DAO {
         queue.add(requerimiento);
     }
     public void editarRangoHilosCaja1Anterior(int idRangoHilosCaja1, Context con) {
+        Procesos.cargandoIniciar(con);
         context = con;
         String consulta;
         int metodo = 0;

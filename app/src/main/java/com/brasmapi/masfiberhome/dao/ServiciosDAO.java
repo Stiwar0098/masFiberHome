@@ -95,6 +95,7 @@ public class ServiciosDAO {
     }
 
     public void filtarServicioPendienteAdmin(Context con) {
+        Procesos.cargandoIniciar(con);
         String consulta = Procesos.url + "/Servicio/filtrarServicioPendienteAdmin.php";
         context = con;
         queue = Volley.newRequestQueue(context);
@@ -156,6 +157,7 @@ public class ServiciosDAO {
     }
 
     public void filtarServicioPendienteTec(String tecnico, Context con) {
+        Procesos.cargandoIniciar(con);
         String consulta = Procesos.url + "/Servicio/filtrarServicioPendienteTec.php?filtrar=" + tecnico;
         context = con;
         queue = Volley.newRequestQueue(context);
@@ -279,6 +281,7 @@ public class ServiciosDAO {
         queue.add(requerimiento);
     }
     public void crearServicio(Servicios servicios,String serie_ont, Context con) {
+        Procesos.cargandoIniciar(con);
         context = con;
         String consulta;
         int metodo = 0;
@@ -380,6 +383,7 @@ public class ServiciosDAO {
     }
 
     public void validarUsuario(String usuario,Context con) {
+        Procesos.cargandoIniciar(con);
         String consulta = Procesos.url + "/Servicio/validarUsuario.php?"
                 +"usuario_cliente=" +  usuario;
         context = con;
@@ -412,6 +416,7 @@ public class ServiciosDAO {
         queue.add(requerimiento);
     }
     public void editarServicio(Servicios servicios, Context con, boolean esDesactivar) {
+        Procesos.cargandoIniciar(con);
         context = con;
         String consulta;
         int metodo = 0;

@@ -29,6 +29,7 @@ public class ServiportDAO {
     }
 
     public void obtenerServiportAutomatico(Context con) {
+        Procesos.cargandoIniciar(con);
         String consulta = Procesos.url + "/ServiportAutomatico/obtenerNumeroServiportAutomatico.php";
         context = con;
         queue = Volley.newRequestQueue(context);
@@ -61,6 +62,7 @@ public class ServiportDAO {
     }
 
     public void eliminarEnServiportsLibres(int numeroServiport, Context con) {
+        Procesos.cargandoIniciar(con);
         context = con;
         String consulta;
         int metodo = 0;

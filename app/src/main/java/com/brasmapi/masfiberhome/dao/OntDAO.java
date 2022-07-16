@@ -67,6 +67,7 @@ public class OntDAO {
     }
 
     public void buscarOnt(String buscar, Context con) {
+        Procesos.cargandoIniciar(con);
         String consulta = Procesos.url + "/Ont/buscarOnt.php?filtrar=" + buscar;
         context = con;
         queue = Volley.newRequestQueue(context);
@@ -98,6 +99,7 @@ public class OntDAO {
     }
 
     public void crearOnt(Ont Ont, Context con) {
+        Procesos.cargandoIniciar(con);
         context = con;
         String consulta;
         int metodo = 0;
@@ -155,6 +157,7 @@ public class OntDAO {
     }
 
     public void editarOnt(Ont Ont, Context con, boolean esDesactivar) {
+        Procesos.cargandoIniciar(con);
         context = con;
         String consulta;
         int metodo = 0;

@@ -67,6 +67,7 @@ public class VlanDAO {
     }
 
     public void buscarVlan(String buscar, Context con) {
+        Procesos.cargandoIniciar(con);
         String consulta = Procesos.url + "/vlan/buscarVlan.php?filtrar=" + buscar;
         context = con;
         queue = Volley.newRequestQueue(context);
