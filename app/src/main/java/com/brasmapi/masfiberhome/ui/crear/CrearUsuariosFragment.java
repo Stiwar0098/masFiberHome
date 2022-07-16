@@ -108,6 +108,7 @@ public class CrearUsuariosFragment extends Fragment {
                     usuario.setRol(spinner.getSelectedItemPosition()+1);
                     usuariosDAO.editarUsuario(usuario,context,false);
                 }
+                getActivity().onBackPressed();
             }
         });
         return vista;

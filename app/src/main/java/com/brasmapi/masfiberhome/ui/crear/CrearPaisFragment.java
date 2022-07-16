@@ -92,6 +92,7 @@ public class CrearPaisFragment extends Fragment {
                     pais.setNombre(txtNombrePais.getEditText().getText().toString());
                     paisesDAO.editarPais(pais,context,false);
                 }
+                getActivity().onBackPressed();
             }
         });
         return vista;

@@ -78,6 +78,7 @@ public class ActivacionesPendientesAdminFragment extends Fragment implements Ser
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+
     View vista;
     static Context context;
     static ServiciosDAO serviciosDAO;
@@ -144,7 +145,7 @@ public class ActivacionesPendientesAdminFragment extends Fragment implements Ser
     }
     public void cargar(){
         if(lista==null){
-            Toast.makeText(context, "No hay servicios", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "No hay servicios pendientes por activar", Toast.LENGTH_LONG).show();
             lista= new ArrayList<>();
             adaptador = new AdapterServicios(lista);
             recyclerView.setAdapter(adaptador);
@@ -237,7 +238,7 @@ public class ActivacionesPendientesAdminFragment extends Fragment implements Ser
 
     @Override
     public void limpiarServicio() {
-        Procesos.cargandoDetener();
+        mostrarDatos();
         Toast.makeText(context, "Servicio Activado", Toast.LENGTH_SHORT).show();
     }
 }

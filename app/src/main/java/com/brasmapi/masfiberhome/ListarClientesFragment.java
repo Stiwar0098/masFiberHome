@@ -164,14 +164,13 @@ public class ListarClientesFragment extends Fragment implements ClientesDAO.inte
             adaptador.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    CrearClientesFragment.opc="editar";
-                    Clientes us = lista.get(recyclerView.getChildAdapterPosition(v));
-
-                    CrearClientesFragment.clientes =us;
-                    Navigation.findNavController(v).navigate(R.id.crearClientesFragment);
-                    fragmentTransaction.addToBackStack(null);
-                    // Cambiar
-                    fragmentTransaction.commit();
+                        CrearClientesFragment.opc="editar";
+                        Clientes us = lista.get(recyclerView.getChildAdapterPosition(v));
+                        CrearClientesFragment.clientes =us;
+                        Navigation.findNavController(v).navigate(R.id.crearClientesFragment);
+                        fragmentTransaction.addToBackStack(null);
+                        // Cambiar
+                        fragmentTransaction.commit();
                 }
             });
             adaptador.setOnLongClickListener(new View.OnLongClickListener() {
@@ -181,7 +180,16 @@ public class ListarClientesFragment extends Fragment implements ClientesDAO.inte
                         Clientes us = lista.get(recyclerView.getChildAdapterPosition(v));
                         eliminarRegistroDialog(us);
                     }else{//es tecnico
-                        Toast.makeText(context, "Solo los administradores pueden eliminar", Toast.LENGTH_LONG).show();
+                        AlertDialog.Builder builder= new AlertDialog.Builder(context);
+                        builder.setTitle("Advertencia");
+                        builder.setMessage("Solo los administradores pueden eliminar")
+                                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(final DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                })
+                                .show();
                     }
                     return true;
                 }
@@ -316,6 +324,8 @@ public class ListarClientesFragment extends Fragment implements ClientesDAO.inte
     public void setClientes(Clientes Clientes) {
 
     }
+
+
 
     @Override
     public void setListaClientes(List<Clientes> lista) {

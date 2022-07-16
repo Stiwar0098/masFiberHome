@@ -8,10 +8,10 @@ include "../conexion.php";
         if($query_insert){                        
             echo '{"respuesta":"ok"}';           
         }else{
-            echo '{"respuesta":"error en la insercion"}';
+            echo '{"respuesta":"error en la insercion crear cliente"}';
         }
     }else{
-        echo '{"respuesta":"el modelo ya existe"}';
+        echo '{"respuesta":"el cliente ya existe"}';
     }    
 mysqli_close($mysqli);
 ?>

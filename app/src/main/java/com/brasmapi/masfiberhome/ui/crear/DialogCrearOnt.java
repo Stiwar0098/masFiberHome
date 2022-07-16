@@ -34,13 +34,15 @@ public class DialogCrearOnt implements DialogBuscarModeloOnt.finalizoDialogBusca
     Spinner spinnerResponsable;
     ModeloOnt modeloOnt=null;
     ModeloOntDAO modeloOntDAO;
+    Ont ontAux;
     String serie,modelo,responsable;
-    public static finalizoDialogCrearOnt interfaz;
+    finalizoDialogCrearOnt interfaz;
     FragmentActivity fragmentActivity;
     ActivityResultLauncher<ScanOptions> barcodeLauncher;
     public DialogCrearOnt(Context context1,Ont ont, finalizoDialogCrearOnt actividad, ActivityResultLauncher<ScanOptions> barcodeLauncher) {
         interfaz = actividad;
         context = context1;
+        ontAux =ont;
         this.barcodeLauncher=barcodeLauncher;
         dialogo = new Dialog(context);
         dialogo.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -55,14 +57,14 @@ public class DialogCrearOnt implements DialogBuscarModeloOnt.finalizoDialogBusca
         String [] opciones={"Selecionar el responsable","CLIENTE","EMPRESA"};
         ArrayAdapter<String> adapter= new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item,opciones);
         spinnerResponsable.setAdapter(adapter);
-        if (ont!=null){// va a editar
-            txtserie.getEditText().setText(ont.getSerieOnt());
-            modeloOntDAO.buscarModeloOnt(ont.getId_modeloOnt()+"",context1);
-            txtmodelo.getEditText().setText(ont.getNombreModelo());
+        if (ontAux!=null){// va a editar
+            txtserie.getEditText().setText(ontAux.getSerieOnt());
+            modeloOntDAO.buscarModeloOnt(ontAux.getId_modeloOnt()+"",context1);
+            txtmodelo.getEditText().setText(ontAux.getNombreModelo());
             int aux=0;
-            if (ont.getResponsable().equals("CLIENTE")){
+            if (ontAux.getResponsable().equals("CLIENTE")){
                 aux=1;
-            }else if (ont.getResponsable().equals("EMPRESA")){
+            }else if (ontAux.getResponsable().equals("EMPRESA")){
                 aux=2;
             }
             spinnerResponsable.setSelection(aux);
@@ -76,10 +78,16 @@ public class DialogCrearOnt implements DialogBuscarModeloOnt.finalizoDialogBusca
                 serie = txtserie.getEditText().getText().toString().trim();
                 modelo = txtmodelo.getEditText().getText().toString().trim();
                 responsable = spinnerResponsable.getSelectedItem().toString();
-               if(modeloOnt!=null){
-                   interfaz.setOntDialogoCrearOnt(new Ont(0, serie, modeloOnt.getId_modeloOnt(), modelo, responsable, -1, "activo"));
-                   dialogo.dismiss();
-               }
+                if (modeloOnt != null) {
+                    if (ontAux != null) { //va a editar
+                        interfaz.setOntDialogoCrearOnt(new Ont(ontAux.getId(), serie, modeloOnt.getId_modeloOnt(), modelo, responsable, ontAux.getNumeroOnt(), ontAux.getEstado()));
+                    } else {
+                        interfaz.setOntDialogoCrearOnt(new Ont(0, serie, modeloOnt.getId_modeloOnt(), modelo, responsable, -1, "activo"));
+                    }
+                }else  {
+                    Toast.makeText(context1, "Sin modelo", Toast.LENGTH_SHORT).show();
+                }
+                dialogo.dismiss();
             }
         });
         txtmodelo.setEndIconOnClickListener(new View.OnClickListener() {
@@ -127,6 +135,6 @@ public class DialogCrearOnt implements DialogBuscarModeloOnt.finalizoDialogBusca
 
 
     public interface finalizoDialogCrearOnt {
-        void setOntDialogoCrearOnt(Ont Ont);
+        void setOntDialogoCrearOnt(Ont ont2);
     }
 }

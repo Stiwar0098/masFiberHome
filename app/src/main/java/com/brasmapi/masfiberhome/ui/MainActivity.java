@@ -43,9 +43,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TextView lblNombre_menu,lblRol_menu;
     Context context;
     DrawerLayout drawer;
-    NavigationView navigationView;
+    public static NavigationView navigationView;
     UsuariosDAO usuariosDAO=new UsuariosDAO(MainActivity.this);
-    NavController navController;
+    public static NavController navController;
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -187,37 +187,40 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void validadRolUsuario(){
-        if(Procesos.user!=null){
-            View header=navigationView.getHeaderView(0);
-            //View header = ((NavigationView)findViewById(R.id.nav_view)).getHeaderView(0);
-            String rol="";
-            if (Procesos.user.getRol()==1){
-                rol="ADMINISTRADOR";
-            }else{
-                rol="TÉCNICO";
-            }
-            ((TextView) header.findViewById(R.id.lblNombre_menu)).setText(Procesos.user.getNombre());
-            ((TextView) header.findViewById(R.id.lblRol_menu)).setText(rol);
-            if(Procesos.user.getRol()==2){// si es tecnico
-                MenuItem menuItem = navigationView.getMenu().getItem(0);
-                menuItem.setVisible(false);
-                menuItem = navigationView.getMenu().getItem(1);
-                menuItem.setVisible(false);
-                navController.navigate(R.id.nav_crearServicio);
-                navigationView.getMenu().getItem(4).setChecked(true);
-                CrearServicioFragment.opc="crear";
-                //cambiarFragment(new CrearServicioFragment(),"Crear cliente",itemMenuSeleccionadoAnterior,1);
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                // Definir una transacción
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                // Remplazar el contenido principal por el fragmento
-                //fragmentTransaction.replace(R.id.contenedor, fragment);
-                fragmentTransaction.addToBackStack(null);
-                // Cambiar
-                fragmentTransaction.commit();
-                ocultarMenu();
-            }else{
-                Procesos.cargandoDetener();
+        if (!Procesos.yaSeValidoUsuario){
+            if(Procesos.user!=null){
+                View header=navigationView.getHeaderView(0);
+                //View header = ((NavigationView)findViewById(R.id.nav_view)).getHeaderView(0);
+                String rol="";
+                if (Procesos.user.getRol()==1){
+                    rol="ADMINISTRADOR";
+                }else{
+                    rol="TÉCNICO";
+                }
+                ((TextView) header.findViewById(R.id.lblNombre_menu)).setText(Procesos.user.getNombre());
+                ((TextView) header.findViewById(R.id.lblRol_menu)).setText(rol);
+                if(Procesos.user.getRol()==2){// si es tecnico
+                    MenuItem menuItem = navigationView.getMenu().getItem(0);
+                    menuItem.setVisible(false);
+                    menuItem = navigationView.getMenu().getItem(1);
+                    menuItem.setVisible(false);
+                    navController.navigate(R.id.nav_crearServicio);
+                    navigationView.getMenu().getItem(4).setChecked(true);
+                    CrearServicioFragment.opc="crear";
+                    Procesos.yaSeValidoUsuario=true;
+                    //cambiarFragment(new CrearServicioFragment(),"Crear cliente",itemMenuSeleccionadoAnterior,1);
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    // Definir una transacción
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    // Remplazar el contenido principal por el fragmento
+                    //fragmentTransaction.replace(R.id.contenedor, fragment);
+                    fragmentTransaction.addToBackStack(null);
+                    // Cambiar
+                    fragmentTransaction.commit();
+                    ocultarMenu();
+                }else{
+                    Procesos.cargandoDetener();
+                }
             }
         }
     }

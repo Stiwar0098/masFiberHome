@@ -136,6 +136,7 @@ public class ActivacionesPendientesTecFragment extends Fragment implements Servi
         Procesos.detenerObtenerLatitudLongitud();
         return vista;
     }
+
     public void mostrarDatos(String filtrar){
         // crear lista de carview dentro del recycleview
         recyclerView = (RecyclerView)vista.findViewById(R.id.recyclerView_ListaServiciosPendientesTec);
@@ -143,9 +144,10 @@ public class ActivacionesPendientesTecFragment extends Fragment implements Servi
         Procesos.cargandoIniciar(context);
         serviciosDAO.filtarServicioPendienteTec(filtrar, vista.getContext());
     }
+    
     public static void cargar(){
         if(lista==null){
-            Toast.makeText(context, "No hay servicios", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "No hay servicios pendientes por ser activados", Toast.LENGTH_LONG).show();
             lista= new ArrayList<>();
             adaptador = new AdapterServicios(lista);
             recyclerView.setAdapter(adaptador);

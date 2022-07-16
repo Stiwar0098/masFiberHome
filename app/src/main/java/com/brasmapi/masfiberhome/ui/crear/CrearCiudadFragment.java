@@ -108,6 +108,7 @@ public class CrearCiudadFragment extends Fragment implements DialogBuscarProvinc
                     }
                     ciudadDAO.editarCiudad(ciudad,context,false);
                 }
+                getActivity().onBackPressed();
             }
         });
         return vista;

@@ -107,6 +107,7 @@ public class CrearProvinciaFragment extends Fragment implements DialogBuscarPais
                     }
                     provinciaDAO.editarProvincia(provincia,context,false);
                 }
+                getActivity().onBackPressed();
             }
         });
         return vista;

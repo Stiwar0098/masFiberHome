@@ -3,8 +3,10 @@ package com.brasmapi.masfiberhome.ui;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +18,7 @@ import androidx.navigation.Navigation;
 
 import com.brasmapi.masfiberhome.Procesos;
 import com.brasmapi.masfiberhome.R;
+import com.brasmapi.masfiberhome.ui.crear.CrearServicioFragment;
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
 
@@ -24,10 +27,30 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     CardView btnListarUsuario,btnListarProvincia,btnListarPais, btnListarCiudad,btnListarVlans,btnListarCajaNivel1
             ,btnListarCajaNivel2,btnListarPlanes,btnListarModeloOnt,btnListarClientes,btnListarOnt,btnListarServicio;
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        validadRolUsuario();
+    }
+    public void validadRolUsuario(){
+        if(Procesos.user!=null && Procesos.yaSeValidoUsuario){
+            if(Procesos.user.getRol()==2){// si es tecnico
+                MainActivity.navController.navigate(R.id.nav_crearServicio);
+                MainActivity.navigationView.getMenu().getItem(4).setChecked(true);
+                CrearServicioFragment.opc="crear";
+            }else{
+                Procesos.cargandoDetener();
+            }
+        }
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         vista=inflater.inflate(R.layout.fragment_home, container, false);
         context=getActivity();
+        if(Procesos.user!=null && Procesos.yaSeValidoUsuario){
+            Procesos.cargandoIniciar(getActivity());
+        }
         Procesos.detenerObtenerLatitudLongitud();
         Procesos.cerrarTeclado(getActivity());
         btnListarUsuario =vista.findViewById(R.id.btnCrearusuario_administrador);
@@ -60,6 +83,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override

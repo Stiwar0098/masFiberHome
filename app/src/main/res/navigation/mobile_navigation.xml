@@ -9,7 +9,7 @@
         android:id="@+id/nav_administrar"
         android:name="com.brasmapi.masfiberhome.ui.HomeFragment"
         android:label="Administrar"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_nav_administrar_to_listaUsuariosFragment"
             app:destination="@id/listaUsuariosFragment" />
@@ -239,7 +239,7 @@
         android:id="@+id/crearClientesFragment"
         android:name="com.brasmapi.masfiberhome.CrearClientesFragment"
         android:label="fragment_crear_clientes"
-        tools:layout="@layout/fragment_crear_clientes" >
+        tools:layout="@layout/fragment_crear_clientes">
         <action
             android:id="@+id/action_crearClientesFragment_to_listarClientesFragment"
             app:destination="@id/listarClientesFragment" />
@@ -300,9 +300,6 @@
         <action
             android:id="@+id/action_listarServiciosFragment_to_nav_crearServicio"
             app:destination="@id/nav_ListarServicios" />
-        <action
-            android:id="@+id/action_listarServiciosFragment_to_nav_administrar"
-            app:destination="@id/nav_administrar" />
         <action
             android:id="@+id/action_listarServiciosFragment_to_crearServicioFragment"
             app:destination="@id/crearServicioFragment" />

@@ -218,5 +218,6 @@ public class CrearVlanFragment extends Fragment implements VlanDAO.interfazVlanD
         txtMascara.setErrorEnabled(false);
         txtGateway.setErrorEnabled(false);
         Procesos.cargandoDetener();
+        getActivity().onBackPressed();
     }
 }

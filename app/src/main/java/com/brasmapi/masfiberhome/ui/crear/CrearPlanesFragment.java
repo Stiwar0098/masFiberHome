@@ -119,8 +119,9 @@ public class CrearPlanesFragment extends Fragment implements PlanesDAO.interfazP
         txtNombrePlanes.getEditText().setText("");
         Procesos.cerrarTeclado(getActivity());
         Procesos.cargandoDetener();
+        getActivity().onBackPressed();
         if (opc.equals("editar")){
-            getActivity().onBackPressed();// para retrocede sin que se guarde el activiti anterior  ejemplo a b c
+            //getActivity().onBackPressed();// para retrocede sin que se guarde el activiti anterior  ejemplo a b c
             // con el codigo de abajo si lo aplico en c para ir a b quedaria asi
             //a b c b al momento de dar vuelta atras se ir nuevamente a c y luego a b
             //al aplicar el codigo de arriba en el mismo ejemplo si lo aplicamos en c quedaria asi

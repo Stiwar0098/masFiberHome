@@ -206,6 +206,7 @@ public class CrearCajaNivel1Fragment extends Fragment implements CajaNivel1DAO.i
         txtNombreCiudad.setErrorEnabled(false);
         txtAbreviatura.setErrorEnabled(false);
         Procesos.cargandoDetener();
+        getActivity().onBackPressed();
     }
 
     @Override

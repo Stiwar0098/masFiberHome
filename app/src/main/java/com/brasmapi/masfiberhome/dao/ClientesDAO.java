@@ -98,8 +98,8 @@ public class ClientesDAO {
         queue.add(requerimiento);
     }
 
+
     public void crearClientes(Clientes Clientes, Context con) {
-        Procesos.cargandoIniciar(con);
         context = con;
         String consulta;
         int metodo = 0;
@@ -138,14 +138,16 @@ public class ClientesDAO {
                 try {
                     if (response.get("respuesta").toString().equals("ok")) {
                         Toast.makeText(context, "Los datos se cargaron correctamente", Toast.LENGTH_SHORT).show();
+                        if (interfaz!=null){
+                            interfaz.limpiarClientes();
+                        }
                     } else {
                         Toast.makeText(context, response.get("respuesta").toString(), Toast.LENGTH_SHORT).show();
-                    }
-                    if (interfaz!=null){
-                        interfaz.limpiarClientes();
+                        Procesos.cargandoDetener();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    Procesos.cargandoDetener();
                 }
             }
         }, new Response.ErrorListener() {
@@ -160,7 +162,6 @@ public class ClientesDAO {
     }
 
     public void editarClientes(Clientes Clientes, Context con, boolean esDesactivar) {
-        Procesos.cargandoIniciar(con);
         context = con;
         String consulta;
         int metodo = 0;
@@ -208,8 +209,8 @@ public class ClientesDAO {
                             interfaz.limpiarClientes();
                         }
                     }
-                    Procesos.cargandoDetener();
                 } catch (JSONException e) {
+                    Procesos.cargandoDetener();
                     e.printStackTrace();
                 }
             }

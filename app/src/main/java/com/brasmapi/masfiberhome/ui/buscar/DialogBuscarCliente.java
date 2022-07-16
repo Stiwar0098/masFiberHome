@@ -130,6 +130,7 @@ public class DialogBuscarCliente implements ClientesDAO.interfazClientesDAO
 
     }
 
+
     @Override
     public void setListaClientes(List<Clientes> lista) {
         listaClientes=lista;

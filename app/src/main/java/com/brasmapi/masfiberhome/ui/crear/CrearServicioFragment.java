@@ -135,8 +135,9 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
     VlanDAO vlanDAO;
     int banderaVlan=1;
 
-    Clientes clientes;
+    static Clientes clientes;
     Clientes clientesAnterior;
+    //static Clientes clientesSeleccionadoAnterior;
     ClientesDAO clientesDAO;
     CajaNivel2 cajaNivel2;//g
     CajaNivel2 cajaNivel2Anterior;
@@ -206,6 +207,21 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
                     //Toast.makeText(getActivity(), "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
                 }
             });
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (opc.equals("crear")){
+            Procesos.cargandoDetener();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -213,12 +229,13 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
          vista=inflater.inflate(R.layout.fragment_crear_servicio, container, false);
         context=getActivity();
         serviciosAnterior=servicios;
+        clientes=null;
+        cajaNivel2=null;
         try {
             ((MainActivity)getActivity()).setTitle("Crear servicio");
         }catch (Exception er){
 
         }
-        Procesos.cargandoDetener();
         modeloOntDAO=new ModeloOntDAO(CrearServicioFragment.this);
         clientesDAO=new ClientesDAO(CrearServicioFragment.this);
         cajaNivel2DAO = new CajaNivel2DAO(CrearServicioFragment.this);
@@ -387,28 +404,50 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
         return vista;
     }
 
+    boolean bandedarGuardar=false;
     public void crearEditar(){
+        bandedarGuardar=true;
         if (opc.equals("crear")){
-            ontDAO.crearOnt(ont,context);//primero guarda el ont una vez guardado llama al metodo limpiaront que ejecuta el guardar servicio
+            if (isCrearCliente){
+                clientesDAO.crearClientes(clientes,context);
+            }else if(isEditarCliente){
+                clientesDAO.editarClientes(clientes,context,false);
+                ontDAO.crearOnt(ont,context);//primero guarda el ont una vez guardado llama al metodo limpiaront que ejecuta el guardar servicio
+            }else{
+                ontDAO.crearOnt(ont,context);//primero guarda el ont una vez guardado llama al metodo limpiaront que ejecuta el guardar servicio
+            }
         }else if(opc.equals("editar")) {
-            if (seDebeEditarValidar1Caja2 || seDebeEditarValidar2NumeroOnt || seDebeEditarValidar3DireccionIp || !Procesos.obtenerTxtEnString(txtDireccion).equals(serviciosAnterior.getDireccion())||!Procesos.obtenerTxtEnString(txtReferencia).equals(serviciosAnterior.getReferencia())||!Procesos.obtenerTxtEnString(txtFechaInstalacion).equals(serviciosAnterior.getFecha())|| !spinnerPlan.getSelectedItem().toString().equals(serviciosAnterior.getNombrePlan()+" megas")||!Procesos.obtenerTxtEnString(txtLatitud).equals(serviciosAnterior.getLatitud())){ //si se modifico algo se debe editar
-                Toast.makeText(context, "modificado", Toast.LENGTH_SHORT).show();
-                serviciosDAO.editarServicio(new Servicios(serviport,usuario,direccion,referencia,fecha,longitud,latitud,idplanes,"",ont.getId(),"",cajaNivel2.getId_CajaNivel2(),"",clientes.getId_cliente(),"",numeroHiloCaja2,direccionIp,ip_numero,comandoPlanes,iterfazPonCard,agregarOnt,equipoBridge,quit,eliminarServicio,agregarServicioPuerto,agregarDescripcionPuerto,eliminarOnt,Procesos.user.getId(),"pendiente"),context,false);
+            if (seDebeEditarValidar1Caja2 || seDebeEditarValidar2NumeroOnt || seDebeEditarValidar3DireccionIp || !Procesos.obtenerTxtEnString(txtDireccion).equals(serviciosAnterior.getDireccion())||!Procesos.obtenerTxtEnString(txtReferencia).equals(serviciosAnterior.getReferencia())||!Procesos.obtenerTxtEnString(txtFechaInstalacion).equals(serviciosAnterior.getFecha())|| !spinnerPlan.getSelectedItem().toString().equals(serviciosAnterior.getNombrePlan()+" megas")||!Procesos.obtenerTxtEnString(txtLatitud).equals(serviciosAnterior.getLatitud()) || !Procesos.obtenerTxtEnString(txtUsuario).equals(serviciosAnterior.getUsuario()) || seModificoOnt){ //si se modifico algo se debe editar
+                if (isCrearCliente){
+                    clientesDAO.crearClientes(clientes,context);
+                }else if(isEditarCliente){
+                    clientesDAO.editarClientes(clientes,context,false);
+                    serviciosDAO.editarServicio(new Servicios(serviport,usuario,direccion,referencia,fecha,longitud,latitud,idplanes,"",ont.getId(),"",cajaNivel2.getId_CajaNivel2(),"",clientes.getId_cliente(),"",numeroHiloCaja2,direccionIp,ip_numero,comandoPlanes,iterfazPonCard,agregarOnt,equipoBridge,quit,eliminarServicio,agregarServicioPuerto,agregarDescripcionPuerto,eliminarOnt,Procesos.user.getId(),"pendiente"),context,false);
+                }else{
+                    serviciosDAO.editarServicio(new Servicios(serviport,usuario,direccion,referencia,fecha,longitud,latitud,idplanes,"",ont.getId(),"",cajaNivel2.getId_CajaNivel2(),"",clientes.getId_cliente(),"",numeroHiloCaja2,direccionIp,ip_numero,comandoPlanes,iterfazPonCard,agregarOnt,equipoBridge,quit,eliminarServicio,agregarServicioPuerto,agregarDescripcionPuerto,eliminarOnt,Procesos.user.getId(),"pendiente"),context,false);
+                }
             }else{// no se edito nada
                 if (!seModificoOnt){
                     Toast.makeText(context, "No se a cambiado la información", Toast.LENGTH_SHORT).show();
+                }else{
+                    getActivity().onBackPressed();
                 }
             }
         Procesos.cargandoDetener();
         }
     }
+
     String op,op2;
     private void setEndIconOnClickListener() {
         txtCliente.setEndIconOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 op="Editar";
-                op2="Crear";
+                if (!isCrearCliente){
+                    op2="Crear";
+                }else{
+                    op2="Cancelar";
+                }
                 if(Procesos.obtenerTxtEnString(txtCliente).equals("")){
                     op="Crear";
                     op2="Cancelar";
@@ -427,12 +466,8 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 if (op.equals("Crear")){
                                     DialogCrearCliente.opc="crear";
-                                    isCrearCliente=true;
                                 }else{
                                     DialogCrearCliente.opc="editar";
-                                    if (!isCrearCliente){
-                                        isEditarCliente=true;
-                                    }
                                 }
                                 new DialogCrearCliente(context,clientes,CrearServicioFragment.this);
                             }
@@ -445,7 +480,6 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
                                     dialog.dismiss();
                                 }else{
                                     DialogCrearCliente.opc="crear";
-                                    isCrearCliente=true;
                                     new DialogCrearCliente(context,clientes,CrearServicioFragment.this);
                                 }
                             }
@@ -1013,7 +1047,7 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
     public void llenarComandoPlanes(){
         String conca,serviport,plan;
         serviport=txtServiPort.getEditText().getText().toString().trim();
-        if (!serviport.equals("") && serviport!=null && spinnerPlan.getSelectedItemPosition()!=0 && clientes!=null && listaPlanes!=null){
+        if (serviport!=null && !serviport.equals("") && spinnerPlan.getSelectedItemPosition()!=0 && clientes!=null && listaPlanes!=null){
             plan=obtenerPrimerApellido(spinnerPlan.getSelectedItem().toString());
             conca="service-port "+serviport+" inbound traffic-table index "+plan+" outbound traffic-table index "+plan;
             txtComandoPlanes.getEditText().setText(conca);
@@ -1118,6 +1152,7 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
     @Override
     public void ClientesSelecionado(Clientes Clientes) {
         this.clientes=Clientes;
+        //clientesSeleccionadoAnterior=Clientes;
         txtCliente.getEditText().setText(clientes.getNombre()+" "+clientes.getApellido());
         validarUsuarioEditar=false;
         isEditarCliente=false;
@@ -1273,14 +1308,31 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
                 rangoDireccionIpDAO.editarRangoDireccionIpAnterior(rangoDireccionIpAnterior.getid_rangodireccionesip(),context);
             }
         }
+        if (Procesos.user.getRol()==1){//administrador
+            try {
+                getActivity().onBackPressed();
+            }catch (Exception w){
+
+            }
+        }else{
+            try {
+                getActivity().onBackPressed();
+                MainActivity.navController.navigate(R.id.nav_pendiente_tec);
+                MainActivity.navigationView.getMenu().getItem(3).setChecked(true);
+            }catch (Exception w){
+
+            }
+
+        }
+        onDestroyView();
     }
 
     @Override
-    public void setOntDialogoCrearOnt(Ont ont) {
-        this.ont=ont;
+    public void setOntDialogoCrearOnt(Ont ont2) {
+        this.ont= ont2;
         validarOntEditar=false;
-        txtOnt.getEditText().setText(ont.getSerieOnt());
-        modeloOntDAO.buscarModeloOnt(ont.getId_modeloOnt()+"",context);
+        txtOnt.getEditText().setText(ont2.getSerieOnt());
+        modeloOntDAO.buscarModeloOnt(ont2.getId_modeloOnt()+"",context);
         llenarAgregarOnt();
         llenarAgregarServicioAlPuerto();
         llenarEliminarOnt();
@@ -1318,7 +1370,7 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
     @Override
     public void limpiarOnt() {
         if (opc.equals("crear")){
-            serviciosDAO.crearServicio(new Servicios(serviport,usuario,direccion,referencia,fecha,longitud,latitud,idplanes,"",ont.getId(),"",cajaNivel2.getId_CajaNivel2(),"",clientes.getId_cliente(),"",numeroHiloCaja2,direccionIp,ip_numero,comandoPlanes,iterfazPonCard,agregarOnt,equipoBridge,quit,eliminarServicio,agregarServicioPuerto,agregarDescripcionPuerto,eliminarOnt,Procesos.user.getId(),"pendiente"),ont.getSerieOnt(),context);
+                serviciosDAO.crearServicio(new Servicios(serviport,usuario,direccion,referencia,fecha,longitud,latitud,idplanes,"",ont.getId(),"",cajaNivel2.getId_CajaNivel2(),"",clientes.getId_cliente(),"",numeroHiloCaja2,direccionIp,ip_numero,comandoPlanes,iterfazPonCard,agregarOnt,equipoBridge,quit,eliminarServicio,agregarServicioPuerto,agregarDescripcionPuerto,eliminarOnt,Procesos.user.getId(),"pendiente"),ont.getSerieOnt(),context);
         }
     }
 
@@ -1463,13 +1515,27 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
     public void limpiarCajaNivel2() {
 
     }
-
+int auxClie=0;
     @Override
     public void setClientes(Clientes Clientes) {
-        this.clientes=Clientes;
-        this.clientesAnterior=clientes;
-        txtCliente.getEditText().setText(clientes.getNombre()+" "+clientes.getApellido());
+        if (Clientes != null) {
+            this.clientes=Clientes;
+            if(auxClie==0){
+                this.clientesAnterior=Clientes;
+                //clientesSeleccionadoAnterior=Clientes;
+                auxClie=1;
+            }
+            txtCliente.getEditText().setText(clientes.getNombre()+" "+clientes.getApellido());
+            if (bandedarGuardar){
+                if (opc.equals("crear")){
+                    ontDAO.crearOnt(ont,context);//primero guarda el ont una vez guardado llama al metodo limpiaront que ejecuta el guardar servicio
+                }else if(opc.equals("editar")){
+                    serviciosDAO.editarServicio(new Servicios(serviport,usuario,direccion,referencia,fecha,longitud,latitud,idplanes,"",ont.getId(),"",cajaNivel2.getId_CajaNivel2(),"",clientes.getId_cliente(),"",numeroHiloCaja2,direccionIp,ip_numero,comandoPlanes,iterfazPonCard,agregarOnt,equipoBridge,quit,eliminarServicio,agregarServicioPuerto,agregarDescripcionPuerto,eliminarOnt,Procesos.user.getId(),"pendiente"),context,false);
+                }
+            }
+        }
     }
+
 
     @Override
     public void setListaClientes(List<Clientes> lista) {
@@ -1478,7 +1544,7 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
 
     @Override
     public void limpiarClientes() {
-
+        clientesDAO.buscarClientes(clientes.getCedula(),context);
     }
 
     @Override
@@ -1486,6 +1552,11 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
         this.clientes=cliente;
         if (cliente!=null && !cliente.getNombre().equals("")){
             txtCliente.getEditText().setText(clientes.getNombre()+" "+clientes.getApellido());
+            validarUsuarioEditar=false;
+            llenarUsuario();
+            llenarComandoPlanes();
+            llenarAgregarOnt();
+            llenarEliminarServicio();
         }
 
     }

@@ -46,9 +46,10 @@ import java.util.regex.Pattern;
 public class Procesos extends AppCompatActivity {
     public static String id;
     public static final String url = "https://app.masfiberhome.com/webservicesbrasmapi/api";
-    public static ProgressDialog cargando;
+    public static ProgressDialog cargando=null;
     public static boolean isPost = false;
     public static Usuario user = null;
+    public static boolean yaSeValidoUsuario=false;
     static int i = 0;
     //private static DatabaseReference fireReference;
 
@@ -76,16 +77,18 @@ public class Procesos extends AppCompatActivity {
         }
     }
     public static void cargandoIniciar(Context context) {
-        //inicializamos progres dialog
-        cargando = new ProgressDialog(context);
-        //mostramos progres
-        cargando.show();
-        //no se puede salir
-        cargando.setCancelable(true);
-        // enviamos el contenido del dilogo
-        cargando.setContentView(R.layout.dialog_activity_cargando);
-        //transparente
-        cargando.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        if (cargando==null || !cargando.isShowing()){
+            //inicializamos progres dialog
+            cargando = new ProgressDialog(context);
+            //mostramos progres
+            cargando.show();
+            //no se puede salir
+            cargando.setCancelable(false);
+            // enviamos el contenido del dilogo
+            cargando.setContentView(R.layout.dialog_activity_cargando);
+            //transparente
+            cargando.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        }
     }
 
     public static void cargandoDetener() {
