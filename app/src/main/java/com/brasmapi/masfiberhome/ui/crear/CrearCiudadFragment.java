@@ -66,7 +66,6 @@ public class CrearCiudadFragment extends Fragment implements DialogBuscarProvinc
     }
     View vista;
     Context context;
-    Button btnBuscarProvincias;
     public static TextInputLayout txtCiudad,txtProvincia;
     Provincia provincia=null;
     CiudadDAO ciudadDAO;
@@ -78,13 +77,12 @@ public class CrearCiudadFragment extends Fragment implements DialogBuscarProvinc
         // Inflate the layout for this fragment
         vista= inflater.inflate(R.layout.fragment_crear_ciudad, container, false);
         context=getActivity();
-        btnBuscarProvincias =vista.findViewById(R.id.btnBuscarProvincia_CrearCiudad);
         txtCiudad=vista.findViewById(R.id.txtNombreCiudad_CrearCiudad);
         txtProvincia=vista.findViewById(R.id.txtProvincia_CrearCiudad);
         ciudadDAO=new CiudadDAO(null);
-        btnBuscarProvincias.setOnClickListener(new View.OnClickListener() {
+        txtProvincia.setEndIconOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 new DialogBuscarProvincia(context,CrearCiudadFragment.this);
             }
         });

@@ -65,7 +65,9 @@
                     android:layout_weight="1"
                     android:textColorHint="@color/textColorHint"
                     app:boxStrokeColor="@color/boxStrokeColor"
-                    app:endIconCheckable="false"
+                    app:endIconDrawable="@drawable/ic_baseline_search_24"
+                    app:endIconMode="custom"
+                    app:endIconTint="@color/iconos"
                     app:hintTextColor="@color/hintTextColor"
                     app:startIconTint="@color/iconos">
 
@@ -75,14 +77,6 @@
                         android:enabled="false"
                         android:hint="Busca la vlan" />
                 </com.google.android.material.textfield.TextInputLayout>
-
-                <Button
-                    android:id="@+id/btnBuscarVlan_CrearCajaNivel1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="1"
-                    tools:ignore="SpeakableTextPresentCheck" />
 
             </LinearLayout>
 
@@ -123,7 +117,10 @@
                     android:layout_weight="1"
                     android:textColorHint="@color/textColorHint"
                     app:boxStrokeColor="@color/boxStrokeColor"
-                    app:endIconCheckable="false"
+                    app:endIconCheckable="true"
+                    app:endIconDrawable="@drawable/ic_baseline_search_24"
+                    app:endIconMode="custom"
+                    app:endIconTint="@color/iconos"
                     app:hintTextColor="@color/hintTextColor"
                     app:startIconTint="@color/iconos">
 
@@ -133,14 +130,6 @@
                         android:enabled="false"
                         android:hint="Busca la ciudad" />
                 </com.google.android.material.textfield.TextInputLayout>
-
-                <Button
-                    android:id="@+id/btnBuscarCiudad_CrearCajaNivel1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="1"
-                    tools:ignore="SpeakableTextPresentCheck" />
 
             </LinearLayout>
 

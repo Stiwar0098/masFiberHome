@@ -438,6 +438,14 @@
                             android:text="Automático"
                             android:thumbTint="@color/botones" />
 
+                        <ImageView
+                            android:id="@+id/btnUbicacion_crearServicio"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_marginTop="20dp"
+                            android:foreground="?selectableItemBackground"
+                            android:src="@drawable/ic_baseline_location_on_24" />
+
                     </LinearLayout>
 
                 </LinearLayout>

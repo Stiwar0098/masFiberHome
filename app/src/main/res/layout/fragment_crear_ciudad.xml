@@ -48,7 +48,9 @@
                     android:layout_weight="1"
                     android:textColorHint="@color/textColorHint"
                     app:boxStrokeColor="@color/boxStrokeColor"
-                    app:endIconCheckable="false"
+                    app:endIconDrawable="@drawable/ic_baseline_search_24"
+                    app:endIconMode="custom"
+                    app:endIconTint="@color/iconos"
                     app:hintTextColor="@color/hintTextColor"
                     app:startIconTint="@color/iconos">
 
@@ -58,14 +60,6 @@
                         android:enabled="false"
                         android:hint="Busca la provincia" />
                 </com.google.android.material.textfield.TextInputLayout>
-
-                <Button
-                    android:id="@+id/btnBuscarProvincia_CrearCiudad"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layout_weight="1"
-                    tools:ignore="SpeakableTextPresentCheck" />
 
             </LinearLayout>
 

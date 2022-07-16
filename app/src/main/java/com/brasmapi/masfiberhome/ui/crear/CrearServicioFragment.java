@@ -21,6 +21,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -154,6 +156,7 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
     TextInputLayout txtComandoPlanes,txtInterfazPoncard,txtAgregarOnt,txtEquipoBridge,txtEliminarServicio, txtAgregarServicioAlPuerto,txtAgregarPlanCliente,txtAgregarDescripcionPuerto,txtEliminarOnt;
     Switch switchNumeroOnt,switchHiloEnCaja2,switchLatLon,switchDireccionIp;
     Button btnGuardar;
+    ImageView btnIrUbicacion;
     LinearLayout groupComando;
 
     RangoHilosCaja2DAO rangoHilosCaja2DAO;
@@ -211,15 +214,11 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
     @Override
     public void onStart() {
         super.onStart();
-        if (opc.equals("crear")){
-            Procesos.cargandoDetener();
-        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
     }
 
     @Override
@@ -252,6 +251,7 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
         rangoDireccionIp=new RangoDireccionIp();
         groupComando=(LinearLayout) vista.findViewById(R.id.linearGrupoComando_CrearServicio);
         btnGuardar=(Button) vista.findViewById(R.id.btnGuardar_CrearServicio);
+        btnIrUbicacion=(ImageView) vista.findViewById(R.id.btnUbicacion_crearServicio);
         switchNumeroOnt=(Switch)vista.findViewById(R.id.switchNumeroOnt_CrearServicio);
         switchHiloEnCaja2=(Switch)vista.findViewById(R.id.switchHiloCaja2_CrearServicio);
         switchLatLon=(Switch)vista.findViewById(R.id.switchLatitudLongitud_CrearServicio);
@@ -294,6 +294,7 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
             }
         });
         planesDAO.filtarPlanes("",context,false);
+        btnIrUbicacion.setVisibility(View.GONE);
         if (opc.equals("editar")){
             Procesos.cargandoIniciar(context);
             latLonAutomaticoApagado();
@@ -349,6 +350,9 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
         }
         if (Procesos.user!=null){
             if (Procesos.user.getRol()!=1){//si es tecnico
+                if (opc.equals("editar")){
+                    btnIrUbicacion.setVisibility(View.VISIBLE);
+                }
                 groupComando.setVisibility(View.GONE);
                 txtComandoPlanes.setVisibility(View.GONE);
                 txtInterfazPoncard.setVisibility(View.GONE);
@@ -396,6 +400,12 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
                 }else {
                     Toast.makeText(context, "Ingrese todos los campos", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+        btnIrUbicacion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, "Ubicacion precionada", Toast.LENGTH_SHORT).show();
             }
         });
         addTextChangedListener();
@@ -1181,6 +1191,7 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
             banderaVlan=1;//al asignarle 1 ya no va a volver a entrar aqui
         }
         if (opc.equals("editar")){
+            Procesos.cargandoDetener();
             if (vlanAnterior.getId()!=vlan.getId()){
                 txtNumeroOnt.getEditText().setText("");
                 numeroOntAutomatico();
@@ -1252,6 +1263,7 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
             a[i]= String.valueOf(as.getNombre()+" megas");
             i++;
         }
+        Procesos.cargandoDetener();
         ArrayAdapter<String> adapter= new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item,a);
         spinnerPlan.setAdapter(adapter);
         if (opc.equals("crear")){
@@ -1440,6 +1452,7 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
     public void serviportAutomatico(Integer Serviport) {
         txtServiPort.getEditText().setText(Serviport+"");
         llenarComandoPlanes();
+        Procesos.cargandoDetener();
     }
 
     @Override

@@ -66,7 +66,6 @@ public class CrearProvinciaFragment extends Fragment implements DialogBuscarPais
     }
     View vista;
     Context context;
-    Button btnBuscarPaises;
     public static TextInputLayout txtPais,txtProvincia;
     Pais pais=null;
     ProvinciaDAO provinciaDAO;
@@ -77,16 +76,16 @@ public class CrearProvinciaFragment extends Fragment implements DialogBuscarPais
                              Bundle savedInstanceState) {
         vista =inflater.inflate(R.layout.fragment_crear_provincia, container, false);
         context=getActivity();
-        btnBuscarPaises=vista.findViewById(R.id.btnBuscarPais_CrearProvincia);
         txtPais=vista.findViewById(R.id.txtPais_CrearProvincia);
         txtProvincia=vista.findViewById(R.id.txtProvincia_CrearProvincia);
         provinciaDAO=new ProvinciaDAO(null);
-        btnBuscarPaises.setOnClickListener(new View.OnClickListener() {
+        txtPais.setEndIconOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 new DialogBuscarPais(context,CrearProvinciaFragment.this);
             }
         });
+
         Button btnguardar=(Button)vista.findViewById(R.id.btnGuardar_CrearProvincia);
         ((MainActivity)getActivity()).setTitle("Crear provincia");
         if (opc.equals("editar")){

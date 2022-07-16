@@ -15,6 +15,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.fragment.app.FragmentActivity;
 
 import com.brasmapi.masfiberhome.CustomScannerActivity;
+import com.brasmapi.masfiberhome.Procesos;
 import com.brasmapi.masfiberhome.R;
 import com.brasmapi.masfiberhome.dao.ModeloOntDAO;
 import com.brasmapi.masfiberhome.entidades.ModeloOnt;
@@ -37,7 +38,6 @@ public class DialogCrearOnt implements DialogBuscarModeloOnt.finalizoDialogBusca
     Ont ontAux;
     String serie,modelo,responsable;
     finalizoDialogCrearOnt interfaz;
-    FragmentActivity fragmentActivity;
     ActivityResultLauncher<ScanOptions> barcodeLauncher;
     public DialogCrearOnt(Context context1,Ont ont, finalizoDialogCrearOnt actividad, ActivityResultLauncher<ScanOptions> barcodeLauncher) {
         interfaz = actividad;
@@ -120,6 +120,7 @@ public class DialogCrearOnt implements DialogBuscarModeloOnt.finalizoDialogBusca
 
     @Override
     public void setModeloOnt(ModeloOnt ModeloOnt) {
+        Procesos.cargandoDetener();
         this.modeloOnt=ModeloOnt;
     }
 

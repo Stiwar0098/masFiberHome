@@ -82,7 +82,7 @@ public class CrearCajaNivel1Fragment extends Fragment implements CajaNivel1DAO.i
 
     Ciudad ciudad=null;
     Vlan vlan=null;
-    Button btnBuscarVlan,btnBuscarCiudad,btnObtenerLatLon,btnVerUbicacoin;
+    Button btnObtenerLatLon,btnVerUbicacoin;
     Switch switchAutoManu;
     String nombre, direccion, referencia, latitud, longitud,abreviatura;
     int hilos;
@@ -95,8 +95,6 @@ public class CrearCajaNivel1Fragment extends Fragment implements CajaNivel1DAO.i
         vista= inflater.inflate(R.layout.fragment_crear_caja_nivel1, container, false);
         context=getActivity();
         Button btnguardar=(Button)vista.findViewById(R.id.btnGuardar_CrearCajaNivel1);
-        btnBuscarCiudad=(Button)vista.findViewById(R.id.btnBuscarCiudad_CrearCajaNivel1);
-        btnBuscarVlan=(Button)vista.findViewById(R.id.btnBuscarVlan_CrearCajaNivel1);
         btnVerUbicacoin=(Button)vista.findViewById(R.id.btnVerUbicacion_CrearCajaNivel1);
         btnObtenerLatLon=(Button)vista.findViewById(R.id.btnObtenerLatitudLongitud_CrearCajaNivel1);
         txtNombreCajaNivel1 =vista.findViewById(R.id.txtNombreCajaNivel1_CrearCajaNivel1);
@@ -144,10 +142,23 @@ public class CrearCajaNivel1Fragment extends Fragment implements CajaNivel1DAO.i
             latLonAutomaticoEncendido();
         }
         btnguardar.setOnClickListener(this);
-        btnBuscarCiudad.setOnClickListener(this);
-        btnBuscarVlan.setOnClickListener(this);
         btnObtenerLatLon.setOnClickListener(this);
         btnVerUbicacoin.setOnClickListener(this);
+
+        txtNombreVlan.setEndIconOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new DialogBuscarVlan(context,CrearCajaNivel1Fragment.this);
+            }
+        });
+
+        txtNombreCiudad.setEndIconOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new DialogBuscarCiudad(context,CrearCajaNivel1Fragment.this);
+            }
+        });
+
         switchAutoManu.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -223,7 +234,6 @@ public class CrearCajaNivel1Fragment extends Fragment implements CajaNivel1DAO.i
 
     @Override
     public void onClick(View v) {
-
         switch (v.getId()){
             case R.id.btnGuardar_CrearCajaNivel1:
                 nombre=txtNombreCajaNivel1.getEditText().getText().toString().trim();
@@ -259,12 +269,6 @@ public class CrearCajaNivel1Fragment extends Fragment implements CajaNivel1DAO.i
                     }
                     cajaNivel1DAO.editarCajaNivel1(cajaNivel1,context,false);
                 }
-                break;
-            case R.id.btnBuscarCiudad_CrearCajaNivel1:
-                new DialogBuscarCiudad(context,CrearCajaNivel1Fragment.this);
-                break;
-            case R.id.btnBuscarVlan_CrearCajaNivel1:
-                new DialogBuscarVlan(context,CrearCajaNivel1Fragment.this);
                 break;
             case R.id.btnObtenerLatitudLongitud_CrearCajaNivel1:
                 Procesos.obtenerLatitudLongitud(context, CrearCajaNivel1Fragment.this,getActivity().getContentResolver());

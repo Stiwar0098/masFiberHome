@@ -165,8 +165,7 @@ public class ListarOntFragment extends Fragment implements OntDAO.interfazOntDAO
             adaptador.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    Ont us = lista.get(recyclerView.getChildAdapterPosition(v));
-                    eliminarRegistroDialog(us);
+                    //eliminarRegistroDialog();
                     return true;
                 }
             });
