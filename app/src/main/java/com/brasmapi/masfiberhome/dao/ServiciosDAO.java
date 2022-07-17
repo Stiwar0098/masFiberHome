@@ -63,14 +63,16 @@ public class ServiciosDAO {
                                 object.getInt("ip_cliente"),
                                 object.getString("comandoplanes_cliente"),
                                 object.getString("interfazponcard_cliente"),
+                                object.getString("agregaront_cliente"),
                                 object.getString("equipobridge_cliente"),
                                 object.getString("quit"),
                                 object.getString("eliminarservicio_cliente"),
                                 object.getString("agregarserviciopuerto_cliente"),
-                                object.getString("agregarplancliente_cliente"),
                                 object.getString("agregardescripcionpuerto_cliente"),
                                 object.getString("eliminaront_cliente"),
                                 object.getInt("id_usuario"),
+                                object.getString("opcion_cliente"),
+                                object.getString("comando_copiar_cliente"),
                                 object.getString("estado_cliente")
                                 ));
                     } catch (JSONException e) {
@@ -126,14 +128,16 @@ public class ServiciosDAO {
                                 object.getInt("ip_cliente"),
                                 object.getString("comandoplanes_cliente"),
                                 object.getString("interfazponcard_cliente"),
+                                object.getString("agregaront_cliente"),
                                 object.getString("equipobridge_cliente"),
                                 object.getString("quit"),
                                 object.getString("eliminarservicio_cliente"),
                                 object.getString("agregarserviciopuerto_cliente"),
-                                object.getString("agregarplancliente_cliente"),
                                 object.getString("agregardescripcionpuerto_cliente"),
                                 object.getString("eliminaront_cliente"),
                                 object.getInt("id_usuario"),
+                                object.getString("opcion_cliente"),
+                                object.getString("comando_copiar_cliente"),
                                 object.getString("estado_cliente")
                         ));
                     } catch (JSONException e) {
@@ -188,14 +192,16 @@ public class ServiciosDAO {
                                 object.getInt("ip_cliente"),
                                 object.getString("comandoplanes_cliente"),
                                 object.getString("interfazponcard_cliente"),
+                                object.getString("agregaront_cliente"),
                                 object.getString("equipobridge_cliente"),
                                 object.getString("quit"),
                                 object.getString("eliminarservicio_cliente"),
                                 object.getString("agregarserviciopuerto_cliente"),
-                                object.getString("agregarplancliente_cliente"),
                                 object.getString("agregardescripcionpuerto_cliente"),
                                 object.getString("eliminaront_cliente"),
                                 object.getInt("id_usuario"),
+                                object.getString("opcion_cliente"),
+                                object.getString("comando_copiar_cliente"),
                                 object.getString("estado_cliente")
                         ));
                     } catch (JSONException e) {
@@ -250,14 +256,16 @@ public class ServiciosDAO {
                             object.getInt("ip_cliente"),
                             object.getString("comandoplanes_cliente"),
                             object.getString("interfazponcard_cliente"),
+                            object.getString("agregaront_cliente"),
                             object.getString("equipobridge_cliente"),
                             object.getString("quit"),
                             object.getString("eliminarservicio_cliente"),
                             object.getString("agregarserviciopuerto_cliente"),
-                            object.getString("agregarplancliente_cliente"),
                             object.getString("agregardescripcionpuerto_cliente"),
                             object.getString("eliminaront_cliente"),
                             object.getInt("id_usuario"),
+                            object.getString("opcion_cliente"),
+                            object.getString("comando_copiar_cliente"),
                             object.getString("estado_cliente")
                     ));
                     if (interfaz != null) {
@@ -317,6 +325,8 @@ public class ServiciosDAO {
                 parametros.put("agregardescripcionpuerto_cliente", servicios.getAgregarDescripcionPuerto());
                 parametros.put("eliminaront_cliente", servicios.getEliminarOnt());
                 parametros.put("id_usuario", servicios.getId_usuario());
+                parametros.put("opcion_cliente", servicios.getOpcion_cliente());
+                parametros.put("comando_copiar_cliente", servicios.getComando_copiar_cliente());
                 parametros.put("serie_ont", serie_ont);
                 parametros.put("estado_cliente", servicios.getEstado());
 
@@ -349,6 +359,8 @@ public class ServiciosDAO {
            +"&agregardescripcionpuerto_cliente="+ servicios.getAgregarDescripcionPuerto()
            +"&eliminaront_cliente="+ servicios.getEliminarOnt()
            +"&id_usuario="+ servicios.getId_usuario()
+           +"&opcion_cliente="+ servicios.getOpcion_cliente()
+           +"&comando_copiar_cliente="+ servicios.getComando_copiar_cliente()
            +"&serie_ont="+ serie_ont
            +"&estado_cliente="+ servicios.getEstado();
             metodo = Request.Method.GET;
@@ -452,6 +464,8 @@ public class ServiciosDAO {
                 parametros.put("agregardescripcionpuerto_cliente", servicios.getAgregarDescripcionPuerto());
                 parametros.put("eliminaront_cliente", servicios.getEliminarOnt());
                 parametros.put("id_usuario", servicios.getId_usuario());
+                parametros.put("opcion_cliente", servicios.getOpcion_cliente());
+                parametros.put("comando_copiar_cliente", servicios.getComando_copiar_cliente());
                 parametros.put("estado_cliente", servicios.getEstado());
 
             } catch (JSONException e) {
@@ -484,6 +498,8 @@ public class ServiciosDAO {
                     +"&agregardescripcionpuerto_cliente="+ servicios.getAgregarDescripcionPuerto()
                     +"&eliminaront_cliente="+ servicios.getEliminarOnt()
                     +"&id_usuario="+ servicios.getId_usuario()
+                    +"&opcion_cliente="+ servicios.getOpcion_cliente()
+                    +"&comando_copiar_cliente="+ servicios.getComando_copiar_cliente()
                     +"&estado_cliente="+ servicios.getEstado();
             metodo = Request.Method.GET;
         }

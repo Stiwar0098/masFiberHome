@@ -308,6 +308,7 @@ public class CrearCajaNivel2Fragment extends Fragment implements DialogBuscarCaj
         }else{
             Toast.makeText(context, "No hay hilos disponible en esta caja nivel 1", Toast.LENGTH_LONG).show();
         }
+        Procesos.cargandoDetener();
     }
 
     @Override
@@ -323,6 +324,7 @@ public class CrearCajaNivel2Fragment extends Fragment implements DialogBuscarCaj
     @Override
     public void hiloAnterior(RangoHilosCaja1 rangoHilos) {
         rangoHilosCaja1Anterior=rangoHilos;
+        Procesos.cargandoDetener();
     }
     boolean hiloModificado=true;
     public void crearEditar(){

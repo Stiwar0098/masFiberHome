@@ -159,7 +159,7 @@ public class ActivacionesPendientesAdminFragment extends Fragment implements Ser
                 @Override
                 public void onClick(View v) {
                     Servicios us = lista.get(recyclerView.getChildAdapterPosition(v));
-                    Procesos.copiarEnElPortapapeles(context, us.getAgregarDescripcionPuerto(),getActivity());
+                    Procesos.copiarEnElPortapapeles(context, us.getComando_copiar_cliente().replace("@","\n"),getActivity());
                     Toast.makeText(context, us.getUsuario(), Toast.LENGTH_SHORT).show();
                     /*CrearServicioFragment.opc="editar";
                     Servicios us = lista.get(recyclerView.getChildAdapterPosition(v));
@@ -183,6 +183,7 @@ public class ActivacionesPendientesAdminFragment extends Fragment implements Ser
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     us.setEstado("activo");
+                                    Toast.makeText(context, us.getAgregarOnt()+" agregar ont", Toast.LENGTH_SHORT).show();
                                     Procesos.cargandoIniciar(context);
                                     serviciosDAO.editarServicio(us,context,false);
                                 }

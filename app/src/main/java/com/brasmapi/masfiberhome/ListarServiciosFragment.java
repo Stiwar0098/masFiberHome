@@ -24,6 +24,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.brasmapi.masfiberhome.dao.ServiciosDAO;
+import com.brasmapi.masfiberhome.entidades.Clientes;
 import com.brasmapi.masfiberhome.entidades.Servicios;
 import com.brasmapi.masfiberhome.ui.MainActivity;
 import com.brasmapi.masfiberhome.ui.adaptadores.AdapterServicios;
@@ -179,8 +180,21 @@ public class ListarServiciosFragment extends Fragment implements ServiciosDAO.in
             adaptador.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    Servicios us = lista.get(recyclerView.getChildAdapterPosition(v));
-                    eliminarRegistroDialog(us);
+                    if (Procesos.user.getRol()==1){// si es administrador
+                        Servicios us = lista.get(recyclerView.getChildAdapterPosition(v));
+                        eliminarRegistroDialog(us);
+                    }else{//es tecnico
+                        AlertDialog.Builder builder= new AlertDialog.Builder(context);
+                        builder.setTitle("Advertencia");
+                        builder.setMessage("Solo los administradores pueden eliminar")
+                                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(final DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                })
+                                .show();
+                    }
                     return true;
                 }
             });

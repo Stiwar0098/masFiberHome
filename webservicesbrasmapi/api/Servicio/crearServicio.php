@@ -35,14 +35,16 @@ if ($result > 0) {
                                                 '$_GET[agregardescripcionpuerto_cliente]',
                                                 '$_GET[eliminaront_cliente]',
                                                 '$_GET[id_usuario]',
+                                                '$_GET[opcion_cliente]',
+                                                '$_GET[comando_copiar_cliente]',
                                                 'pendiente')");
         if ($query_insert) {            
-            $query = mysqli_query($mysqli, "SELECT id_idsclienteslibres FROM idclienteslibres where numero_idsclienteslibres='$_GET[id_cliente]'");
+            $query = mysqli_query($mysqli, "SELECT id_idsclienteslibres FROM idsclienteslibres where numero_idsclienteslibres='$_GET[id_cliente]'");
             $result = mysqli_num_rows($query);
             if ($result > 0) {
                 $result_register = mysqli_fetch_array($query);
                 $total_registro = $result_register['id_idsclienteslibres'];
-                $query = mysqli_query($mysqli, "DELETE from idclienteslibres where id_idsclienteslibres='$total_registro'");
+                $query = mysqli_query($mysqli, "DELETE from idsclienteslibres where id_idsclienteslibres='$total_registro'");
                 if ($query_insert) {    
                     echo '{"respuesta":"ok"}';                
                 } else {

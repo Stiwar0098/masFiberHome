@@ -70,6 +70,7 @@ public class DialogCrearOnt implements DialogBuscarModeloOnt.finalizoDialogBusca
             spinnerResponsable.setSelection(aux);
         }else{
             spinnerResponsable.setSelection(2);
+            modeloOntDAO.buscarModeloOnt("DOBLE BANDA",context);
         }
 
         btnGuardar.setOnClickListener(new View.OnClickListener() {
@@ -120,8 +121,13 @@ public class DialogCrearOnt implements DialogBuscarModeloOnt.finalizoDialogBusca
 
     @Override
     public void setModeloOnt(ModeloOnt ModeloOnt) {
-        Procesos.cargandoDetener();
-        this.modeloOnt=ModeloOnt;
+        try {
+            txtmodelo.getEditText().setText(ModeloOnt.getNombre_modeloOnt());
+            Procesos.cargandoDetener();
+            this.modeloOnt=ModeloOnt;
+        }catch (Exception e){
+
+        }
     }
 
     @Override
