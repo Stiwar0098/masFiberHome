@@ -327,4 +327,9 @@
         android:id="@+id/nav_crearServicio"
         android:name="com.brasmapi.masfiberhome.ui.crear.CrearServicioFragment"
         tools:layout="@layout/fragment_crear_servicio" />
+    <fragment
+        android:id="@+id/nav_historial_Servicios"
+        android:name="com.brasmapi.masfiberhome.ListaHistorialServiciosFragment"
+        android:label="fragment_lista_historial_servicios"
+        tools:layout="@layout/fragment_lista_historial_servicios" />
 </navigation>

@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         obtenerPermisosDeUbicacion();
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_administrar,R.id.nav_crearServicio, R.id.nav_pendiente,R.id.nav_pendiente_tec, R.id.nav_ListarServicios, R.id.nav_ListarClientes,R.id.nav_CerrarSesion_menu)
+                R.id.nav_administrar,R.id.nav_crearServicio,R.id.nav_historial_Servicios, R.id.nav_pendiente,R.id.nav_pendiente_tec, R.id.nav_ListarServicios, R.id.nav_ListarClientes,R.id.nav_CerrarSesion_menu)
                 .setDrawerLayout(drawer)
                 .build();
 
@@ -131,8 +131,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         SharedPreferences.Editor editor= sp.edit();
         editor.putString("active","false");
         editor.commit();
+        Procesos.yaSeValidoUsuario=false;
         startActivity(new Intent(this, LoginActivity.class));
         finish();
+
     }
 
     @Override
@@ -171,6 +173,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return true;*/
             case R.id.nav_pendiente:
             case R.id.nav_pendiente_tec:
+            case R.id.nav_historial_Servicios:
             case R.id.nav_ListarClientes:
             case R.id.nav_ListarServicios:
               NavigationUI.onNavDestinationSelected(item,navController);
@@ -202,12 +205,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 ((TextView) header.findViewById(R.id.lblNombre_menu)).setText(Procesos.user.getNombre());
                 ((TextView) header.findViewById(R.id.lblRol_menu)).setText(rol);
                 if(Procesos.user.getRol()==2){// si es tecnico
-                    MenuItem menuItem = navigationView.getMenu().getItem(0);
+                    MenuItem menuItem = navigationView.getMenu().getItem(0);//menu item administrar
                     menuItem.setVisible(false);
-                    menuItem = navigationView.getMenu().getItem(1);
+                    menuItem = navigationView.getMenu().getItem(1);//menu item activaciones pendientes admin
+                    menuItem.setVisible(false);
+                    menuItem = navigationView.getMenu().getItem(2);//menu item activaciones pendientes admin
                     menuItem.setVisible(false);
                     navController.navigate(R.id.nav_crearServicio);
-                    navigationView.getMenu().getItem(4).setChecked(true);
+                    navigationView.getMenu().getItem(5).setChecked(true);
                     CrearServicioFragment.opc="crear";
                     Procesos.yaSeValidoUsuario=true;
                     //cambiarFragment(new CrearServicioFragment(),"Crear cliente",itemMenuSeleccionadoAnterior,1);
@@ -221,6 +226,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     fragmentTransaction.commit();
                     ocultarMenu();
                 }else{
+                    MenuItem menuItem =navigationView.getMenu().getItem(4);//el 2 es uno que esta oculto
+                    menuItem.setVisible(false);
+                    menuItem =navigationView.getMenu().getItem(5);
+                    menuItem.setVisible(false);
+                    menuItem =navigationView.getMenu().getItem(6);
+                    menuItem.setVisible(false);
+
                     Procesos.cargandoDetener();
                 }
             }

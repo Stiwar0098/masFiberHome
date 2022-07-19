@@ -367,7 +367,7 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
                     equipoBridge=Procesos.obtenerTxtEnString(txtEquipoBridge);
                     serviport=Procesos.obtenerTxtEnEntero(txtServiPort);
                     numeroOnt=Procesos.obtenerTxtEnEntero(txtNumeroOnt);
-                    ont.setNumeroOnt(Procesos.obtenerTxtEnEntero(txtNumeroOnt));
+                    //ont.setNumeroOnt(Procesos.obtenerTxtEnEntero(txtNumeroOnt));
                     usuario=Procesos.obtenerTxtEnString(txtUsuario);
                     idplanes=obtenerIdDePlanes();
                     direccion=Procesos.obtenerTxtEnString(txtDireccion);
@@ -409,6 +409,7 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
     public void crearEditar(){
         bandedarGuardar=true;
         if (opc.equals("crear")){
+            ont.setNumeroOnt(numeroOnt);
             if (isCrearCliente){
                 clientesDAO.crearClientes(clientes,context);
             }else if(isEditarCliente){
@@ -423,9 +424,9 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
                     clientesDAO.crearClientes(clientes,context);
                 }else if(isEditarCliente){
                     clientesDAO.editarClientes(clientes,context,false);
-                    serviciosDAO.editarServicio(new Servicios(serviport,usuario,direccion,referencia,fecha,longitud,latitud,idplanes,"",ont.getId(),"",cajaNivel2.getId_CajaNivel2(),"",clientes.getId_cliente(),"",numeroHiloCaja2,direccionIp,ip_numero,comandoPlanes,iterfazPonCard,agregarOnt,equipoBridge,quit,eliminarServicio,agregarServicioPuerto,agregarDescripcionPuerto,eliminarOnt,Procesos.user.getId(),"editar",generarComandoCopiar(),"pendiente"),context,false);
+                    serviciosDAO.editarServicio(new Servicios(serviport,usuario,direccion,referencia,fecha,longitud,latitud,idplanes,"",ont.getId(),"",cajaNivel2.getId_CajaNivel2(),"",clientes.getId_cliente(),"",numeroHiloCaja2,direccionIp,ip_numero,comandoPlanes,iterfazPonCard,agregarOnt,equipoBridge,quit,eliminarServicio,agregarServicioPuerto,agregarDescripcionPuerto,eliminarOnt,Procesos.user.getId(),"editar",generarComandoCopiar(),Procesos.obtenerFechaActualConHora(),"pendiente"),context,false);
                 }else{
-                    serviciosDAO.editarServicio(new Servicios(serviport,usuario,direccion,referencia,fecha,longitud,latitud,idplanes,"",ont.getId(),"",cajaNivel2.getId_CajaNivel2(),"",clientes.getId_cliente(),"",numeroHiloCaja2,direccionIp,ip_numero,comandoPlanes,iterfazPonCard,agregarOnt,equipoBridge,quit,eliminarServicio,agregarServicioPuerto,agregarDescripcionPuerto,eliminarOnt,Procesos.user.getId(),"editar",generarComandoCopiar(),"pendiente"),context,false);
+                    serviciosDAO.editarServicio(new Servicios(serviport,usuario,direccion,referencia,fecha,longitud,latitud,idplanes,"",ont.getId(),"",cajaNivel2.getId_CajaNivel2(),"",clientes.getId_cliente(),"",numeroHiloCaja2,direccionIp,ip_numero,comandoPlanes,iterfazPonCard,agregarOnt,equipoBridge,quit,eliminarServicio,agregarServicioPuerto,agregarDescripcionPuerto,eliminarOnt,Procesos.user.getId(),"editar",generarComandoCopiar(),Procesos.obtenerFechaActualConHora(),"pendiente"),context,false);
                 }
             }else{// no se edito nada
                 if (!seModificoOnt){
@@ -621,6 +622,7 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
                     Ont aux = new Ont(ontAnterior.getId(),ont.getSerieOnt(),ont.getId_modeloOnt(),ont.getNombreModelo(),ont.getResponsable(),numeroOnt,ont.getEstado());
                     seModificoOnt=true;
                     ontDAO.editarOnt(aux,context,false);
+                    ont=aux;
                     validar1HiloEnCaja2();
                 }else{
                     validar1HiloEnCaja2();
@@ -1394,7 +1396,7 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
     @Override
     public void limpiarOnt() {
         if (opc.equals("crear")){
-                serviciosDAO.crearServicio(new Servicios(serviport,usuario,direccion,referencia,fecha,longitud,latitud,idplanes,"",ont.getId(),"",cajaNivel2.getId_CajaNivel2(),"",clientes.getId_cliente(),"",numeroHiloCaja2,direccionIp,ip_numero,comandoPlanes,iterfazPonCard,agregarOnt,equipoBridge,quit,eliminarServicio,agregarServicioPuerto,agregarDescripcionPuerto,eliminarOnt,Procesos.user.getId(),"crear",generarComandoCopiar(),"pendiente"),ont.getSerieOnt(),context);
+                serviciosDAO.crearServicio(new Servicios(serviport,usuario,direccion,referencia,fecha,longitud,latitud,idplanes,"",ont.getId(),"",cajaNivel2.getId_CajaNivel2(),"",clientes.getId_cliente(),"",numeroHiloCaja2,direccionIp,ip_numero,comandoPlanes,iterfazPonCard,agregarOnt,equipoBridge,quit,eliminarServicio,agregarServicioPuerto,agregarDescripcionPuerto,eliminarOnt,Procesos.user.getId(),"crear",generarComandoCopiar(),Procesos.obtenerFechaActualConHora(),"pendiente"),ont.getSerieOnt(),context);
         }
     }
 
@@ -1556,8 +1558,7 @@ int auxClie=0;
                 if (opc.equals("crear")){
                     ontDAO.crearOnt(ont,context);//primero guarda el ont una vez guardado llama al metodo limpiaront que ejecuta el guardar servicio
                 }else if(opc.equals("editar")){
-                    serviciosDAO.editarServicio(new Servicios(serviport,usuario,direccion,referencia,fecha,longitud,latitud,idplanes,"",ont.getId(),"",cajaNivel2.getId_CajaNivel2(),"",clientes.getId_cliente(),"",numeroHiloCaja2,direccionIp,ip_numero,comandoPlanes,iterfazPonCard,agregarOnt,equipoBridge,quit,eliminarServicio,agregarServicioPuerto,agregarDescripcionPuerto,eliminarOnt,Procesos.user.getId(),"editar",generarComandoCopiar(),"pendiente"),context,false);
-                    serviciosDAO.editarServicio(new Servicios(serviport,usuario,direccion,referencia,fecha,longitud,latitud,idplanes,"",ont.getId(),"",cajaNivel2.getId_CajaNivel2(),"",clientes.getId_cliente(),"",numeroHiloCaja2,direccionIp,ip_numero,comandoPlanes,iterfazPonCard,agregarOnt,equipoBridge,quit,eliminarServicio,agregarServicioPuerto,agregarDescripcionPuerto,eliminarOnt,Procesos.user.getId(),"editar",generarComandoCopiar(),"pendiente"),context,false);
+                    serviciosDAO.editarServicio(new Servicios(serviport,usuario,direccion,referencia,fecha,longitud,latitud,idplanes,"",ont.getId(),"",cajaNivel2.getId_CajaNivel2(),"",clientes.getId_cliente(),"",numeroHiloCaja2,direccionIp,ip_numero,comandoPlanes,iterfazPonCard,agregarOnt,equipoBridge,quit,eliminarServicio,agregarServicioPuerto,agregarDescripcionPuerto,eliminarOnt,Procesos.user.getId(),"editar",generarComandoCopiar(),Procesos.obtenerFechaActualConHora(),"pendiente"),context,false);
                 }
             }
         }

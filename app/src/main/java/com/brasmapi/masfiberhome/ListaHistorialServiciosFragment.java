@@ -14,18 +14,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
+import com.brasmapi.masfiberhome.dao.HistorialServiciosDAO;
 import com.brasmapi.masfiberhome.dao.ServiciosDAO;
+import com.brasmapi.masfiberhome.entidades.HistorialServicios;
 import com.brasmapi.masfiberhome.entidades.Servicios;
 import com.brasmapi.masfiberhome.ui.MainActivity;
+import com.brasmapi.masfiberhome.ui.adaptadores.AdapterHistorialServicios;
 import com.brasmapi.masfiberhome.ui.adaptadores.AdapterServicios;
 import com.brasmapi.masfiberhome.ui.adaptadores.AdapterServicios2;
 import com.brasmapi.masfiberhome.ui.crear.CrearServicioFragment;
@@ -36,10 +37,10 @@ import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ActivacionesPendientesTecFragment#newInstance} factory method to
+ * Use the {@link ListaHistorialServiciosFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ActivacionesPendientesTecFragment extends Fragment implements ServiciosDAO.interfazServicio{
+public class ListaHistorialServiciosFragment extends Fragment implements HistorialServiciosDAO.interfazServicio {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -50,7 +51,7 @@ public class ActivacionesPendientesTecFragment extends Fragment implements Servi
     private String mParam1;
     private String mParam2;
 
-    public ActivacionesPendientesTecFragment() {
+    public ListaHistorialServiciosFragment() {
         // Required empty public constructor
     }
 
@@ -60,11 +61,11 @@ public class ActivacionesPendientesTecFragment extends Fragment implements Servi
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ActivacionesPendientesTecFragment.
+     * @return A new instance of fragment ListaHistorialServiciosFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ActivacionesPendientesTecFragment newInstance(String param1, String param2) {
-        ActivacionesPendientesTecFragment fragment = new ActivacionesPendientesTecFragment();
+    public static ListaHistorialServiciosFragment newInstance(String param1, String param2) {
+        ListaHistorialServiciosFragment fragment = new ListaHistorialServiciosFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -81,11 +82,12 @@ public class ActivacionesPendientesTecFragment extends Fragment implements Servi
         }
     }
     View vista;
+    Button btnBorrar;
     static Context context;
-    static ServiciosDAO serviciosDAO;
-    public static AdapterServicios2 adaptador;
+    static HistorialServiciosDAO historialServiciosDAO;
+    public static AdapterHistorialServicios adaptador;
     public static RecyclerView recyclerView;
-    public static List<Servicios> lista;
+    public static List<HistorialServicios> lista;
     TextInputLayout txtBuscar;
     FragmentManager fragmentManager;
     static FragmentTransaction fragmentTransaction;
@@ -94,19 +96,42 @@ public class ActivacionesPendientesTecFragment extends Fragment implements Servi
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        vista= inflater.inflate(R.layout.fragment_activaciones_pendientes_tec, container, false);
+        vista= inflater.inflate(R.layout.fragment_lista_historial_servicios, container, false);
         context=getActivity();
         Procesos.cargandoDetener();
-        serviciosDAO =new ServiciosDAO(ActivacionesPendientesTecFragment.this);
-        ((MainActivity)getActivity()).setTitle("Activaciones pendientes");
-        mostrarDatos(Procesos.user.getId()+"");
-        txtBuscar=(TextInputLayout)vista.findViewById(R.id.txtBuscar_ListaServiciosPendientesTec);
-        refreshLayout=(SwipeRefreshLayout)vista.findViewById(R.id.refreshRecycler_listaServiciosPendientesTec);
+        historialServiciosDAO =new HistorialServiciosDAO(ListaHistorialServiciosFragment.this);
+        ((MainActivity)getActivity()).setTitle("Listar historial servicos");
+        mostrarDatos("");
+        btnBorrar =(Button)vista.findViewById(R.id.btnBorrarHistorialServicios_ListaHistorialServicios);
+        txtBuscar=(TextInputLayout)vista.findViewById(R.id.txtBuscar_ListaHistorialServicios);
+        refreshLayout=(SwipeRefreshLayout)vista.findViewById(R.id.refreshRecycler_listaHistorialServicios);
         fragmentManager = getActivity().getSupportFragmentManager();
         // Definir una transacción
         fragmentTransaction = fragmentManager.beginTransaction();
         // Remplazar el contenido principal por el fragmento
-
+        btnBorrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder= new AlertDialog.Builder(context);
+                builder.setTitle("Eliminar historial");
+                builder.setMessage("¿Está seguro que desea eliminar el historial?")
+                        .setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(final DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                historialServiciosDAO.eliminarServicio(0,context);
+                                mostrarDatos("");
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(context, "Cancelado", Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                            }
+                        }).show();
+            }
+        });
         txtBuscar.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -130,41 +155,39 @@ public class ActivacionesPendientesTecFragment extends Fragment implements Servi
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mostrarDatos(Procesos.user.getId()+"");
+                mostrarDatos("");
                 refreshLayout.setRefreshing(false);
             }
         });
         Procesos.detenerObtenerLatitudLongitud();
         return vista;
     }
-
     public void mostrarDatos(String filtrar){
         // crear lista de carview dentro del recycleview
-        recyclerView = (RecyclerView)vista.findViewById(R.id.recyclerView_ListaServiciosPendientesTec);
+        recyclerView = (RecyclerView)vista.findViewById(R.id.recyclerView_ListaHistorialServicios);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        Procesos.cargandoIniciar(context);
-        serviciosDAO.filtarServicioPendienteTec(filtrar, vista.getContext());
+        historialServiciosDAO.filtarServicio(filtrar, vista.getContext(),false);
     }
-    
     public static void cargar(){
         if(lista==null){
-            Toast.makeText(context, "No hay servicios pendientes por ser activados", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "No hay historial servicios", Toast.LENGTH_SHORT).show();
             lista= new ArrayList<>();
-            adaptador = new AdapterServicios2(lista);
+            adaptador = new AdapterHistorialServicios(lista);
             recyclerView.setAdapter(adaptador);
             adaptador.notifyDataSetChanged();
         }else{
-            adaptador = new AdapterServicios2(lista);
+            adaptador = new AdapterHistorialServicios(lista);
             recyclerView.setAdapter(adaptador);
             adaptador.notifyDataSetChanged();
         }
         Procesos.cargandoDetener();
     }
+
     private void filtrar(String filtrar){
         if (lista!=null){
             Procesos.cargandoIniciar(context);
-            List<Servicios> aux2=new ArrayList<>();
-            for (Servicios aux:lista) {
+            List<HistorialServicios> aux2=new ArrayList<>();
+            for (HistorialServicios aux:lista) {
                 if((aux.getId_servicio()+"").toLowerCase().contains(filtrar.toLowerCase())){
                     aux2.add(aux);
                 }
@@ -176,24 +199,13 @@ public class ActivacionesPendientesTecFragment extends Fragment implements Servi
     }
 
     @Override
-    public void setUsuarioRepetido(boolean estaRepetido) {
-
-    }
-
-    @Override
-    public void setServicio(Servicios servicios) {
-
-    }
-
-    @Override
-    public void setListaServicio(List<Servicios> lista) {
+    public void setListaHistorialServicio(List<HistorialServicios> lista) {
         this.lista=lista;
         cargar();
-        Procesos.cargandoDetener();
     }
 
     @Override
-    public void limpiarServicio() {
+    public void limpiarHistorialServicio() {
 
     }
 }

@@ -22,10 +22,13 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.brasmapi.masfiberhome.dao.HistorialServiciosDAO;
 import com.brasmapi.masfiberhome.dao.ServiciosDAO;
+import com.brasmapi.masfiberhome.entidades.HistorialServicios;
 import com.brasmapi.masfiberhome.entidades.Servicios;
 import com.brasmapi.masfiberhome.ui.MainActivity;
 import com.brasmapi.masfiberhome.ui.adaptadores.AdapterServicios;
+import com.brasmapi.masfiberhome.ui.adaptadores.AdapterServicios2;
 import com.brasmapi.masfiberhome.ui.crear.CrearServicioFragment;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -37,7 +40,7 @@ import java.util.List;
  * Use the {@link ActivacionesPendientesAdminFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ActivacionesPendientesAdminFragment extends Fragment implements ServiciosDAO.interfazServicio{
+public class ActivacionesPendientesAdminFragment extends Fragment implements ServiciosDAO.interfazServicio, HistorialServiciosDAO.interfazServicio{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -82,7 +85,7 @@ public class ActivacionesPendientesAdminFragment extends Fragment implements Ser
     View vista;
     static Context context;
     static ServiciosDAO serviciosDAO;
-    public static AdapterServicios adaptador;
+    public static AdapterServicios2 adaptador;
     public static RecyclerView recyclerView;
     public static List<Servicios> lista;
     TextInputLayout txtBuscar;
@@ -147,14 +150,13 @@ public class ActivacionesPendientesAdminFragment extends Fragment implements Ser
         if(lista==null){
             Toast.makeText(context, "No hay servicios pendientes por activar", Toast.LENGTH_LONG).show();
             lista= new ArrayList<>();
-            adaptador = new AdapterServicios(lista);
+            adaptador = new AdapterServicios2(lista);
             recyclerView.setAdapter(adaptador);
             adaptador.notifyDataSetChanged();
         }else{
-            adaptador = new AdapterServicios(lista);
+            adaptador = new AdapterServicios2(lista);
             recyclerView.setAdapter(adaptador);
             adaptador.notifyDataSetChanged();
-
             adaptador.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -174,18 +176,30 @@ public class ActivacionesPendientesAdminFragment extends Fragment implements Ser
                 @Override
                 public boolean onLongClick(View v) {
                     Servicios us = lista.get(recyclerView.getChildAdapterPosition(v));
+                    String msj="";
+                    if (us.getOpcion_cliente().equals("eliminar")){
+                        msj="Se eliminará este servicio:";
+                    }else{
+                        msj="¿Seguro que desea activar este servicio?";
+                    }
                     AlertDialog.Builder builder= new AlertDialog.Builder(context);
-                    builder.setTitle("Opciones");
-                    builder.setMessage("¿Seguro que desea activar este servicio?\n" +
-                                    "Serviport: "+us.getId_servicio()+"\n" +
+                    builder.setTitle("Confirmación");
+                    builder.setMessage( msj +
+                                    "\nServiport: "+us.getId_servicio()+"\n" +
                                     "Usuario: "+us.getUsuario())
                             .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     us.setEstado("activo");
-                                    Toast.makeText(context, us.getAgregarOnt()+" agregar ont", Toast.LENGTH_SHORT).show();
-                                    Procesos.cargandoIniciar(context);
-                                    serviciosDAO.editarServicio(us,context,false);
+                                    if (us.getOpcion_cliente().equals("eliminar")){
+                                        serviciosDAO.eliminarServicio(us.getId_servicio(),context);
+                                        mostrarDatos();
+                                    }else{
+                                        Procesos.cargandoIniciar(context);
+                                        serviciosDAO.editarServicio(us,context,false);
+                                    }
+                                    HistorialServiciosDAO op= new HistorialServiciosDAO(ActivacionesPendientesAdminFragment.this);
+                                    op.crearServicio(us,us.getSerieOnt(),context);
                                 }
                             })
                             .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -241,5 +255,15 @@ public class ActivacionesPendientesAdminFragment extends Fragment implements Ser
     public void limpiarServicio() {
         mostrarDatos();
         Toast.makeText(context, "Servicio Activado", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void setListaHistorialServicio(List<HistorialServicios> lista) {
+
+    }
+
+    @Override
+    public void limpiarHistorialServicio() {
+
     }
 }

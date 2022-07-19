@@ -40,6 +40,8 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -96,6 +98,10 @@ public class Procesos extends AppCompatActivity {
         cargando.dismiss();
     }
 
+    public static String obtenerFechaActualConHora(){
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        return dtf.format(LocalDateTime.now());
+    }
     public static boolean validarDireccionIp(String ip) {
 
         // Regex for digit from 0 to 255.

@@ -73,6 +73,7 @@ public class ServiciosDAO {
                                 object.getInt("id_usuario"),
                                 object.getString("opcion_cliente"),
                                 object.getString("comando_copiar_cliente"),
+                                object.getString("date2"),
                                 object.getString("estado_cliente")
                                 ));
                     } catch (JSONException e) {
@@ -138,6 +139,7 @@ public class ServiciosDAO {
                                 object.getInt("id_usuario"),
                                 object.getString("opcion_cliente"),
                                 object.getString("comando_copiar_cliente"),
+                                object.getString("date2"),
                                 object.getString("estado_cliente")
                         ));
                     } catch (JSONException e) {
@@ -202,6 +204,7 @@ public class ServiciosDAO {
                                 object.getInt("id_usuario"),
                                 object.getString("opcion_cliente"),
                                 object.getString("comando_copiar_cliente"),
+                                object.getString("date2"),
                                 object.getString("estado_cliente")
                         ));
                     } catch (JSONException e) {
@@ -266,6 +269,7 @@ public class ServiciosDAO {
                             object.getInt("id_usuario"),
                             object.getString("opcion_cliente"),
                             object.getString("comando_copiar_cliente"),
+                            object.getString("date2"),
                             object.getString("estado_cliente")
                     ));
                     if (interfaz != null) {
@@ -327,6 +331,7 @@ public class ServiciosDAO {
                 parametros.put("id_usuario", servicios.getId_usuario());
                 parametros.put("opcion_cliente", servicios.getOpcion_cliente());
                 parametros.put("comando_copiar_cliente", servicios.getComando_copiar_cliente());
+                parametros.put("date2", servicios.getDate2());
                 parametros.put("serie_ont", serie_ont);
                 parametros.put("estado_cliente", servicios.getEstado());
 
@@ -361,6 +366,7 @@ public class ServiciosDAO {
            +"&id_usuario="+ servicios.getId_usuario()
            +"&opcion_cliente="+ servicios.getOpcion_cliente()
            +"&comando_copiar_cliente="+ servicios.getComando_copiar_cliente()
+           +"&date2="+ servicios.getDate2()
            +"&serie_ont="+ serie_ont
            +"&estado_cliente="+ servicios.getEstado();
             metodo = Request.Method.GET;
@@ -466,6 +472,7 @@ public class ServiciosDAO {
                 parametros.put("id_usuario", servicios.getId_usuario());
                 parametros.put("opcion_cliente", servicios.getOpcion_cliente());
                 parametros.put("comando_copiar_cliente", servicios.getComando_copiar_cliente());
+                parametros.put("date2", servicios.getDate2());
                 parametros.put("estado_cliente", servicios.getEstado());
 
             } catch (JSONException e) {
@@ -500,6 +507,7 @@ public class ServiciosDAO {
                     +"&id_usuario="+ servicios.getId_usuario()
                     +"&opcion_cliente="+ servicios.getOpcion_cliente()
                     +"&comando_copiar_cliente="+ servicios.getComando_copiar_cliente()
+                    +"&date2="+ servicios.getDate2()
                     +"&estado_cliente="+ servicios.getEstado();
             metodo = Request.Method.GET;
         }

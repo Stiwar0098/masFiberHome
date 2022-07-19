@@ -61,40 +61,6 @@ public class ServiportDAO {
         queue.add(requerimiento);
     }
 
-    public void eliminarEnServiportsLibres(int numeroServiport, Context con) {
-        Procesos.cargandoIniciar(con);
-        context = con;
-        String consulta;
-        int metodo = 0;
-        JSONObject parametros = null;
-        queue = Volley.newRequestQueue(context);
-        if (Procesos.isPost) {
-            consulta = Procesos.url + "/ServiportAutomatico/validarEnServiportLibres.php";
-            metodo = Request.Method.POST;
-            parametros = new JSONObject();
-            try {
-                parametros.put("id", numeroServiport);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        } else {
-            consulta = Procesos.url + "/ServiportAutomatico/validarEnServiportLibres.php?numeroServiport=" + numeroServiport;
-            metodo = Request.Method.GET;
-        }
-        JsonObjectRequest requerimiento = new JsonObjectRequest(metodo, consulta, parametros, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
-            }
-        });
-        queue.add(requerimiento);
-    }
-
     public interface interfazServiport {
         void serviportAutomatico(Integer Serviport);
     }

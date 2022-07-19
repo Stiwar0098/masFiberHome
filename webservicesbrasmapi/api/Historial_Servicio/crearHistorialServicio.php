@@ -3,14 +3,12 @@ header('Content-Type: application/json');
 include "../conexion.php";
 $query = mysqli_query($mysqli, "SELECT id_ont FROM ont where serie_ont='$_GET[serie_ont]'");
 $result = mysqli_num_rows($query);
-if ($result > 0) {
     $result_register = mysqli_fetch_array($query);
-    $idont = $result_register['id_ont'];
-    $query = mysqli_query($mysqli, "SELECT * FROM cliente where id_cliente='$_GET[id_cliente]'");
-    $result = mysqli_num_rows($query);
-    if ($result < 1) {        
-        $query_insert = mysqli_query($mysqli, "INSERT INTO cliente 
-                                                VALUES ('$_GET[id_cliente]',
+    $idont = $result_register['id_ont'];    
+    $serie = $result_register['serie_ont'];
+    $numero = $result_register['numeroont'];
+        $query_insert = mysqli_query($mysqli, "INSERT INTO Historial_Cliente 
+                                                VALUES (0,'$_GET[id_cliente]',
                                                 '$_GET[usuario_cliente]',
                                                 '$_GET[direccion_cliente]',
                                                 '$_GET[referencia_cliente]',
@@ -19,6 +17,8 @@ if ($result > 0) {
                                                 '$_GET[latitud_cliente]',
                                                 '$_GET[id_planes]',
                                                 '$idont',
+                                                '$serie',
+                                                '$numero',
                                                 '$_GET[id_cajanivel2]',
                                                 '$_GET[id_clientepersona]',
                                                 '$_GET[hilocajanivel2_cliente]',
@@ -38,30 +38,10 @@ if ($result > 0) {
                                                 '$_GET[opcion_cliente]',
                                                 '$_GET[comando_copiar_cliente]',
                                                 '$_GET[date2]',
-                                                'pendiente')");
-        if ($query_insert) {            
-            $query = mysqli_query($mysqli, "SELECT id_idsclienteslibres FROM idsclienteslibres where numero_idsclienteslibres='$_GET[id_cliente]'");
-            $result = mysqli_num_rows($query);
-            if ($result > 0) {
-                $result_register = mysqli_fetch_array($query);
-                $total_registro = $result_register['id_idsclienteslibres'];
-                $query = mysqli_query($mysqli, "DELETE from idsclienteslibres where id_idsclienteslibres='$total_registro'");
+                                                '$_GET[estado_cliente]')");
                 if ($query_insert) {    
                     echo '{"respuesta":"ok"}';                
                 } else {
-                    echo '{"respuesta":"error en la eliminacion crearServicio"}';
-                }
-            }else{
-                echo '{"respuesta":"ok"}'; 
-            }
-        } else {
-            echo '{"respuesta":"error en la insercion crearServicio"}';
-        }
-    } else {
-        echo '{"respuesta":"el serviport ya existe"}';
-    }
-}else{
-    echo '{"respuesta":"error ont crearservicio"}';
-}
-
+                    echo '{"respuesta":"error en la eliminacion crearHistorialServicio"}';
+                } 
 mysqli_close($mysqli);

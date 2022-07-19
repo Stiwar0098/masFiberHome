@@ -71,6 +71,16 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/textView46"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:text="Opcion"
+                            android:textColor="@color/letras"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
                             android:id="@+id/textView24"
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
@@ -164,7 +174,17 @@
                             android:id="@+id/textView14"
                             android:layout_width="150dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
                             android:text="Direccion Ip"
+                            android:textColor="@color/letras"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/textView51"
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:text="Fecha - Hora"
                             android:textColor="@color/letras"
                             android:textSize="16sp"
                             android:textStyle="bold" />

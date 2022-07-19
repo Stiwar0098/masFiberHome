@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ActivacionesPendientesTecFragment">
+    tools:context=".ListaHistorialServiciosFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/txtBuscar_ListaServiciosPendientesTec"
+            android:id="@+id/txtBuscar_ListaHistorialServicios"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="20dp"
@@ -35,7 +35,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/refreshRecycler_listaServiciosPendientesTec"
+            android:id="@+id/refreshRecycler_listaHistorialServicios"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -54,7 +54,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_marginLeft="6dp"
                         android:layout_marginTop="5dp"
                         android:orientation="horizontal">
@@ -71,7 +71,7 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/textView52"
+                            android:id="@+id/textView46"
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="10dp"
@@ -181,10 +181,9 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/textView53"
+                            android:id="@+id/textView51"
                             android:layout_width="150dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:text="Fecha - Hora"
                             android:textColor="@color/letras"
                             android:textSize="16sp"
@@ -193,7 +192,7 @@
                     </LinearLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerView_ListaServiciosPendientesTec"
+                        android:id="@+id/recyclerView_ListaHistorialServicios"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:scrollbars="horizontal|vertical">
@@ -204,14 +203,31 @@
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btnBorrarHistorialServicios_ListaHistorialServicios"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:insetBottom="6dp"
+                android:text="Borrar Historial"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
     </LinearLayout>
 
     <TextView
-        android:id="@+id/textView35"
+        android:id="@+id/textView54"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:background="@drawable/fondoarriba"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

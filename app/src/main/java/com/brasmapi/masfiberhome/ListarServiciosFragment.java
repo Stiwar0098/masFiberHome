@@ -31,6 +31,8 @@ import com.brasmapi.masfiberhome.ui.adaptadores.AdapterServicios;
 import com.brasmapi.masfiberhome.ui.crear.CrearServicioFragment;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -224,7 +226,11 @@ public class ListarServiciosFragment extends Fragment implements ServiciosDAO.in
                                                     @Override
                                                     public void onClick(final DialogInterface dialog, int which) {
                                                         dialog.dismiss();
-                                                        serviciosDAO.eliminarServicio(us.getId_servicio(),context);
+                                                        us.setOpcion_cliente("eliminar");
+                                                        us.setEstado("pendiente");
+                                                        us.setDate2(Procesos.obtenerFechaActualConHora());
+                                                        us.setComando_copiar_cliente(us.getEliminarServicio()+"@"+us.getIterfazPonCard()+"@"+us.getEliminarOnt());
+                                                        serviciosDAO.editarServicio(us,context,false);
                                                     }
                                                 })
                                                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -343,6 +349,7 @@ public class ListarServiciosFragment extends Fragment implements ServiciosDAO.in
 
     @Override
     public void limpiarServicio() {
-
+    Procesos.cargandoDetener();
+    mostrarDatos("");
     }
 }
