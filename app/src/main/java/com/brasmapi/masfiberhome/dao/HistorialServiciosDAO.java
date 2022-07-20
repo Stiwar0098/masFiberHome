@@ -55,6 +55,8 @@ public class HistorialServiciosDAO {
                                 object.getString("nombre_planes"),
                                 object.getInt("id_ont"),
                                 object.getString("serie_ont"),
+                                object.getInt("numeroont"),
+                                object.getString("responsable_ont"),
                                 object.getInt("id_cajanivel2"),
                                 object.getString("nombre_cajanivel2"),
                                 object.getInt("id_clientepersona"),

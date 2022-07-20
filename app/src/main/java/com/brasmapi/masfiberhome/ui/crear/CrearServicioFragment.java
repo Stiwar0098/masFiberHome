@@ -365,7 +365,6 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
                 if(Procesos.validarTxtEstaLleno(txtServiPort)&&Procesos.validarTxtEstaLleno(txtCliente)&&Procesos.validarTxtEstaLleno(txtCajaNivel2)&&Procesos.validarTxtEstaLleno(txtOnt)&&Procesos.validarTxtEstaLleno(txtNumeroOnt)&&Procesos.validarTxtEstaLleno(txtUsuario)&&spinnerPlan.getSelectedItemPosition()!=0&&Procesos.validarTxtEstaLleno(txtDireccionIp)&&Procesos.validarTxtEstaLleno(txtDireccion)&&Procesos.validarTxtEstaLleno(txtReferencia)&&Procesos.validarTxtEstaLleno(txtFechaInstalacion)&&Procesos.validarTxtEstaLleno(txtHiloEnCaja2)&&Procesos.validarTxtEstaLleno(txtComandoPlanes)&&Procesos.validarTxtEstaLleno(txtInterfazPoncard)&&Procesos.validarTxtEstaLleno(txtAgregarOnt)&&Procesos.validarTxtEstaLleno(txtQuit)&&Procesos.validarTxtEstaLleno(txtEliminarServicio)&&Procesos.validarTxtEstaLleno(txtAgregarServicioAlPuerto)&&Procesos.validarTxtEstaLleno(txtAgregarPlanCliente)&&Procesos.validarTxtEstaLleno(txtAgregarDescripcionPuerto)&&Procesos.validarTxtEstaLleno(txtEliminarOnt)){
                     Procesos.cargandoIniciar(context);
                     equipoBridge=Procesos.obtenerTxtEnString(txtEquipoBridge);
-                    serviport=Procesos.obtenerTxtEnEntero(txtServiPort);
                     numeroOnt=Procesos.obtenerTxtEnEntero(txtNumeroOnt);
                     //ont.setNumeroOnt(Procesos.obtenerTxtEnEntero(txtNumeroOnt));
                     usuario=Procesos.obtenerTxtEnString(txtUsuario);
@@ -704,7 +703,7 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
         Toast.makeText(context, "validar 3", Toast.LENGTH_SHORT).show();
         if (switchDireccionIp.isChecked()){
             if (Procesos.validarTxtEstaLleno(txtDireccionIp)){
-                validar4ServiPortASidoUtilizado();
+                validarUsuarioASidoUtilizado();
             }else{
                 Toast.makeText(context, "Esta vlan ya no dispone direcciones ip", Toast.LENGTH_SHORT).show();
             }
@@ -724,7 +723,7 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
                             }else{// los numeros de direccion ip son los mismos no es necesario validar nuevamente
                                 direccionIpModificadoCreado=false;
                                 seDebeEditarValidar3DireccionIp =false;
-                                validar4ServiPortASidoUtilizado();//ojo en cada validar true se llama al siguiente validar
+                                validarUsuarioASidoUtilizado();//ojo en cada validar true se llama al siguiente validar
                             }
                         }
                     }else{//quiere decir que opc=crear por ende se debe validar
@@ -739,17 +738,35 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
             }
         }
     }
+    public void validarUsuarioASidoUtilizado(){
+        bandedarGuardar=true;
+        llenarUsuario();
+    }
+
     public void validar4ServiPortASidoUtilizado(){
-        validar5NumeroOntASidoUtilizado();
+        serviportAutomatico();
     }
     public void validar5NumeroOntASidoUtilizado(){
-        validar6HiloEnCaja2ASidoUtilizado();
+        if (switchNumeroOnt.isChecked()){
+            numeroOntAutomatico();
+        }else{
+            validar6HiloEnCaja2ASidoUtilizado();
+        }
+
     }
     public void validar6HiloEnCaja2ASidoUtilizado(){
-        validar7DireccionIpASidoUtilizado();
+        if (switchHiloEnCaja2.isChecked()){
+            hiloEnCaja2Automatico();
+        }else{
+            validar7DireccionIpASidoUtilizado();
+        }
     }
     public void validar7DireccionIpASidoUtilizado(){
-        crearEditar();
+        if (switchDireccionIp.isChecked()){
+            direccionIpAutomatico();
+        }else{
+            crearEditar();
+        }
     }
 
     private void setOnCheckedChangeListener() {
@@ -910,10 +927,12 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if(!charSequence.toString().equals("")){
+                    usuarioRepetido="";
                     llenarUsuario();
                     llenarComandoPlanes();
                     llenarAgregarOnt();
                     llenarEliminarServicio();
+
                 }else{
                     txtUsuario.getEditText().setText("");
                     txtAgregarOnt.getEditText().setText("");
@@ -934,6 +953,7 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if(!charSequence.toString().equals("")){
+                    usuarioRepetido="";
                     llenarUsuario();
                     llenarInterfazPoncard();
                     llenarAgregarOnt();
@@ -1084,6 +1104,7 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
                 String conca;
                 conca = obtenerPrimerLetra(clientes.getNombre()) + obtenerPrimerApellido(clientes.getApellido()) + usuarioRepetido + "_" + cajaNivel2.getAbreviaturaCajaNivel1() + "_" + cajaNivel2.getAbreviatura();
                 txtUsuario.getEditText().setText(conca);
+                usuario=Procesos.obtenerTxtEnString(txtUsuario);
                 serviciosDAO.validarUsuario(conca, context);
             }
         }
@@ -1410,7 +1431,11 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
     public void hiloCaja2Automatico(RangoHilosCaja2 rangoHilosCaja2) {
         if (rangoHilosCaja2!=null ){
             txtHiloEnCaja2.getEditText().setText(rangoHilosCaja2.getNumero_rangocaja2()+"");
-                this.rangoHilosCaja2=rangoHilosCaja2;
+            numeroHiloCaja2 =Procesos.obtenerTxtEnEntero(txtHiloEnCaja2);
+            this.rangoHilosCaja2=rangoHilosCaja2;
+            if (bandedarGuardar==true){
+                validar7DireccionIpASidoUtilizado();
+            }
         }else{
             Toast.makeText(context, "No hay hilos disponible en esta caja nivel 2", Toast.LENGTH_LONG).show();
         }
@@ -1436,7 +1461,11 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
     public void numeroOntAutomatico(RangoOnt rangoOnt) {
         if (rangoHilosCaja2!=null && rangoOnt!=null){
             txtNumeroOnt.getEditText().setText(rangoOnt.getNumero_rangoont()+"");
-                this.rangoOnt= rangoOnt;
+            this.rangoOnt= rangoOnt;
+            numeroOnt=Procesos.obtenerTxtEnEntero(txtNumeroOnt);
+            if (bandedarGuardar==true){
+                validar6HiloEnCaja2ASidoUtilizado();
+            }
         }else{
             Toast.makeText(context, "No hay numero de ont disponible en esta vlan", Toast.LENGTH_LONG).show();
         }
@@ -1468,16 +1497,23 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
         txtServiPort.getEditText().setText(Serviport+"");
         llenarComandoPlanes();
         Procesos.cargandoDetener();
+        serviport=Procesos.obtenerTxtEnEntero(txtServiPort);
+        if (bandedarGuardar==true){
+            validar5NumeroOntASidoUtilizado();
+        }
     }
 
     @Override
     public void setUsuarioRepetido(boolean estaRepetido) {
+            Procesos.cargandoDetener();
             if (estaRepetido){
                 //Math.floor(Math.random()*(N-M+1)+M);  // Valor entre M y N, ambos incluidos.
                 //usuarioRepetido=Math.floor(Math.random()*(1-99+1)+99)+" ";
                 Random rand = new Random();
                 usuarioRepetido= rand.nextInt(99)+""; // Gives n such that 0 <= n < 20
                 llenarUsuario();
+            }else if (bandedarGuardar==true){
+                validar4ServiPortASidoUtilizado();
             }
     }
 
@@ -1498,6 +1534,10 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
                 int[] ipDescompuestaIpVlanInicio=Procesos.descomponerDireccionIp(vlan.getIpInicio());
                 txtDireccionIp.getEditText().setText( ipDescompuestaIpVlanInicio[0]+"."+ipDescompuestaIpVlanInicio[1]+"."+ipDescompuestaIpVlanInicio[2]+"."+ip_numero);
                 this.rangoDireccionIp= rangoDireccionIp;
+                direccionIp=Procesos.obtenerTxtEnString(txtDireccionIp);
+                if (bandedarGuardar==true){
+                    crearEditar();
+                }
         }else{
             Toast.makeText(context, "No hay numero de ip disponible en esta vlan", Toast.LENGTH_LONG).show();
         }
@@ -1507,7 +1547,7 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
     public void validarDireccionIpManual(RangoDireccionIp rangoDireccionIp) {
         if (rangoDireccionIp !=null){
             this.rangoDireccionIp= rangoDireccionIp;
-            validar4ServiPortASidoUtilizado();
+            validarUsuarioASidoUtilizado();
         }else{
             Procesos.cargandoDetener();
             Toast.makeText(context, "Numero de ip incorrecto o no disponible", Toast.LENGTH_LONG).show();
@@ -1558,6 +1598,7 @@ int auxClie=0;
                 if (opc.equals("crear")){
                     ontDAO.crearOnt(ont,context);//primero guarda el ont una vez guardado llama al metodo limpiaront que ejecuta el guardar servicio
                 }else if(opc.equals("editar")){
+                    serviciosDAO.editarServicio(new Servicios(serviport,usuario,direccion,referencia,fecha,longitud,latitud,idplanes,"",ont.getId(),"",cajaNivel2.getId_CajaNivel2(),"",clientes.getId_cliente(),"",numeroHiloCaja2,direccionIp,ip_numero,comandoPlanes,iterfazPonCard,agregarOnt,equipoBridge,quit,eliminarServicio,agregarServicioPuerto,agregarDescripcionPuerto,eliminarOnt,Procesos.user.getId(),"editar",generarComandoCopiar(),Procesos.obtenerFechaActualConHora(),"pendiente"),context,false);
                     serviciosDAO.editarServicio(new Servicios(serviport,usuario,direccion,referencia,fecha,longitud,latitud,idplanes,"",ont.getId(),"",cajaNivel2.getId_CajaNivel2(),"",clientes.getId_cliente(),"",numeroHiloCaja2,direccionIp,ip_numero,comandoPlanes,iterfazPonCard,agregarOnt,equipoBridge,quit,eliminarServicio,agregarServicioPuerto,agregarDescripcionPuerto,eliminarOnt,Procesos.user.getId(),"editar",generarComandoCopiar(),Procesos.obtenerFechaActualConHora(),"pendiente"),context,false);
                 }
             }

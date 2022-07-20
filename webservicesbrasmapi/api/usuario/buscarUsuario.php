@@ -1,7 +1,7 @@
 <?php
 include "../conexion.php"; 
 $filtrar=$_GET['filtrar'];    
-    $query = mysqli_query($mysqli,"SELECT * FROM usuario where nombre_usuario='$filtrar' or usuario_usuario='$filtrar' and estado_usuario='activo'"); 
+    $query = mysqli_query($mysqli,"SELECT * FROM usuario where (nombre_usuario='$filtrar' or usuario_usuario='$filtrar') and estado_usuario='activo'"); 
 mysqli_close($mysqli);
 $result = mysqli_num_rows($query);
 if($result > 0){

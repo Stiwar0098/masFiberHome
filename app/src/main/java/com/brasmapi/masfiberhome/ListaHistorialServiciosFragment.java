@@ -187,10 +187,14 @@ public class ListaHistorialServiciosFragment extends Fragment implements Histori
         if (lista!=null){
             Procesos.cargandoIniciar(context);
             List<HistorialServicios> aux2=new ArrayList<>();
-            for (HistorialServicios aux:lista) {
-                if((aux.getId_servicio()+"").toLowerCase().contains(filtrar.toLowerCase())){
-                    aux2.add(aux);
+            if (!filtrar.equals("")){
+                for (HistorialServicios aux:lista) {
+                    if((aux.getId_servicio()+"").equals(filtrar)){
+                        aux2.add(aux);
+                    }
                 }
+            }else{
+                aux2=lista;
             }
             adaptador.setAdapterItemBuscarServicios(aux2);
             adaptador.notifyDataSetChanged();

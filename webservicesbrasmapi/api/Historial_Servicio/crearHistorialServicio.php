@@ -1,12 +1,13 @@
 <?php
 header('Content-Type: application/json');
 include "../conexion.php";
-$query = mysqli_query($mysqli, "SELECT id_ont FROM ont where serie_ont='$_GET[serie_ont]'");
+$query = mysqli_query($mysqli, "SELECT * FROM ont where serie_ont='$_GET[serie_ont]'");
 $result = mysqli_num_rows($query);
     $result_register = mysqli_fetch_array($query);
     $idont = $result_register['id_ont'];    
     $serie = $result_register['serie_ont'];
     $numero = $result_register['numeroont'];
+    $responsable = $result_register['responsable_ont'];
         $query_insert = mysqli_query($mysqli, "INSERT INTO Historial_Cliente 
                                                 VALUES (0,'$_GET[id_cliente]',
                                                 '$_GET[usuario_cliente]',
@@ -19,6 +20,7 @@ $result = mysqli_num_rows($query);
                                                 '$idont',
                                                 '$serie',
                                                 '$numero',
+                                                '$responsable',
                                                 '$_GET[id_cajanivel2]',
                                                 '$_GET[id_clientepersona]',
                                                 '$_GET[hilocajanivel2_cliente]',
@@ -42,6 +44,6 @@ $result = mysqli_num_rows($query);
                 if ($query_insert) {    
                     echo '{"respuesta":"ok"}';                
                 } else {
-                    echo '{"respuesta":"error en la eliminacion crearHistorialServicio"}';
+                    echo '{"respuesta":"error en la creacion crearHistorialServicio"}';
                 } 
 mysqli_close($mysqli);

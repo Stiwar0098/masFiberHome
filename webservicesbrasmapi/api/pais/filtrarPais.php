@@ -2,9 +2,9 @@
 include "../conexion.php"; 
 $filtrar=$_GET['filtrar'];
 if($filtrar=="" or $filtrar == null){
-    $query = mysqli_query($mysqli,"SELECT * FROM pais where nombre_pais like '%' and estado_pais='activo'");
+    $query = mysqli_query($mysqli,"SELECT * FROM pais where (nombre_pais like '%') and estado_pais='activo'");
 }else{
-    $query = mysqli_query($mysqli,"SELECT * FROM pais where nombre_pais LIKE '$filtrar%' and estado_pais='activo'"); 
+    $query = mysqli_query($mysqli,"SELECT * FROM pais where (nombre_pais LIKE '$filtrar%') and estado_pais='activo'"); 
 }
 mysqli_close($mysqli);
 $result = mysqli_num_rows($query);

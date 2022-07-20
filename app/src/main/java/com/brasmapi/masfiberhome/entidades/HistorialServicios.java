@@ -2,16 +2,18 @@ package com.brasmapi.masfiberhome.entidades;
 
 
 public class HistorialServicios {
-    private int id,id_servicio,id_planes,id_ont,id_cajanivel2,id_cliente,hiloCajaNivel2,id_usuario,ip_cliente;
-    private String usuario,nombreCliente,nombreCaja,serieOnt,nombrePlan,agregarPlan_cliente,direccion,referencia,fecha,longitud,latitud,estado,direccionip,comandoPlanes,iterfazPonCard,agregarOnt,equipoBridge,quit,eliminarServicio,agregarServicioPuerto,agregarDescripcionPuerto,eliminarOnt, todosLosComandos,opcion_cliente,comando_copiar_cliente;
+    private int id,numeroOnt,id_servicio,id_planes,id_ont,id_cajanivel2,id_cliente,hiloCajaNivel2,id_usuario,ip_cliente;
+    private String responsable,usuario,nombreCliente,nombreCaja,serieOnt,nombrePlan,agregarPlan_cliente,direccion,referencia,fecha,longitud,latitud,estado,direccionip,comandoPlanes,iterfazPonCard,agregarOnt,equipoBridge,quit,eliminarServicio,agregarServicioPuerto,agregarDescripcionPuerto,eliminarOnt, todosLosComandos,opcion_cliente,comando_copiar_cliente;
     private String date2;
     public HistorialServicios() {
     }
 
-    public HistorialServicios(int id,int id_servicio, String usuario, String direccion, String referencia, String fecha, String longitud, String latitud, int id_planes, String nombrePlan, int id_ont, String serieOnt, int id_cajanivel2, String nombreCaja, int id_cliente, String nombreCliente, int hiloCajaNivel2, String direccionip, int ip_cliente, String comandoPlanes, String iterfazPonCard, String agregarOnt, String equipoBridge, String quit, String eliminarServicio, String agregarServicioPuerto, String agregarDescripcionPuerto, String eliminarOnt, int id_usuario, String opcion_cliente, String comando_copiar_cliente, String date2, String estado) {
+    public HistorialServicios(int id,int id_servicio, String usuario, String direccion, String referencia, String fecha, String longitud, String latitud, int id_planes, String nombrePlan, int id_ont, String serieOnt, int numeroOnt,String responsable, int id_cajanivel2, String nombreCaja, int id_cliente, String nombreCliente, int hiloCajaNivel2, String direccionip, int ip_cliente, String comandoPlanes, String iterfazPonCard, String agregarOnt, String equipoBridge, String quit, String eliminarServicio, String agregarServicioPuerto, String agregarDescripcionPuerto, String eliminarOnt, int id_usuario, String opcion_cliente, String comando_copiar_cliente, String date2, String estado) {
         this.id=id;
         this.id_servicio = id_servicio;
         this.date2=date2;
+        this.numeroOnt=numeroOnt;
+        this.responsable=responsable;
         this.agregarPlan_cliente=comandoPlanes;
         this.nombreCliente=nombreCliente;
         this.opcion_cliente=opcion_cliente;
@@ -80,6 +82,30 @@ public class HistorialServicios {
 
     public void setComando_copiar_cliente(String comando_copiar_cliente) {
         this.comando_copiar_cliente = comando_copiar_cliente;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getNumeroOnt() {
+        return numeroOnt;
+    }
+
+    public void setNumeroOnt(int numeroOnt) {
+        this.numeroOnt = numeroOnt;
+    }
+
+    public String getResponsable() {
+        return responsable;
+    }
+
+    public void setResponsable(String responsable) {
+        this.responsable = responsable;
     }
 
     public String getNombrePlan() {
