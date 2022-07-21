@@ -1,6 +1,8 @@
 package com.brasmapi.masfiberhome.ui.crear;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,7 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
+import com.brasmapi.masfiberhome.Procesos;
 import com.brasmapi.masfiberhome.ui.MainActivity;
 import com.brasmapi.masfiberhome.R;
 import com.brasmapi.masfiberhome.ui.buscar.DialogBuscarProvincia;
@@ -97,16 +101,32 @@ public class CrearCiudadFragment extends Fragment implements DialogBuscarProvinc
         btnguardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (opc.equals("crear")){
-                    ciudadDAO.crearCiudad(new Ciudad(0,txtCiudad.getEditText().getText().toString(), provincia.getId(), provincia.getNombre(),"activo"),context);
-                }else{//editar
-                    ciudad.setNombre(txtCiudad.getEditText().getText().toString());
-                    if (provincia !=null){
-                        ciudad.setIdProvincia(provincia.getId());
-                    }
-                    ciudadDAO.editarCiudad(ciudad,context,false);
-                }
-                getActivity().onBackPressed();
+                Procesos.cerrarTeclado(getActivity());
+                AlertDialog.Builder builder= new AlertDialog.Builder(context);
+                builder.setTitle("Confirmación");
+                builder.setMessage( "Seguro desea "+opc+" ?")
+                        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                if (opc.equals("crear")){
+                                    ciudadDAO.crearCiudad(new Ciudad(0,txtCiudad.getEditText().getText().toString(), provincia.getId(), provincia.getNombre(),"activo"),context);
+                                }else{//editar
+                                    ciudad.setNombre(txtCiudad.getEditText().getText().toString());
+                                    if (provincia !=null){
+                                        ciudad.setIdProvincia(provincia.getId());
+                                    }
+                                    ciudadDAO.editarCiudad(ciudad,context,false);
+                                }
+                                getActivity().onBackPressed();
+                            }
+                        })
+                        .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
             }
         });
         return vista;

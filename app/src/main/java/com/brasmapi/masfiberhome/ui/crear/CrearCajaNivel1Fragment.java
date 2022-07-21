@@ -1,6 +1,8 @@
 package com.brasmapi.masfiberhome.ui.crear;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,6 +15,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.brasmapi.masfiberhome.Procesos;
 import com.brasmapi.masfiberhome.R;
@@ -236,39 +239,55 @@ public class CrearCajaNivel1Fragment extends Fragment implements CajaNivel1DAO.i
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnGuardar_CrearCajaNivel1:
-                nombre=txtNombreCajaNivel1.getEditText().getText().toString().trim();
-                direccion = txtDireccion.getEditText().getText().toString().trim();
-                referencia = txtReferencia.getEditText().getText().toString().trim();
-                latitud = txtLatitud.getEditText().getText().toString().trim();
-                longitud =txtLongitud.getEditText().getText().toString().trim();
-                abreviatura =txtAbreviatura.getEditText().getText().toString().trim();
-                hilos=Integer.parseInt(spinner.getSelectedItem().toString());
-                if (opc.equals("crear")){
-                   cajaNivel1DAO.crearCajaNivel1(new CajaNivel1(0,
-                            nombre,
-                            direccion,
-                            referencia,
-                            latitud,
-                            longitud,
-                            vlan.getId(),
-                            "",
-                            ciudad.getId(),
-                            "",
-                            "activo",abreviatura,hilos),context);
-                }else{//editar
-                    cajaNivel1.setNombre_cajaNivel1(nombre);
-                    cajaNivel1.setDireccion_cajaNivel1(direccion);
-                    cajaNivel1.setReferencia_cajaNivel1(referencia);
-                    cajaNivel1.setLatitud_cajaNivel1(latitud);
-                    cajaNivel1.setLongitud_cajaNivel1(longitud);
-                    cajaNivel1.setAbreviatura_cajaNivel1(abreviatura);
-                    cajaNivel1.setNumeroHilos_cajaNivel1(hilos);
-                    if (vlan!=null && ciudad!=null){
-                        cajaNivel1.setId_vlan(vlan.getId());
-                        cajaNivel1.setId_ciudad(ciudad.getId());
-                    }
-                    cajaNivel1DAO.editarCajaNivel1(cajaNivel1,context,false);
-                }
+                Procesos.cerrarTeclado(getActivity());
+                AlertDialog.Builder builder= new AlertDialog.Builder(context);
+                builder.setTitle("Confirmación");
+                builder.setMessage( "Seguro desea "+opc+" ?")
+                        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                nombre=txtNombreCajaNivel1.getEditText().getText().toString().trim();
+                                direccion = txtDireccion.getEditText().getText().toString().trim();
+                                referencia = txtReferencia.getEditText().getText().toString().trim();
+                                latitud = txtLatitud.getEditText().getText().toString().trim();
+                                longitud =txtLongitud.getEditText().getText().toString().trim();
+                                abreviatura =txtAbreviatura.getEditText().getText().toString().trim();
+                                hilos=Integer.parseInt(spinner.getSelectedItem().toString());
+                                if (opc.equals("crear")){
+                                    cajaNivel1DAO.crearCajaNivel1(new CajaNivel1(0,
+                                            nombre,
+                                            direccion,
+                                            referencia,
+                                            latitud,
+                                            longitud,
+                                            vlan.getId(),
+                                            "",
+                                            ciudad.getId(),
+                                            "",
+                                            "activo",abreviatura,hilos),context);
+                                }else{//editar
+                                    cajaNivel1.setNombre_cajaNivel1(nombre);
+                                    cajaNivel1.setDireccion_cajaNivel1(direccion);
+                                    cajaNivel1.setReferencia_cajaNivel1(referencia);
+                                    cajaNivel1.setLatitud_cajaNivel1(latitud);
+                                    cajaNivel1.setLongitud_cajaNivel1(longitud);
+                                    cajaNivel1.setAbreviatura_cajaNivel1(abreviatura);
+                                    cajaNivel1.setNumeroHilos_cajaNivel1(hilos);
+                                    if (vlan!=null && ciudad!=null){
+                                        cajaNivel1.setId_vlan(vlan.getId());
+                                        cajaNivel1.setId_ciudad(ciudad.getId());
+                                    }
+                                    cajaNivel1DAO.editarCajaNivel1(cajaNivel1,context,false);
+                                }
+                            }
+                        })
+                        .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
                 break;
             case R.id.btnObtenerLatitudLongitud_CrearCajaNivel1:
                 Procesos.obtenerLatitudLongitud(context, CrearCajaNivel1Fragment.this,getActivity().getContentResolver());

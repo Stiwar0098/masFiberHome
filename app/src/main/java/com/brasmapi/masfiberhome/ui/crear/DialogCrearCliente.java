@@ -1,32 +1,22 @@
 package com.brasmapi.masfiberhome.ui.crear;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.view.Window;
-import android.widget.ArrayAdapter;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.Spinner;
 
-import androidx.activity.result.ActivityResultLauncher;
 import androidx.fragment.app.FragmentActivity;
 
-import com.brasmapi.masfiberhome.CrearClientesFragment;
-import com.brasmapi.masfiberhome.CustomScannerActivity;
+import com.brasmapi.masfiberhome.Procesos;
 import com.brasmapi.masfiberhome.R;
-import com.brasmapi.masfiberhome.dao.ClientesDAO;
-import com.brasmapi.masfiberhome.dao.ModeloOntDAO;
 import com.brasmapi.masfiberhome.entidades.Clientes;
-import com.brasmapi.masfiberhome.entidades.ModeloOnt;
-import com.brasmapi.masfiberhome.entidades.Ont;
-import com.brasmapi.masfiberhome.ui.MainActivity;
-import com.brasmapi.masfiberhome.ui.buscar.DialogBuscarModeloOnt;
 import com.google.android.material.textfield.TextInputLayout;
-import com.journeyapps.barcodescanner.ScanOptions;
-
-import java.util.List;
 
 public class DialogCrearCliente
 {
@@ -69,26 +59,41 @@ public class DialogCrearCliente
         btnguardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cedula = txtCedulaClientes.getEditText().getText().toString().trim();
-                nombre = txtNombreClientes.getEditText().getText().toString().trim();
-                apellido = txtApellidoClientes.getEditText().getText().toString().trim();
-                correo = txtCorreoClientes.getEditText().getText().toString().trim();
-                telefono1 = txtTelefono1Clientes.getEditText().getText().toString().trim();
-                telefono2 = txtTelefono2Clientes.getEditText().getText().toString().trim();
-                if (opc.equals("crear")) {
-                    CrearServicioFragment.isCrearCliente= true;
-                    clientes=new Clientes(0,cedula,nombre,apellido,correo,telefono1,telefono2,"activo");
-                } else {//editar
-                    CrearServicioFragment.isEditarCliente=true;
-                    clientes.setCedula(cedula);
-                    clientes.setNombre(nombre);
-                    clientes.setApellido(apellido);
-                    clientes.setCorreo(correo);
-                    clientes.setTelefono1(telefono1);
-                    clientes.setTelefono2(telefono2);
-                }
-                interfaz.setClientesDialogoCrearClientes(clientes);
-                dialogo.dismiss();
+                AlertDialog.Builder builder= new AlertDialog.Builder(context);
+                builder.setTitle("Confirmación");
+                builder.setMessage( "Seguro desea "+opc+" ?")
+                        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                cedula = txtCedulaClientes.getEditText().getText().toString().trim();
+                                nombre = txtNombreClientes.getEditText().getText().toString().trim();
+                                apellido = txtApellidoClientes.getEditText().getText().toString().trim();
+                                correo = txtCorreoClientes.getEditText().getText().toString().trim();
+                                telefono1 = txtTelefono1Clientes.getEditText().getText().toString().trim();
+                                telefono2 = txtTelefono2Clientes.getEditText().getText().toString().trim();
+                                if (opc.equals("crear")) {
+                                    CrearServicioFragment.isCrearCliente= true;
+                                    clientes=new Clientes(0,cedula,nombre,apellido,correo,telefono1,telefono2,"activo");
+                                } else {//editar
+                                    CrearServicioFragment.isEditarCliente=true;
+                                    clientes.setCedula(cedula);
+                                    clientes.setNombre(nombre);
+                                    clientes.setApellido(apellido);
+                                    clientes.setCorreo(correo);
+                                    clientes.setTelefono1(telefono1);
+                                    clientes.setTelefono2(telefono2);
+                                }
+                                interfaz.setClientesDialogoCrearClientes(clientes);
+                                dialogo.dismiss();
+                            }
+                        })
+                        .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
             }
         });
         dialogo.show();

@@ -1,6 +1,8 @@
-package com.brasmapi.masfiberhome;
+package com.brasmapi.masfiberhome.ui.crear;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,7 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
+import com.brasmapi.masfiberhome.Procesos;
+import com.brasmapi.masfiberhome.R;
 import com.brasmapi.masfiberhome.dao.ClientesDAO;
 import com.brasmapi.masfiberhome.entidades.Clientes;
 import com.brasmapi.masfiberhome.ui.MainActivity;
@@ -98,25 +103,41 @@ public class CrearClientesFragment extends Fragment implements ClientesDAO.inter
         btnguardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cedula = txtCedulaClientes.getEditText().getText().toString().trim();
-                nombre = txtNombreClientes.getEditText().getText().toString().trim();
-                apellido = txtApellidoClientes.getEditText().getText().toString().trim();
-                correo = txtCorreoClientes.getEditText().getText().toString().trim();
-                telefono1 = txtTelefono1Clientes.getEditText().getText().toString().trim();
-                telefono2 = txtTelefono2Clientes.getEditText().getText().toString().trim();
-                if (opc.equals("crear")) {
-                    clientesDAO.crearClientes(new Clientes(0,cedula,
-                            nombre,apellido,correo,telefono1,telefono2,
-                            "activo"), context);
-                } else {//editar
-                    clientes.setCedula(cedula);
-                    clientes.setNombre(nombre);
-                    clientes.setApellido(apellido);
-                    clientes.setCorreo(correo);
-                    clientes.setTelefono1(telefono1);
-                    clientes.setTelefono2(telefono2);
-                    clientesDAO.editarClientes(clientes, context, false);
-                }
+                Procesos.cerrarTeclado(getActivity());
+                AlertDialog.Builder builder= new AlertDialog.Builder(context);
+                builder.setTitle("Confirmación");
+                builder.setMessage( "Seguro desea "+opc+" ?")
+                        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                cedula = txtCedulaClientes.getEditText().getText().toString().trim();
+                                nombre = txtNombreClientes.getEditText().getText().toString().trim();
+                                apellido = txtApellidoClientes.getEditText().getText().toString().trim();
+                                correo = txtCorreoClientes.getEditText().getText().toString().trim();
+                                telefono1 = txtTelefono1Clientes.getEditText().getText().toString().trim();
+                                telefono2 = txtTelefono2Clientes.getEditText().getText().toString().trim();
+                                if (opc.equals("crear")) {
+                                    clientesDAO.crearClientes(new Clientes(0,cedula,
+                                            nombre,apellido,correo,telefono1,telefono2,
+                                            "activo"), context);
+                                } else {//editar
+                                    clientes.setCedula(cedula);
+                                    clientes.setNombre(nombre);
+                                    clientes.setApellido(apellido);
+                                    clientes.setCorreo(correo);
+                                    clientes.setTelefono1(telefono1);
+                                    clientes.setTelefono2(telefono2);
+                                    clientesDAO.editarClientes(clientes, context, false);
+                                }
+                            }
+                        })
+                        .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
             }
         });
         return vista;

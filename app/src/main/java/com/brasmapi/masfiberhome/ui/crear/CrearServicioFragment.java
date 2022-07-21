@@ -362,34 +362,49 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
             @Override
             public void onClick(View view) {
                 Procesos.cerrarTeclado(getActivity());
-                if(Procesos.validarTxtEstaLleno(txtServiPort)&&Procesos.validarTxtEstaLleno(txtCliente)&&Procesos.validarTxtEstaLleno(txtCajaNivel2)&&Procesos.validarTxtEstaLleno(txtOnt)&&Procesos.validarTxtEstaLleno(txtNumeroOnt)&&Procesos.validarTxtEstaLleno(txtUsuario)&&spinnerPlan.getSelectedItemPosition()!=0&&Procesos.validarTxtEstaLleno(txtDireccionIp)&&Procesos.validarTxtEstaLleno(txtDireccion)&&Procesos.validarTxtEstaLleno(txtReferencia)&&Procesos.validarTxtEstaLleno(txtFechaInstalacion)&&Procesos.validarTxtEstaLleno(txtHiloEnCaja2)&&Procesos.validarTxtEstaLleno(txtComandoPlanes)&&Procesos.validarTxtEstaLleno(txtInterfazPoncard)&&Procesos.validarTxtEstaLleno(txtAgregarOnt)&&Procesos.validarTxtEstaLleno(txtQuit)&&Procesos.validarTxtEstaLleno(txtEliminarServicio)&&Procesos.validarTxtEstaLleno(txtAgregarServicioAlPuerto)&&Procesos.validarTxtEstaLleno(txtAgregarPlanCliente)&&Procesos.validarTxtEstaLleno(txtAgregarDescripcionPuerto)&&Procesos.validarTxtEstaLleno(txtEliminarOnt)){
-                    Procesos.cargandoIniciar(context);
-                    equipoBridge=Procesos.obtenerTxtEnString(txtEquipoBridge);
-                    numeroOnt=Procesos.obtenerTxtEnEntero(txtNumeroOnt);
-                    //ont.setNumeroOnt(Procesos.obtenerTxtEnEntero(txtNumeroOnt));
-                    usuario=Procesos.obtenerTxtEnString(txtUsuario);
-                    idplanes=obtenerIdDePlanes();
-                    direccion=Procesos.obtenerTxtEnString(txtDireccion);
-                    referencia=Procesos.obtenerTxtEnString(txtReferencia);
-                    fecha=Procesos.obtenerTxtEnString(txtFechaInstalacion);
-                    numeroHiloCaja2 =Procesos.obtenerTxtEnEntero(txtHiloEnCaja2);
-                    nombreCaja2=Procesos.obtenerTxtEnString(txtCajaNivel2);
-                    direccionIp=Procesos.obtenerTxtEnString(txtDireccionIp);
-                    latitud=Procesos.obtenerTxtEnString(txtLatitud);
-                    longitud=Procesos.obtenerTxtEnString(txtLongitud);
-                    comandoPlanes=Procesos.obtenerTxtEnString(txtComandoPlanes);
-                    iterfazPonCard=Procesos.obtenerTxtEnString(txtInterfazPoncard);
-                    agregarOnt=Procesos.obtenerTxtEnString(txtAgregarOnt);
-                    quit=Procesos.obtenerTxtEnString(txtQuit);
-                    eliminarServicio=Procesos.obtenerTxtEnString(txtEliminarServicio);
-                    agregarServicioPuerto=Procesos.obtenerTxtEnString(txtAgregarServicioAlPuerto);
-                    agregarPlanCliente=Procesos.obtenerTxtEnString(txtAgregarPlanCliente);
-                    agregarDescripcionPuerto=Procesos.obtenerTxtEnString(txtAgregarDescripcionPuerto);
-                    eliminarOnt=Procesos.obtenerTxtEnString(txtEliminarOnt);
-                    validar0ontExistente();
-                }else {
-                    Toast.makeText(context, "Ingrese todos los campos", Toast.LENGTH_SHORT).show();
-                }
+                AlertDialog.Builder builder= new AlertDialog.Builder(context);
+                builder.setTitle("Confirmación");
+                builder.setMessage( "Seguro desea "+opc+" ?")
+                        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                if(Procesos.validarTxtEstaLleno(txtServiPort)&&Procesos.validarTxtEstaLleno(txtCliente)&&Procesos.validarTxtEstaLleno(txtCajaNivel2)&&Procesos.validarTxtEstaLleno(txtOnt)&&Procesos.validarTxtEstaLleno(txtNumeroOnt)&&Procesos.validarTxtEstaLleno(txtUsuario)&&spinnerPlan.getSelectedItemPosition()!=0&&Procesos.validarTxtEstaLleno(txtDireccionIp)&&Procesos.validarTxtEstaLleno(txtDireccion)&&Procesos.validarTxtEstaLleno(txtReferencia)&&Procesos.validarTxtEstaLleno(txtFechaInstalacion)&&Procesos.validarTxtEstaLleno(txtHiloEnCaja2)&&Procesos.validarTxtEstaLleno(txtComandoPlanes)&&Procesos.validarTxtEstaLleno(txtInterfazPoncard)&&Procesos.validarTxtEstaLleno(txtAgregarOnt)&&Procesos.validarTxtEstaLleno(txtQuit)&&Procesos.validarTxtEstaLleno(txtEliminarServicio)&&Procesos.validarTxtEstaLleno(txtAgregarServicioAlPuerto)&&Procesos.validarTxtEstaLleno(txtAgregarPlanCliente)&&Procesos.validarTxtEstaLleno(txtAgregarDescripcionPuerto)&&Procesos.validarTxtEstaLleno(txtEliminarOnt)){
+                                    Procesos.cargandoIniciar(context);
+                                    equipoBridge=Procesos.obtenerTxtEnString(txtEquipoBridge);
+                                    numeroOnt=Procesos.obtenerTxtEnEntero(txtNumeroOnt);
+                                    //ont.setNumeroOnt(Procesos.obtenerTxtEnEntero(txtNumeroOnt));
+                                    usuario=Procesos.obtenerTxtEnString(txtUsuario);
+                                    idplanes=obtenerIdDePlanes();
+                                    direccion=Procesos.obtenerTxtEnString(txtDireccion);
+                                    referencia=Procesos.obtenerTxtEnString(txtReferencia);
+                                    fecha=Procesos.obtenerTxtEnString(txtFechaInstalacion);
+                                    numeroHiloCaja2 =Procesos.obtenerTxtEnEntero(txtHiloEnCaja2);
+                                    nombreCaja2=Procesos.obtenerTxtEnString(txtCajaNivel2);
+                                    direccionIp=Procesos.obtenerTxtEnString(txtDireccionIp);
+                                    latitud=Procesos.obtenerTxtEnString(txtLatitud);
+                                    longitud=Procesos.obtenerTxtEnString(txtLongitud);
+                                    comandoPlanes=Procesos.obtenerTxtEnString(txtComandoPlanes);
+                                    iterfazPonCard=Procesos.obtenerTxtEnString(txtInterfazPoncard);
+                                    agregarOnt=Procesos.obtenerTxtEnString(txtAgregarOnt);
+                                    quit=Procesos.obtenerTxtEnString(txtQuit);
+                                    eliminarServicio=Procesos.obtenerTxtEnString(txtEliminarServicio);
+                                    agregarServicioPuerto=Procesos.obtenerTxtEnString(txtAgregarServicioAlPuerto);
+                                    agregarPlanCliente=Procesos.obtenerTxtEnString(txtAgregarPlanCliente);
+                                    agregarDescripcionPuerto=Procesos.obtenerTxtEnString(txtAgregarDescripcionPuerto);
+                                    eliminarOnt=Procesos.obtenerTxtEnString(txtEliminarOnt);
+                                    validar0ontExistente();
+                                }else {
+                                    Toast.makeText(context, "Ingrese todos los campos", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        })
+                        .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
             }
         });
         btnIrUbicacion.setOnClickListener(new View.OnClickListener() {

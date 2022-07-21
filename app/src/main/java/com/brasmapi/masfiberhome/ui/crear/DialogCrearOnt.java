@@ -1,7 +1,9 @@
 package com.brasmapi.masfiberhome.ui.crear;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.View;
@@ -36,6 +38,7 @@ public class DialogCrearOnt implements DialogBuscarModeloOnt.finalizoDialogBusca
     ModeloOnt modeloOnt=null;
     ModeloOntDAO modeloOntDAO;
     Ont ontAux;
+    String opc;
     String serie,modelo,responsable;
     finalizoDialogCrearOnt interfaz;
     ActivityResultLauncher<ScanOptions> barcodeLauncher;
@@ -58,6 +61,7 @@ public class DialogCrearOnt implements DialogBuscarModeloOnt.finalizoDialogBusca
         ArrayAdapter<String> adapter= new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item,opciones);
         spinnerResponsable.setAdapter(adapter);
         if (ontAux!=null){// va a editar
+            opc="editar";
             txtserie.getEditText().setText(ontAux.getSerieOnt());
             modeloOntDAO.buscarModeloOnt(ontAux.getId_modeloOnt()+"",context1);
             txtmodelo.getEditText().setText(ontAux.getNombreModelo());
@@ -69,6 +73,7 @@ public class DialogCrearOnt implements DialogBuscarModeloOnt.finalizoDialogBusca
             }
             spinnerResponsable.setSelection(aux);
         }else{
+            opc="crear";
             spinnerResponsable.setSelection(2);
             modeloOntDAO.buscarModeloOnt("DOBLE BANDA",context);
         }
@@ -76,19 +81,34 @@ public class DialogCrearOnt implements DialogBuscarModeloOnt.finalizoDialogBusca
         btnGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                serie = txtserie.getEditText().getText().toString().trim();
-                modelo = txtmodelo.getEditText().getText().toString().trim();
-                responsable = spinnerResponsable.getSelectedItem().toString();
-                if (modeloOnt != null) {
-                    if (ontAux != null) { //va a editar
-                        interfaz.setOntDialogoCrearOnt(new Ont(ontAux.getId(), serie, modeloOnt.getId_modeloOnt(), modelo, responsable, ontAux.getNumeroOnt(), ontAux.getEstado()));
-                    } else {
-                        interfaz.setOntDialogoCrearOnt(new Ont(0, serie, modeloOnt.getId_modeloOnt(), modelo, responsable, -1, "activo"));
-                    }
-                }else  {
-                    Toast.makeText(context1, "Sin modelo", Toast.LENGTH_SHORT).show();
-                }
-                dialogo.dismiss();
+                AlertDialog.Builder builder= new AlertDialog.Builder(context);
+                builder.setTitle("Confirmación");
+                builder.setMessage( "Seguro desea "+opc+" ?")
+                        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                serie = txtserie.getEditText().getText().toString().trim();
+                                modelo = txtmodelo.getEditText().getText().toString().trim();
+                                responsable = spinnerResponsable.getSelectedItem().toString();
+                                if (modeloOnt != null) {
+                                    if (ontAux != null) { //va a editar
+                                        interfaz.setOntDialogoCrearOnt(new Ont(ontAux.getId(), serie, modeloOnt.getId_modeloOnt(), modelo, responsable, ontAux.getNumeroOnt(), ontAux.getEstado()));
+                                    } else {
+                                        interfaz.setOntDialogoCrearOnt(new Ont(0, serie, modeloOnt.getId_modeloOnt(), modelo, responsable, -1, "activo"));
+                                    }
+                                }else  {
+                                    Toast.makeText(context1, "Sin modelo", Toast.LENGTH_SHORT).show();
+                                }
+                                dialogo.dismiss();
+                            }
+                        })
+                        .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
             }
         });
         txtmodelo.setEndIconOnClickListener(new View.OnClickListener() {

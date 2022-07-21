@@ -1,4 +1,4 @@
-package com.brasmapi.masfiberhome;
+package com.brasmapi.masfiberhome.ui.listar;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -8,7 +8,6 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -21,15 +20,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.brasmapi.masfiberhome.Procesos;
+import com.brasmapi.masfiberhome.R;
 import com.brasmapi.masfiberhome.dao.HistorialServiciosDAO;
-import com.brasmapi.masfiberhome.dao.ServiciosDAO;
 import com.brasmapi.masfiberhome.entidades.HistorialServicios;
-import com.brasmapi.masfiberhome.entidades.Servicios;
 import com.brasmapi.masfiberhome.ui.MainActivity;
 import com.brasmapi.masfiberhome.ui.adaptadores.AdapterHistorialServicios;
-import com.brasmapi.masfiberhome.ui.adaptadores.AdapterServicios;
-import com.brasmapi.masfiberhome.ui.adaptadores.AdapterServicios2;
-import com.brasmapi.masfiberhome.ui.crear.CrearServicioFragment;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;

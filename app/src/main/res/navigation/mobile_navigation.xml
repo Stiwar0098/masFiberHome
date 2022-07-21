@@ -65,7 +65,7 @@
 
     <fragment
         android:id="@+id/nav_ListarServicios"
-        android:name="com.brasmapi.masfiberhome.ListarServiciosFragment"
+        android:name="com.brasmapi.masfiberhome.ui.listar.ListarServiciosFragment"
         tools:layout="@layout/fragment_listar_servicios">
         <action
             android:id="@+id/action_nav_crearCliente_to_nav_administrar"
@@ -80,7 +80,7 @@
 
     <fragment
         android:id="@+id/nav_ListarClientes"
-        android:name="com.brasmapi.masfiberhome.ListarClientesFragment"
+        android:name="com.brasmapi.masfiberhome.ui.listar.ListarClientesFragment"
         tools:layout="@layout/fragment_listar_clientes">
         <action
             android:id="@+id/action_nav_migrarCliente_to_nav_administrar"
@@ -237,7 +237,7 @@
     </fragment>
     <fragment
         android:id="@+id/crearClientesFragment"
-        android:name="com.brasmapi.masfiberhome.CrearClientesFragment"
+        android:name="com.brasmapi.masfiberhome.ui.crear.CrearClientesFragment"
         android:label="fragment_crear_clientes"
         tools:layout="@layout/fragment_crear_clientes">
         <action
@@ -265,7 +265,7 @@
     </fragment>
     <fragment
         android:id="@+id/listarClientesFragment"
-        android:name="com.brasmapi.masfiberhome.ListarClientesFragment"
+        android:name="com.brasmapi.masfiberhome.ui.listar.ListarClientesFragment"
         tools:layout="@layout/fragment_listar_clientes">
         <action
             android:id="@+id/action_listarClientesFragment_to_crearClientesFragment"
@@ -276,7 +276,7 @@
     </fragment>
     <fragment
         android:id="@+id/listarOntFragment"
-        android:name="com.brasmapi.masfiberhome.ListarOntFragment"
+        android:name="com.brasmapi.masfiberhome.ui.listar.ListarOntFragment"
         tools:layout="@layout/fragment_listar_ont">
         <action
             android:id="@+id/action_listarOntFragment_to_crearOntFragment"
@@ -287,7 +287,7 @@
     </fragment>
     <fragment
         android:id="@+id/crearOntFragment"
-        android:name="com.brasmapi.masfiberhome.CrearOntFragment"
+        android:name="com.brasmapi.masfiberhome.ui.crear.CrearOntFragment"
         tools:layout="@layout/fragment_crear_ont">
         <action
             android:id="@+id/action_crearOntFragment_to_listarOntFragment"
@@ -295,7 +295,7 @@
     </fragment>
     <fragment
         android:id="@+id/listarServiciosFragment"
-        android:name="com.brasmapi.masfiberhome.ListarServiciosFragment"
+        android:name="com.brasmapi.masfiberhome.ui.listar.ListarServiciosFragment"
         tools:layout="@layout/fragment_listar_servicios">
         <action
             android:id="@+id/action_listarServiciosFragment_to_nav_crearServicio"
@@ -329,7 +329,7 @@
         tools:layout="@layout/fragment_crear_servicio" />
     <fragment
         android:id="@+id/nav_historial_Servicios"
-        android:name="com.brasmapi.masfiberhome.ListaHistorialServiciosFragment"
+        android:name="com.brasmapi.masfiberhome.ui.listar.ListaHistorialServiciosFragment"
         android:label="fragment_lista_historial_servicios"
         tools:layout="@layout/fragment_lista_historial_servicios" />
 </navigation>

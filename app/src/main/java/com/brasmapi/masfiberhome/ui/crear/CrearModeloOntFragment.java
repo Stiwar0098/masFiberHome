@@ -1,6 +1,8 @@
 package com.brasmapi.masfiberhome.ui.crear;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -102,17 +104,33 @@ public class CrearModeloOntFragment extends Fragment implements ModeloOntDAO.int
         btnguardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nombre = txtNombreModeloOnt.getEditText().getText().toString().trim();
-                tipo=spinnerTipoModeloOnt.getSelectedItem().toString();
-                if (opc.equals("crear")) {
-                    modeloOntDAO.crearModeloOnt(new ModeloOnt(0,
-                            nombre,tipo,
-                            "activo"), context);
-                } else {//editar
-                    modeloOnt.setNombre_modeloOnt(nombre);
-                    modeloOnt.setTipo_modeloOnt(tipo);
-                    modeloOntDAO.editarModeloOnt(modeloOnt, context, false);
-                }
+                Procesos.cerrarTeclado(getActivity());
+                AlertDialog.Builder builder= new AlertDialog.Builder(context);
+                builder.setTitle("Confirmación");
+                builder.setMessage( "Seguro desea "+opc+" ?")
+                        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                nombre = txtNombreModeloOnt.getEditText().getText().toString().trim();
+                                tipo=spinnerTipoModeloOnt.getSelectedItem().toString();
+                                if (opc.equals("crear")) {
+                                    modeloOntDAO.crearModeloOnt(new ModeloOnt(0,
+                                            nombre,tipo,
+                                            "activo"), context);
+                                } else {//editar
+                                    modeloOnt.setNombre_modeloOnt(nombre);
+                                    modeloOnt.setTipo_modeloOnt(tipo);
+                                    modeloOntDAO.editarModeloOnt(modeloOnt, context, false);
+                                }
+                            }
+                        })
+                        .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
             }
         });
         return vista;

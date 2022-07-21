@@ -1,7 +1,9 @@
 package com.brasmapi.masfiberhome.ui.crear;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -272,31 +274,47 @@ public class CrearCajaNivel2Fragment extends Fragment implements DialogBuscarCaj
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnGuardar_CrearCajaNivel2:
-                nombre=txtNombreCajaNivel2.getEditText().getText().toString().trim();
-                direccion = txtDireccion.getEditText().getText().toString().trim();
-                referencia = txtReferencia.getEditText().getText().toString().trim();
-                latitud = txtLatitud.getEditText().getText().toString().trim();
-                longitud =txtLongitud.getEditText().getText().toString().trim();
-                abreviatura=txtAbreviatura.getEditText().getText().toString().trim();
-                hiloCaja1=Integer.parseInt(txtHiloCaja1.getEditText().getText().toString().trim());
-                hilos=Integer.parseInt(spinner.getSelectedItem().toString());
-                 if (switchHiloAutoManu.isChecked()){
-                     crearEditar();
-                 }else{
-                     if (cajaNivel2 != null) {
-                         if (cajaNivel1Seleccionada!=null){
-                             rangoHilosCaja1DAO.verificarHiloManual(cajaNivel1Seleccionada.getId_cajaNivel1(),hiloCaja1,context);
-                         }else{
-                             if(cajaNivel2.getHiloCaja1()!=hiloCaja1){
-                                 rangoHilosCaja1DAO.verificarHiloManual(cajaNivel2.getId_CajaNivel1(),hiloCaja1,context);
-                             }else{
-                                 crearEditar();
-                             }
-                         }
-                     }else{
-                         rangoHilosCaja1DAO.verificarHiloManual(cajaNivel1Seleccionada.getId_cajaNivel1(),hiloCaja1,context);
-                     }
-                 }
+                Procesos.cerrarTeclado(getActivity());
+                AlertDialog.Builder builder= new AlertDialog.Builder(context);
+                builder.setTitle("Confirmación");
+                builder.setMessage( "Seguro desea "+opc+" ?")
+                        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                nombre=txtNombreCajaNivel2.getEditText().getText().toString().trim();
+                                direccion = txtDireccion.getEditText().getText().toString().trim();
+                                referencia = txtReferencia.getEditText().getText().toString().trim();
+                                latitud = txtLatitud.getEditText().getText().toString().trim();
+                                longitud =txtLongitud.getEditText().getText().toString().trim();
+                                abreviatura=txtAbreviatura.getEditText().getText().toString().trim();
+                                hiloCaja1=Integer.parseInt(txtHiloCaja1.getEditText().getText().toString().trim());
+                                hilos=Integer.parseInt(spinner.getSelectedItem().toString());
+                                if (switchHiloAutoManu.isChecked()){
+                                    crearEditar();
+                                }else{
+                                    if (cajaNivel2 != null) {
+                                        if (cajaNivel1Seleccionada!=null){
+                                            rangoHilosCaja1DAO.verificarHiloManual(cajaNivel1Seleccionada.getId_cajaNivel1(),hiloCaja1,context);
+                                        }else{
+                                            if(cajaNivel2.getHiloCaja1()!=hiloCaja1){
+                                                rangoHilosCaja1DAO.verificarHiloManual(cajaNivel2.getId_CajaNivel1(),hiloCaja1,context);
+                                            }else{
+                                                crearEditar();
+                                            }
+                                        }
+                                    }else{
+                                        rangoHilosCaja1DAO.verificarHiloManual(cajaNivel1Seleccionada.getId_cajaNivel1(),hiloCaja1,context);
+                                    }
+                                }
+                            }
+                        })
+                        .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
                 break;
         }
     }

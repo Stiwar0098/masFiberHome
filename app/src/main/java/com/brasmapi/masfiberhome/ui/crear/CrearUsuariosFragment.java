@@ -1,6 +1,8 @@
 package com.brasmapi.masfiberhome.ui.crear;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import com.brasmapi.masfiberhome.Procesos;
 import com.brasmapi.masfiberhome.ui.MainActivity;
 import com.brasmapi.masfiberhome.R;
 import com.brasmapi.masfiberhome.dao.UsuariosDAO;
@@ -99,16 +102,32 @@ public class CrearUsuariosFragment extends Fragment {
         btnguardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (opc.equals("crear")){
-                    usuariosDAO.crearUsuario(new Usuario(0,txtNombreUsuario.getEditText().getText().toString(),txtUsuario.getEditText().getText().toString(),txtContra.getEditText().getText().toString(),spinner.getSelectedItemPosition()+1,"activo"),context);
-                }else{//editar
-                    usuario.setNombre(txtNombreUsuario.getEditText().getText().toString());
-                    usuario.setUsuario(txtUsuario.getEditText().getText().toString().trim());
-                    usuario.setContrasena(txtContra.getEditText().getText().toString().trim());
-                    usuario.setRol(spinner.getSelectedItemPosition()+1);
-                    usuariosDAO.editarUsuario(usuario,context,false);
-                }
-                getActivity().onBackPressed();
+                Procesos.cerrarTeclado(getActivity());
+                AlertDialog.Builder builder= new AlertDialog.Builder(context);
+                builder.setTitle("Confirmación");
+                builder.setMessage( "Seguro desea "+opc+" ?")
+                        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                if (opc.equals("crear")){
+                                    usuariosDAO.crearUsuario(new Usuario(0,txtNombreUsuario.getEditText().getText().toString(),txtUsuario.getEditText().getText().toString(),txtContra.getEditText().getText().toString(),spinner.getSelectedItemPosition()+1,"activo"),context);
+                                }else{//editar
+                                    usuario.setNombre(txtNombreUsuario.getEditText().getText().toString());
+                                    usuario.setUsuario(txtUsuario.getEditText().getText().toString().trim());
+                                    usuario.setContrasena(txtContra.getEditText().getText().toString().trim());
+                                    usuario.setRol(spinner.getSelectedItemPosition()+1);
+                                    usuariosDAO.editarUsuario(usuario,context,false);
+                                }
+                                getActivity().onBackPressed();
+                            }
+                        })
+                        .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
             }
         });
         return vista;

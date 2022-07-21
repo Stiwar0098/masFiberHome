@@ -1,9 +1,9 @@
-package com.brasmapi.masfiberhome;
+package com.brasmapi.masfiberhome.ui.crear;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -15,28 +15,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.brasmapi.masfiberhome.ActivacionesPendientesAdminFragment;
+import com.brasmapi.masfiberhome.CustomScannerActivity;
+import com.brasmapi.masfiberhome.Procesos;
+import com.brasmapi.masfiberhome.R;
+import com.brasmapi.masfiberhome.dao.HistorialServiciosDAO;
 import com.brasmapi.masfiberhome.dao.OntDAO;
-import com.brasmapi.masfiberhome.entidades.Clientes;
 import com.brasmapi.masfiberhome.entidades.ModeloOnt;
 import com.brasmapi.masfiberhome.entidades.Ont;
 import com.brasmapi.masfiberhome.ui.MainActivity;
-import com.brasmapi.masfiberhome.ui.buscar.DialogBuscarCajaNivel1;
 import com.brasmapi.masfiberhome.ui.buscar.DialogBuscarModeloOnt;
-import com.brasmapi.masfiberhome.ui.crear.CrearCajaNivel2Fragment;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.zxing.BarcodeFormat;
 import com.google.zxing.client.android.Intents;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.journeyapps.barcodescanner.BarcodeEncoder;
-import com.journeyapps.barcodescanner.CaptureManager;
-import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
-import com.journeyapps.barcodescanner.ViewfinderView;
 
 import java.util.List;
 
@@ -130,19 +125,35 @@ public class CrearOntFragment extends Fragment implements OntDAO.interfazOntDAO,
         btnguardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                serie = txtserie.getEditText().getText().toString().trim();
-                modelo = txtmodelo.getEditText().getText().toString().trim();
-                responsable = spinnerResponsable.getSelectedItem().toString();
-                if (opc.equals("crear")) {
-                } else if(opc.equals("editar")) {//editar
-                    ont.setSerieOnt(serie);
-                    if (modeloOnt!=null){
-                        ont.setId_modeloOnt(modeloOnt.getId_modeloOnt());
-                        ont.setNombreModelo(modeloOnt.getNombre_modeloOnt());
-                    }
-                    ont.setResponsable(responsable);
-                    OntDAO.editarOnt(ont, context, false);
-                }
+                Procesos.cerrarTeclado(getActivity());
+                AlertDialog.Builder builder= new AlertDialog.Builder(context);
+                builder.setTitle("Confirmación");
+                builder.setMessage( "Seguro desea "+opc+" ?")
+                        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                serie = txtserie.getEditText().getText().toString().trim();
+                                modelo = txtmodelo.getEditText().getText().toString().trim();
+                                responsable = spinnerResponsable.getSelectedItem().toString();
+                                if (opc.equals("crear")) {
+                                } else if(opc.equals("editar")) {//editar
+                                    ont.setSerieOnt(serie);
+                                    if (modeloOnt!=null){
+                                        ont.setId_modeloOnt(modeloOnt.getId_modeloOnt());
+                                        ont.setNombreModelo(modeloOnt.getNombre_modeloOnt());
+                                    }
+                                    ont.setResponsable(responsable);
+                                    OntDAO.editarOnt(ont, context, false);
+                                }
+                            }
+                        })
+                        .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
             }
         });
         txtserie.setEndIconOnClickListener(new View.OnClickListener() {

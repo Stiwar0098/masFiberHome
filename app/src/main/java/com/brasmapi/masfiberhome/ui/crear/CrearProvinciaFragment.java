@@ -1,6 +1,8 @@
 package com.brasmapi.masfiberhome.ui.crear;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.brasmapi.masfiberhome.Procesos;
 import com.brasmapi.masfiberhome.ui.buscar.DialogBuscarPais;
 import com.brasmapi.masfiberhome.ui.MainActivity;
 import com.brasmapi.masfiberhome.R;
@@ -97,16 +100,32 @@ public class CrearProvinciaFragment extends Fragment implements DialogBuscarPais
         btnguardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (opc.equals("crear")){
-                    provinciaDAO.crearProvincia(new Provincia(0,txtProvincia.getEditText().getText().toString(),pais.getId(),pais.getNombre(),"activo"),context);
-                }else{//editar
-                    provincia.setNombre(txtProvincia.getEditText().getText().toString());
-                    if (pais!=null){
-                        provincia.setPais(pais.getId());
-                    }
-                    provinciaDAO.editarProvincia(provincia,context,false);
-                }
-                getActivity().onBackPressed();
+                Procesos.cerrarTeclado(getActivity());
+                AlertDialog.Builder builder= new AlertDialog.Builder(context);
+                builder.setTitle("Confirmación");
+                builder.setMessage( "Seguro desea "+opc+" ?")
+                        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                if (opc.equals("crear")){
+                                    provinciaDAO.crearProvincia(new Provincia(0,txtProvincia.getEditText().getText().toString(),pais.getId(),pais.getNombre(),"activo"),context);
+                                }else{//editar
+                                    provincia.setNombre(txtProvincia.getEditText().getText().toString());
+                                    if (pais!=null){
+                                        provincia.setPais(pais.getId());
+                                    }
+                                    provinciaDAO.editarProvincia(provincia,context,false);
+                                }
+                                getActivity().onBackPressed();
+                            }
+                        })
+                        .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
             }
         });
         return vista;

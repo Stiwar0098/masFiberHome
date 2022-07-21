@@ -1,6 +1,8 @@
 package com.brasmapi.masfiberhome.ui.crear;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.brasmapi.masfiberhome.Procesos;
 import com.brasmapi.masfiberhome.ui.MainActivity;
 import com.brasmapi.masfiberhome.R;
 import com.brasmapi.masfiberhome.dao.PaisesDAO;
@@ -86,13 +89,29 @@ public class CrearPaisFragment extends Fragment {
         btnguardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (opc.equals("crear")){
-                    paisesDAO.crearPais(new Pais(0,txtNombrePais.getEditText().getText().toString(),"activo"),context);
-                }else{//editar
-                    pais.setNombre(txtNombrePais.getEditText().getText().toString());
-                    paisesDAO.editarPais(pais,context,false);
-                }
-                getActivity().onBackPressed();
+                Procesos.cerrarTeclado(getActivity());
+                AlertDialog.Builder builder= new AlertDialog.Builder(context);
+                builder.setTitle("Confirmación");
+                builder.setMessage( "Seguro desea "+opc+" ?")
+                        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                if (opc.equals("crear")){
+                                    paisesDAO.crearPais(new Pais(0,txtNombrePais.getEditText().getText().toString(),"activo"),context);
+                                }else{//editar
+                                    pais.setNombre(txtNombrePais.getEditText().getText().toString());
+                                    paisesDAO.editarPais(pais,context,false);
+                                }
+                                getActivity().onBackPressed();
+                            }
+                        })
+                        .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
             }
         });
         return vista;
