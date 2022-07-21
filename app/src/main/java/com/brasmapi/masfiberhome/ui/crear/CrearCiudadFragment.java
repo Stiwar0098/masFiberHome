@@ -102,31 +102,36 @@ public class CrearCiudadFragment extends Fragment implements DialogBuscarProvinc
             @Override
             public void onClick(View v) {
                 Procesos.cerrarTeclado(getActivity());
-                AlertDialog.Builder builder= new AlertDialog.Builder(context);
-                builder.setTitle("Confirmación");
-                builder.setMessage( "Seguro desea "+opc+" ?")
-                        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                if (opc.equals("crear")){
-                                    ciudadDAO.crearCiudad(new Ciudad(0,txtCiudad.getEditText().getText().toString(), provincia.getId(), provincia.getNombre(),"activo"),context);
-                                }else{//editar
-                                    ciudad.setNombre(txtCiudad.getEditText().getText().toString());
-                                    if (provincia !=null){
-                                        ciudad.setIdProvincia(provincia.getId());
+                if (Procesos.validarTxtEstaLleno(txtProvincia)
+                    && Procesos.validarTxtEstaLleno(txtCiudad)){
+                    AlertDialog.Builder builder= new AlertDialog.Builder(context);
+                    builder.setTitle("Confirmación");
+                    builder.setMessage( "Seguro desea "+opc+" ?")
+                            .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    if (opc.equals("crear")){
+                                        ciudadDAO.crearCiudad(new Ciudad(0,txtCiudad.getEditText().getText().toString(), provincia.getId(), provincia.getNombre(),"activo"),context);
+                                    }else{//editar
+                                        ciudad.setNombre(txtCiudad.getEditText().getText().toString());
+                                        if (provincia !=null){
+                                            ciudad.setIdProvincia(provincia.getId());
+                                        }
+                                        ciudadDAO.editarCiudad(ciudad,context,false);
                                     }
-                                    ciudadDAO.editarCiudad(ciudad,context,false);
+                                    getActivity().onBackPressed();
                                 }
-                                getActivity().onBackPressed();
-                            }
-                        })
-                        .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .show();
+                            })
+                            .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .show();
+                }else{
+                    Toast.makeText(context, "Ingrese todos los campos", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         return vista;

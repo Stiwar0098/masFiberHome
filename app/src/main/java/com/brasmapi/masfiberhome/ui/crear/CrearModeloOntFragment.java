@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.brasmapi.masfiberhome.Procesos;
 import com.brasmapi.masfiberhome.R;
@@ -105,32 +106,37 @@ public class CrearModeloOntFragment extends Fragment implements ModeloOntDAO.int
             @Override
             public void onClick(View v) {
                 Procesos.cerrarTeclado(getActivity());
-                AlertDialog.Builder builder= new AlertDialog.Builder(context);
-                builder.setTitle("Confirmación");
-                builder.setMessage( "Seguro desea "+opc+" ?")
-                        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                nombre = txtNombreModeloOnt.getEditText().getText().toString().trim();
-                                tipo=spinnerTipoModeloOnt.getSelectedItem().toString();
-                                if (opc.equals("crear")) {
-                                    modeloOntDAO.crearModeloOnt(new ModeloOnt(0,
-                                            nombre,tipo,
-                                            "activo"), context);
-                                } else {//editar
-                                    modeloOnt.setNombre_modeloOnt(nombre);
-                                    modeloOnt.setTipo_modeloOnt(tipo);
-                                    modeloOntDAO.editarModeloOnt(modeloOnt, context, false);
+                if(Procesos.validarTxtEstaLleno(txtNombreModeloOnt)
+                    && spinnerTipoModeloOnt.getSelectedItemPosition()!=0){
+                    AlertDialog.Builder builder= new AlertDialog.Builder(context);
+                    builder.setTitle("Confirmación");
+                    builder.setMessage( "Seguro desea "+opc+" ?")
+                            .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    nombre = txtNombreModeloOnt.getEditText().getText().toString().trim();
+                                    tipo=spinnerTipoModeloOnt.getSelectedItem().toString();
+                                    if (opc.equals("crear")) {
+                                        modeloOntDAO.crearModeloOnt(new ModeloOnt(0,
+                                                nombre,tipo,
+                                                "activo"), context);
+                                    } else {//editar
+                                        modeloOnt.setNombre_modeloOnt(nombre);
+                                        modeloOnt.setTipo_modeloOnt(tipo);
+                                        modeloOntDAO.editarModeloOnt(modeloOnt, context, false);
+                                    }
                                 }
-                            }
-                        })
-                        .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .show();
+                            })
+                            .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .show();
+                }else{
+                    Toast.makeText(context, "Ingrese todos los campos", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         return vista;

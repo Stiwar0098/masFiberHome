@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.fragment.app.FragmentActivity;
 
@@ -59,41 +60,54 @@ public class DialogCrearCliente
         btnguardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder= new AlertDialog.Builder(context);
-                builder.setTitle("Confirmación");
-                builder.setMessage( "Seguro desea "+opc+" ?")
-                        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                cedula = txtCedulaClientes.getEditText().getText().toString().trim();
-                                nombre = txtNombreClientes.getEditText().getText().toString().trim();
-                                apellido = txtApellidoClientes.getEditText().getText().toString().trim();
-                                correo = txtCorreoClientes.getEditText().getText().toString().trim();
-                                telefono1 = txtTelefono1Clientes.getEditText().getText().toString().trim();
-                                telefono2 = txtTelefono2Clientes.getEditText().getText().toString().trim();
-                                if (opc.equals("crear")) {
-                                    CrearServicioFragment.isCrearCliente= true;
-                                    clientes=new Clientes(0,cedula,nombre,apellido,correo,telefono1,telefono2,"activo");
-                                } else {//editar
-                                    CrearServicioFragment.isEditarCliente=true;
-                                    clientes.setCedula(cedula);
-                                    clientes.setNombre(nombre);
-                                    clientes.setApellido(apellido);
-                                    clientes.setCorreo(correo);
-                                    clientes.setTelefono1(telefono1);
-                                    clientes.setTelefono2(telefono2);
+                if(Procesos.validarTxtEstaLleno(txtCedulaClientes)
+                    && Procesos.validarTxtEstaLleno(txtNombreClientes)
+                    && Procesos.validarTxtEstaLleno(txtApellidoClientes)
+                    && Procesos.validarTxtEstaLleno(txtCorreoClientes)
+                    && Procesos.validarTxtEstaLleno(txtTelefono1Clientes)){
+                    AlertDialog.Builder builder= new AlertDialog.Builder(context);
+                    builder.setTitle("Confirmación");
+                    builder.setMessage( "Seguro desea "+opc+" ?")
+                            .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    cedula = txtCedulaClientes.getEditText().getText().toString().trim();
+                                    nombre = txtNombreClientes.getEditText().getText().toString().trim();
+                                    apellido = txtApellidoClientes.getEditText().getText().toString().trim();
+                                    correo = txtCorreoClientes.getEditText().getText().toString().trim();
+                                    telefono1 = txtTelefono1Clientes.getEditText().getText().toString().trim();
+                                    if (Procesos.validarTxtEstaLleno(txtTelefono2Clientes)){
+                                        telefono2 = txtTelefono2Clientes.getEditText().getText().toString().trim();
+                                    }else{
+                                        telefono2="0000000000";
+                                    }
+                                    if (opc.equals("crear")) {
+                                        CrearServicioFragment.isCrearCliente= true;
+                                        clientes=new Clientes(0,cedula,nombre,apellido,correo,telefono1,telefono2,"activo");
+                                    } else {//editar
+                                        CrearServicioFragment.isEditarCliente=true;
+                                        clientes.setCedula(cedula);
+                                        clientes.setNombre(nombre);
+                                        clientes.setApellido(apellido);
+                                        clientes.setCorreo(correo);
+                                        clientes.setTelefono1(telefono1);
+                                        clientes.setTelefono2(telefono2);
+                                    }
+                                    interfaz.setClientesDialogoCrearClientes(clientes);
+                                    dialogo.dismiss();
                                 }
-                                interfaz.setClientesDialogoCrearClientes(clientes);
-                                dialogo.dismiss();
-                            }
-                        })
-                        .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .show();
+                            })
+                            .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .show();
+                }else{
+                    Toast.makeText(context, "Ingrese todos los campos", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
         dialogo.show();

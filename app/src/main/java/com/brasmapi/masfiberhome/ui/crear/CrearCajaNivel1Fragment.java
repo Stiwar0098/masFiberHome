@@ -240,54 +240,64 @@ public class CrearCajaNivel1Fragment extends Fragment implements CajaNivel1DAO.i
         switch (v.getId()){
             case R.id.btnGuardar_CrearCajaNivel1:
                 Procesos.cerrarTeclado(getActivity());
-                AlertDialog.Builder builder= new AlertDialog.Builder(context);
-                builder.setTitle("Confirmación");
-                builder.setMessage( "Seguro desea "+opc+" ?")
-                        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                nombre=txtNombreCajaNivel1.getEditText().getText().toString().trim();
-                                direccion = txtDireccion.getEditText().getText().toString().trim();
-                                referencia = txtReferencia.getEditText().getText().toString().trim();
-                                latitud = txtLatitud.getEditText().getText().toString().trim();
-                                longitud =txtLongitud.getEditText().getText().toString().trim();
-                                abreviatura =txtAbreviatura.getEditText().getText().toString().trim();
-                                hilos=Integer.parseInt(spinner.getSelectedItem().toString());
-                                if (opc.equals("crear")){
-                                    cajaNivel1DAO.crearCajaNivel1(new CajaNivel1(0,
-                                            nombre,
-                                            direccion,
-                                            referencia,
-                                            latitud,
-                                            longitud,
-                                            vlan.getId(),
-                                            "",
-                                            ciudad.getId(),
-                                            "",
-                                            "activo",abreviatura,hilos),context);
-                                }else{//editar
-                                    cajaNivel1.setNombre_cajaNivel1(nombre);
-                                    cajaNivel1.setDireccion_cajaNivel1(direccion);
-                                    cajaNivel1.setReferencia_cajaNivel1(referencia);
-                                    cajaNivel1.setLatitud_cajaNivel1(latitud);
-                                    cajaNivel1.setLongitud_cajaNivel1(longitud);
-                                    cajaNivel1.setAbreviatura_cajaNivel1(abreviatura);
-                                    cajaNivel1.setNumeroHilos_cajaNivel1(hilos);
-                                    if (vlan!=null && ciudad!=null){
-                                        cajaNivel1.setId_vlan(vlan.getId());
-                                        cajaNivel1.setId_ciudad(ciudad.getId());
+                if (Procesos.validarTxtEstaLleno(txtNombreCajaNivel1)
+                        && Procesos.validarTxtEstaLleno(txtNombreVlan)
+                        && Procesos.validarTxtEstaLleno(txtAbreviatura)
+                        && Procesos.validarTxtEstaLleno(txtNombreCiudad)
+                        && Procesos.validarTxtEstaLleno(txtDireccion)
+                        && Procesos.validarTxtEstaLleno(txtReferencia)
+                        && spinner.getSelectedItemPosition()!=0){
+                    AlertDialog.Builder builder= new AlertDialog.Builder(context);
+                    builder.setTitle("Confirmación");
+                    builder.setMessage( "Seguro desea "+opc+" ?")
+                            .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    nombre=txtNombreCajaNivel1.getEditText().getText().toString().trim();
+                                    direccion = txtDireccion.getEditText().getText().toString().trim();
+                                    referencia = txtReferencia.getEditText().getText().toString().trim();
+                                    latitud = txtLatitud.getEditText().getText().toString().trim();
+                                    longitud =txtLongitud.getEditText().getText().toString().trim();
+                                    abreviatura =txtAbreviatura.getEditText().getText().toString().trim();
+                                    hilos=Integer.parseInt(spinner.getSelectedItem().toString());
+                                    if (opc.equals("crear")){
+                                        cajaNivel1DAO.crearCajaNivel1(new CajaNivel1(0,
+                                                nombre,
+                                                direccion,
+                                                referencia,
+                                                latitud,
+                                                longitud,
+                                                vlan.getId(),
+                                                "",
+                                                ciudad.getId(),
+                                                "",
+                                                "activo",abreviatura,hilos),context);
+                                    }else{//editar
+                                        cajaNivel1.setNombre_cajaNivel1(nombre);
+                                        cajaNivel1.setDireccion_cajaNivel1(direccion);
+                                        cajaNivel1.setReferencia_cajaNivel1(referencia);
+                                        cajaNivel1.setLatitud_cajaNivel1(latitud);
+                                        cajaNivel1.setLongitud_cajaNivel1(longitud);
+                                        cajaNivel1.setAbreviatura_cajaNivel1(abreviatura);
+                                        cajaNivel1.setNumeroHilos_cajaNivel1(hilos);
+                                        if (vlan!=null && ciudad!=null){
+                                            cajaNivel1.setId_vlan(vlan.getId());
+                                            cajaNivel1.setId_ciudad(ciudad.getId());
+                                        }
+                                        cajaNivel1DAO.editarCajaNivel1(cajaNivel1,context,false);
                                     }
-                                    cajaNivel1DAO.editarCajaNivel1(cajaNivel1,context,false);
                                 }
-                            }
-                        })
-                        .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .show();
+                            })
+                            .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .show();
+                }else{
+                    Toast.makeText(context, "Ingrese todos los campos", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.btnObtenerLatitudLongitud_CrearCajaNivel1:
                 Procesos.obtenerLatitudLongitud(context, CrearCajaNivel1Fragment.this,getActivity().getContentResolver());

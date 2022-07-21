@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.brasmapi.masfiberhome.Procesos;
 import com.brasmapi.masfiberhome.ui.buscar.DialogBuscarPais;
@@ -101,31 +102,37 @@ public class CrearProvinciaFragment extends Fragment implements DialogBuscarPais
             @Override
             public void onClick(View v) {
                 Procesos.cerrarTeclado(getActivity());
-                AlertDialog.Builder builder= new AlertDialog.Builder(context);
-                builder.setTitle("Confirmación");
-                builder.setMessage( "Seguro desea "+opc+" ?")
-                        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                if (opc.equals("crear")){
-                                    provinciaDAO.crearProvincia(new Provincia(0,txtProvincia.getEditText().getText().toString(),pais.getId(),pais.getNombre(),"activo"),context);
-                                }else{//editar
-                                    provincia.setNombre(txtProvincia.getEditText().getText().toString());
-                                    if (pais!=null){
-                                        provincia.setPais(pais.getId());
+                if (Procesos.validarTxtEstaLleno(txtProvincia)
+                    && Procesos.validarTxtEstaLleno(txtPais)){
+                    AlertDialog.Builder builder= new AlertDialog.Builder(context);
+                    builder.setTitle("Confirmación");
+                    builder.setMessage( "Seguro desea "+opc+" ?")
+                            .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    if (opc.equals("crear")){
+                                        provinciaDAO.crearProvincia(new Provincia(0,txtProvincia.getEditText().getText().toString(),pais.getId(),pais.getNombre(),"activo"),context);
+                                    }else{//editar
+                                        provincia.setNombre(txtProvincia.getEditText().getText().toString());
+                                        if (pais!=null){
+                                            provincia.setPais(pais.getId());
+                                        }
+                                        provinciaDAO.editarProvincia(provincia,context,false);
                                     }
-                                    provinciaDAO.editarProvincia(provincia,context,false);
+                                    getActivity().onBackPressed();
                                 }
-                                getActivity().onBackPressed();
-                            }
-                        })
-                        .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .show();
+                            })
+                            .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .show();
+                }else{
+                    Toast.makeText(context, "Ingrese todos los campos", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
         return vista;

@@ -113,73 +113,85 @@ public class CrearVlanFragment extends Fragment implements VlanDAO.interfazVlanD
             @Override
             public void onClick(View v) {
                 Procesos.cerrarTeclado(getActivity());
-                AlertDialog.Builder builder= new AlertDialog.Builder(context);
-                builder.setTitle("Confirmación");
-                builder.setMessage( "Seguro desea "+opc+" ?")
-                        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                nombre=txtNombreVlan.getEditText().getText().toString().trim();
-                                numeroOlt=Integer.parseInt(txtNumeroOlt.getEditText().getText().toString().trim());
-                                tarjetaOlt=Integer.parseInt(txtTarjetaOlt.getEditText().getText().toString().trim());
-                                puertoOlt=Integer.parseInt(txtPuertoOlt.getEditText().getText().toString().trim());
-                                ipInicio=txtIpInicio.getEditText().getText().toString().trim();
-                                ipfin=txtIpFin.getEditText().getText().toString().trim();
-                                mascara=txtMascara.getEditText().getText().toString().trim();
-                                gateway=txtGateway.getEditText().getText().toString().trim();
-                                numeroVlan=Integer.parseInt(txtNumeroVlan.getEditText().getText().toString().trim());
-                                if(!Procesos.validarDireccionIp(ipInicio)){
-                                    Toast.makeText(context, "Ip inicio incorrecta", Toast.LENGTH_SHORT).show();
-                                    txtIpInicio.setError("Error");
-                                }else if(!Procesos.validarDireccionIp(ipfin)){
-                                    Toast.makeText(context, "Ip fin incorrecta", Toast.LENGTH_SHORT).show();
-                                    txtIpFin.setError("Error");
-                                }else if(!Procesos.validarDireccionIp(mascara)){
-                                    Toast.makeText(context, "Mascara incorrecta", Toast.LENGTH_SHORT).show();
-                                    txtMascara.setError("Error");
-                                }else if(!Procesos.validarDireccionIp(gateway)){
-                                    Toast.makeText(context, "Gateway incorrecto", Toast.LENGTH_SHORT).show();
-                                    txtGateway.setError("Error");
-                                }else{
-                                    if (opc.equals("crear")){
-                                        int[] inicio,fin;
-                                        int totalIps,ini;
-                                        inicio=Procesos.descomponerDireccionIp(ipInicio);
-                                        fin=Procesos.descomponerDireccionIp(ipfin);
-                                        ini=inicio[3];
-                                        totalIps=fin[3]-ini+1;
-                                        vlanDAO.crearVlan(new Vlan(0,numeroVlan,
-                                                nombre,
-                                                numeroOlt,
-                                                tarjetaOlt,
-                                                puertoOlt,
-                                                ipInicio,
-                                                ipfin,
-                                                mascara,
-                                                gateway,
-                                                "activo"),context,ini,totalIps);
-                                    }else{//editar
-                                        vlan.setNumeroVlan(numeroVlan);
-                                        vlan.setNombreVlan(nombre);
-                                        vlan.setNumeroOlt(numeroOlt);
-                                        vlan.setTarjetaOlt(tarjetaOlt);
-                                        vlan.setPuertoOlt(puertoOlt);
-                                        vlan.setIpInicio(ipInicio);
-                                        vlan.setIpFin(ipfin);
-                                        vlan.setMascara(mascara);
-                                        vlan.setGateway(gateway);
-                                        vlanDAO.editarVlan(vlan,context,false);
+                if (Procesos.validarTxtEstaLleno(txtNumeroVlan)
+                    && Procesos.validarTxtEstaLleno(txtNombreVlan)
+                    && Procesos.validarTxtEstaLleno(txtNumeroOlt)
+                    && Procesos.validarTxtEstaLleno(txtTarjetaOlt)
+                    && Procesos.validarTxtEstaLleno(txtPuertoOlt)
+                    && Procesos.validarTxtEstaLleno(txtIpInicio)
+                    && Procesos.validarTxtEstaLleno(txtIpFin)
+                    && Procesos.validarTxtEstaLleno(txtMascara)
+                    && Procesos.validarTxtEstaLleno(txtGateway)){
+                    AlertDialog.Builder builder= new AlertDialog.Builder(context);
+                    builder.setTitle("Confirmación");
+                    builder.setMessage( "Seguro desea "+opc+" ?")
+                            .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    nombre=txtNombreVlan.getEditText().getText().toString().trim();
+                                    numeroOlt=Integer.parseInt(txtNumeroOlt.getEditText().getText().toString().trim());
+                                    tarjetaOlt=Integer.parseInt(txtTarjetaOlt.getEditText().getText().toString().trim());
+                                    puertoOlt=Integer.parseInt(txtPuertoOlt.getEditText().getText().toString().trim());
+                                    ipInicio=txtIpInicio.getEditText().getText().toString().trim();
+                                    ipfin=txtIpFin.getEditText().getText().toString().trim();
+                                    mascara=txtMascara.getEditText().getText().toString().trim();
+                                    gateway=txtGateway.getEditText().getText().toString().trim();
+                                    numeroVlan=Integer.parseInt(txtNumeroVlan.getEditText().getText().toString().trim());
+                                    if(!Procesos.validarDireccionIp(ipInicio)){
+                                        Toast.makeText(context, "Ip inicio incorrecta", Toast.LENGTH_SHORT).show();
+                                        txtIpInicio.setError("Error");
+                                    }else if(!Procesos.validarDireccionIp(ipfin)){
+                                        Toast.makeText(context, "Ip fin incorrecta", Toast.LENGTH_SHORT).show();
+                                        txtIpFin.setError("Error");
+                                    }else if(!Procesos.validarDireccionIp(mascara)){
+                                        Toast.makeText(context, "Mascara incorrecta", Toast.LENGTH_SHORT).show();
+                                        txtMascara.setError("Error");
+                                    }else if(!Procesos.validarDireccionIp(gateway)){
+                                        Toast.makeText(context, "Gateway incorrecto", Toast.LENGTH_SHORT).show();
+                                        txtGateway.setError("Error");
+                                    }else{
+                                        if (opc.equals("crear")){
+                                            int[] inicio,fin;
+                                            int totalIps,ini;
+                                            inicio=Procesos.descomponerDireccionIp(ipInicio);
+                                            fin=Procesos.descomponerDireccionIp(ipfin);
+                                            ini=inicio[3];
+                                            totalIps=fin[3]-ini+1;
+                                            vlanDAO.crearVlan(new Vlan(0,numeroVlan,
+                                                    nombre,
+                                                    numeroOlt,
+                                                    tarjetaOlt,
+                                                    puertoOlt,
+                                                    ipInicio,
+                                                    ipfin,
+                                                    mascara,
+                                                    gateway,
+                                                    "activo"),context,ini,totalIps);
+                                        }else{//editar
+                                            vlan.setNumeroVlan(numeroVlan);
+                                            vlan.setNombreVlan(nombre);
+                                            vlan.setNumeroOlt(numeroOlt);
+                                            vlan.setTarjetaOlt(tarjetaOlt);
+                                            vlan.setPuertoOlt(puertoOlt);
+                                            vlan.setIpInicio(ipInicio);
+                                            vlan.setIpFin(ipfin);
+                                            vlan.setMascara(mascara);
+                                            vlan.setGateway(gateway);
+                                            vlanDAO.editarVlan(vlan,context,false);
+                                        }
                                     }
                                 }
-                            }
-                        })
-                        .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .show();
+                            })
+                            .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .show();
+                }else{
+                    Toast.makeText(context, "Ingrese todos los campos", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         txtNumeroVlan.getEditText().addTextChangedListener(new TextWatcher() {

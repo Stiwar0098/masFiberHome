@@ -81,34 +81,40 @@ public class DialogCrearOnt implements DialogBuscarModeloOnt.finalizoDialogBusca
         btnGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder= new AlertDialog.Builder(context);
-                builder.setTitle("Confirmación");
-                builder.setMessage( "Seguro desea "+opc+" ?")
-                        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                serie = txtserie.getEditText().getText().toString().trim();
-                                modelo = txtmodelo.getEditText().getText().toString().trim();
-                                responsable = spinnerResponsable.getSelectedItem().toString();
-                                if (modeloOnt != null) {
-                                    if (ontAux != null) { //va a editar
-                                        interfaz.setOntDialogoCrearOnt(new Ont(ontAux.getId(), serie, modeloOnt.getId_modeloOnt(), modelo, responsable, ontAux.getNumeroOnt(), ontAux.getEstado()));
-                                    } else {
-                                        interfaz.setOntDialogoCrearOnt(new Ont(0, serie, modeloOnt.getId_modeloOnt(), modelo, responsable, -1, "activo"));
+                if (Procesos.validarTxtEstaLleno(txtserie)
+                    && Procesos.validarTxtEstaLleno(txtmodelo)
+                    && spinnerResponsable.getSelectedItemPosition()!=0){
+                    AlertDialog.Builder builder= new AlertDialog.Builder(context);
+                    builder.setTitle("Confirmación");
+                    builder.setMessage( "Seguro desea "+opc+" ?")
+                            .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    serie = txtserie.getEditText().getText().toString().trim();
+                                    modelo = txtmodelo.getEditText().getText().toString().trim();
+                                    responsable = spinnerResponsable.getSelectedItem().toString();
+                                    if (modeloOnt != null) {
+                                        if (ontAux != null) { //va a editar
+                                            interfaz.setOntDialogoCrearOnt(new Ont(ontAux.getId(), serie, modeloOnt.getId_modeloOnt(), modelo, responsable, ontAux.getNumeroOnt(), ontAux.getEstado()));
+                                        } else {
+                                            interfaz.setOntDialogoCrearOnt(new Ont(0, serie, modeloOnt.getId_modeloOnt(), modelo, responsable, -1, "activo"));
+                                        }
+                                    }else  {
+                                        Toast.makeText(context1, "Sin modelo", Toast.LENGTH_SHORT).show();
                                     }
-                                }else  {
-                                    Toast.makeText(context1, "Sin modelo", Toast.LENGTH_SHORT).show();
+                                    dialogo.dismiss();
                                 }
-                                dialogo.dismiss();
-                            }
-                        })
-                        .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .show();
+                            })
+                            .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .show();
+                }else{
+                    Toast.makeText(context, "Ingrese todos los campos", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         txtmodelo.setEndIconOnClickListener(new View.OnClickListener() {

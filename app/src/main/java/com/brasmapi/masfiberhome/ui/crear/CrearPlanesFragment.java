@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.brasmapi.masfiberhome.Procesos;
 import com.brasmapi.masfiberhome.R;
@@ -93,30 +94,34 @@ public class CrearPlanesFragment extends Fragment implements PlanesDAO.interfazP
             @Override
             public void onClick(View v) {
                 Procesos.cerrarTeclado(getActivity());
-                AlertDialog.Builder builder= new AlertDialog.Builder(context);
-                builder.setTitle("Confirmación");
-                builder.setMessage( "Seguro desea "+opc+" ?")
-                        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                nombre = Integer.parseInt(txtNombrePlanes.getEditText().getText().toString().trim());
-                                if (opc.equals("crear")) {
-                                    PlanesDAO.crearPlanes(new Planes(0,
-                                            nombre,
-                                            "activo"), context);
-                                } else {//editar
-                                    planes.setNombre(nombre);
-                                    PlanesDAO.editarPlanes(planes, context, false);
+                if (Procesos.validarTxtEstaLleno(txtNombrePlanes)){
+                    AlertDialog.Builder builder= new AlertDialog.Builder(context);
+                    builder.setTitle("Confirmación");
+                    builder.setMessage( "Seguro desea "+opc+" ?")
+                            .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    nombre = Integer.parseInt(txtNombrePlanes.getEditText().getText().toString().trim());
+                                    if (opc.equals("crear")) {
+                                        PlanesDAO.crearPlanes(new Planes(0,
+                                                nombre,
+                                                "activo"), context);
+                                    } else {//editar
+                                        planes.setNombre(nombre);
+                                        PlanesDAO.editarPlanes(planes, context, false);
+                                    }
                                 }
-                            }
-                        })
-                        .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .show();
+                            })
+                            .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .show();
+                }else{
+                    Toast.makeText(context, "Ingrese todos los campos", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         return vista;

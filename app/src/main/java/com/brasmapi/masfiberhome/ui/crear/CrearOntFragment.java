@@ -126,34 +126,41 @@ public class CrearOntFragment extends Fragment implements OntDAO.interfazOntDAO,
             @Override
             public void onClick(View v) {
                 Procesos.cerrarTeclado(getActivity());
-                AlertDialog.Builder builder= new AlertDialog.Builder(context);
-                builder.setTitle("Confirmación");
-                builder.setMessage( "Seguro desea "+opc+" ?")
-                        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                serie = txtserie.getEditText().getText().toString().trim();
-                                modelo = txtmodelo.getEditText().getText().toString().trim();
-                                responsable = spinnerResponsable.getSelectedItem().toString();
-                                if (opc.equals("crear")) {
-                                } else if(opc.equals("editar")) {//editar
-                                    ont.setSerieOnt(serie);
-                                    if (modeloOnt!=null){
-                                        ont.setId_modeloOnt(modeloOnt.getId_modeloOnt());
-                                        ont.setNombreModelo(modeloOnt.getNombre_modeloOnt());
+                if (Procesos.validarTxtEstaLleno(txtserie)
+                    && Procesos.validarTxtEstaLleno(txtmodelo)
+                    && spinnerResponsable.getSelectedItemPosition()!=0){
+                    AlertDialog.Builder builder= new AlertDialog.Builder(context);
+                    builder.setTitle("Confirmación");
+                    builder.setMessage( "Seguro desea "+opc+" ?")
+                            .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    serie = txtserie.getEditText().getText().toString().trim();
+                                    modelo = txtmodelo.getEditText().getText().toString().trim();
+                                    responsable = spinnerResponsable.getSelectedItem().toString();
+                                    if (opc.equals("crear")) {
+                                    } else if(opc.equals("editar")) {//editar
+                                        ont.setSerieOnt(serie);
+                                        if (modeloOnt!=null){
+                                            ont.setId_modeloOnt(modeloOnt.getId_modeloOnt());
+                                            ont.setNombreModelo(modeloOnt.getNombre_modeloOnt());
+                                        }
+                                        ont.setResponsable(responsable);
+                                        OntDAO.editarOnt(ont, context, false);
                                     }
-                                    ont.setResponsable(responsable);
-                                    OntDAO.editarOnt(ont, context, false);
                                 }
-                            }
-                        })
-                        .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .show();
+                            })
+                            .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .show();
+                }else{
+                    Toast.makeText(context, "Ingrese todos los campos", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
         txtserie.setEndIconOnClickListener(new View.OnClickListener() {

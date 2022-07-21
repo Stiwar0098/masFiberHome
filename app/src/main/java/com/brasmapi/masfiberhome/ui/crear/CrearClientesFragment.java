@@ -104,40 +104,52 @@ public class CrearClientesFragment extends Fragment implements ClientesDAO.inter
             @Override
             public void onClick(View v) {
                 Procesos.cerrarTeclado(getActivity());
-                AlertDialog.Builder builder= new AlertDialog.Builder(context);
-                builder.setTitle("Confirmación");
-                builder.setMessage( "Seguro desea "+opc+" ?")
-                        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                cedula = txtCedulaClientes.getEditText().getText().toString().trim();
-                                nombre = txtNombreClientes.getEditText().getText().toString().trim();
-                                apellido = txtApellidoClientes.getEditText().getText().toString().trim();
-                                correo = txtCorreoClientes.getEditText().getText().toString().trim();
-                                telefono1 = txtTelefono1Clientes.getEditText().getText().toString().trim();
-                                telefono2 = txtTelefono2Clientes.getEditText().getText().toString().trim();
-                                if (opc.equals("crear")) {
-                                    clientesDAO.crearClientes(new Clientes(0,cedula,
-                                            nombre,apellido,correo,telefono1,telefono2,
-                                            "activo"), context);
-                                } else {//editar
-                                    clientes.setCedula(cedula);
-                                    clientes.setNombre(nombre);
-                                    clientes.setApellido(apellido);
-                                    clientes.setCorreo(correo);
-                                    clientes.setTelefono1(telefono1);
-                                    clientes.setTelefono2(telefono2);
-                                    clientesDAO.editarClientes(clientes, context, false);
+                if(Procesos.validarTxtEstaLleno(txtCedulaClientes)
+                    && Procesos.validarTxtEstaLleno(txtNombreClientes)
+                    && Procesos.validarTxtEstaLleno(txtApellidoClientes)
+                    && Procesos.validarTxtEstaLleno(txtCorreoClientes)
+                    && Procesos.validarTxtEstaLleno(txtTelefono1Clientes)){
+                    AlertDialog.Builder builder= new AlertDialog.Builder(context);
+                    builder.setTitle("Confirmación");
+                    builder.setMessage( "Seguro desea "+opc+" ?")
+                            .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    cedula = txtCedulaClientes.getEditText().getText().toString().trim();
+                                    nombre = txtNombreClientes.getEditText().getText().toString().trim();
+                                    apellido = txtApellidoClientes.getEditText().getText().toString().trim();
+                                    correo = txtCorreoClientes.getEditText().getText().toString().trim();
+                                    telefono1 = txtTelefono1Clientes.getEditText().getText().toString().trim();
+                                    if (Procesos.validarTxtEstaLleno(txtTelefono2Clientes)){
+                                        telefono2 = txtTelefono2Clientes.getEditText().getText().toString().trim();
+                                    }else{
+                                        telefono2 = "0000000000";
+                                    }
+                                    if (opc.equals("crear")) {
+                                        clientesDAO.crearClientes(new Clientes(0,cedula,
+                                                nombre,apellido,correo,telefono1,telefono2,
+                                                "activo"), context);
+                                    } else {//editar
+                                        clientes.setCedula(cedula);
+                                        clientes.setNombre(nombre);
+                                        clientes.setApellido(apellido);
+                                        clientes.setCorreo(correo);
+                                        clientes.setTelefono1(telefono1);
+                                        clientes.setTelefono2(telefono2);
+                                        clientesDAO.editarClientes(clientes, context, false);
+                                    }
                                 }
-                            }
-                        })
-                        .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .show();
+                            })
+                            .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .show();
+                }else{
+                    Toast.makeText(context, "Ingrese todos los campos", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         return vista;

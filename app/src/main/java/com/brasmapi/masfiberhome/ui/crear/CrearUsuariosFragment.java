@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.brasmapi.masfiberhome.Procesos;
 import com.brasmapi.masfiberhome.ui.MainActivity;
@@ -103,31 +104,39 @@ public class CrearUsuariosFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Procesos.cerrarTeclado(getActivity());
-                AlertDialog.Builder builder= new AlertDialog.Builder(context);
-                builder.setTitle("Confirmación");
-                builder.setMessage( "Seguro desea "+opc+" ?")
-                        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                if (opc.equals("crear")){
-                                    usuariosDAO.crearUsuario(new Usuario(0,txtNombreUsuario.getEditText().getText().toString(),txtUsuario.getEditText().getText().toString(),txtContra.getEditText().getText().toString(),spinner.getSelectedItemPosition()+1,"activo"),context);
-                                }else{//editar
-                                    usuario.setNombre(txtNombreUsuario.getEditText().getText().toString());
-                                    usuario.setUsuario(txtUsuario.getEditText().getText().toString().trim());
-                                    usuario.setContrasena(txtContra.getEditText().getText().toString().trim());
-                                    usuario.setRol(spinner.getSelectedItemPosition()+1);
-                                    usuariosDAO.editarUsuario(usuario,context,false);
+                if (Procesos.validarTxtEstaLleno(txtNombreUsuario)
+                    && Procesos.validarTxtEstaLleno(txtUsuario)
+                    &&Procesos.validarTxtEstaLleno(txtContra)
+                    && spinner.getSelectedItemPosition()!=0){
+                    AlertDialog.Builder builder= new AlertDialog.Builder(context);
+                    builder.setTitle("Confirmación");
+                    builder.setMessage( "Seguro desea "+opc+" ?")
+                            .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    if (opc.equals("crear")){
+                                        usuariosDAO.crearUsuario(new Usuario(0,txtNombreUsuario.getEditText().getText().toString(),txtUsuario.getEditText().getText().toString(),txtContra.getEditText().getText().toString(),spinner.getSelectedItemPosition()+1,"activo"),context);
+                                    }else{//editar
+                                        usuario.setNombre(txtNombreUsuario.getEditText().getText().toString());
+                                        usuario.setUsuario(txtUsuario.getEditText().getText().toString().trim());
+                                        usuario.setContrasena(txtContra.getEditText().getText().toString().trim());
+                                        usuario.setRol(spinner.getSelectedItemPosition()+1);
+                                        usuariosDAO.editarUsuario(usuario,context,false);
+                                    }
+                                    getActivity().onBackPressed();
                                 }
-                                getActivity().onBackPressed();
-                            }
-                        })
-                        .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .show();
+                            })
+                            .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .show();
+                }else{
+                    Toast.makeText(context, "Ingrese todos los campos", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
         return vista;

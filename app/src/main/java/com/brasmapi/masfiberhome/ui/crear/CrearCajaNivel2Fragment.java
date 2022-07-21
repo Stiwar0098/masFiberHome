@@ -275,46 +275,56 @@ public class CrearCajaNivel2Fragment extends Fragment implements DialogBuscarCaj
         switch (v.getId()){
             case R.id.btnGuardar_CrearCajaNivel2:
                 Procesos.cerrarTeclado(getActivity());
-                AlertDialog.Builder builder= new AlertDialog.Builder(context);
-                builder.setTitle("Confirmación");
-                builder.setMessage( "Seguro desea "+opc+" ?")
-                        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                nombre=txtNombreCajaNivel2.getEditText().getText().toString().trim();
-                                direccion = txtDireccion.getEditText().getText().toString().trim();
-                                referencia = txtReferencia.getEditText().getText().toString().trim();
-                                latitud = txtLatitud.getEditText().getText().toString().trim();
-                                longitud =txtLongitud.getEditText().getText().toString().trim();
-                                abreviatura=txtAbreviatura.getEditText().getText().toString().trim();
-                                hiloCaja1=Integer.parseInt(txtHiloCaja1.getEditText().getText().toString().trim());
-                                hilos=Integer.parseInt(spinner.getSelectedItem().toString());
-                                if (switchHiloAutoManu.isChecked()){
-                                    crearEditar();
-                                }else{
-                                    if (cajaNivel2 != null) {
-                                        if (cajaNivel1Seleccionada!=null){
-                                            rangoHilosCaja1DAO.verificarHiloManual(cajaNivel1Seleccionada.getId_cajaNivel1(),hiloCaja1,context);
-                                        }else{
-                                            if(cajaNivel2.getHiloCaja1()!=hiloCaja1){
-                                                rangoHilosCaja1DAO.verificarHiloManual(cajaNivel2.getId_CajaNivel1(),hiloCaja1,context);
-                                            }else{
-                                                crearEditar();
-                                            }
-                                        }
+                if (Procesos.validarTxtEstaLleno(txtNombreCajaNivel2)
+                        && Procesos.validarTxtEstaLleno(txtNombreCajaNivel1)
+                        && Procesos.validarTxtEstaLleno(txtAbreviatura)
+                        && Procesos.validarTxtEstaLleno(txtHiloCaja1)
+                        && Procesos.validarTxtEstaLleno(txtDireccion)
+                        && Procesos.validarTxtEstaLleno(txtReferencia)
+                        && spinner.getSelectedItemPosition()!=0){
+                    AlertDialog.Builder builder= new AlertDialog.Builder(context);
+                    builder.setTitle("Confirmación");
+                    builder.setMessage( "Seguro desea "+opc+" ?")
+                            .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    nombre=txtNombreCajaNivel2.getEditText().getText().toString().trim();
+                                    direccion = txtDireccion.getEditText().getText().toString().trim();
+                                    referencia = txtReferencia.getEditText().getText().toString().trim();
+                                    latitud = txtLatitud.getEditText().getText().toString().trim();
+                                    longitud =txtLongitud.getEditText().getText().toString().trim();
+                                    abreviatura=txtAbreviatura.getEditText().getText().toString().trim();
+                                    hiloCaja1=Integer.parseInt(txtHiloCaja1.getEditText().getText().toString().trim());
+                                    hilos=Integer.parseInt(spinner.getSelectedItem().toString());
+                                    if (switchHiloAutoManu.isChecked()){
+                                        crearEditar();
                                     }else{
-                                        rangoHilosCaja1DAO.verificarHiloManual(cajaNivel1Seleccionada.getId_cajaNivel1(),hiloCaja1,context);
+                                        if (cajaNivel2 != null) {
+                                            if (cajaNivel1Seleccionada!=null){
+                                                rangoHilosCaja1DAO.verificarHiloManual(cajaNivel1Seleccionada.getId_cajaNivel1(),hiloCaja1,context);
+                                            }else{
+                                                if(cajaNivel2.getHiloCaja1()!=hiloCaja1){
+                                                    rangoHilosCaja1DAO.verificarHiloManual(cajaNivel2.getId_CajaNivel1(),hiloCaja1,context);
+                                                }else{
+                                                    crearEditar();
+                                                }
+                                            }
+                                        }else{
+                                            rangoHilosCaja1DAO.verificarHiloManual(cajaNivel1Seleccionada.getId_cajaNivel1(),hiloCaja1,context);
+                                        }
                                     }
                                 }
-                            }
-                        })
-                        .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .show();
+                            })
+                            .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .show();
+                }else{
+                    Toast.makeText(context, "Ingrese todos los campos", Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
     }
