@@ -28,7 +28,7 @@ import java.util.List;
 public class DialogBuscarCiudad implements CiudadDAO.ciudadDAO
 {
     static Context context;
-    static List<Ciudad> listaCiudades;
+    static List<Ciudad> listaCiudades,listaCiudadesaux;
     static Dialog dialogo;
     static AdapterCiudad adaptadorItemBuscarCiudad;
     static RecyclerView recyclerViewBuscarCiudad;
@@ -88,13 +88,19 @@ public class DialogBuscarCiudad implements CiudadDAO.ciudadDAO
             recyclerViewBuscarCiudad.setAdapter(adaptadorItemBuscarCiudad);
             adaptadorItemBuscarCiudad.notifyDataSetChanged();
         }else{
+            listaCiudadesaux=null;
             adaptadorItemBuscarCiudad = new AdapterCiudad(listaCiudades);
             recyclerViewBuscarCiudad.setAdapter(adaptadorItemBuscarCiudad);
             adaptadorItemBuscarCiudad.notifyDataSetChanged();
             adaptadorItemBuscarCiudad.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Ciudad us = listaCiudades.get(recyclerViewBuscarCiudad.getChildAdapterPosition(v));
+                    Ciudad us;
+                    if (listaCiudadesaux==null){
+                        us = listaCiudades.get(recyclerViewBuscarCiudad.getChildAdapterPosition(v));
+                    }else{
+                        us = listaCiudadesaux.get(recyclerViewBuscarCiudad.getChildAdapterPosition(v));
+                    }
                     interfaz.CiudadSelecionado(us);
                     dialogo.dismiss();
                 }
@@ -103,14 +109,15 @@ public class DialogBuscarCiudad implements CiudadDAO.ciudadDAO
         Procesos.cargandoDetener();
     }
     private void filtrar(String buscar){
+        listaCiudadesaux=null;
         if (listaCiudades!=null){
-            List<Ciudad> aux2=new ArrayList<>();
+            listaCiudadesaux=new ArrayList<>();
             for (Ciudad aux:listaCiudades) {
                 if(aux.getNombre().toLowerCase().contains(buscar.toLowerCase())){
-                    aux2.add(aux);
+                    listaCiudadesaux.add(aux);
                 }
             }
-            adaptadorItemBuscarCiudad.setAdapterItemBuscarCiudad(aux2);
+            adaptadorItemBuscarCiudad.setAdapterItemBuscarCiudad(listaCiudadesaux);
             adaptadorItemBuscarCiudad.notifyDataSetChanged();
         }
 

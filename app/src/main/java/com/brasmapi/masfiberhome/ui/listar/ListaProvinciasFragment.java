@@ -88,7 +88,7 @@ public class ListaProvinciasFragment extends Fragment implements ProvinciaDAO.se
     static ProvinciaDAO provinciaDAO;
     public static AdapterProvincia adaptadorProvincia;
     public static RecyclerView recyclerViewProvincias;
-    public static List<Provincia> listaProvincias;
+    public static List<Provincia> listaProvincias,listaProvinciasaux;
     TextInputLayout txtBuscar;
     FragmentManager fragmentManager;
     static FragmentTransaction fragmentTransaction;
@@ -162,6 +162,7 @@ public class ListaProvinciasFragment extends Fragment implements ProvinciaDAO.se
             recyclerViewProvincias.setAdapter(adaptadorProvincia);
             adaptadorProvincia.notifyDataSetChanged();
         }else{
+            listaProvinciasaux=null;
             adaptadorProvincia = new AdapterProvincia(listaProvincias);
             recyclerViewProvincias.setAdapter(adaptadorProvincia);
             adaptadorProvincia.notifyDataSetChanged();
@@ -169,7 +170,12 @@ public class ListaProvinciasFragment extends Fragment implements ProvinciaDAO.se
                 @Override
                 public void onClick(View v) {
                     CrearProvinciaFragment.opc="editar";
-                    Provincia us = listaProvincias.get(recyclerViewProvincias.getChildAdapterPosition(v));
+                    Provincia us;
+                    if (listaProvinciasaux==null){
+                        us = listaProvincias.get(recyclerViewProvincias.getChildAdapterPosition(v));
+                    }else{
+                        us = listaProvinciasaux.get(recyclerViewProvincias.getChildAdapterPosition(v));
+                    }
                     CrearProvinciaFragment.provincia =us;
                     Navigation.findNavController(v).navigate(R.id.crearProvinciaFragment);
                     fragmentTransaction.addToBackStack(null);
@@ -180,7 +186,12 @@ public class ListaProvinciasFragment extends Fragment implements ProvinciaDAO.se
             adaptadorProvincia.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    Provincia us = listaProvincias.get(recyclerViewProvincias.getChildAdapterPosition(v));
+                    Provincia us;
+                    if (listaProvinciasaux==null){
+                        us = listaProvincias.get(recyclerViewProvincias.getChildAdapterPosition(v));
+                    }else{
+                        us = listaProvinciasaux.get(recyclerViewProvincias.getChildAdapterPosition(v));
+                    }
                     eliminarRegistroDialog(us);
                     return true;
                 }
@@ -298,15 +309,16 @@ public class ListaProvinciasFragment extends Fragment implements ProvinciaDAO.se
     }
 
     private void filtrar(String filtrar){
+        listaProvinciasaux=null;
         if (listaProvincias!=null){
             Procesos.cargandoIniciar(context);
-            List<Provincia> aux2=new ArrayList<>();
+            listaProvinciasaux=new ArrayList<>();
             for (Provincia aux:listaProvincias) {
                 if(aux.getNombre().toLowerCase().contains(filtrar.toLowerCase())){
-                    aux2.add(aux);
+                    listaProvinciasaux.add(aux);
                 }
             }
-            adaptadorProvincia.setAdapterItemBuscarProvincia(aux2);
+            adaptadorProvincia.setAdapterItemBuscarProvincia(listaProvinciasaux);
             adaptadorProvincia.notifyDataSetChanged();
             Procesos.cargandoDetener();
         }

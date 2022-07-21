@@ -87,7 +87,7 @@ public class ListaModeloOntFragment extends Fragment implements ModeloOntDAO.int
     static ModeloOntDAO ModeloOntDAO;
     public static AdapterModeloOnt adaptador;
     public static RecyclerView recyclerView;
-    public static List<ModeloOnt> lista;
+    public static List<ModeloOnt> lista,listaaux;
     TextInputLayout txtBuscar;
     FragmentManager fragmentManager;
     static FragmentTransaction fragmentTransaction;
@@ -161,6 +161,7 @@ public class ListaModeloOntFragment extends Fragment implements ModeloOntDAO.int
             recyclerView.setAdapter(adaptador);
             adaptador.notifyDataSetChanged();
         }else{
+            listaaux=null;
             adaptador = new AdapterModeloOnt(lista);
             recyclerView.setAdapter(adaptador);
             adaptador.notifyDataSetChanged();
@@ -168,8 +169,12 @@ public class ListaModeloOntFragment extends Fragment implements ModeloOntDAO.int
                 @Override
                 public void onClick(View v) {
                     CrearModeloOntFragment.opc="editar";
-                    ModeloOnt us = lista.get(recyclerView.getChildAdapterPosition(v));
-
+                    ModeloOnt us;
+                    if (listaaux==null){
+                        us = lista.get(recyclerView.getChildAdapterPosition(v));
+                    }else{
+                        us = listaaux.get(recyclerView.getChildAdapterPosition(v));
+                    }
                     CrearModeloOntFragment.modeloOnt =us;
                     Navigation.findNavController(v).navigate(R.id.crearModeloOntFragment);
                     fragmentTransaction.addToBackStack(null);
@@ -180,7 +185,12 @@ public class ListaModeloOntFragment extends Fragment implements ModeloOntDAO.int
             adaptador.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    ModeloOnt us = lista.get(recyclerView.getChildAdapterPosition(v));
+                    ModeloOnt us;
+                    if (listaaux==null){
+                        us = lista.get(recyclerView.getChildAdapterPosition(v));
+                    }else{
+                        us = listaaux.get(recyclerView.getChildAdapterPosition(v));
+                    }
                     eliminarRegistroDialog(us);
                     return true;
                 }
@@ -298,15 +308,16 @@ public class ListaModeloOntFragment extends Fragment implements ModeloOntDAO.int
     }
 
     private void filtrar(String filtrar){
+        listaaux=null;
         if (lista!=null){
             Procesos.cargandoIniciar(context);
-            List<ModeloOnt> aux2=new ArrayList<>();
+            listaaux=new ArrayList<>();
             for (ModeloOnt aux:lista) {
                 if(String.valueOf(aux.getNombre_modeloOnt()).toLowerCase().contains(filtrar.toLowerCase())){
-                    aux2.add(aux);
+                    listaaux.add(aux);
                 }
             }
-            adaptador.setAdapterItemBuscarModeloOnt(aux2);
+            adaptador.setAdapterItemBuscarModeloOnt(listaaux);
             adaptador.notifyDataSetChanged();
             Procesos.cargandoDetener();
         }

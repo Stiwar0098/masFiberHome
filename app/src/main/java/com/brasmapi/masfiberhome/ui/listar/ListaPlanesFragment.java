@@ -87,7 +87,7 @@ public class ListaPlanesFragment extends Fragment implements PlanesDAO.interfazP
     static PlanesDAO planesDAO;
     public static AdapterPlanes adaptador;
     public static RecyclerView recyclerView;
-    public static List<Planes> lista;
+    public static List<Planes> lista,listaaux;
     TextInputLayout txtBuscar;
     FragmentManager fragmentManager;
     static FragmentTransaction fragmentTransaction;
@@ -161,6 +161,7 @@ public class ListaPlanesFragment extends Fragment implements PlanesDAO.interfazP
             recyclerView.setAdapter(adaptador);
             adaptador.notifyDataSetChanged();
         }else{
+            listaaux=null;
             adaptador = new AdapterPlanes(lista);
             recyclerView.setAdapter(adaptador);
             adaptador.notifyDataSetChanged();
@@ -168,8 +169,12 @@ public class ListaPlanesFragment extends Fragment implements PlanesDAO.interfazP
                 @Override
                 public void onClick(View v) {
                     CrearPlanesFragment.opc="editar";
-                    Planes us = lista.get(recyclerView.getChildAdapterPosition(v));
-
+                    Planes us;
+                    if (listaaux==null){
+                        us = lista.get(recyclerView.getChildAdapterPosition(v));
+                    }else{
+                        us = listaaux.get(recyclerView.getChildAdapterPosition(v));
+                    }
                     CrearPlanesFragment.planes =us;
                     Navigation.findNavController(v).navigate(R.id.crearPlanesFragment);
                     fragmentTransaction.addToBackStack(null);
@@ -180,7 +185,12 @@ public class ListaPlanesFragment extends Fragment implements PlanesDAO.interfazP
             adaptador.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    Planes us = lista.get(recyclerView.getChildAdapterPosition(v));
+                    Planes us;
+                    if (listaaux==null){
+                        us = lista.get(recyclerView.getChildAdapterPosition(v));
+                    }else{
+                        us = listaaux.get(recyclerView.getChildAdapterPosition(v));
+                    }
                     eliminarRegistroDialog(us);
                     return true;
                 }
@@ -298,15 +308,16 @@ public class ListaPlanesFragment extends Fragment implements PlanesDAO.interfazP
     }
 
     private void filtrar(String filtrar){
+        listaaux=null;
         if (lista!=null){
             Procesos.cargandoIniciar(context);
-            List<Planes> aux2=new ArrayList<>();
+            listaaux=new ArrayList<>();
             for (Planes aux:lista) {
                 if(String.valueOf(aux.getNombre()).toLowerCase().contains(filtrar.toLowerCase())){
-                    aux2.add(aux);
+                    listaaux.add(aux);
                 }
             }
-            adaptador.setAdapterItemBuscarPlanes(aux2);
+            adaptador.setAdapterItemBuscarPlanes(listaaux);
             adaptador.notifyDataSetChanged();
             Procesos.cargandoDetener();
         }

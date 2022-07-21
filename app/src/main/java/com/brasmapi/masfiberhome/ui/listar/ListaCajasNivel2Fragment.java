@@ -89,7 +89,7 @@ public class ListaCajasNivel2Fragment extends Fragment implements CajaNivel2DAO.
     static CajaNivel2DAO cajaNivel2DAO;
     public static AdapterCajaNivel2 adaptador;
     public static RecyclerView recyclerView;
-    public static List<CajaNivel2> lista;
+    public static List<CajaNivel2> lista,listaaux;
     TextInputLayout txtBuscar;
     FragmentManager fragmentManager;
     static FragmentTransaction fragmentTransaction;
@@ -164,6 +164,7 @@ public class ListaCajasNivel2Fragment extends Fragment implements CajaNivel2DAO.
             recyclerView.setAdapter(adaptador);
             adaptador.notifyDataSetChanged();
         }else{
+            listaaux=null;
             adaptador = new AdapterCajaNivel2(lista);
             recyclerView.setAdapter(adaptador);
             adaptador.notifyDataSetChanged();
@@ -171,8 +172,12 @@ public class ListaCajasNivel2Fragment extends Fragment implements CajaNivel2DAO.
                 @Override
                 public void onClick(View v) {
                     CrearCajaNivel2Fragment.opc="editar";
-                    CajaNivel2 us = lista.get(recyclerView.getChildAdapterPosition(v));
-
+                    CajaNivel2 us;
+                    if (listaaux==null){
+                        us = lista.get(recyclerView.getChildAdapterPosition(v));
+                    }else{
+                        us = listaaux.get(recyclerView.getChildAdapterPosition(v));
+                    }
                     CrearCajaNivel2Fragment.cajaNivel2 =us;
                     Navigation.findNavController(v).navigate(R.id.crearCajaNivel2Fragment);
                     fragmentTransaction.addToBackStack(null);
@@ -183,7 +188,12 @@ public class ListaCajasNivel2Fragment extends Fragment implements CajaNivel2DAO.
             adaptador.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    CajaNivel2 us = lista.get(recyclerView.getChildAdapterPosition(v));
+                    CajaNivel2 us;
+                    if (listaaux==null){
+                        us = lista.get(recyclerView.getChildAdapterPosition(v));
+                    }else{
+                        us = listaaux.get(recyclerView.getChildAdapterPosition(v));
+                    }
                     eliminarRegistroDialog(us);
                     return true;
                 }
@@ -301,15 +311,16 @@ public class ListaCajasNivel2Fragment extends Fragment implements CajaNivel2DAO.
     }
 
     private void filtrar(String filtrar){
+        listaaux=null;
         if (lista!=null){
             Procesos.cargandoIniciar(context);
-            List<CajaNivel2> aux2=new ArrayList<>();
+            listaaux=new ArrayList<>();
             for (CajaNivel2 aux:lista) {
                 if(aux.getNombre_CajaNivel2().toLowerCase().contains(filtrar.toLowerCase())){
-                    aux2.add(aux);
+                    listaaux.add(aux);
                 }
             }
-            adaptador.setAdapterItemBuscarCajaNivel2(aux2);
+            adaptador.setAdapterItemBuscarCajaNivel2(listaaux);
             adaptador.notifyDataSetChanged();
             Procesos.cargandoDetener();
         }

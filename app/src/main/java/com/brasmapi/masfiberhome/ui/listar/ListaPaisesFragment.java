@@ -88,7 +88,7 @@ public class ListaPaisesFragment extends Fragment implements PaisesDAO.interfazP
     static PaisesDAO paisesDAO;
     public static AdapterPais adaptadorPaises;
     public static RecyclerView recyclerViewPaises;
-    public static List<Pais> listaPaises;
+    public static List<Pais> listaPaises,listaPaisesaux;
     TextInputLayout txtBuscar;
     FragmentManager fragmentManager;
     static FragmentTransaction fragmentTransaction;
@@ -162,6 +162,7 @@ public class ListaPaisesFragment extends Fragment implements PaisesDAO.interfazP
             recyclerViewPaises.setAdapter(adaptadorPaises);
             adaptadorPaises.notifyDataSetChanged();
         }else{
+            listaPaisesaux=null;
             adaptadorPaises = new AdapterPais(listaPaises);
             recyclerViewPaises.setAdapter(adaptadorPaises);
             adaptadorPaises.notifyDataSetChanged();
@@ -169,7 +170,12 @@ public class ListaPaisesFragment extends Fragment implements PaisesDAO.interfazP
                 @Override
                 public void onClick(View v) {
                     CrearPaisFragment.opc="editar";
-                    Pais us = listaPaises.get(recyclerViewPaises.getChildAdapterPosition(v));
+                    Pais us;
+                    if (listaPaisesaux==null){
+                        us = listaPaises.get(recyclerViewPaises.getChildAdapterPosition(v));
+                    }else{
+                        us = listaPaisesaux.get(recyclerViewPaises.getChildAdapterPosition(v));
+                    }
                     CrearPaisFragment.pais=us;
                     Navigation.findNavController(v).navigate(R.id.crearPaisFragment);
                     fragmentTransaction.addToBackStack(null);
@@ -180,7 +186,12 @@ public class ListaPaisesFragment extends Fragment implements PaisesDAO.interfazP
             adaptadorPaises.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    Pais us = listaPaises.get(recyclerViewPaises.getChildAdapterPosition(v));
+                    Pais us;
+                    if (listaPaisesaux==null){
+                        us = listaPaises.get(recyclerViewPaises.getChildAdapterPosition(v));
+                    }else{
+                        us = listaPaisesaux.get(recyclerViewPaises.getChildAdapterPosition(v));
+                    }
                     eliminarRegistroDialog(us);
                     return true;
                 }
@@ -299,15 +310,16 @@ public class ListaPaisesFragment extends Fragment implements PaisesDAO.interfazP
     }
 
     private void filtrar(String filtrar){
+        listaPaisesaux=null;
         if (listaPaises!=null){
             Procesos.cargandoIniciar(context);
-            List<Pais> aux2=new ArrayList<>();
+            listaPaisesaux=new ArrayList<>();
             for (Pais aux:listaPaises) {
                 if(aux.getNombre().toLowerCase().contains(filtrar.toLowerCase())){
-                    aux2.add(aux);
+                    listaPaisesaux.add(aux);
                 }
             }
-            adaptadorPaises.setAdapterItemBuscarPais(aux2);
+            adaptadorPaises.setAdapterItemBuscarPais(listaPaisesaux);
             adaptadorPaises.notifyDataSetChanged();
             Procesos.cargandoDetener();
         }

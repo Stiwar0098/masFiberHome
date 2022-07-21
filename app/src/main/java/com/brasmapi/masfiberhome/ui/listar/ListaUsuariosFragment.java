@@ -87,7 +87,7 @@ public class ListaUsuariosFragment extends Fragment implements UsuariosDAO.usuar
     static UsuariosDAO usuarioDAO;
     public static AdapterUsuario adaptadorUsuario;
     public static RecyclerView recyclerViewUsuarios;
-    public static List<Usuario> listaUsuarios;
+    public static List<Usuario> listaUsuarios,listaUsuariosaux;
     TextInputLayout txtBuscar;
     FragmentManager fragmentManager;
     static FragmentTransaction fragmentTransaction;
@@ -162,6 +162,7 @@ public class ListaUsuariosFragment extends Fragment implements UsuariosDAO.usuar
             recyclerViewUsuarios.setAdapter(adaptadorUsuario);
             adaptadorUsuario.notifyDataSetChanged();
         }else{
+            listaUsuariosaux=null;
             adaptadorUsuario = new AdapterUsuario(listaUsuarios);
             recyclerViewUsuarios.setAdapter(adaptadorUsuario);
             adaptadorUsuario.notifyDataSetChanged();
@@ -169,7 +170,12 @@ public class ListaUsuariosFragment extends Fragment implements UsuariosDAO.usuar
                 @Override
                 public void onClick(View v) {
                     CrearUsuariosFragment.opc="editar";
-                    Usuario us = listaUsuarios.get(recyclerViewUsuarios.getChildAdapterPosition(v));
+                    Usuario us;
+                    if (listaUsuariosaux==null){
+                        us = listaUsuarios.get(recyclerViewUsuarios.getChildAdapterPosition(v));
+                    }else{
+                        us = listaUsuariosaux.get(recyclerViewUsuarios.getChildAdapterPosition(v));
+                    }
                     CrearUsuariosFragment.usuario =us;
                     Navigation.findNavController(v).navigate(R.id.crearUsuariosFragment);
                     fragmentTransaction.addToBackStack(null);
@@ -180,7 +186,12 @@ public class ListaUsuariosFragment extends Fragment implements UsuariosDAO.usuar
             adaptadorUsuario.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    Usuario us = listaUsuarios.get(recyclerViewUsuarios.getChildAdapterPosition(v));
+                    Usuario us;
+                    if (listaUsuariosaux==null){
+                        us = listaUsuarios.get(recyclerViewUsuarios.getChildAdapterPosition(v));
+                    }else{
+                        us = listaUsuariosaux.get(recyclerViewUsuarios.getChildAdapterPosition(v));
+                    }
                     eliminarRegistroDialog(us);
                     return true;
                 }
@@ -298,15 +309,16 @@ public class ListaUsuariosFragment extends Fragment implements UsuariosDAO.usuar
     }
 
     private void filtrar(String filtrar){
+        listaUsuariosaux=null;
         if (listaUsuarios!=null){
             Procesos.cargandoIniciar(context);
-            List<Usuario> aux2=new ArrayList<>();
+            listaUsuariosaux=new ArrayList<>();
             for (Usuario aux:listaUsuarios) {
                 if(aux.getNombre().toLowerCase().contains(filtrar.toLowerCase())||aux.getUsuario().toLowerCase().contains(filtrar.toLowerCase())){
-                    aux2.add(aux);
+                    listaUsuariosaux.add(aux);
                 }
             }
-            adaptadorUsuario.setAdapterItemBuscarUsuario(aux2);
+            adaptadorUsuario.setAdapterItemBuscarUsuario(listaUsuariosaux);
             adaptadorUsuario.notifyDataSetChanged();
             Procesos.cargandoDetener();
         }

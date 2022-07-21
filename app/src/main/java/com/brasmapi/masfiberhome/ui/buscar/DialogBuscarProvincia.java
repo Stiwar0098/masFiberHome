@@ -27,7 +27,7 @@ import java.util.List;
 public class DialogBuscarProvincia implements ProvinciaDAO.setProvincia
 {
     static Context context;
-    static List<Provincia> listaProvincia;
+    static List<Provincia> listaProvincia,listaProvinciaaux;
     static Dialog dialogo;
     static AdapterProvincia adaptadorItemBuscarProvincia;
     static RecyclerView recyclerViewBuscarProvincia;
@@ -84,6 +84,7 @@ public class DialogBuscarProvincia implements ProvinciaDAO.setProvincia
             Toast.makeText(context, "No hay Provincia", Toast.LENGTH_SHORT).show();
             lblSinProvincia.setVisibility(View.VISIBLE);
         }else {
+            listaProvinciaaux=null;
             lblSinProvincia.setVisibility(View.GONE);
             adaptadorItemBuscarProvincia = new AdapterProvincia(listaProvincia);
             recyclerViewBuscarProvincia.setAdapter(adaptadorItemBuscarProvincia);
@@ -91,7 +92,13 @@ public class DialogBuscarProvincia implements ProvinciaDAO.setProvincia
             adaptadorItemBuscarProvincia.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Provincia us = listaProvincia.get(recyclerViewBuscarProvincia.getChildAdapterPosition(v));
+                    Provincia us;
+                    if (listaProvinciaaux==null){
+                        us = listaProvincia.get(recyclerViewBuscarProvincia.getChildAdapterPosition(v));
+                    }else{
+                        us = listaProvinciaaux.get(recyclerViewBuscarProvincia.getChildAdapterPosition(v));
+                    }
+
                     interfaz.ProvinciaSelecionado(us);
                     dialogo.dismiss();
                 }
@@ -100,14 +107,15 @@ public class DialogBuscarProvincia implements ProvinciaDAO.setProvincia
         Procesos.cargandoDetener();
     }
     private void filtrar(String buscar){
+        listaProvinciaaux=null;
         if (listaProvincia!=null){
-            List<Provincia> aux2=new ArrayList<>();
+            listaProvinciaaux=new ArrayList<>();
             for (Provincia aux:listaProvincia) {
                 if(aux.getNombre().toLowerCase().contains(buscar.toLowerCase())){
-                    aux2.add(aux);
+                    listaProvinciaaux.add(aux);
                 }
             }
-            adaptadorItemBuscarProvincia.setAdapterItemBuscarProvincia(aux2);
+            adaptadorItemBuscarProvincia.setAdapterItemBuscarProvincia(listaProvinciaaux);
             adaptadorItemBuscarProvincia.notifyDataSetChanged();
         }
 

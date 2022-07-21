@@ -54,7 +54,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="20dp"
-                android:focusableInTouchMode="false"
+                android:focusableInTouchMode="true"
                 android:textColorHint="@color/textColorHint"
                 app:boxStrokeColor="@color/boxStrokeColor"
                 app:endIconCheckable="true"
@@ -67,7 +67,8 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:focusableInTouchMode="false"
+                    android:enabled="false"
+                    android:focusableInTouchMode="true"
                     android:hint="Busca caja nivel 1" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -128,6 +129,7 @@
                             <com.google.android.material.textfield.TextInputEditText
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:enabled="true"
                                 android:hint="Hilo en la caja 1"
                                 android:inputType="number" />
                         </com.google.android.material.textfield.TextInputLayout>
@@ -237,7 +239,8 @@
                             <com.google.android.material.textfield.TextInputEditText
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:focusableInTouchMode="false"
+                                android:enabled="true"
+                                android:focusableInTouchMode="true"
                                 android:hint="Ingrese la latitud"
                                 android:inputType="number" />
                         </com.google.android.material.textfield.TextInputLayout>
@@ -259,7 +262,8 @@
                             <com.google.android.material.textfield.TextInputEditText
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:focusableInTouchMode="false"
+                                android:enabled="true"
+                                android:focusableInTouchMode="true"
                                 android:hint="Ingrese la longitud"
                                 android:inputType="number" />
                         </com.google.android.material.textfield.TextInputLayout>

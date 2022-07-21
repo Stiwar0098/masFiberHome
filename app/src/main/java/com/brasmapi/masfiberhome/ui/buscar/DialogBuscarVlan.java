@@ -28,7 +28,7 @@ import java.util.List;
 public class DialogBuscarVlan implements VlanDAO.interfazVlanDAO
 {
     static Context context;
-    static List<Vlan> listaVlan;
+    static List<Vlan> listaVlan,listaVlanaux;
     static Dialog dialogo;
     static AdapterVlan adaptadorItemBuscarVlan;
     static RecyclerView recyclerViewBuscarVlan;
@@ -96,13 +96,19 @@ public class DialogBuscarVlan implements VlanDAO.interfazVlanDAO
             recyclerViewBuscarVlan.setAdapter(adaptadorItemBuscarVlan);
             adaptadorItemBuscarVlan.notifyDataSetChanged();
         }else{
+            listaVlanaux=null;
             adaptadorItemBuscarVlan = new AdapterVlan(listaVlan);
             recyclerViewBuscarVlan.setAdapter(adaptadorItemBuscarVlan);
             adaptadorItemBuscarVlan.notifyDataSetChanged();
             adaptadorItemBuscarVlan.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Vlan us = listaVlan.get(recyclerViewBuscarVlan.getChildAdapterPosition(v));
+                    Vlan us;
+                    if (listaVlanaux==null){
+                        us = listaVlan.get(recyclerViewBuscarVlan.getChildAdapterPosition(v));
+                    }else{
+                        us = listaVlanaux.get(recyclerViewBuscarVlan.getChildAdapterPosition(v));
+                    }
                     interfaz.VlanSelecionado(us);
                     dialogo.dismiss();
                 }
@@ -111,14 +117,15 @@ public class DialogBuscarVlan implements VlanDAO.interfazVlanDAO
         Procesos.cargandoDetener();
     }
     private void filtrar(String buscar){
+        listaVlanaux=null;
         if (listaVlan!=null){
-            List<Vlan> aux2=new ArrayList<>();
+            listaVlanaux=new ArrayList<>();
             for (Vlan aux:listaVlan) {
                 if(aux.getNombreVlan().toLowerCase().contains(buscar.toLowerCase())){
-                    aux2.add(aux);
+                    listaVlanaux.add(aux);
                 }
             }
-            adaptadorItemBuscarVlan.setAdapterItemBuscarVlan(aux2);
+            adaptadorItemBuscarVlan.setAdapterItemBuscarVlan(listaVlanaux);
             adaptadorItemBuscarVlan.notifyDataSetChanged();
         }
 

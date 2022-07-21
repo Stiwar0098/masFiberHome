@@ -27,7 +27,7 @@ import java.util.List;
 public class DialogBuscarPais implements PaisesDAO.interfazPaisDao
 {
     static Context context;
-    static List<Pais> listaPaises;
+    static List<Pais> listaPaises,listaPaisesaux;
     static Dialog dialogo;
     static AdapterPais adaptadorItemBuscarPais;
     static RecyclerView recyclerViewBuscarPais;
@@ -84,6 +84,7 @@ public class DialogBuscarPais implements PaisesDAO.interfazPaisDao
             Toast.makeText(context, "No hay paises", Toast.LENGTH_SHORT).show();
             lblSinPaises.setVisibility(View.VISIBLE);
         }else {
+            listaPaisesaux=null;
             lblSinPaises.setVisibility(View.GONE);
             adaptadorItemBuscarPais = new AdapterPais(listaPaises);
             recyclerViewBuscarPais.setAdapter(adaptadorItemBuscarPais);
@@ -91,7 +92,12 @@ public class DialogBuscarPais implements PaisesDAO.interfazPaisDao
             adaptadorItemBuscarPais.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Pais us = listaPaises.get(recyclerViewBuscarPais.getChildAdapterPosition(v));
+                    Pais us;
+                    if (listaPaisesaux==null){
+                        us = listaPaises.get(recyclerViewBuscarPais.getChildAdapterPosition(v));
+                    }else{
+                        us = listaPaisesaux.get(recyclerViewBuscarPais.getChildAdapterPosition(v));
+                    }
                     interfaz.PaisSelecionado(us);
                     dialogo.dismiss();
                 }
@@ -100,14 +106,15 @@ public class DialogBuscarPais implements PaisesDAO.interfazPaisDao
         Procesos.cargandoDetener();
     }
     private void filtrar(String buscar){
+        listaPaisesaux=null;
         if (listaPaises!=null){
-            List<Pais> aux2=new ArrayList<>();
+            listaPaisesaux=new ArrayList<>();
             for (Pais aux:listaPaises) {
                 if(aux.getNombre().toLowerCase().contains(buscar.toLowerCase())){
-                    aux2.add(aux);
+                    listaPaisesaux.add(aux);
                 }
             }
-            adaptadorItemBuscarPais.setAdapterItemBuscarPais(aux2);
+            adaptadorItemBuscarPais.setAdapterItemBuscarPais(listaPaisesaux);
             adaptadorItemBuscarPais.notifyDataSetChanged();
         }
 

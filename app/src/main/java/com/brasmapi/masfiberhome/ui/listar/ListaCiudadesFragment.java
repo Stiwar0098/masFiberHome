@@ -88,7 +88,7 @@ public class ListaCiudadesFragment extends Fragment implements CiudadDAO.ciudadD
     static CiudadDAO ciudadDAO;
     public static AdapterCiudad adaptador;
     public static RecyclerView recyclerView;
-    public static List<Ciudad> lista;
+    public static List<Ciudad> lista,listaaux;
     TextInputLayout txtBuscar;
     FragmentManager fragmentManager;
     static FragmentTransaction fragmentTransaction;
@@ -162,6 +162,7 @@ public class ListaCiudadesFragment extends Fragment implements CiudadDAO.ciudadD
             recyclerView.setAdapter(adaptador);
             adaptador.notifyDataSetChanged();
         }else{
+            listaaux=null;
             adaptador = new AdapterCiudad(lista);
             recyclerView.setAdapter(adaptador);
             adaptador.notifyDataSetChanged();
@@ -169,7 +170,12 @@ public class ListaCiudadesFragment extends Fragment implements CiudadDAO.ciudadD
                 @Override
                 public void onClick(View v) {
                     CrearCiudadFragment.opc="editar";
-                    Ciudad us = lista.get(recyclerView.getChildAdapterPosition(v));
+                    Ciudad us;
+                    if (listaaux==null){
+                        us = lista.get(recyclerView.getChildAdapterPosition(v));
+                    }else{
+                        us = listaaux.get(recyclerView.getChildAdapterPosition(v));
+                    }
                     CrearCiudadFragment.ciudad =us;
                     Navigation.findNavController(v).navigate(R.id.crearCiudadFragment);
                     fragmentTransaction.addToBackStack(null);
@@ -180,7 +186,12 @@ public class ListaCiudadesFragment extends Fragment implements CiudadDAO.ciudadD
             adaptador.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    Ciudad us = lista.get(recyclerView.getChildAdapterPosition(v));
+                    Ciudad us;
+                    if (listaaux==null){
+                        us = lista.get(recyclerView.getChildAdapterPosition(v));
+                    }else{
+                        us = listaaux.get(recyclerView.getChildAdapterPosition(v));
+                    }
                     eliminarRegistroDialog(us);
                     return true;
                 }
@@ -298,15 +309,16 @@ public class ListaCiudadesFragment extends Fragment implements CiudadDAO.ciudadD
     }
 
     private void filtrar(String filtrar){
+        listaaux=null;
         if (lista!=null){
             Procesos.cargandoIniciar(context);
-            List<Ciudad> aux2=new ArrayList<>();
+            listaaux=new ArrayList<>();
             for (Ciudad aux:lista) {
                 if(aux.getNombre().toLowerCase().contains(filtrar.toLowerCase())){
-                    aux2.add(aux);
+                    listaaux.add(aux);
                 }
             }
-            adaptador.setAdapterItemBuscarCiudad(aux2);
+            adaptador.setAdapterItemBuscarCiudad(listaaux);
             adaptador.notifyDataSetChanged();
             Procesos.cargandoDetener();
         }

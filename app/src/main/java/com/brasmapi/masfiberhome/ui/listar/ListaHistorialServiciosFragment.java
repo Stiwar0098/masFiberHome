@@ -83,7 +83,7 @@ public class ListaHistorialServiciosFragment extends Fragment implements Histori
     static HistorialServiciosDAO historialServiciosDAO;
     public static AdapterHistorialServicios adaptador;
     public static RecyclerView recyclerView;
-    public static List<HistorialServicios> lista;
+    public static List<HistorialServicios> lista,listaaux;
     TextInputLayout txtBuscar;
     FragmentManager fragmentManager;
     static FragmentTransaction fragmentTransaction;
@@ -172,6 +172,7 @@ public class ListaHistorialServiciosFragment extends Fragment implements Histori
             recyclerView.setAdapter(adaptador);
             adaptador.notifyDataSetChanged();
         }else{
+            listaaux=null;
             adaptador = new AdapterHistorialServicios(lista);
             recyclerView.setAdapter(adaptador);
             adaptador.notifyDataSetChanged();
@@ -180,19 +181,20 @@ public class ListaHistorialServiciosFragment extends Fragment implements Histori
     }
 
     private void filtrar(String filtrar){
+        listaaux=null;
         if (lista!=null){
             Procesos.cargandoIniciar(context);
-            List<HistorialServicios> aux2=new ArrayList<>();
+            listaaux=new ArrayList<>();
             if (!filtrar.equals("")){
                 for (HistorialServicios aux:lista) {
                     if((aux.getId_servicio()+"").equals(filtrar)){
-                        aux2.add(aux);
+                        listaaux.add(aux);
                     }
                 }
             }else{
-                aux2=lista;
+                listaaux=lista;
             }
-            adaptador.setAdapterItemBuscarServicios(aux2);
+            adaptador.setAdapterItemBuscarServicios(listaaux);
             adaptador.notifyDataSetChanged();
             Procesos.cargandoDetener();
         }

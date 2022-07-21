@@ -31,37 +31,28 @@
                 android:textSize="34sp"
                 android:textStyle="bold" />
 
-            <LinearLayout
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/txtProvincia_CrearCiudad"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginRight="20dp"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:layout_weight="1"
+                android:textColorHint="@color/textColorHint"
+                app:boxStrokeColor="@color/boxStrokeColor"
+                app:endIconDrawable="@drawable/ic_baseline_search_24"
+                app:endIconMode="custom"
+                app:endIconTint="@color/iconos"
+                app:hintTextColor="@color/hintTextColor"
+                app:startIconTint="@color/iconos">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/txtProvincia_CrearCiudad"
+                <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_weight="1"
-                    android:textColorHint="@color/textColorHint"
-                    app:boxStrokeColor="@color/boxStrokeColor"
-                    app:endIconDrawable="@drawable/ic_baseline_search_24"
-                    app:endIconMode="custom"
-                    app:endIconTint="@color/iconos"
-                    app:hintTextColor="@color/hintTextColor"
-                    app:startIconTint="@color/iconos">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:enabled="false"
-                        android:hint="Busca la provincia" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-            </LinearLayout>
+                    android:enabled="false"
+                    android:hint="Busca la provincia" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/txtNombreCiudad_CrearCiudad"

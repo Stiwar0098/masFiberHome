@@ -28,7 +28,7 @@ import java.util.List;
 public class DialogBuscarModeloOnt implements ModeloOntDAO.interfazModeloOntDAO
 {
     static Context context;
-    static List<ModeloOnt> listaModeloOnt;
+    static List<ModeloOnt> listaModeloOnt,listaModeloOntaux;
     static Dialog dialogo;
     static AdapterModeloOnt adaptadorItemBuscarModeloOnt;
     static RecyclerView recyclerViewBuscarModeloOnt;
@@ -95,13 +95,19 @@ public class DialogBuscarModeloOnt implements ModeloOntDAO.interfazModeloOntDAO
             recyclerViewBuscarModeloOnt.setAdapter(adaptadorItemBuscarModeloOnt);
             adaptadorItemBuscarModeloOnt.notifyDataSetChanged();
         }else{
+            listaModeloOntaux=null;
             adaptadorItemBuscarModeloOnt = new AdapterModeloOnt(listaModeloOnt);
             recyclerViewBuscarModeloOnt.setAdapter(adaptadorItemBuscarModeloOnt);
             adaptadorItemBuscarModeloOnt.notifyDataSetChanged();
             adaptadorItemBuscarModeloOnt.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ModeloOnt us = listaModeloOnt.get(recyclerViewBuscarModeloOnt.getChildAdapterPosition(v));
+                    ModeloOnt us;
+                    if (listaModeloOntaux==null){
+                        us = listaModeloOnt.get(recyclerViewBuscarModeloOnt.getChildAdapterPosition(v));
+                    }else{
+                        us = listaModeloOntaux.get(recyclerViewBuscarModeloOnt.getChildAdapterPosition(v));
+                    }
                     interfaz.ModeloOntSelecionado(us);
                     dialogo.dismiss();
                 }
@@ -110,14 +116,15 @@ public class DialogBuscarModeloOnt implements ModeloOntDAO.interfazModeloOntDAO
         Procesos.cargandoDetener();
     }
     private void filtrar(String buscar){
+        listaModeloOntaux=null;
         if (listaModeloOnt !=null){
-            List<ModeloOnt> aux2=new ArrayList<>();
+            listaModeloOntaux=new ArrayList<>();
             for (ModeloOnt aux: listaModeloOnt) {
                 if(aux.getNombre_modeloOnt().toLowerCase().contains(buscar.toLowerCase())){
-                    aux2.add(aux);
+                    listaModeloOntaux.add(aux);
                 }
             }
-            adaptadorItemBuscarModeloOnt.setAdapterItemBuscarModeloOnt(aux2);
+            adaptadorItemBuscarModeloOnt.setAdapterItemBuscarModeloOnt(listaModeloOntaux);
             adaptadorItemBuscarModeloOnt.notifyDataSetChanged();
         }
 

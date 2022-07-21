@@ -186,25 +186,25 @@ public class CrearCajaNivel2Fragment extends Fragment implements DialogBuscarCaj
     }
     public void hiloCaja1AutomaticoApagado(){
         switchHiloAutoManu.setText("Manual");
-        txtHiloCaja1.getEditText().setFocusableInTouchMode(true);
+        txtHiloCaja1.getEditText().setEnabled(true);
     }
     public void hiloCaja1AutomaticoEncendido(){
         switchHiloAutoManu.setText("Automático");
-        txtHiloCaja1.getEditText().setFocusableInTouchMode(false);
+        txtHiloCaja1.getEditText().setEnabled(false);
         if(cajaNivel1Seleccionada!=null){
             rangoHilosCaja1DAO.obtenerHiloAutomatico(cajaNivel1Seleccionada.getId_cajaNivel1(),context);
         }
     }
     public void latLonAutomaticoApagado(){
         switchAutoManu.setText("Manual");
-        txtLatitud.getEditText().setFocusableInTouchMode(true);
-        txtLongitud.getEditText().setFocusableInTouchMode(true);
+        txtLatitud.getEditText().setEnabled(true);
+        txtLongitud.getEditText().setEnabled(true);
         Procesos.detenerObtenerLatitudLongitud();
     }
     public void latLonAutomaticoEncendido(){
         switchAutoManu.setText("Automático");
-        txtLatitud.getEditText().setFocusableInTouchMode(false);
-        txtLongitud.getEditText().setFocusableInTouchMode(false);
+        txtLatitud.getEditText().setEnabled(false);
+        txtLongitud.getEditText().setEnabled(false);
         Procesos.obtenerLatitudLongitud(context, CrearCajaNivel2Fragment.this,getActivity().getContentResolver());
     }
     @Override

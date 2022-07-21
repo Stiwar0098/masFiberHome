@@ -87,7 +87,7 @@ public class ListarServiciosFragment extends Fragment implements ServiciosDAO.in
     static ServiciosDAO serviciosDAO;
     public static AdapterServicios adaptador;
     public static RecyclerView recyclerView;
-    public static List<Servicios> lista;
+    public static List<Servicios> lista,listaaux;
     TextInputLayout txtBuscar;
     FragmentManager fragmentManager;
     static FragmentTransaction fragmentTransaction;
@@ -163,6 +163,7 @@ public class ListarServiciosFragment extends Fragment implements ServiciosDAO.in
             recyclerView.setAdapter(adaptador);
             adaptador.notifyDataSetChanged();
         }else{
+            listaaux=null;
             adaptador = new AdapterServicios(lista);
             recyclerView.setAdapter(adaptador);
             adaptador.notifyDataSetChanged();
@@ -170,7 +171,12 @@ public class ListarServiciosFragment extends Fragment implements ServiciosDAO.in
                 @Override
                 public void onClick(View v) {
                     CrearServicioFragment.opc="editar";
-                    Servicios us = lista.get(recyclerView.getChildAdapterPosition(v));
+                    Servicios us;
+                    if (listaaux==null){
+                        us = lista.get(recyclerView.getChildAdapterPosition(v));
+                    }else{
+                        us = listaaux.get(recyclerView.getChildAdapterPosition(v));
+                    }
                     CrearServicioFragment.servicios =us;
                     Navigation.findNavController(v).navigate(R.id.crearServicioFragment);
                     fragmentTransaction.addToBackStack(null);
@@ -182,7 +188,12 @@ public class ListarServiciosFragment extends Fragment implements ServiciosDAO.in
                 @Override
                 public boolean onLongClick(View v) {
                     if (Procesos.user.getRol()==1){// si es administrador
-                        Servicios us = lista.get(recyclerView.getChildAdapterPosition(v));
+                        Servicios us;
+                        if (listaaux==null){
+                            us = lista.get(recyclerView.getChildAdapterPosition(v));
+                        }else{
+                            us = listaaux.get(recyclerView.getChildAdapterPosition(v));
+                        }
                         eliminarRegistroDialog(us);
                     }else{//es tecnico
                         AlertDialog.Builder builder= new AlertDialog.Builder(context);
@@ -316,15 +327,16 @@ public class ListarServiciosFragment extends Fragment implements ServiciosDAO.in
     }
 
     private void filtrar(String filtrar){
+        listaaux=null;
         if (lista!=null){
             Procesos.cargandoIniciar(context);
-            List<Servicios> aux2=new ArrayList<>();
+            listaaux=new ArrayList<>();
             for (Servicios aux:lista) {
                 if((aux.getId_servicio()+"").toLowerCase().contains(filtrar.toLowerCase())){
-                    aux2.add(aux);
+                    listaaux.add(aux);
                 }
             }
-            adaptador.setAdapterItemBuscarServicios(aux2);
+            adaptador.setAdapterItemBuscarServicios(listaaux);
             adaptador.notifyDataSetChanged();
             Procesos.cargandoDetener();
         }

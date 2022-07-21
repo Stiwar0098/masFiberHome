@@ -87,7 +87,7 @@ public class ListarClientesFragment extends Fragment implements ClientesDAO.inte
     static ClientesDAO clientesDAO;
     public static AdapterClientes adaptador;
     public static RecyclerView recyclerView;
-    public static List<Clientes> lista;
+    public static List<Clientes> lista,listaaux;
     TextInputLayout txtBuscar;
     FragmentManager fragmentManager;
     static FragmentTransaction fragmentTransaction;
@@ -161,6 +161,7 @@ public class ListarClientesFragment extends Fragment implements ClientesDAO.inte
             recyclerView.setAdapter(adaptador);
             adaptador.notifyDataSetChanged();
         }else{
+            listaaux=null;
             adaptador = new AdapterClientes(lista);
             recyclerView.setAdapter(adaptador);
             adaptador.notifyDataSetChanged();
@@ -168,7 +169,12 @@ public class ListarClientesFragment extends Fragment implements ClientesDAO.inte
                 @Override
                 public void onClick(View v) {
                         CrearClientesFragment.opc="editar";
-                        Clientes us = lista.get(recyclerView.getChildAdapterPosition(v));
+                        Clientes us;
+                        if (listaaux==null){
+                            us = lista.get(recyclerView.getChildAdapterPosition(v));
+                        }else{
+                            us = listaaux.get(recyclerView.getChildAdapterPosition(v));
+                        }
                         CrearClientesFragment.clientes =us;
                         Navigation.findNavController(v).navigate(R.id.crearClientesFragment);
                         fragmentTransaction.addToBackStack(null);
@@ -180,7 +186,12 @@ public class ListarClientesFragment extends Fragment implements ClientesDAO.inte
                 @Override
                 public boolean onLongClick(View v) {
                     if (Procesos.user.getRol()==1){// si es administrador
-                        Clientes us = lista.get(recyclerView.getChildAdapterPosition(v));
+                        Clientes us;
+                        if (listaaux==null){
+                            us = lista.get(recyclerView.getChildAdapterPosition(v));
+                        }else{
+                            us = listaaux.get(recyclerView.getChildAdapterPosition(v));
+                        }
                         eliminarRegistroDialog(us);
                     }else{//es tecnico
                         AlertDialog.Builder builder= new AlertDialog.Builder(context);
@@ -310,15 +321,16 @@ public class ListarClientesFragment extends Fragment implements ClientesDAO.inte
     }
 
     private void filtrar(String filtrar){
+        listaaux=null;
         if (lista!=null){
             Procesos.cargandoIniciar(context);
-            List<Clientes> aux2=new ArrayList<>();
+            listaaux=new ArrayList<>();
             for (Clientes aux:lista) {
                 if(aux.getNombre().toLowerCase().contains(filtrar.toLowerCase())){
-                    aux2.add(aux);
+                    listaaux.add(aux);
                 }
             }
-            adaptador.setAdapterItemBuscarClientes(aux2);
+            adaptador.setAdapterItemBuscarClientes(listaaux);
             adaptador.notifyDataSetChanged();
             Procesos.cargandoDetener();
         }

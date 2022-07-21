@@ -85,7 +85,7 @@ public class ListarOntFragment extends Fragment implements OntDAO.interfazOntDAO
     static OntDAO ontDAO;
     public static AdapterOnt adaptador;
     public static RecyclerView recyclerView;
-    public static List<Ont> lista;
+    public static List<Ont> lista,listaaux;
     TextInputLayout txtBuscar;
     FragmentManager fragmentManager;
     static FragmentTransaction fragmentTransaction;
@@ -148,6 +148,7 @@ public class ListarOntFragment extends Fragment implements OntDAO.interfazOntDAO
             recyclerView.setAdapter(adaptador);
             adaptador.notifyDataSetChanged();
         }else{
+            listaaux=null;
             adaptador = new AdapterOnt(lista);
             recyclerView.setAdapter(adaptador);
             adaptador.notifyDataSetChanged();
@@ -155,8 +156,12 @@ public class ListarOntFragment extends Fragment implements OntDAO.interfazOntDAO
                 @Override
                 public void onClick(View v) {
                     CrearOntFragment.opc="editar";
-                    Ont us = lista.get(recyclerView.getChildAdapterPosition(v));
-
+                    Ont us;
+                    if (listaaux==null){
+                        us = lista.get(recyclerView.getChildAdapterPosition(v));
+                    }else{
+                        us = listaaux.get(recyclerView.getChildAdapterPosition(v));
+                    }
                     CrearOntFragment.ont =us;
                     Navigation.findNavController(v).navigate(R.id.crearOntFragment);
                     fragmentTransaction.addToBackStack(null);
@@ -164,14 +169,6 @@ public class ListarOntFragment extends Fragment implements OntDAO.interfazOntDAO
                     fragmentTransaction.commit();
                 }
             });
-            adaptador.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    //eliminarRegistroDialog();
-                    return true;
-                }
-            });
-
         }
         Procesos.cargandoDetener();
     }
@@ -347,15 +344,16 @@ public class ListarOntFragment extends Fragment implements OntDAO.interfazOntDAO
     }*/
 
     private void filtrar(String filtrar){
+        listaaux=null;
         if (lista!=null){
             Procesos.cargandoIniciar(context);
-            List<Ont> aux2=new ArrayList<>();
+            listaaux=new ArrayList<>();
             for (Ont aux:lista) {
                 if(aux.getSerieOnt().toLowerCase().contains(filtrar.toLowerCase())){
-                    aux2.add(aux);
+                    listaaux.add(aux);
                 }
             }
-            adaptador.setAdapterItemBuscarOnt(aux2);
+            adaptador.setAdapterItemBuscarOnt(listaaux);
             adaptador.notifyDataSetChanged();
             Procesos.cargandoDetener();
         }

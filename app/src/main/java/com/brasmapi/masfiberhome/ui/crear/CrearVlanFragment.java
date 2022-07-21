@@ -99,6 +99,7 @@ public class CrearVlanFragment extends Fragment implements VlanDAO.interfazVlanD
         ((MainActivity)getActivity()).setTitle("Crear Vlan");
         if (opc.equals("editar")){
             btnguardar.setText("Editar");
+            txtNumeroVlan.getEditText().setText(vlan.getNumeroVlan()+"");
             txtNombreVlan.getEditText().setText(vlan.getNombreVlan());
             txtNumeroOlt.getEditText().setText(vlan.getNumeroOlt()+"");
             txtTarjetaOlt.getEditText().setText(vlan.getTarjetaOlt()+"");

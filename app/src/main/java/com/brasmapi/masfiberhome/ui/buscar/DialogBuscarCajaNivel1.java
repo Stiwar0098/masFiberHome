@@ -28,7 +28,7 @@ import java.util.List;
 public class DialogBuscarCajaNivel1 implements CajaNivel1DAO.interfazCajaNivel1DAO
 {
     static Context context;
-    static List<CajaNivel1> listaCajaNivel1;
+    static List<CajaNivel1> listaCajaNivel1,listaCajaNivel1aux;
     static Dialog dialogo;
     static AdapterCajaNivel1 adaptadorItemBuscarCajaNivel1;
     static RecyclerView recyclerViewBuscarCajaNivel1;
@@ -96,13 +96,19 @@ public class DialogBuscarCajaNivel1 implements CajaNivel1DAO.interfazCajaNivel1D
             recyclerViewBuscarCajaNivel1.setAdapter(adaptadorItemBuscarCajaNivel1);
             adaptadorItemBuscarCajaNivel1.notifyDataSetChanged();
         }else{
+            listaCajaNivel1aux=null;
             adaptadorItemBuscarCajaNivel1 = new AdapterCajaNivel1(listaCajaNivel1);
             recyclerViewBuscarCajaNivel1.setAdapter(adaptadorItemBuscarCajaNivel1);
             adaptadorItemBuscarCajaNivel1.notifyDataSetChanged();
             adaptadorItemBuscarCajaNivel1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    CajaNivel1 us = listaCajaNivel1.get(recyclerViewBuscarCajaNivel1.getChildAdapterPosition(v));
+                    CajaNivel1 us;
+                    if (listaCajaNivel1aux==null){
+                        us=listaCajaNivel1.get(recyclerViewBuscarCajaNivel1.getChildAdapterPosition(v));
+                    }else{
+                        us=listaCajaNivel1aux.get(recyclerViewBuscarCajaNivel1.getChildAdapterPosition(v));
+                    }
                     interfaz.CajaNivel1Selecionado(us);
                     dialogo.dismiss();
                 }
@@ -111,14 +117,15 @@ public class DialogBuscarCajaNivel1 implements CajaNivel1DAO.interfazCajaNivel1D
         Procesos.cargandoDetener();
     }
     private void filtrar(String buscar){
+        listaCajaNivel1aux=null;
         if (listaCajaNivel1!=null){
-            List<CajaNivel1> aux2=new ArrayList<>();
+            listaCajaNivel1aux=new ArrayList<>();
             for (CajaNivel1 aux:listaCajaNivel1) {
                 if(aux.getNombre_cajaNivel1().toLowerCase().contains(buscar.toLowerCase())){
-                    aux2.add(aux);
+                    listaCajaNivel1aux.add(aux);
                 }
             }
-            adaptadorItemBuscarCajaNivel1.setAdapterItemBuscarCajaNivel1(aux2);
+            adaptadorItemBuscarCajaNivel1.setAdapterItemBuscarCajaNivel1(listaCajaNivel1aux);
             adaptadorItemBuscarCajaNivel1.notifyDataSetChanged();
         }
 

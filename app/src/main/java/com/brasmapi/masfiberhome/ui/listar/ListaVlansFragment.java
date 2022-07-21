@@ -87,7 +87,7 @@ public class ListaVlansFragment extends Fragment implements VlanDAO.interfazVlan
     static VlanDAO vlanDAO;
     public static AdapterVlan adaptador;
     public static RecyclerView recyclerView;
-    public static List<Vlan> lista;
+    public static List<Vlan> lista,listaaux;
     TextInputLayout txtBuscar;
     FragmentManager fragmentManager;
     static FragmentTransaction fragmentTransaction;
@@ -161,6 +161,7 @@ public class ListaVlansFragment extends Fragment implements VlanDAO.interfazVlan
             recyclerView.setAdapter(adaptador);
             adaptador.notifyDataSetChanged();
         }else{
+            listaaux=null;
             adaptador = new AdapterVlan(lista);
             recyclerView.setAdapter(adaptador);
             adaptador.notifyDataSetChanged();
@@ -168,8 +169,12 @@ public class ListaVlansFragment extends Fragment implements VlanDAO.interfazVlan
                 @Override
                 public void onClick(View v) {
                     CrearVlanFragment.opc="editar";
-                    Vlan us = lista.get(recyclerView.getChildAdapterPosition(v));
-
+                    Vlan us;
+                    if (listaaux==null){
+                        us = lista.get(recyclerView.getChildAdapterPosition(v));
+                    }else{
+                        us = listaaux.get(recyclerView.getChildAdapterPosition(v));
+                    }
                     CrearVlanFragment.vlan =us;
                     Navigation.findNavController(v).navigate(R.id.crearVlanFragment);
                     fragmentTransaction.addToBackStack(null);
@@ -180,7 +185,12 @@ public class ListaVlansFragment extends Fragment implements VlanDAO.interfazVlan
             adaptador.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    Vlan us = lista.get(recyclerView.getChildAdapterPosition(v));
+                    Vlan us;
+                    if (listaaux==null){
+                        us = lista.get(recyclerView.getChildAdapterPosition(v));
+                    }else{
+                        us = listaaux.get(recyclerView.getChildAdapterPosition(v));
+                    }
                     eliminarRegistroDialog(us);
                     return true;
                 }
@@ -298,15 +308,16 @@ public class ListaVlansFragment extends Fragment implements VlanDAO.interfazVlan
     }
 
     private void filtrar(String filtrar){
+        listaaux=null;
         if (lista!=null){
             Procesos.cargandoIniciar(context);
-            List<Vlan> aux2=new ArrayList<>();
+            listaaux=new ArrayList<>();
             for (Vlan aux:lista) {
                 if(aux.getNombreVlan().toLowerCase().contains(filtrar.toLowerCase())){
-                    aux2.add(aux);
+                    listaaux.add(aux);
                 }
             }
-            adaptador.setAdapterItemBuscarVlan(aux2);
+            adaptador.setAdapterItemBuscarVlan(listaaux);
             adaptador.notifyDataSetChanged();
             Procesos.cargandoDetener();
         }

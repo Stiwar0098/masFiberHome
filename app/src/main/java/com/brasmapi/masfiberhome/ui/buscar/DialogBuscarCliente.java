@@ -28,7 +28,7 @@ import java.util.List;
 public class DialogBuscarCliente implements ClientesDAO.interfazClientesDAO
 {
     static Context context;
-    static List<Clientes> listaClientes;
+    static List<Clientes> listaClientes,listaClientesaux;
     static Dialog dialogo;
     static AdapterClientes adaptadorItemBuscarClientes;
     static RecyclerView recyclerViewBuscarClientes;
@@ -96,13 +96,20 @@ public class DialogBuscarCliente implements ClientesDAO.interfazClientesDAO
             recyclerViewBuscarClientes.setAdapter(adaptadorItemBuscarClientes);
             adaptadorItemBuscarClientes.notifyDataSetChanged();
         }else{
+            listaClientesaux=null;
             adaptadorItemBuscarClientes = new AdapterClientes(listaClientes);
             recyclerViewBuscarClientes.setAdapter(adaptadorItemBuscarClientes);
             adaptadorItemBuscarClientes.notifyDataSetChanged();
             adaptadorItemBuscarClientes.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Clientes us = listaClientes.get(recyclerViewBuscarClientes.getChildAdapterPosition(v));
+                    Clientes us;
+                    if (listaClientesaux==null){
+                        us = listaClientes.get(recyclerViewBuscarClientes.getChildAdapterPosition(v));
+                    }else{
+                        us = listaClientesaux.get(recyclerViewBuscarClientes.getChildAdapterPosition(v));
+                    }
+
                     interfaz.ClientesSelecionado(us);
                     dialogo.dismiss();
                 }
@@ -111,14 +118,15 @@ public class DialogBuscarCliente implements ClientesDAO.interfazClientesDAO
         Procesos.cargandoDetener();
     }
     private void filtrar(String buscar){
+        listaClientesaux=null;
         if (listaClientes!=null){
-            List<Clientes> aux2=new ArrayList<>();
+            listaClientesaux=new ArrayList<>();
             for (Clientes aux:listaClientes) {
                 if(aux.getNombre().toLowerCase().contains(buscar.toLowerCase())){
-                    aux2.add(aux);
+                    listaClientesaux.add(aux);
                 }
             }
-            adaptadorItemBuscarClientes.setAdapterItemBuscarClientes(aux2);
+            adaptadorItemBuscarClientes.setAdapterItemBuscarClientes(listaClientesaux);
             adaptadorItemBuscarClientes.notifyDataSetChanged();
         }
 
