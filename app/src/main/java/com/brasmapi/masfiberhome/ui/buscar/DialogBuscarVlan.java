@@ -116,12 +116,16 @@ public class DialogBuscarVlan implements VlanDAO.interfazVlanDAO
         }
         Procesos.cargandoDetener();
     }
-    private void filtrar(String buscar){
+    private void filtrar(String filtrar){
         listaVlanaux=null;
         if (listaVlan!=null){
             listaVlanaux=new ArrayList<>();
             for (Vlan aux:listaVlan) {
-                if(aux.getNombreVlan().toLowerCase().contains(buscar.toLowerCase())){
+                if((aux.getNumeroVlan()+"").equals(filtrar)
+                        || Procesos.validarBuscarContains(aux.getNombreVlan(),filtrar)
+                        ||(aux.getNumeroOlt()+"").equals(filtrar)
+                        ||(aux.getTarjetaOlt()+"").equals(filtrar)
+                        ||(aux.getPuertoOlt()+"").equals(filtrar)){
                     listaVlanaux.add(aux);
                 }
             }

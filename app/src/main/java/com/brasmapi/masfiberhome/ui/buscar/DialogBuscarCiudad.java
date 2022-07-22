@@ -108,12 +108,13 @@ public class DialogBuscarCiudad implements CiudadDAO.ciudadDAO
         }
         Procesos.cargandoDetener();
     }
-    private void filtrar(String buscar){
+    private void filtrar(String filtrar){
         listaCiudadesaux=null;
         if (listaCiudades!=null){
             listaCiudadesaux=new ArrayList<>();
             for (Ciudad aux:listaCiudades) {
-                if(aux.getNombre().toLowerCase().contains(buscar.toLowerCase())){
+                if(Procesos.validarBuscarContains(aux.getNombreProvincia(),filtrar)
+                        || Procesos.validarBuscarContains(aux.getNombre(),filtrar)){
                     listaCiudadesaux.add(aux);
                 }
             }

@@ -116,12 +116,17 @@ public class DialogBuscarCajaNivel2 implements CajaNivel2DAO.interfazCajaNivel2D
         }
         Procesos.cargandoDetener();
     }
-    private void filtrar(String buscar){
+    private void filtrar(String filtrar){
         listaCajaNivel2aux=null;
         if (listaCajaNivel2!=null){
             listaCajaNivel2aux= new ArrayList<>();
             for (CajaNivel2 aux:listaCajaNivel2) {
-                if(aux.getNombre_CajaNivel2().toLowerCase().contains(buscar.toLowerCase())){
+                if(Procesos.validarBuscarContains(aux.getNombre_CajaNivel2(),filtrar)
+                        || Procesos.validarBuscarContains(aux.getNombreCajaNivel1(),filtrar)
+                        || Procesos.validarBuscarContains(aux.getAbreviatura(),filtrar)
+                        || Procesos.validarBuscarContains(aux.getDireccion_CajaNivel2(),filtrar)
+                        || Procesos.validarBuscarContains(aux.getReferencia_CajaNivel2(),filtrar)
+                        || Procesos.validarBuscarContains(aux.getLatitud_CajaNivel2(),filtrar)){
                     listaCajaNivel2aux.add(aux);
                 }
             }

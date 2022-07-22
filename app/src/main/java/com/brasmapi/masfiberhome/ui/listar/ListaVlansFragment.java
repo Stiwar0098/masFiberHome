@@ -313,7 +313,11 @@ public class ListaVlansFragment extends Fragment implements VlanDAO.interfazVlan
             Procesos.cargandoIniciar(context);
             listaaux=new ArrayList<>();
             for (Vlan aux:lista) {
-                if(aux.getNombreVlan().toLowerCase().contains(filtrar.toLowerCase())){
+                if((aux.getNumeroVlan()+"").equals(filtrar)
+                    || Procesos.validarBuscarContains(aux.getNombreVlan(),filtrar)
+                    ||(aux.getNumeroOlt()+"").equals(filtrar)
+                    ||(aux.getTarjetaOlt()+"").equals(filtrar)
+                    ||(aux.getPuertoOlt()+"").equals(filtrar)){
                     listaaux.add(aux);
                 }
             }

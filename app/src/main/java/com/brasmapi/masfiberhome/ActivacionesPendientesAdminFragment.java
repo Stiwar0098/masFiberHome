@@ -87,7 +87,7 @@ public class ActivacionesPendientesAdminFragment extends Fragment implements Ser
     static ServiciosDAO serviciosDAO;
     public static AdapterServicios2 adaptador;
     public static RecyclerView recyclerView;
-    public static List<Servicios> lista;
+    public static List<Servicios> lista,listaaux;
     TextInputLayout txtBuscar;
     FragmentManager fragmentManager;
     static FragmentTransaction fragmentTransaction;
@@ -154,13 +154,19 @@ public class ActivacionesPendientesAdminFragment extends Fragment implements Ser
             recyclerView.setAdapter(adaptador);
             adaptador.notifyDataSetChanged();
         }else{
+            listaaux=null;
             adaptador = new AdapterServicios2(lista);
             recyclerView.setAdapter(adaptador);
             adaptador.notifyDataSetChanged();
             adaptador.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Servicios us = lista.get(recyclerView.getChildAdapterPosition(v));
+                    Servicios us;
+                    if (listaaux==null){
+                        us = lista.get(recyclerView.getChildAdapterPosition(v));
+                    }else{
+                        us = listaaux.get(recyclerView.getChildAdapterPosition(v));
+                    }
                     Procesos.copiarEnElPortapapeles(context, us.getComando_copiar_cliente().replace("@","\n"),getActivity());
                     Toast.makeText(context, us.getUsuario(), Toast.LENGTH_SHORT).show();
                     /*CrearServicioFragment.opc="editar";
@@ -175,7 +181,12 @@ public class ActivacionesPendientesAdminFragment extends Fragment implements Ser
             adaptador.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    Servicios us = lista.get(recyclerView.getChildAdapterPosition(v));
+                    Servicios us;
+                    if (listaaux==null){
+                        us = lista.get(recyclerView.getChildAdapterPosition(v));
+                    }else{
+                        us = listaaux.get(recyclerView.getChildAdapterPosition(v));
+                    }
                     String msj="";
                     if (us.getOpcion_cliente().equals("eliminar")){
                         msj="Se eliminará este servicio:";
@@ -220,15 +231,16 @@ public class ActivacionesPendientesAdminFragment extends Fragment implements Ser
         Procesos.cargandoDetener();
     }
     private void filtrar(String filtrar){
+        listaaux=null;
         if (lista!=null){
             Procesos.cargandoIniciar(context);
-            List<Servicios> aux2=new ArrayList<>();
+            listaaux=new ArrayList<>();
             for (Servicios aux:lista) {
                 if((aux.getId_servicio()+"").toLowerCase().contains(filtrar.toLowerCase())){
-                    aux2.add(aux);
+                    listaaux.add(aux);
                 }
             }
-            adaptador.setAdapterItemBuscarServicios(aux2);
+            adaptador.setAdapterItemBuscarServicios(listaaux);
             adaptador.notifyDataSetChanged();
             Procesos.cargandoDetener();
         }

@@ -372,6 +372,7 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
                                     Procesos.cargandoIniciar(context);
                                     equipoBridge=Procesos.obtenerTxtEnString(txtEquipoBridge);
                                     numeroOnt=Procesos.obtenerTxtEnEntero(txtNumeroOnt);
+                                    serviport=Procesos.obtenerTxtEnEntero(txtServiPort);
                                     //ont.setNumeroOnt(Procesos.obtenerTxtEnEntero(txtNumeroOnt));
                                     usuario=Procesos.obtenerTxtEnString(txtUsuario);
                                     idplanes=obtenerIdDePlanes();
@@ -620,7 +621,6 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
     }
     boolean seModificoOnt=false;
     public void validar0ontExistente(){
-        Toast.makeText(context, "validar 0", Toast.LENGTH_SHORT).show();
         if (opc.equals("crear")){
             if (ont!=null){
                 ontDAO.buscarOnt(ont.getSerieOnt(),context);
@@ -647,7 +647,6 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
     boolean seDebeEditarValidar1Caja2=true;
     boolean hiloModificadoCreado=true;
     public void validar1HiloEnCaja2(){
-        Toast.makeText(context, "validar 1", Toast.LENGTH_SHORT).show();
         if (switchHiloEnCaja2.isChecked()){
             if (Procesos.validarTxtEstaLleno(txtHiloEnCaja2)){
                 validar2NumeroOnt();
@@ -680,7 +679,6 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
     boolean seDebeEditarValidar2NumeroOnt=true;
     boolean numeroOntModificadoCreado=true;
     public void validar2NumeroOnt(){
-        Toast.makeText(context, "validar 2", Toast.LENGTH_SHORT).show();
         if (switchNumeroOnt.isChecked()){
             if (Procesos.validarTxtEstaLleno(txtNumeroOnt)){
                 validar3DireccionIp();
@@ -715,7 +713,6 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
     boolean seDebeEditarValidar3DireccionIp =true;
     boolean direccionIpModificadoCreado=true;
     public void validar3DireccionIp(){
-        Toast.makeText(context, "validar 3", Toast.LENGTH_SHORT).show();
         if (switchDireccionIp.isChecked()){
             if (Procesos.validarTxtEstaLleno(txtDireccionIp)){
                 validarUsuarioASidoUtilizado();
@@ -755,11 +752,24 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
     }
     public void validarUsuarioASidoUtilizado(){
         bandedarGuardar=true;
-        llenarUsuario();
+        if (opc.equals("editar")){
+            if (serviciosAnterior.getUsuario().equals(usuario)){
+                validar4ServiPortASidoUtilizado();
+            }else{
+                validarUsuarioEditar=false;
+                llenarUsuario();
+            }
+        }else{
+            llenarUsuario();
+        }
     }
 
     public void validar4ServiPortASidoUtilizado(){
-        serviportAutomatico();
+        if (opc.equals("crear")){
+            serviportAutomatico();
+        }else{
+            validar5NumeroOntASidoUtilizado();
+        }
     }
     public void validar5NumeroOntASidoUtilizado(){
         if (switchNumeroOnt.isChecked()){
@@ -1104,11 +1114,11 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
 
 }
     public void llenarComandoPlanes(){
-        String conca,serviport,plan;
-        serviport=txtServiPort.getEditText().getText().toString().trim();
-        if (serviport!=null && !serviport.equals("") && spinnerPlan.getSelectedItemPosition()!=0 && clientes!=null && listaPlanes!=null){
+        String conca,serviport2,plan;
+        serviport2=txtServiPort.getEditText().getText().toString().trim();
+        if (serviport2!=null && !serviport2.equals("") && spinnerPlan.getSelectedItemPosition()!=0 && clientes!=null && listaPlanes!=null){
             plan=obtenerPrimerApellido(spinnerPlan.getSelectedItem().toString());
-            conca="service-port "+serviport+" inbound traffic-table index "+plan+" outbound traffic-table index "+plan;
+            conca="service-port "+serviport2+" inbound traffic-table index "+plan+" outbound traffic-table index "+plan;
             txtComandoPlanes.getEditText().setText(conca);
         }
     }
@@ -1642,6 +1652,5 @@ int auxClie=0;
             llenarAgregarOnt();
             llenarEliminarServicio();
         }
-
     }
 }

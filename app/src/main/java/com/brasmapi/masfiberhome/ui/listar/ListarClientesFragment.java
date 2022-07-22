@@ -326,7 +326,12 @@ public class ListarClientesFragment extends Fragment implements ClientesDAO.inte
             Procesos.cargandoIniciar(context);
             listaaux=new ArrayList<>();
             for (Clientes aux:lista) {
-                if(aux.getNombre().toLowerCase().contains(filtrar.toLowerCase())){
+                if(Procesos.validarBuscarContains(aux.getCedula(),filtrar)
+                        || Procesos.validarBuscarContains(aux.getNombre(),filtrar)
+                        || Procesos.validarBuscarContains(aux.getApellido(),filtrar)
+                        || Procesos.validarBuscarContains(aux.getCorreo(),filtrar)
+                        || Procesos.validarBuscarContains(aux.getTelefono1(),filtrar)
+                        || Procesos.validarBuscarContains(aux.getTelefono2(),filtrar)){
                     listaaux.add(aux);
                 }
             }

@@ -85,7 +85,7 @@ public class ActivacionesPendientesTecFragment extends Fragment implements Servi
     static ServiciosDAO serviciosDAO;
     public static AdapterServicios2 adaptador;
     public static RecyclerView recyclerView;
-    public static List<Servicios> lista;
+    public static List<Servicios> lista,listaaux;
     TextInputLayout txtBuscar;
     FragmentManager fragmentManager;
     static FragmentTransaction fragmentTransaction;
@@ -154,6 +154,7 @@ public class ActivacionesPendientesTecFragment extends Fragment implements Servi
             recyclerView.setAdapter(adaptador);
             adaptador.notifyDataSetChanged();
         }else{
+            listaaux=null;
             adaptador = new AdapterServicios2(lista);
             recyclerView.setAdapter(adaptador);
             adaptador.notifyDataSetChanged();
@@ -161,15 +162,16 @@ public class ActivacionesPendientesTecFragment extends Fragment implements Servi
         Procesos.cargandoDetener();
     }
     private void filtrar(String filtrar){
+        listaaux=null;
         if (lista!=null){
             Procesos.cargandoIniciar(context);
-            List<Servicios> aux2=new ArrayList<>();
+            listaaux=new ArrayList<>();
             for (Servicios aux:lista) {
                 if((aux.getId_servicio()+"").toLowerCase().contains(filtrar.toLowerCase())){
-                    aux2.add(aux);
+                    listaaux.add(aux);
                 }
             }
-            adaptador.setAdapterItemBuscarServicios(aux2);
+            adaptador.setAdapterItemBuscarServicios(listaaux);
             adaptador.notifyDataSetChanged();
             Procesos.cargandoDetener();
         }

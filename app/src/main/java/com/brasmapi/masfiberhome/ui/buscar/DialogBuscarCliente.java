@@ -117,12 +117,17 @@ public class DialogBuscarCliente implements ClientesDAO.interfazClientesDAO
         }
         Procesos.cargandoDetener();
     }
-    private void filtrar(String buscar){
+    private void filtrar(String filtrar){
         listaClientesaux=null;
         if (listaClientes!=null){
             listaClientesaux=new ArrayList<>();
             for (Clientes aux:listaClientes) {
-                if(aux.getNombre().toLowerCase().contains(buscar.toLowerCase())){
+                if(Procesos.validarBuscarContains(aux.getCedula(),filtrar)
+                        || Procesos.validarBuscarContains(aux.getNombre(),filtrar)
+                        || Procesos.validarBuscarContains(aux.getApellido(),filtrar)
+                        || Procesos.validarBuscarContains(aux.getCorreo(),filtrar)
+                        || Procesos.validarBuscarContains(aux.getTelefono1(),filtrar)
+                        || Procesos.validarBuscarContains(aux.getTelefono2(),filtrar)){
                     listaClientesaux.add(aux);
                 }
             }

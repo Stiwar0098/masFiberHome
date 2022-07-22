@@ -106,12 +106,13 @@ public class DialogBuscarProvincia implements ProvinciaDAO.setProvincia
         }
         Procesos.cargandoDetener();
     }
-    private void filtrar(String buscar){
+    private void filtrar(String filtrar){
         listaProvinciaaux=null;
         if (listaProvincia!=null){
             listaProvinciaaux=new ArrayList<>();
             for (Provincia aux:listaProvincia) {
-                if(aux.getNombre().toLowerCase().contains(buscar.toLowerCase())){
+                if(Procesos.validarBuscarContains(aux.getNombre(),filtrar)
+                        || Procesos.validarBuscarContains(aux.getNombre_pais(),filtrar)){
                     listaProvinciaaux.add(aux);
                 }
             }

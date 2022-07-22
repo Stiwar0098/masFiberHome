@@ -315,7 +315,7 @@ public class ListaPaisesFragment extends Fragment implements PaisesDAO.interfazP
             Procesos.cargandoIniciar(context);
             listaPaisesaux=new ArrayList<>();
             for (Pais aux:listaPaises) {
-                if(aux.getNombre().toLowerCase().contains(filtrar.toLowerCase())){
+                if(Procesos.validarBuscarContains(aux.getNombre(),filtrar)){
                     listaPaisesaux.add(aux);
                 }
             }

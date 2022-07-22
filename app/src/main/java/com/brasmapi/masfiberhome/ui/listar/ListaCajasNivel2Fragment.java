@@ -316,7 +316,12 @@ public class ListaCajasNivel2Fragment extends Fragment implements CajaNivel2DAO.
             Procesos.cargandoIniciar(context);
             listaaux=new ArrayList<>();
             for (CajaNivel2 aux:lista) {
-                if(aux.getNombre_CajaNivel2().toLowerCase().contains(filtrar.toLowerCase())){
+                if(Procesos.validarBuscarContains(aux.getNombre_CajaNivel2(),filtrar)
+                        || Procesos.validarBuscarContains(aux.getNombreCajaNivel1(),filtrar)
+                        || Procesos.validarBuscarContains(aux.getAbreviatura(),filtrar)
+                        || Procesos.validarBuscarContains(aux.getDireccion_CajaNivel2(),filtrar)
+                        || Procesos.validarBuscarContains(aux.getReferencia_CajaNivel2(),filtrar)
+                        || Procesos.validarBuscarContains(aux.getLatitud_CajaNivel2(),filtrar)){
                     listaaux.add(aux);
                 }
             }

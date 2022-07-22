@@ -105,12 +105,12 @@ public class DialogBuscarPais implements PaisesDAO.interfazPaisDao
         }
         Procesos.cargandoDetener();
     }
-    private void filtrar(String buscar){
+    private void filtrar(String filtrar){
         listaPaisesaux=null;
         if (listaPaises!=null){
             listaPaisesaux=new ArrayList<>();
             for (Pais aux:listaPaises) {
-                if(aux.getNombre().toLowerCase().contains(buscar.toLowerCase())){
+                if(Procesos.validarBuscarContains(aux.getNombre(),filtrar)){
                     listaPaisesaux.add(aux);
                 }
             }

@@ -315,7 +315,13 @@ public class ListaCajasNivel1Fragment extends Fragment  implements CajaNivel1DAO
             Procesos.cargandoIniciar(context);
             listaaux=new ArrayList<>();
             for (CajaNivel1 aux:lista) {
-                if(aux.getNombre_cajaNivel1().toLowerCase().contains(filtrar.toLowerCase())){
+                if(Procesos.validarBuscarContains(aux.getNombre_cajaNivel1(),filtrar)
+                    || Procesos.validarBuscarContains(aux.getNombreVlan(),filtrar)
+                        || Procesos.validarBuscarContains(aux.getAbreviatura_cajaNivel1(),filtrar)
+                        || Procesos.validarBuscarContains(aux.getNombreCiudad(),filtrar)
+                        || Procesos.validarBuscarContains(aux.getDireccion_cajaNivel1(),filtrar)
+                        || Procesos.validarBuscarContains(aux.getReferencia_cajaNivel1(),filtrar)
+                        || Procesos.validarBuscarContains(aux.getLatitud_cajaNivel1(),filtrar)){
                     listaaux.add(aux);
                 }
             }

@@ -314,7 +314,9 @@ public class ListaUsuariosFragment extends Fragment implements UsuariosDAO.usuar
             Procesos.cargandoIniciar(context);
             listaUsuariosaux=new ArrayList<>();
             for (Usuario aux:listaUsuarios) {
-                if(aux.getNombre().toLowerCase().contains(filtrar.toLowerCase())||aux.getUsuario().toLowerCase().contains(filtrar.toLowerCase())){
+                if(Procesos.validarBuscarContains(aux.getNombre(),filtrar)
+                        || Procesos.validarBuscarContains(aux.getUsuario(),filtrar)
+                        || Procesos.validarBuscarContains(aux.getRol()+"",filtrar)){
                     listaUsuariosaux.add(aux);
                 }
             }

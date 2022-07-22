@@ -332,7 +332,14 @@ public class ListarServiciosFragment extends Fragment implements ServiciosDAO.in
             Procesos.cargandoIniciar(context);
             listaaux=new ArrayList<>();
             for (Servicios aux:lista) {
-                if((aux.getId_servicio()+"").toLowerCase().contains(filtrar.toLowerCase())){
+                if((aux.getId_servicio()+"").equals(filtrar)
+                        || Procesos.validarBuscarContains(aux.getNombreCliente(),filtrar)
+                        || Procesos.validarBuscarContains(aux.getNombreCaja(),filtrar)
+                        || Procesos.validarBuscarContains(aux.getSerieOnt(),filtrar)
+                        || Procesos.validarBuscarContains(aux.getUsuario(),filtrar)
+                        || Procesos.validarBuscarContains(aux.getDireccion(),filtrar)
+                        || Procesos.validarBuscarContains(aux.getReferencia(),filtrar)
+                        || aux.getLatitud().equals(filtrar)){
                     listaaux.add(aux);
                 }
             }

@@ -314,7 +314,8 @@ public class ListaCiudadesFragment extends Fragment implements CiudadDAO.ciudadD
             Procesos.cargandoIniciar(context);
             listaaux=new ArrayList<>();
             for (Ciudad aux:lista) {
-                if(aux.getNombre().toLowerCase().contains(filtrar.toLowerCase())){
+                if(Procesos.validarBuscarContains(aux.getNombreProvincia(),filtrar)
+                        || Procesos.validarBuscarContains(aux.getNombre(),filtrar)){
                     listaaux.add(aux);
                 }
             }

@@ -115,12 +115,13 @@ public class DialogBuscarModeloOnt implements ModeloOntDAO.interfazModeloOntDAO
         }
         Procesos.cargandoDetener();
     }
-    private void filtrar(String buscar){
+    private void filtrar(String filtrar){
         listaModeloOntaux=null;
         if (listaModeloOnt !=null){
             listaModeloOntaux=new ArrayList<>();
             for (ModeloOnt aux: listaModeloOnt) {
-                if(aux.getNombre_modeloOnt().toLowerCase().contains(buscar.toLowerCase())){
+                if(Procesos.validarBuscarContains(aux.getNombre_modeloOnt(),filtrar)
+                        || Procesos.validarBuscarContains(aux.getTipo_modeloOnt(),filtrar)){
                     listaModeloOntaux.add(aux);
                 }
             }

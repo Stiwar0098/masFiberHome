@@ -349,7 +349,9 @@ public class ListarOntFragment extends Fragment implements OntDAO.interfazOntDAO
             Procesos.cargandoIniciar(context);
             listaaux=new ArrayList<>();
             for (Ont aux:lista) {
-                if(aux.getSerieOnt().toLowerCase().contains(filtrar.toLowerCase())){
+                if(Procesos.validarBuscarContains(aux.getSerieOnt(),filtrar)
+                        || Procesos.validarBuscarContains(aux.getNombreModelo(),filtrar)
+                        || Procesos.validarBuscarContains(aux.getResponsable(),filtrar)){
                     listaaux.add(aux);
                 }
             }

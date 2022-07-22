@@ -313,7 +313,8 @@ public class ListaModeloOntFragment extends Fragment implements ModeloOntDAO.int
             Procesos.cargandoIniciar(context);
             listaaux=new ArrayList<>();
             for (ModeloOnt aux:lista) {
-                if(String.valueOf(aux.getNombre_modeloOnt()).toLowerCase().contains(filtrar.toLowerCase())){
+                if(Procesos.validarBuscarContains(aux.getNombre_modeloOnt(),filtrar)
+                        || Procesos.validarBuscarContains(aux.getTipo_modeloOnt(),filtrar)){
                     listaaux.add(aux);
                 }
             }

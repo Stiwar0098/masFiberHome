@@ -147,6 +147,13 @@ public class Procesos extends AppCompatActivity {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
+    public static boolean validarBuscarContains(String a,String b){
+        if(a.toLowerCase().contains(b.toLowerCase())){
+            return true;
+        }else{
+            return false;
+        }
+    }
 
     public static int[] descomponerDireccionIp(String ip) {
         String[] ar = ip.split("\\.");

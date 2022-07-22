@@ -313,7 +313,7 @@ public class ListaPlanesFragment extends Fragment implements PlanesDAO.interfazP
             Procesos.cargandoIniciar(context);
             listaaux=new ArrayList<>();
             for (Planes aux:lista) {
-                if(String.valueOf(aux.getNombre()).toLowerCase().contains(filtrar.toLowerCase())){
+                if(Procesos.validarBuscarContains(aux.getNombre()+"",filtrar)){
                     listaaux.add(aux);
                 }
             }

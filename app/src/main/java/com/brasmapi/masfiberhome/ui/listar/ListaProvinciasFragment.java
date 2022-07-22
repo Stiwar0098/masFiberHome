@@ -314,7 +314,8 @@ public class ListaProvinciasFragment extends Fragment implements ProvinciaDAO.se
             Procesos.cargandoIniciar(context);
             listaProvinciasaux=new ArrayList<>();
             for (Provincia aux:listaProvincias) {
-                if(aux.getNombre().toLowerCase().contains(filtrar.toLowerCase())){
+                if(Procesos.validarBuscarContains(aux.getNombre(),filtrar)
+                        || Procesos.validarBuscarContains(aux.getNombre_pais(),filtrar)){
                     listaProvinciasaux.add(aux);
                 }
             }
