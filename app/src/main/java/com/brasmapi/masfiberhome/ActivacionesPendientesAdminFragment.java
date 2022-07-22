@@ -146,6 +146,7 @@ public class ActivacionesPendientesAdminFragment extends Fragment implements Ser
         Procesos.cargandoIniciar(context);
         serviciosDAO.filtarServicioPendienteAdmin(vista.getContext());
     }
+    boolean isEliminar=false;
     public void cargar(){
         if(lista==null){
             Toast.makeText(context, "No hay servicios pendientes por activar", Toast.LENGTH_LONG).show();
@@ -203,14 +204,41 @@ public class ActivacionesPendientesAdminFragment extends Fragment implements Ser
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     us.setEstado("activo");
                                     if (us.getOpcion_cliente().equals("eliminar")){
-                                        serviciosDAO.eliminarServicio(us.getId_servicio(),context);
-                                        mostrarDatos();
+                                        AlertDialog.Builder dial=new AlertDialog.Builder(context);
+                                        dial.setTitle("Eliminar en cascada");
+                                        final EditText contraAdmin = new EditText(context);
+                                        contraAdmin.setInputType(InputType.TYPE_CLASS_TEXT);
+                                        dial.setView(contraAdmin);
+                                        dial.setMessage("Para poder elimanar en cascada: "+us.getUsuario()+"\n \nIngrese la contraseña admin ")
+                                                .setPositiveButton("Eliminar", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(final DialogInterface dialog, int which) {
+                                                        dialog.dismiss();
+                                                        if (contraAdmin.getText().toString().trim().equals("admin")){
+                                                            isEliminar=true;
+                                                            serviciosDAO.eliminarServicio(us.getId_servicio(),context);
+                                                            HistorialServiciosDAO op= new HistorialServiciosDAO(ActivacionesPendientesAdminFragment.this);
+                                                            op.crearServicio(us,us.getSerieOnt(),context);
+                                                        }else{
+                                                            Toast.makeText(context, "contraseña incorrecta", Toast.LENGTH_SHORT).show();
+                                                            contraAdmin.setText("");
+                                                        }
+                                                    }
+                                                })
+                                                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        Toast.makeText(context, "Cancelado", Toast.LENGTH_SHORT).show();
+                                                        dialog.dismiss();
+                                                    }
+                                                }).show();
                                     }else{
                                         Procesos.cargandoIniciar(context);
                                         serviciosDAO.editarServicio(us,context,false);
+                                        HistorialServiciosDAO op= new HistorialServiciosDAO(ActivacionesPendientesAdminFragment.this);
+                                        op.crearServicio(us,us.getSerieOnt(),context);
                                     }
-                                    HistorialServiciosDAO op= new HistorialServiciosDAO(ActivacionesPendientesAdminFragment.this);
-                                    op.crearServicio(us,us.getSerieOnt(),context);
+
                                 }
                             })
                             .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -276,6 +304,8 @@ public class ActivacionesPendientesAdminFragment extends Fragment implements Ser
 
     @Override
     public void limpiarHistorialServicio() {
-
+        if (isEliminar){
+            Toast.makeText(context, "Servicio eliminado", Toast.LENGTH_SHORT).show();
+        }
     }
 }

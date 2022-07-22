@@ -96,7 +96,7 @@ public class ListaHistorialServiciosFragment extends Fragment implements Histori
         context=getActivity();
         Procesos.cargandoDetener();
         historialServiciosDAO =new HistorialServiciosDAO(ListaHistorialServiciosFragment.this);
-        ((MainActivity)getActivity()).setTitle("Listar historial servicos");
+        ((MainActivity)getActivity()).setTitle("Listar historial servicios");
         mostrarDatos("");
         btnBorrar =(Button)vista.findViewById(R.id.btnBorrarHistorialServicios_ListaHistorialServicios);
         txtBuscar=(TextInputLayout)vista.findViewById(R.id.txtBuscar_ListaHistorialServicios);

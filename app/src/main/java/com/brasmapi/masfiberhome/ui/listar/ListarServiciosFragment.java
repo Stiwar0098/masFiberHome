@@ -100,7 +100,7 @@ public class ListarServiciosFragment extends Fragment implements ServiciosDAO.in
         context=getActivity();
         Procesos.cargandoDetener();
         serviciosDAO =new ServiciosDAO(ListarServiciosFragment.this);
-        ((MainActivity)getActivity()).setTitle("Listar servicos");
+        ((MainActivity)getActivity()).setTitle("Listar servicios");
         mostrarDatos("");
         btnCrear =(Button)vista.findViewById(R.id.btnCrearServicios_ListaServicios);
         txtBuscar=(TextInputLayout)vista.findViewById(R.id.txtBuscar_ListaServicios);

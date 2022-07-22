@@ -570,7 +570,7 @@ public class ServiciosDAO {
                     } else {
                         Toast.makeText(context, response.get("respuesta").toString(), Toast.LENGTH_SHORT).show();
                     }
-                    filtarServicio("", con, true);
+                    filtarServicioPendienteAdmin(con);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

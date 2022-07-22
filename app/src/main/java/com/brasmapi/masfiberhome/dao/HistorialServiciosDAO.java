@@ -238,7 +238,6 @@ public class HistorialServiciosDAO {
                     } else {
                         Toast.makeText(context, response.get("respuesta").toString(), Toast.LENGTH_SHORT).show();
                     }
-                    filtarServicio("", con, true);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
