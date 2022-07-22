@@ -35,7 +35,7 @@ import java.util.List;
  * Use the {@link CrearCajaNivel1Fragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CrearCajaNivel1Fragment extends Fragment implements CajaNivel1DAO.interfazCajaNivel1DAO, DialogBuscarCiudad.finalizoDialogBuscarCiudad, DialogBuscarVlan.finalizoDialogBuscarVlan, View.OnClickListener,Procesos.LatitudLongitud {
+public class CrearCajaNivel1Fragment extends Fragment implements CajaNivel1DAO.interfazCajaNivel1DAO, DialogBuscarCiudad.finalizoDialogBuscarCiudad, DialogBuscarVlan.finalizoDialogBuscarVlan, View.OnClickListener, Procesos.LatitudLongitud {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -76,18 +76,19 @@ public class CrearCajaNivel1Fragment extends Fragment implements CajaNivel1DAO.i
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+
     View vista;
     Context context;
-    TextInputLayout txtNombreCajaNivel1, txtDireccion, txtReferencia, txtLatitud, txtLongitud, txtNombreVlan, txtNombreCiudad,txtAbreviatura;
+    TextInputLayout txtNombreCajaNivel1, txtDireccion, txtReferencia, txtLatitud, txtLongitud, txtNombreVlan, txtNombreCiudad, txtAbreviatura;
     CajaNivel1DAO cajaNivel1DAO;
     public static CajaNivel1 cajaNivel1;
-    public static String opc=""; // editar/crear
+    public static String opc = ""; // editar/crear
 
-    Ciudad ciudad=null;
-    Vlan vlan=null;
-    Button btnObtenerLatLon,btnVerUbicacoin;
+    Ciudad ciudad = null;
+    Vlan vlan = null;
+    Button btnObtenerLatLon, btnVerUbicacoin;
     Switch switchAutoManu;
-    String nombre, direccion, referencia, latitud, longitud,abreviatura;
+    String nombre, direccion, referencia, latitud, longitud, abreviatura;
     int hilos;
     Spinner spinner;
 
@@ -95,39 +96,39 @@ public class CrearCajaNivel1Fragment extends Fragment implements CajaNivel1DAO.i
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        vista= inflater.inflate(R.layout.fragment_crear_caja_nivel1, container, false);
-        context=getActivity();
-        Button btnguardar=(Button)vista.findViewById(R.id.btnGuardar_CrearCajaNivel1);
-        btnVerUbicacoin=(Button)vista.findViewById(R.id.btnVerUbicacion_CrearCajaNivel1);
-        btnObtenerLatLon=(Button)vista.findViewById(R.id.btnObtenerLatitudLongitud_CrearCajaNivel1);
-        txtNombreCajaNivel1 =vista.findViewById(R.id.txtNombreCajaNivel1_CrearCajaNivel1);
-        switchAutoManu =vista.findViewById(R.id.switch_CrearCajaNivel1);
-        txtDireccion =vista.findViewById(R.id.txtDireccion_CrearCajaNivel1);
-        txtReferencia =vista.findViewById(R.id.txtReferencia_CrearCajaNivel1);
-        txtLatitud =vista.findViewById(R.id.txtLatitud_CrearCajaNivel1);
-        txtLongitud =vista.findViewById(R.id.txtLongitud_CrearCajaNivel1);
-        txtNombreVlan =vista.findViewById(R.id.txtVlan_CrearCajaNivel1);
-        txtNombreCiudad =vista.findViewById(R.id.txtCiudad_CrearCajaNivel1);
-        txtAbreviatura =vista.findViewById(R.id.txtAbreviatura_CrearCajaNivel1);
-        spinner =vista.findViewById(R.id.spinnerNumeroHilos_CrearCajaNivel1);
-        cajaNivel1DAO =new CajaNivel1DAO(CrearCajaNivel1Fragment.this);
-        spinner=vista.findViewById(R.id.spinnerNumeroHilos_CrearCajaNivel1);
+        vista = inflater.inflate(R.layout.fragment_crear_caja_nivel1, container, false);
+        context = getActivity();
+        Button btnguardar = (Button) vista.findViewById(R.id.btnGuardar_CrearCajaNivel1);
+        btnVerUbicacoin = (Button) vista.findViewById(R.id.btnVerUbicacion_CrearCajaNivel1);
+        btnObtenerLatLon = (Button) vista.findViewById(R.id.btnObtenerLatitudLongitud_CrearCajaNivel1);
+        txtNombreCajaNivel1 = vista.findViewById(R.id.txtNombreCajaNivel1_CrearCajaNivel1);
+        switchAutoManu = vista.findViewById(R.id.switch_CrearCajaNivel1);
+        txtDireccion = vista.findViewById(R.id.txtDireccion_CrearCajaNivel1);
+        txtReferencia = vista.findViewById(R.id.txtReferencia_CrearCajaNivel1);
+        txtLatitud = vista.findViewById(R.id.txtLatitud_CrearCajaNivel1);
+        txtLongitud = vista.findViewById(R.id.txtLongitud_CrearCajaNivel1);
+        txtNombreVlan = vista.findViewById(R.id.txtVlan_CrearCajaNivel1);
+        txtNombreCiudad = vista.findViewById(R.id.txtCiudad_CrearCajaNivel1);
+        txtAbreviatura = vista.findViewById(R.id.txtAbreviatura_CrearCajaNivel1);
+        spinner = vista.findViewById(R.id.spinnerNumeroHilos_CrearCajaNivel1);
+        cajaNivel1DAO = new CajaNivel1DAO(CrearCajaNivel1Fragment.this);
+        spinner = vista.findViewById(R.id.spinnerNumeroHilos_CrearCajaNivel1);
 
-        String [] opciones={"Seleccionar cantidad hilos","4","8","16"};
-        ArrayAdapter<String> adapter= new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item,opciones);
+        String[] opciones = {"Seleccionar cantidad hilos", "4", "8", "16"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, opciones);
         spinner.setAdapter(adapter);
-        ((MainActivity)getActivity()).setTitle("Crear caja nivel 1");
-        if (opc.equals("editar")){
+        ((MainActivity) getActivity()).setTitle("Crear caja nivel 1");
+        if (opc.equals("editar")) {
             btnguardar.setText("Editar");
             txtNombreCajaNivel1.getEditText().setText(cajaNivel1.getNombre_cajaNivel1());
-            txtDireccion.getEditText().setText(cajaNivel1.getDireccion_cajaNivel1()+"");
-            txtReferencia.getEditText().setText(cajaNivel1.getReferencia_cajaNivel1()+"");
-            txtLatitud.getEditText().setText(cajaNivel1.getLatitud_cajaNivel1()+"");
+            txtDireccion.getEditText().setText(cajaNivel1.getDireccion_cajaNivel1() + "");
+            txtReferencia.getEditText().setText(cajaNivel1.getReferencia_cajaNivel1() + "");
+            txtLatitud.getEditText().setText(cajaNivel1.getLatitud_cajaNivel1() + "");
             txtLongitud.getEditText().setText(cajaNivel1.getLongitud_cajaNivel1());
             txtNombreVlan.getEditText().setText(cajaNivel1.getNombreVlan());
             txtNombreCiudad.getEditText().setText(cajaNivel1.getNombreCiudad());
             txtAbreviatura.getEditText().setText(cajaNivel1.getAbreviatura_cajaNivel1());
-            switch (cajaNivel1.getNumeroHilos_cajaNivel1()){
+            switch (cajaNivel1.getNumeroHilos_cajaNivel1()) {
                 case 4:
                     spinner.setSelection(1);
                     break;
@@ -138,10 +139,10 @@ public class CrearCajaNivel1Fragment extends Fragment implements CajaNivel1DAO.i
                     spinner.setSelection(3);
                     break;
             }
-            ((MainActivity)getActivity()).setTitle("Editar caja nivel 1");
+            ((MainActivity) getActivity()).setTitle("Editar caja nivel 1");
             switchAutoManu.setChecked(false);
             latLonAutomaticoApagado();
-        }else {
+        } else {
             latLonAutomaticoEncendido();
         }
         btnguardar.setOnClickListener(this);
@@ -151,23 +152,23 @@ public class CrearCajaNivel1Fragment extends Fragment implements CajaNivel1DAO.i
         txtNombreVlan.setEndIconOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new DialogBuscarVlan(context,CrearCajaNivel1Fragment.this);
+                new DialogBuscarVlan(context, CrearCajaNivel1Fragment.this);
             }
         });
 
         txtNombreCiudad.setEndIconOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new DialogBuscarCiudad(context,CrearCajaNivel1Fragment.this);
+                new DialogBuscarCiudad(context, CrearCajaNivel1Fragment.this);
             }
         });
 
         switchAutoManu.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
+                if (isChecked) {
                     latLonAutomaticoEncendido();
-                }else{
+                } else {
                     latLonAutomaticoApagado();
                     txtLatitud.getEditText().setText("");
                     txtLongitud.getEditText().setText("");
@@ -176,18 +177,21 @@ public class CrearCajaNivel1Fragment extends Fragment implements CajaNivel1DAO.i
         });
         return vista;
     }
-    public void latLonAutomaticoApagado(){
+
+    public void latLonAutomaticoApagado() {
         switchAutoManu.setText("Manual");
         txtLatitud.getEditText().setEnabled(true);
         txtLongitud.getEditText().setEnabled(true);
         Procesos.detenerObtenerLatitudLongitud();
     }
-    public void latLonAutomaticoEncendido(){
+
+    public void latLonAutomaticoEncendido() {
         switchAutoManu.setText("Automático");
         txtLatitud.getEditText().setEnabled(false);
         txtLongitud.getEditText().setEnabled(false);
-        Procesos.obtenerLatitudLongitud(context, CrearCajaNivel1Fragment.this,getActivity().getContentResolver());
+        Procesos.obtenerLatitudLongitud(context, CrearCajaNivel1Fragment.this, getActivity().getContentResolver());
     }
+
     @Override
     public void setCajaNivel1(CajaNivel1 CajaNivel1) {
 
@@ -225,19 +229,19 @@ public class CrearCajaNivel1Fragment extends Fragment implements CajaNivel1DAO.i
 
     @Override
     public void CiudadSelecionado(Ciudad ciudad) {
-        this.ciudad=ciudad;
+        this.ciudad = ciudad;
         txtNombreCiudad.getEditText().setText(ciudad.getNombre());
     }
 
     @Override
     public void VlanSelecionado(Vlan vlan) {
-        this.vlan=vlan;
+        this.vlan = vlan;
         txtNombreVlan.getEditText().setText(vlan.getNombreVlan());
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btnGuardar_CrearCajaNivel1:
                 Procesos.cerrarTeclado(getActivity());
                 if (Procesos.validarTxtEstaLleno(txtNombreCajaNivel1)
@@ -246,21 +250,21 @@ public class CrearCajaNivel1Fragment extends Fragment implements CajaNivel1DAO.i
                         && Procesos.validarTxtEstaLleno(txtNombreCiudad)
                         && Procesos.validarTxtEstaLleno(txtDireccion)
                         && Procesos.validarTxtEstaLleno(txtReferencia)
-                        && spinner.getSelectedItemPosition()!=0){
-                    AlertDialog.Builder builder= new AlertDialog.Builder(context);
+                        && spinner.getSelectedItemPosition() != 0) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle("Confirmación");
-                    builder.setMessage( "Seguro desea "+opc+" ?")
+                    builder.setMessage("Seguro desea " + opc + " ?")
                             .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    nombre=txtNombreCajaNivel1.getEditText().getText().toString().trim();
+                                    nombre = txtNombreCajaNivel1.getEditText().getText().toString().trim();
                                     direccion = txtDireccion.getEditText().getText().toString().trim();
                                     referencia = txtReferencia.getEditText().getText().toString().trim();
                                     latitud = txtLatitud.getEditText().getText().toString().trim();
-                                    longitud =txtLongitud.getEditText().getText().toString().trim();
-                                    abreviatura =txtAbreviatura.getEditText().getText().toString().trim();
-                                    hilos=Integer.parseInt(spinner.getSelectedItem().toString());
-                                    if (opc.equals("crear")){
+                                    longitud = txtLongitud.getEditText().getText().toString().trim();
+                                    abreviatura = txtAbreviatura.getEditText().getText().toString().trim();
+                                    hilos = Integer.parseInt(spinner.getSelectedItem().toString());
+                                    if (opc.equals("crear")) {
                                         cajaNivel1DAO.crearCajaNivel1(new CajaNivel1(0,
                                                 nombre,
                                                 direccion,
@@ -271,20 +275,32 @@ public class CrearCajaNivel1Fragment extends Fragment implements CajaNivel1DAO.i
                                                 "",
                                                 ciudad.getId(),
                                                 "",
-                                                "activo",abreviatura,hilos),context);
-                                    }else{//editar
-                                        cajaNivel1.setNombre_cajaNivel1(nombre);
-                                        cajaNivel1.setDireccion_cajaNivel1(direccion);
-                                        cajaNivel1.setReferencia_cajaNivel1(referencia);
-                                        cajaNivel1.setLatitud_cajaNivel1(latitud);
-                                        cajaNivel1.setLongitud_cajaNivel1(longitud);
-                                        cajaNivel1.setAbreviatura_cajaNivel1(abreviatura);
-                                        cajaNivel1.setNumeroHilos_cajaNivel1(hilos);
-                                        if (vlan!=null && ciudad!=null){
-                                            cajaNivel1.setId_vlan(vlan.getId());
-                                            cajaNivel1.setId_ciudad(ciudad.getId());
+                                                "activo", abreviatura, hilos), context);
+                                    } else {//editar
+                                        if (cajaNivel1.getNombre_cajaNivel1().equals(Procesos.obtenerTxtEnString(txtNombreCajaNivel1)) &&
+                                                cajaNivel1.getNombreVlan().equals(Procesos.obtenerTxtEnString(txtNombreVlan)) &&
+                                                cajaNivel1.getAbreviatura_cajaNivel1().equals(Procesos.obtenerTxtEnString(txtAbreviatura)) &&
+                                                cajaNivel1.getNombreCiudad().equals(Procesos.obtenerTxtEnString(txtNombreCiudad)) &&
+                                                cajaNivel1.getDireccion_cajaNivel1().equals(Procesos.obtenerTxtEnString(txtDireccion)) &&
+                                                cajaNivel1.getReferencia_cajaNivel1().equals(Procesos.obtenerTxtEnString(txtReferencia)) &&
+                                                (cajaNivel1.getNumeroHilos_cajaNivel1() + "").equals(spinner.getSelectedItem().toString()) &&
+                                                cajaNivel1.getLatitud_cajaNivel1().equals(Procesos.obtenerTxtEnString(txtLatitud)) &&
+                                                cajaNivel1.getLongitud_cajaNivel1().equals(Procesos.obtenerTxtEnString(txtLongitud))) {
+                                            Toast.makeText(context, "No se a cambiado la información", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            cajaNivel1.setNombre_cajaNivel1(nombre);
+                                            cajaNivel1.setDireccion_cajaNivel1(direccion);
+                                            cajaNivel1.setReferencia_cajaNivel1(referencia);
+                                            cajaNivel1.setLatitud_cajaNivel1(latitud);
+                                            cajaNivel1.setLongitud_cajaNivel1(longitud);
+                                            cajaNivel1.setAbreviatura_cajaNivel1(abreviatura);
+                                            cajaNivel1.setNumeroHilos_cajaNivel1(hilos);
+                                            if (vlan != null && ciudad != null) {
+                                                cajaNivel1.setId_vlan(vlan.getId());
+                                                cajaNivel1.setId_ciudad(ciudad.getId());
+                                            }
+                                            cajaNivel1DAO.editarCajaNivel1(cajaNivel1, context, false);
                                         }
-                                        cajaNivel1DAO.editarCajaNivel1(cajaNivel1,context,false);
                                     }
                                 }
                             })
@@ -295,16 +311,16 @@ public class CrearCajaNivel1Fragment extends Fragment implements CajaNivel1DAO.i
                                 }
                             })
                             .show();
-                }else{
+                } else {
                     Toast.makeText(context, "Ingrese todos los campos", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.btnObtenerLatitudLongitud_CrearCajaNivel1:
-                Procesos.obtenerLatitudLongitud(context, CrearCajaNivel1Fragment.this,getActivity().getContentResolver());
+                Procesos.obtenerLatitudLongitud(context, CrearCajaNivel1Fragment.this, getActivity().getContentResolver());
                 //Procesos.obtenerLatitudLongitud(context,CrearCajaNivel1Fragment.this);
                 break;
             case R.id.btnVerUbicacion_CrearCajaNivel1:
-                startActivity(Procesos.comoLlegar(getActivity(),txtLatitud.getEditText().getText().toString(),txtLongitud.getEditText().getText().toString()));
+                startActivity(Procesos.comoLlegar(getActivity(), txtLatitud.getEditText().getText().toString(), txtLongitud.getEditText().getText().toString()));
                 break;
         }
     }

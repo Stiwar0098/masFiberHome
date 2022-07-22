@@ -70,95 +70,97 @@ public class CrearVlanFragment extends Fragment implements VlanDAO.interfazVlanD
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+
     View vista;
     Context context;
-    TextInputLayout txtNombreVlan, txtNumeroOlt,txtTarjetaOlt,txtPuertoOlt,txtIpInicio,txtIpFin,txtMascara,txtGateway, txtNumeroVlan;
+    TextInputLayout txtNombreVlan, txtNumeroOlt, txtTarjetaOlt, txtPuertoOlt, txtIpInicio, txtIpFin, txtMascara, txtGateway, txtNumeroVlan;
     VlanDAO vlanDAO;
     public static Vlan vlan;
-    public static String opc=""; // editar/crear
+    public static String opc = ""; // editar/crear
 
-    String nombre,ipInicio,ipfin,mascara,gateway;
-    int numeroOlt,tarjetaOlt,puertoOlt,numeroVlan;
+    String nombre, ipInicio, ipfin, mascara, gateway;
+    int numeroOlt, tarjetaOlt, puertoOlt, numeroVlan;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        vista=inflater.inflate(R.layout.fragment_crear_vlan, container, false);
-        context=getActivity();
-        Button btnguardar=(Button)vista.findViewById(R.id.btnGuardar_CrearVlan);
-        txtNombreVlan =vista.findViewById(R.id.txtNombreVlan_CrearVlan);
-        txtNumeroOlt =vista.findViewById(R.id.txtNumeroOlt_CrearVlan);
-        txtTarjetaOlt =vista.findViewById(R.id.txtTarjetaOlt_CrearVlan);
-        txtPuertoOlt =vista.findViewById(R.id.txtPuertoOlt_CrearVlan);
-        txtIpInicio =vista.findViewById(R.id.txtIpInicio_CrearVlan);
-        txtIpFin =vista.findViewById(R.id.txtIpFin_CrearVlan);
-        txtMascara =vista.findViewById(R.id.txtMascara_CrearVlan);
-        txtGateway =vista.findViewById(R.id.txtGateway_CrearVlan);
-        txtNumeroVlan =vista.findViewById(R.id.txtNumeroVlan_CrearVlan);
-        vlanDAO =new VlanDAO(CrearVlanFragment.this);
-        ((MainActivity)getActivity()).setTitle("Crear Vlan");
-        if (opc.equals("editar")){
+        vista = inflater.inflate(R.layout.fragment_crear_vlan, container, false);
+        context = getActivity();
+        Button btnguardar = (Button) vista.findViewById(R.id.btnGuardar_CrearVlan);
+        txtNombreVlan = vista.findViewById(R.id.txtNombreVlan_CrearVlan);
+        txtNumeroOlt = vista.findViewById(R.id.txtNumeroOlt_CrearVlan);
+        txtTarjetaOlt = vista.findViewById(R.id.txtTarjetaOlt_CrearVlan);
+        txtPuertoOlt = vista.findViewById(R.id.txtPuertoOlt_CrearVlan);
+        txtIpInicio = vista.findViewById(R.id.txtIpInicio_CrearVlan);
+        txtIpFin = vista.findViewById(R.id.txtIpFin_CrearVlan);
+        txtMascara = vista.findViewById(R.id.txtMascara_CrearVlan);
+        txtGateway = vista.findViewById(R.id.txtGateway_CrearVlan);
+        txtNumeroVlan = vista.findViewById(R.id.txtNumeroVlan_CrearVlan);
+        vlanDAO = new VlanDAO(CrearVlanFragment.this);
+        ((MainActivity) getActivity()).setTitle("Crear Vlan");
+        if (opc.equals("editar")) {
             btnguardar.setText("Editar");
-            txtNumeroVlan.getEditText().setText(vlan.getNumeroVlan()+"");
+            txtNumeroVlan.getEditText().setText(vlan.getNumeroVlan() + "");
             txtNombreVlan.getEditText().setText(vlan.getNombreVlan());
-            txtNumeroOlt.getEditText().setText(vlan.getNumeroOlt()+"");
-            txtTarjetaOlt.getEditText().setText(vlan.getTarjetaOlt()+"");
-            txtPuertoOlt.getEditText().setText(vlan.getPuertoOlt()+"");
+            txtNumeroOlt.getEditText().setText(vlan.getNumeroOlt() + "");
+            txtTarjetaOlt.getEditText().setText(vlan.getTarjetaOlt() + "");
+            txtPuertoOlt.getEditText().setText(vlan.getPuertoOlt() + "");
             txtIpInicio.getEditText().setText(vlan.getIpInicio());
             txtIpFin.getEditText().setText(vlan.getIpFin());
             txtMascara.getEditText().setText(vlan.getMascara());
             txtGateway.getEditText().setText(vlan.getGateway());
-            ((MainActivity)getActivity()).setTitle("Editar Vlan");
+            ((MainActivity) getActivity()).setTitle("Editar Vlan");
         }
         btnguardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Procesos.cerrarTeclado(getActivity());
                 if (Procesos.validarTxtEstaLleno(txtNumeroVlan)
-                    && Procesos.validarTxtEstaLleno(txtNombreVlan)
-                    && Procesos.validarTxtEstaLleno(txtNumeroOlt)
-                    && Procesos.validarTxtEstaLleno(txtTarjetaOlt)
-                    && Procesos.validarTxtEstaLleno(txtPuertoOlt)
-                    && Procesos.validarTxtEstaLleno(txtIpInicio)
-                    && Procesos.validarTxtEstaLleno(txtIpFin)
-                    && Procesos.validarTxtEstaLleno(txtMascara)
-                    && Procesos.validarTxtEstaLleno(txtGateway)){
-                    AlertDialog.Builder builder= new AlertDialog.Builder(context);
+                        && Procesos.validarTxtEstaLleno(txtNombreVlan)
+                        && Procesos.validarTxtEstaLleno(txtNumeroOlt)
+                        && Procesos.validarTxtEstaLleno(txtTarjetaOlt)
+                        && Procesos.validarTxtEstaLleno(txtPuertoOlt)
+                        && Procesos.validarTxtEstaLleno(txtIpInicio)
+                        && Procesos.validarTxtEstaLleno(txtIpFin)
+                        && Procesos.validarTxtEstaLleno(txtMascara)
+                        && Procesos.validarTxtEstaLleno(txtGateway)) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle("Confirmación");
-                    builder.setMessage( "Seguro desea "+opc+" ?")
+                    builder.setMessage("Seguro desea " + opc + " ?")
                             .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    nombre=txtNombreVlan.getEditText().getText().toString().trim();
-                                    numeroOlt=Integer.parseInt(txtNumeroOlt.getEditText().getText().toString().trim());
-                                    tarjetaOlt=Integer.parseInt(txtTarjetaOlt.getEditText().getText().toString().trim());
-                                    puertoOlt=Integer.parseInt(txtPuertoOlt.getEditText().getText().toString().trim());
-                                    ipInicio=txtIpInicio.getEditText().getText().toString().trim();
-                                    ipfin=txtIpFin.getEditText().getText().toString().trim();
-                                    mascara=txtMascara.getEditText().getText().toString().trim();
-                                    gateway=txtGateway.getEditText().getText().toString().trim();
-                                    numeroVlan=Integer.parseInt(txtNumeroVlan.getEditText().getText().toString().trim());
-                                    if(!Procesos.validarDireccionIp(ipInicio)){
+                                    nombre = txtNombreVlan.getEditText().getText().toString().trim();
+                                    numeroOlt = Integer.parseInt(txtNumeroOlt.getEditText().getText().toString().trim());
+                                    tarjetaOlt = Integer.parseInt(txtTarjetaOlt.getEditText().getText().toString().trim());
+                                    puertoOlt = Integer.parseInt(txtPuertoOlt.getEditText().getText().toString().trim());
+                                    ipInicio = txtIpInicio.getEditText().getText().toString().trim();
+                                    ipfin = txtIpFin.getEditText().getText().toString().trim();
+                                    mascara = txtMascara.getEditText().getText().toString().trim();
+                                    gateway = txtGateway.getEditText().getText().toString().trim();
+                                    numeroVlan = Integer.parseInt(txtNumeroVlan.getEditText().getText().toString().trim());
+                                    if (!Procesos.validarDireccionIp(ipInicio)) {
                                         Toast.makeText(context, "Ip inicio incorrecta", Toast.LENGTH_SHORT).show();
                                         txtIpInicio.setError("Error");
-                                    }else if(!Procesos.validarDireccionIp(ipfin)){
+                                    } else if (!Procesos.validarDireccionIp(ipfin)) {
                                         Toast.makeText(context, "Ip fin incorrecta", Toast.LENGTH_SHORT).show();
                                         txtIpFin.setError("Error");
-                                    }else if(!Procesos.validarDireccionIp(mascara)){
+                                    } else if (!Procesos.validarDireccionIp(mascara)) {
                                         Toast.makeText(context, "Mascara incorrecta", Toast.LENGTH_SHORT).show();
                                         txtMascara.setError("Error");
-                                    }else if(!Procesos.validarDireccionIp(gateway)){
+                                    } else if (!Procesos.validarDireccionIp(gateway)) {
                                         Toast.makeText(context, "Gateway incorrecto", Toast.LENGTH_SHORT).show();
                                         txtGateway.setError("Error");
-                                    }else{
-                                        if (opc.equals("crear")){
-                                            int[] inicio,fin;
-                                            int totalIps,ini;
-                                            inicio=Procesos.descomponerDireccionIp(ipInicio);
-                                            fin=Procesos.descomponerDireccionIp(ipfin);
-                                            ini=inicio[3];
-                                            totalIps=fin[3]-ini+1;
-                                            vlanDAO.crearVlan(new Vlan(0,numeroVlan,
+                                    } else {
+                                        if (opc.equals("crear")) {
+                                            int[] inicio, fin;
+                                            int totalIps, ini;
+                                            inicio = Procesos.descomponerDireccionIp(ipInicio);
+                                            fin = Procesos.descomponerDireccionIp(ipfin);
+                                            ini = inicio[3];
+                                            totalIps = fin[3] - ini + 1;
+                                            vlanDAO.crearVlan(new Vlan(0, numeroVlan,
                                                     nombre,
                                                     numeroOlt,
                                                     tarjetaOlt,
@@ -167,18 +169,30 @@ public class CrearVlanFragment extends Fragment implements VlanDAO.interfazVlanD
                                                     ipfin,
                                                     mascara,
                                                     gateway,
-                                                    "activo"),context,ini,totalIps);
-                                        }else{//editar
-                                            vlan.setNumeroVlan(numeroVlan);
-                                            vlan.setNombreVlan(nombre);
-                                            vlan.setNumeroOlt(numeroOlt);
-                                            vlan.setTarjetaOlt(tarjetaOlt);
-                                            vlan.setPuertoOlt(puertoOlt);
-                                            vlan.setIpInicio(ipInicio);
-                                            vlan.setIpFin(ipfin);
-                                            vlan.setMascara(mascara);
-                                            vlan.setGateway(gateway);
-                                            vlanDAO.editarVlan(vlan,context,false);
+                                                    "activo"), context, ini, totalIps);
+                                        } else {//editar
+                                            if ((vlan.getNumeroVlan()+"").equals(Procesos.obtenerTxtEnString(txtNumeroVlan)) &&
+                                                    vlan.getNombreVlan().equals(Procesos.obtenerTxtEnString(txtNombreVlan)) &&
+                                                    (vlan.getNumeroOlt()+"").equals(Procesos.obtenerTxtEnString(txtNumeroOlt)) &&
+                                                    (vlan.getTarjetaOlt()+"").equals(Procesos.obtenerTxtEnString(txtTarjetaOlt)) &&
+                                                    (vlan.getPuertoOlt()+"").equals(Procesos.obtenerTxtEnString(txtPuertoOlt)) &&
+                                                    vlan.getIpInicio().equals(Procesos.obtenerTxtEnString(txtIpInicio)) &&
+                                                    vlan.getIpFin().equals(Procesos.obtenerTxtEnString(txtIpFin)) &&
+                                                    vlan.getMascara().equals(Procesos.obtenerTxtEnString(txtMascara)) &&
+                                                    vlan.getGateway().equals(Procesos.obtenerTxtEnString(txtGateway))) {
+                                                Toast.makeText(context, "No se a cambiado la información", Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                vlan.setNumeroVlan(numeroVlan);
+                                                vlan.setNombreVlan(nombre);
+                                                vlan.setNumeroOlt(numeroOlt);
+                                                vlan.setTarjetaOlt(tarjetaOlt);
+                                                vlan.setPuertoOlt(puertoOlt);
+                                                vlan.setIpInicio(ipInicio);
+                                                vlan.setIpFin(ipfin);
+                                                vlan.setMascara(mascara);
+                                                vlan.setGateway(gateway);
+                                                vlanDAO.editarVlan(vlan, context, false);
+                                            }
                                         }
                                     }
                                 }
@@ -190,7 +204,7 @@ public class CrearVlanFragment extends Fragment implements VlanDAO.interfazVlanD
                                 }
                             })
                             .show();
-                }else{
+                } else {
                     Toast.makeText(context, "Ingrese todos los campos", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -203,9 +217,9 @@ public class CrearVlanFragment extends Fragment implements VlanDAO.interfazVlanD
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if(!charSequence.toString().equals("")){
-                    txtNombreVlan.getEditText().setText("Vlan "+charSequence);
-                }else{
+                if (!charSequence.toString().equals("")) {
+                    txtNombreVlan.getEditText().setText("Vlan " + charSequence);
+                } else {
                     txtNombreVlan.getEditText().setText("Vlan");
                 }
             }
@@ -217,6 +231,7 @@ public class CrearVlanFragment extends Fragment implements VlanDAO.interfazVlanD
         });
         return vista;
     }
+
     @Override
     public void setVlan(Vlan Vlan) {
 

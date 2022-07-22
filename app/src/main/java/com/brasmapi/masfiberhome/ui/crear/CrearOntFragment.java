@@ -81,45 +81,47 @@ public class CrearOntFragment extends Fragment implements OntDAO.interfazOntDAO,
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+
     View vista;
     Context context;
-    TextInputLayout txtserie,txtmodelo;
+    TextInputLayout txtserie, txtmodelo;
     Spinner spinnerResponsable;
     OntDAO OntDAO;
-    ModeloOnt modeloOnt=null;
+    ModeloOnt modeloOnt = null;
     public static Ont ont;
-    public static String opc=""; // editar/crear
-    String serie,modelo,responsable;
+    public static String opc = ""; // editar/crear
+    String serie, modelo, responsable;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        vista= inflater.inflate(R.layout.fragment_crear_ont, container, false);
-        context=getActivity();
-        Button btnguardar=(Button)vista.findViewById(R.id.btnGuardar_CrearOnt);
-        txtserie =vista.findViewById(R.id.txtSerieOnt_CrearOnt);
-        txtmodelo =vista.findViewById(R.id.txtIdModelo_CrearOnt);
-        spinnerResponsable =vista.findViewById(R.id.spinnerResponsable_CrearOnt);
-        String [] opciones={"Selecionar el responsable","CLIENTE","EMPRESA"};
-        ArrayAdapter<String> adapter= new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item,opciones);
+        vista = inflater.inflate(R.layout.fragment_crear_ont, container, false);
+        context = getActivity();
+        Button btnguardar = (Button) vista.findViewById(R.id.btnGuardar_CrearOnt);
+        txtserie = vista.findViewById(R.id.txtSerieOnt_CrearOnt);
+        txtmodelo = vista.findViewById(R.id.txtIdModelo_CrearOnt);
+        spinnerResponsable = vista.findViewById(R.id.spinnerResponsable_CrearOnt);
+        String[] opciones = {"Selecionar el responsable", "CLIENTE", "EMPRESA"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, opciones);
         spinnerResponsable.setAdapter(adapter);
-        OntDAO =new OntDAO(CrearOntFragment.this);
-        ((MainActivity)getActivity()).setTitle("Crear Ont");
-        if (opc.equals("editar")){
+        OntDAO = new OntDAO(CrearOntFragment.this);
+        ((MainActivity) getActivity()).setTitle("Crear Ont");
+        if (opc.equals("editar")) {
             btnguardar.setText("Editar");
             txtserie.getEditText().setText(ont.getSerieOnt());
             txtmodelo.getEditText().setText(ont.getNombreModelo());
-            for (int i=0;i<opciones.length;i++){
-                if(ont.getResponsable().equals(spinnerResponsable.getItemAtPosition(i))){
+            for (int i = 0; i < opciones.length; i++) {
+                if (ont.getResponsable().equals(spinnerResponsable.getItemAtPosition(i))) {
                     spinnerResponsable.setSelection(i);
                 }
             }
-            ((MainActivity)getActivity()).setTitle("Editar Ont");
+            ((MainActivity) getActivity()).setTitle("Editar Ont");
         }
         txtmodelo.setEndIconOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new DialogBuscarModeloOnt(context,CrearOntFragment.this);
+                new DialogBuscarModeloOnt(context, CrearOntFragment.this);
             }
         });
         btnguardar.setOnClickListener(new View.OnClickListener() {
@@ -127,11 +129,11 @@ public class CrearOntFragment extends Fragment implements OntDAO.interfazOntDAO,
             public void onClick(View v) {
                 Procesos.cerrarTeclado(getActivity());
                 if (Procesos.validarTxtEstaLleno(txtserie)
-                    && Procesos.validarTxtEstaLleno(txtmodelo)
-                    && spinnerResponsable.getSelectedItemPosition()!=0){
-                    AlertDialog.Builder builder= new AlertDialog.Builder(context);
+                        && Procesos.validarTxtEstaLleno(txtmodelo)
+                        && spinnerResponsable.getSelectedItemPosition() != 0) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle("Confirmación");
-                    builder.setMessage( "Seguro desea "+opc+" ?")
+                    builder.setMessage("Seguro desea " + opc + " ?")
                             .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -139,14 +141,20 @@ public class CrearOntFragment extends Fragment implements OntDAO.interfazOntDAO,
                                     modelo = txtmodelo.getEditText().getText().toString().trim();
                                     responsable = spinnerResponsable.getSelectedItem().toString();
                                     if (opc.equals("crear")) {
-                                    } else if(opc.equals("editar")) {//editar
-                                        ont.setSerieOnt(serie);
-                                        if (modeloOnt!=null){
-                                            ont.setId_modeloOnt(modeloOnt.getId_modeloOnt());
-                                            ont.setNombreModelo(modeloOnt.getNombre_modeloOnt());
+                                    } else if (opc.equals("editar")) {//editar
+                                        if (ont.getSerieOnt().equals(Procesos.obtenerTxtEnString(txtserie)) &&
+                                                ont.getNombreModelo().equals(Procesos.obtenerTxtEnString(txtmodelo)) &&
+                                                ont.getResponsable().equals(spinnerResponsable.getSelectedItem().toString())) {
+                                            Toast.makeText(context, "No se a cambiado la información", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            ont.setSerieOnt(serie);
+                                            if (modeloOnt != null) {
+                                                ont.setId_modeloOnt(modeloOnt.getId_modeloOnt());
+                                                ont.setNombreModelo(modeloOnt.getNombre_modeloOnt());
+                                            }
+                                            ont.setResponsable(responsable);
+                                            OntDAO.editarOnt(ont, context, false);
                                         }
-                                        ont.setResponsable(responsable);
-                                        OntDAO.editarOnt(ont, context, false);
                                     }
                                 }
                             })
@@ -157,7 +165,7 @@ public class CrearOntFragment extends Fragment implements OntDAO.interfazOntDAO,
                                 }
                             })
                             .show();
-                }else{
+                } else {
                     Toast.makeText(context, "Ingrese todos los campos", Toast.LENGTH_SHORT).show();
                 }
 
@@ -177,24 +185,26 @@ public class CrearOntFragment extends Fragment implements OntDAO.interfazOntDAO,
         });
         return vista;
     }
-    private final ActivityResultLauncher<ScanOptions> barcodeLauncher =registerForActivityResult(new ScanContract(),
+
+    private final ActivityResultLauncher<ScanOptions> barcodeLauncher = registerForActivityResult(new ScanContract(),
             result -> {
-                if(result.getContents() == null) {
+                if (result.getContents() == null) {
                     Intent originalIntent = result.getOriginalIntent();
                     if (originalIntent == null) {
                         Log.d("MainActivity", "Cancelled scan1");
                         Toast.makeText(getActivity(), "Cancelled", Toast.LENGTH_LONG).show();
-                    } else if(originalIntent.hasExtra(Intents.Scan.MISSING_CAMERA_PERMISSION)) {
+                    } else if (originalIntent.hasExtra(Intents.Scan.MISSING_CAMERA_PERMISSION)) {
                         Log.d("MainActivity", "Cancelled scan due to missing camera permission");
                         Toast.makeText(getActivity(), "Cancelled due to missing camera permission", Toast.LENGTH_LONG).show();
                     }
                 } else {
                     Log.d("MainActivity", "Scanned");
-                    txtserie.getEditText().setText(result.getContents()+"");
+                    txtserie.getEditText().setText(result.getContents() + "");
                     Toast.makeText(getActivity(), "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
                 }
             });
-    public void setUpQRCode(){
+
+    public void setUpQRCode() {
         ScanOptions options = new ScanOptions().setOrientationLocked(false).setCaptureActivity(CustomScannerActivity.class);
         options.setBeepEnabled(false);
         barcodeLauncher.launch(options);
@@ -214,7 +224,7 @@ public class CrearOntFragment extends Fragment implements OntDAO.interfazOntDAO,
     public void limpiarOnt() {
         Procesos.cerrarTeclado(getActivity());
         Procesos.cargandoDetener();
-        if (opc.equals("editar")){
+        if (opc.equals("editar")) {
             getActivity().onBackPressed();// para retrocede sin que se guarde el activiti anterior  ejemplo a b c
             // con el codigo de abajo si lo aplico en c para ir a b quedaria asi
             //a b c b al momento de dar vuelta atras se ir nuevamente a c y luego a b
@@ -227,6 +237,6 @@ public class CrearOntFragment extends Fragment implements OntDAO.interfazOntDAO,
     @Override
     public void ModeloOntSelecionado(ModeloOnt modeloOnt) {
         txtmodelo.getEditText().setText(modeloOnt.getNombre_modeloOnt());
-        this.modeloOnt =modeloOnt;
+        this.modeloOnt = modeloOnt;
     }
 }

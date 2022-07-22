@@ -68,36 +68,38 @@ public class CrearPlanesFragment extends Fragment implements PlanesDAO.interfazP
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+
     View vista;
     Context context;
     TextInputLayout txtNombrePlanes;
     PlanesDAO PlanesDAO;
     public static Planes planes;
-    public static String opc=""; // editar/crear
+    public static String opc = ""; // editar/crear
     int nombre;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        vista= inflater.inflate(R.layout.fragment_crear_planes, container, false);
-        context=getActivity();
-        Button btnguardar=(Button)vista.findViewById(R.id.btnGuardar_CrearPlanes);
-        txtNombrePlanes =vista.findViewById(R.id.txtNombrePlan_CrearPlan);
-        PlanesDAO =new PlanesDAO(CrearPlanesFragment.this);
-        ((MainActivity)getActivity()).setTitle("Crear Planes");
-        if (opc.equals("editar")){
+        vista = inflater.inflate(R.layout.fragment_crear_planes, container, false);
+        context = getActivity();
+        Button btnguardar = (Button) vista.findViewById(R.id.btnGuardar_CrearPlanes);
+        txtNombrePlanes = vista.findViewById(R.id.txtNombrePlan_CrearPlan);
+        PlanesDAO = new PlanesDAO(CrearPlanesFragment.this);
+        ((MainActivity) getActivity()).setTitle("Crear Planes");
+        if (opc.equals("editar")) {
             btnguardar.setText("Editar");
-            txtNombrePlanes.getEditText().setText(planes.getNombre()+"");
-            ((MainActivity)getActivity()).setTitle("Editar Planes");
+            txtNombrePlanes.getEditText().setText(planes.getNombre() + "");
+            ((MainActivity) getActivity()).setTitle("Editar Planes");
         }
         btnguardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Procesos.cerrarTeclado(getActivity());
-                if (Procesos.validarTxtEstaLleno(txtNombrePlanes)){
-                    AlertDialog.Builder builder= new AlertDialog.Builder(context);
+                if (Procesos.validarTxtEstaLleno(txtNombrePlanes)) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle("Confirmación");
-                    builder.setMessage( "Seguro desea "+opc+" ?")
+                    builder.setMessage("Seguro desea " + opc + " ?")
                             .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -107,8 +109,12 @@ public class CrearPlanesFragment extends Fragment implements PlanesDAO.interfazP
                                                 nombre,
                                                 "activo"), context);
                                     } else {//editar
-                                        planes.setNombre(nombre);
-                                        PlanesDAO.editarPlanes(planes, context, false);
+                                        if ((planes.getNombre() + "").equals(Procesos.obtenerTxtEnString(txtNombrePlanes))) {
+                                            Toast.makeText(context, "No se a cambiado la información", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            planes.setNombre(nombre);
+                                            PlanesDAO.editarPlanes(planes, context, false);
+                                        }
                                     }
                                 }
                             })
@@ -119,7 +125,7 @@ public class CrearPlanesFragment extends Fragment implements PlanesDAO.interfazP
                                 }
                             })
                             .show();
-                }else{
+                } else {
                     Toast.makeText(context, "Ingrese todos los campos", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -129,7 +135,7 @@ public class CrearPlanesFragment extends Fragment implements PlanesDAO.interfazP
 
     @Override
     public void setPlanes(Planes Planes) {
-        
+
     }
 
     @Override
@@ -143,7 +149,7 @@ public class CrearPlanesFragment extends Fragment implements PlanesDAO.interfazP
         Procesos.cerrarTeclado(getActivity());
         Procesos.cargandoDetener();
         getActivity().onBackPressed();
-        if (opc.equals("editar")){
+        if (opc.equals("editar")) {
             //getActivity().onBackPressed();// para retrocede sin que se guarde el activiti anterior  ejemplo a b c
             // con el codigo de abajo si lo aplico en c para ir a b quedaria asi
             //a b c b al momento de dar vuelta atras se ir nuevamente a c y luego a b

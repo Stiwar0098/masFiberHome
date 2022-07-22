@@ -68,29 +68,31 @@ public class CrearClientesFragment extends Fragment implements ClientesDAO.inter
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+
     View vista;
     Context context;
-    TextInputLayout txtCedulaClientes,txtNombreClientes,txtApellidoClientes,txtCorreoClientes,txtTelefono1Clientes,txtTelefono2Clientes;
+    TextInputLayout txtCedulaClientes, txtNombreClientes, txtApellidoClientes, txtCorreoClientes, txtTelefono1Clientes, txtTelefono2Clientes;
     ClientesDAO clientesDAO;
     public static Clientes clientes;
-    public static String opc=""; // editar/crear
-    String cedula,nombre,apellido,correo,telefono1,telefono2;
+    public static String opc = ""; // editar/crear
+    String cedula, nombre, apellido, correo, telefono1, telefono2;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        vista= inflater.inflate(R.layout.fragment_crear_clientes, container, false);
-        context=getActivity();
-        Button btnguardar=(Button)vista.findViewById(R.id.btnGuardar_CrearCliente);
-        txtCedulaClientes =vista.findViewById(R.id.txtCedula_crearCliente);
-        txtNombreClientes =vista.findViewById(R.id.txtNombre_crearCliente);
-        txtApellidoClientes =vista.findViewById(R.id.txtApellido_crearCliente);
-        txtCorreoClientes =vista.findViewById(R.id.txtCorreo_CrearCliente);
-        txtTelefono1Clientes =vista.findViewById(R.id.txtTelefono1_crearCliente);
-        txtTelefono2Clientes =vista.findViewById(R.id.txtTelefono2_crearCliente);
-        clientesDAO =new ClientesDAO(CrearClientesFragment.this);
-        ((MainActivity)getActivity()).setTitle("Crear Clientes");
-        if (opc.equals("editar")){
+        vista = inflater.inflate(R.layout.fragment_crear_clientes, container, false);
+        context = getActivity();
+        Button btnguardar = (Button) vista.findViewById(R.id.btnGuardar_CrearCliente);
+        txtCedulaClientes = vista.findViewById(R.id.txtCedula_crearCliente);
+        txtNombreClientes = vista.findViewById(R.id.txtNombre_crearCliente);
+        txtApellidoClientes = vista.findViewById(R.id.txtApellido_crearCliente);
+        txtCorreoClientes = vista.findViewById(R.id.txtCorreo_CrearCliente);
+        txtTelefono1Clientes = vista.findViewById(R.id.txtTelefono1_crearCliente);
+        txtTelefono2Clientes = vista.findViewById(R.id.txtTelefono2_crearCliente);
+        clientesDAO = new ClientesDAO(CrearClientesFragment.this);
+        ((MainActivity) getActivity()).setTitle("Crear Clientes");
+        if (opc.equals("editar")) {
             btnguardar.setText("Editar");
             txtCedulaClientes.getEditText().setText(clientes.getCedula());
             txtNombreClientes.getEditText().setText(clientes.getNombre());
@@ -98,20 +100,20 @@ public class CrearClientesFragment extends Fragment implements ClientesDAO.inter
             txtCorreoClientes.getEditText().setText(clientes.getCorreo());
             txtTelefono1Clientes.getEditText().setText(clientes.getTelefono1());
             txtTelefono2Clientes.getEditText().setText(clientes.getTelefono2());
-            ((MainActivity)getActivity()).setTitle("Editar Clientes");
+            ((MainActivity) getActivity()).setTitle("Editar Clientes");
         }
         btnguardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Procesos.cerrarTeclado(getActivity());
-                if(Procesos.validarTxtEstaLleno(txtCedulaClientes)
-                    && Procesos.validarTxtEstaLleno(txtNombreClientes)
-                    && Procesos.validarTxtEstaLleno(txtApellidoClientes)
-                    && Procesos.validarTxtEstaLleno(txtCorreoClientes)
-                    && Procesos.validarTxtEstaLleno(txtTelefono1Clientes)){
-                    AlertDialog.Builder builder= new AlertDialog.Builder(context);
+                if (Procesos.validarTxtEstaLleno(txtCedulaClientes)
+                        && Procesos.validarTxtEstaLleno(txtNombreClientes)
+                        && Procesos.validarTxtEstaLleno(txtApellidoClientes)
+                        && Procesos.validarTxtEstaLleno(txtCorreoClientes)
+                        && Procesos.validarTxtEstaLleno(txtTelefono1Clientes)) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle("Confirmación");
-                    builder.setMessage( "Seguro desea "+opc+" ?")
+                    builder.setMessage("Seguro desea " + opc + " ?")
                             .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -120,23 +122,32 @@ public class CrearClientesFragment extends Fragment implements ClientesDAO.inter
                                     apellido = txtApellidoClientes.getEditText().getText().toString().trim();
                                     correo = txtCorreoClientes.getEditText().getText().toString().trim();
                                     telefono1 = txtTelefono1Clientes.getEditText().getText().toString().trim();
-                                    if (Procesos.validarTxtEstaLleno(txtTelefono2Clientes)){
+                                    if (Procesos.validarTxtEstaLleno(txtTelefono2Clientes)) {
                                         telefono2 = txtTelefono2Clientes.getEditText().getText().toString().trim();
-                                    }else{
+                                    } else {
                                         telefono2 = "0000000000";
                                     }
                                     if (opc.equals("crear")) {
-                                        clientesDAO.crearClientes(new Clientes(0,cedula,
-                                                nombre,apellido,correo,telefono1,telefono2,
+                                        clientesDAO.crearClientes(new Clientes(0, cedula,
+                                                nombre, apellido, correo, telefono1, telefono2,
                                                 "activo"), context);
                                     } else {//editar
-                                        clientes.setCedula(cedula);
-                                        clientes.setNombre(nombre);
-                                        clientes.setApellido(apellido);
-                                        clientes.setCorreo(correo);
-                                        clientes.setTelefono1(telefono1);
-                                        clientes.setTelefono2(telefono2);
-                                        clientesDAO.editarClientes(clientes, context, false);
+                                        if (clientes.getCedula().equals(Procesos.obtenerTxtEnString(txtCedulaClientes)) &&
+                                                clientes.getNombre().equals(Procesos.obtenerTxtEnString(txtNombreClientes)) &&
+                                                clientes.getApellido().equals(Procesos.obtenerTxtEnString(txtApellidoClientes)) &&
+                                                clientes.getCorreo().equals(Procesos.obtenerTxtEnString(txtCorreoClientes)) &&
+                                                clientes.getTelefono1().equals(Procesos.obtenerTxtEnString(txtTelefono1Clientes)) &&
+                                                clientes.getTelefono2().equals(Procesos.obtenerTxtEnString(txtTelefono2Clientes))) {
+                                            Toast.makeText(context, "No se a cambiado la información", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            clientes.setCedula(cedula);
+                                            clientes.setNombre(nombre);
+                                            clientes.setApellido(apellido);
+                                            clientes.setCorreo(correo);
+                                            clientes.setTelefono1(telefono1);
+                                            clientes.setTelefono2(telefono2);
+                                            clientesDAO.editarClientes(clientes, context, false);
+                                        }
                                     }
                                 }
                             })
@@ -147,7 +158,7 @@ public class CrearClientesFragment extends Fragment implements ClientesDAO.inter
                                 }
                             })
                             .show();
-                }else{
+                } else {
                     Toast.makeText(context, "Ingrese todos los campos", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -176,7 +187,7 @@ public class CrearClientesFragment extends Fragment implements ClientesDAO.inter
         txtTelefono2Clientes.getEditText().setText("");
         Procesos.cerrarTeclado(getActivity());
         Procesos.cargandoDetener();
-        if (opc.equals("editar")){
+        if (opc.equals("editar")) {
             getActivity().onBackPressed();// para retrocede sin que se guarde el activiti anterior  ejemplo a b c
             // con el codigo de abajo si lo aplico en c para ir a b quedaria asi
             //a b c b al momento de dar vuelta atras se ir nuevamente a c y luego a b

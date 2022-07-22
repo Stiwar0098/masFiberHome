@@ -68,56 +68,63 @@ public class CrearProvinciaFragment extends Fragment implements DialogBuscarPais
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+
     View vista;
     Context context;
-    public static TextInputLayout txtPais,txtProvincia;
-    Pais pais=null;
+    public static TextInputLayout txtPais, txtProvincia;
+    Pais pais = null;
     ProvinciaDAO provinciaDAO;
     public static Provincia provincia;
-    public static String opc=""; // editar/crear
+    public static String opc = ""; // editar/crear
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        vista =inflater.inflate(R.layout.fragment_crear_provincia, container, false);
-        context=getActivity();
-        txtPais=vista.findViewById(R.id.txtPais_CrearProvincia);
-        txtProvincia=vista.findViewById(R.id.txtProvincia_CrearProvincia);
-        provinciaDAO=new ProvinciaDAO(null);
+        vista = inflater.inflate(R.layout.fragment_crear_provincia, container, false);
+        context = getActivity();
+        txtPais = vista.findViewById(R.id.txtPais_CrearProvincia);
+        txtProvincia = vista.findViewById(R.id.txtProvincia_CrearProvincia);
+        provinciaDAO = new ProvinciaDAO(null);
         txtPais.setEndIconOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new DialogBuscarPais(context,CrearProvinciaFragment.this);
+                new DialogBuscarPais(context, CrearProvinciaFragment.this);
             }
         });
 
-        Button btnguardar=(Button)vista.findViewById(R.id.btnGuardar_CrearProvincia);
-        ((MainActivity)getActivity()).setTitle("Crear provincia");
-        if (opc.equals("editar")){
+        Button btnguardar = (Button) vista.findViewById(R.id.btnGuardar_CrearProvincia);
+        ((MainActivity) getActivity()).setTitle("Crear provincia");
+        if (opc.equals("editar")) {
             btnguardar.setText("Editar");
             txtProvincia.getEditText().setText(provincia.getNombre());
             txtPais.getEditText().setText(provincia.getNombre_pais());
-            ((MainActivity)getActivity()).setTitle("Editar provincia");
+            ((MainActivity) getActivity()).setTitle("Editar provincia");
         }
         btnguardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Procesos.cerrarTeclado(getActivity());
                 if (Procesos.validarTxtEstaLleno(txtProvincia)
-                    && Procesos.validarTxtEstaLleno(txtPais)){
-                    AlertDialog.Builder builder= new AlertDialog.Builder(context);
+                        && Procesos.validarTxtEstaLleno(txtPais)) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle("Confirmación");
-                    builder.setMessage( "Seguro desea "+opc+" ?")
+                    builder.setMessage("Seguro desea " + opc + " ?")
                             .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    if (opc.equals("crear")){
-                                        provinciaDAO.crearProvincia(new Provincia(0,txtProvincia.getEditText().getText().toString(),pais.getId(),pais.getNombre(),"activo"),context);
-                                    }else{//editar
-                                        provincia.setNombre(txtProvincia.getEditText().getText().toString());
-                                        if (pais!=null){
-                                            provincia.setPais(pais.getId());
+                                    if (opc.equals("crear")) {
+                                        provinciaDAO.crearProvincia(new Provincia(0, txtProvincia.getEditText().getText().toString(), pais.getId(), pais.getNombre(), "activo"), context);
+                                    } else {//editar
+                                        if (provincia.getNombre_pais().equals(Procesos.obtenerTxtEnString(txtPais)) &&
+                                                provincia.getNombre().equals(Procesos.obtenerTxtEnString(txtProvincia))) {
+                                            Toast.makeText(context, "No se a cambiado la información", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            provincia.setNombre(txtProvincia.getEditText().getText().toString());
+                                            if (pais != null) {
+                                                provincia.setPais(pais.getId());
+                                            }
+                                            provinciaDAO.editarProvincia(provincia, context, false);
                                         }
-                                        provinciaDAO.editarProvincia(provincia,context,false);
                                     }
                                     getActivity().onBackPressed();
                                 }
@@ -129,7 +136,7 @@ public class CrearProvinciaFragment extends Fragment implements DialogBuscarPais
                                 }
                             })
                             .show();
-                }else{
+                } else {
                     Toast.makeText(context, "Ingrese todos los campos", Toast.LENGTH_SHORT).show();
                 }
 
@@ -141,6 +148,6 @@ public class CrearProvinciaFragment extends Fragment implements DialogBuscarPais
     @Override
     public void PaisSelecionado(Pais pais) {
         txtPais.getEditText().setText(pais.getNombre());
-        this.pais=pais;
+        this.pais = pais;
     }
 }

@@ -70,60 +70,67 @@ public class CrearModeloOntFragment extends Fragment implements ModeloOntDAO.int
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+
     View vista;
     Context context;
     TextInputLayout txtNombreModeloOnt;
     Spinner spinnerTipoModeloOnt;
     ModeloOntDAO modeloOntDAO;
     public static ModeloOnt modeloOnt;
-    public static String opc=""; // editar/crear
-    String nombre,tipo;
+    public static String opc = ""; // editar/crear
+    String nombre, tipo;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        vista= inflater.inflate(R.layout.fragment_crear_modelo_ont, container, false);
-        context=getActivity();
-        Button btnguardar=(Button)vista.findViewById(R.id.btnGuardar_CrearModeloOnt);
-        txtNombreModeloOnt =vista.findViewById(R.id.txtNombre_crearModeloOnt);
-        spinnerTipoModeloOnt =vista.findViewById(R.id.spinnerTipo_CrearModeloOnt);
-        modeloOntDAO =new ModeloOntDAO(CrearModeloOntFragment.this);
-        String [] opciones={"Selecionar tipo de ont","NORMAL","DOBLE BANDA","BRIDGE"};
-        ArrayAdapter<String> adapter= new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item,opciones);
+        vista = inflater.inflate(R.layout.fragment_crear_modelo_ont, container, false);
+        context = getActivity();
+        Button btnguardar = (Button) vista.findViewById(R.id.btnGuardar_CrearModeloOnt);
+        txtNombreModeloOnt = vista.findViewById(R.id.txtNombre_crearModeloOnt);
+        spinnerTipoModeloOnt = vista.findViewById(R.id.spinnerTipo_CrearModeloOnt);
+        modeloOntDAO = new ModeloOntDAO(CrearModeloOntFragment.this);
+        String[] opciones = {"Selecionar tipo de ont", "NORMAL", "DOBLE BANDA", "BRIDGE"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, opciones);
         spinnerTipoModeloOnt.setAdapter(adapter);
-        ((MainActivity)getActivity()).setTitle("Crear ModeloOnt");
-        if (opc.equals("editar")){
+        ((MainActivity) getActivity()).setTitle("Crear ModeloOnt");
+        if (opc.equals("editar")) {
             btnguardar.setText("Editar");
             txtNombreModeloOnt.getEditText().setText(modeloOnt.getNombre_modeloOnt());
-            for (int i=0;i<opciones.length;i++){
-                if(modeloOnt.getTipo_modeloOnt().equals(spinnerTipoModeloOnt.getItemAtPosition(i))){
+            for (int i = 0; i < opciones.length; i++) {
+                if (modeloOnt.getTipo_modeloOnt().equals(spinnerTipoModeloOnt.getItemAtPosition(i))) {
                     spinnerTipoModeloOnt.setSelection(i);
                 }
             }
-            ((MainActivity)getActivity()).setTitle("Editar ModeloOnt");
+            ((MainActivity) getActivity()).setTitle("Editar ModeloOnt");
         }
         btnguardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Procesos.cerrarTeclado(getActivity());
-                if(Procesos.validarTxtEstaLleno(txtNombreModeloOnt)
-                    && spinnerTipoModeloOnt.getSelectedItemPosition()!=0){
-                    AlertDialog.Builder builder= new AlertDialog.Builder(context);
+                if (Procesos.validarTxtEstaLleno(txtNombreModeloOnt)
+                        && spinnerTipoModeloOnt.getSelectedItemPosition() != 0) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle("Confirmación");
-                    builder.setMessage( "Seguro desea "+opc+" ?")
+                    builder.setMessage("Seguro desea " + opc + " ?")
                             .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     nombre = txtNombreModeloOnt.getEditText().getText().toString().trim();
-                                    tipo=spinnerTipoModeloOnt.getSelectedItem().toString();
+                                    tipo = spinnerTipoModeloOnt.getSelectedItem().toString();
                                     if (opc.equals("crear")) {
                                         modeloOntDAO.crearModeloOnt(new ModeloOnt(0,
-                                                nombre,tipo,
+                                                nombre, tipo,
                                                 "activo"), context);
                                     } else {//editar
-                                        modeloOnt.setNombre_modeloOnt(nombre);
-                                        modeloOnt.setTipo_modeloOnt(tipo);
-                                        modeloOntDAO.editarModeloOnt(modeloOnt, context, false);
+                                        if (modeloOnt.getNombre_modeloOnt().equals(Procesos.obtenerTxtEnString(txtNombreModeloOnt)) &&
+                                                modeloOnt.getTipo_modeloOnt().equals(spinnerTipoModeloOnt.getSelectedItem().toString())) {
+                                            Toast.makeText(context, "No se a cambiado la información", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            modeloOnt.setNombre_modeloOnt(nombre);
+                                            modeloOnt.setTipo_modeloOnt(tipo);
+                                            modeloOntDAO.editarModeloOnt(modeloOnt, context, false);
+                                        }
                                     }
                                 }
                             })
@@ -134,7 +141,7 @@ public class CrearModeloOntFragment extends Fragment implements ModeloOntDAO.int
                                 }
                             })
                             .show();
-                }else{
+                } else {
                     Toast.makeText(context, "Ingrese todos los campos", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -144,7 +151,7 @@ public class CrearModeloOntFragment extends Fragment implements ModeloOntDAO.int
 
     @Override
     public void setModeloOnt(ModeloOnt ModeloOnt) {
-        
+
     }
 
     @Override
@@ -159,7 +166,7 @@ public class CrearModeloOntFragment extends Fragment implements ModeloOntDAO.int
         Procesos.cerrarTeclado(getActivity());
         Procesos.cargandoDetener();
         getActivity().onBackPressed();
-        if (opc.equals("editar")){
+        if (opc.equals("editar")) {
             //getActivity().onBackPressed();// para retrocede sin que se guarde el activiti anterior  ejemplo a b c
             // con el codigo de abajo si lo aplico en c para ir a b quedaria asi
             //a b c b al momento de dar vuelta atras se ir nuevamente a c y luego a b

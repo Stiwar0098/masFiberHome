@@ -66,43 +66,49 @@ public class CrearPaisFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
+
     View vista;
     Context context;
     PaisesDAO paisesDAO;
-    public static String opc=""; // editar/crear
+    public static String opc = ""; // editar/crear
     public static TextInputLayout txtNombrePais;
     public static Pais pais;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        vista =inflater.inflate(R.layout.fragment_crear_pais, container, false);
-        context=vista.getContext();
+        vista = inflater.inflate(R.layout.fragment_crear_pais, container, false);
+        context = vista.getContext();
         paisesDAO = new PaisesDAO(null);
-        txtNombrePais=(TextInputLayout)vista.findViewById(R.id.txtNombrePais_CrearPais);
-        Button btnguardar=(Button)vista.findViewById(R.id.btnGuardar_CrearPais);
-        ((MainActivity)getActivity()).setTitle("Crear pais");
-        if (opc.equals("editar")){
+        txtNombrePais = (TextInputLayout) vista.findViewById(R.id.txtNombrePais_CrearPais);
+        Button btnguardar = (Button) vista.findViewById(R.id.btnGuardar_CrearPais);
+        ((MainActivity) getActivity()).setTitle("Crear pais");
+        if (opc.equals("editar")) {
             btnguardar.setText("Editar");
             txtNombrePais.getEditText().setText(pais.getNombre());
-            ((MainActivity)getActivity()).setTitle("Editar pais");
+            ((MainActivity) getActivity()).setTitle("Editar pais");
         }
         btnguardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Procesos.cerrarTeclado(getActivity());
-                if (Procesos.validarTxtEstaLleno(txtNombrePais)){
-                    AlertDialog.Builder builder= new AlertDialog.Builder(context);
+                if (Procesos.validarTxtEstaLleno(txtNombrePais)) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle("Confirmación");
-                    builder.setMessage( "Seguro desea "+opc+" ?")
+                    builder.setMessage("Seguro desea " + opc + " ?")
                             .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    if (opc.equals("crear")){
-                                        paisesDAO.crearPais(new Pais(0,txtNombrePais.getEditText().getText().toString(),"activo"),context);
-                                    }else{//editar
-                                        pais.setNombre(txtNombrePais.getEditText().getText().toString());
-                                        paisesDAO.editarPais(pais,context,false);
+                                    if (opc.equals("crear")) {
+                                        paisesDAO.crearPais(new Pais(0, txtNombrePais.getEditText().getText().toString(), "activo"), context);
+                                    } else {//editar
+                                        if (pais.getNombre().equals(Procesos.obtenerTxtEnString(txtNombrePais))) {
+                                            Toast.makeText(context, "No se a cambiado la información", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            pais.setNombre(txtNombrePais.getEditText().getText().toString());
+                                            paisesDAO.editarPais(pais, context, false);
+                                        }
                                     }
                                     getActivity().onBackPressed();
                                 }
@@ -114,7 +120,7 @@ public class CrearPaisFragment extends Fragment {
                                 }
                             })
                             .show();
-                }else{
+                } else {
                     Toast.makeText(context, "Ingrese todos los campos", Toast.LENGTH_SHORT).show();
                 }
             }

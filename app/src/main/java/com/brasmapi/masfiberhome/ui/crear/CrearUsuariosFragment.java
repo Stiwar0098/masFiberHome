@@ -69,61 +69,70 @@ public class CrearUsuariosFragment extends Fragment {
         }
 
     }
+
     View vista;
     Context context;
     UsuariosDAO usuariosDAO;
-    public static String opc=""; // editar/crear
-    public static TextInputLayout txtNombreUsuario, txtUsuario,txtContra;
+    public static String opc = ""; // editar/crear
+    public static TextInputLayout txtNombreUsuario, txtUsuario, txtContra;
     public static Usuario usuario;
     Spinner spinner;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-         vista=inflater.inflate(R.layout.fragment_crearusuarios, container, false);
-         context=getActivity();
-        spinner=vista.findViewById(R.id.spinnerRol_CrearUsuario);
-        String [] opciones={"ADMINISTRADOR","TECNICO"};
-        ArrayAdapter<String> adapter= new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item,opciones);
+        vista = inflater.inflate(R.layout.fragment_crearusuarios, container, false);
+        context = getActivity();
+        spinner = vista.findViewById(R.id.spinnerRol_CrearUsuario);
+        String[] opciones = {"ADMINISTRADOR", "TECNICO"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, opciones);
         spinner.setAdapter(adapter);
         usuariosDAO = new UsuariosDAO(null);
-        txtNombreUsuario=(TextInputLayout)vista.findViewById(R.id.txtNombreUsuario_CrearUsuario);
-        txtUsuario=(TextInputLayout)vista.findViewById(R.id.txtUsuario_CrearUsuario);
-        txtContra=(TextInputLayout)vista.findViewById(R.id.txtContra_CrearUsuario);
-        Button btnguardar=(Button)vista.findViewById(R.id.btnGuardar_CrearUsuario);
-        ((MainActivity)getActivity()).setTitle("Crear Usuario");
-        if (opc.equals("editar")){
+        txtNombreUsuario = (TextInputLayout) vista.findViewById(R.id.txtNombreUsuario_CrearUsuario);
+        txtUsuario = (TextInputLayout) vista.findViewById(R.id.txtUsuario_CrearUsuario);
+        txtContra = (TextInputLayout) vista.findViewById(R.id.txtContra_CrearUsuario);
+        Button btnguardar = (Button) vista.findViewById(R.id.btnGuardar_CrearUsuario);
+        ((MainActivity) getActivity()).setTitle("Crear Usuario");
+        if (opc.equals("editar")) {
             btnguardar.setText("Editar");
             txtNombreUsuario.getEditText().setText(usuario.getNombre());
             txtUsuario.getEditText().setText(usuario.getUsuario());
             txtContra.getEditText().setText(usuario.getContrasena());
-            spinner.setSelection(usuario.getRol()-1);
-            ((MainActivity)getActivity()).setTitle("Editar Usuario");
+            spinner.setSelection(usuario.getRol() - 1);
+            ((MainActivity) getActivity()).setTitle("Editar Usuario");
         }
         btnguardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Procesos.cerrarTeclado(getActivity());
                 if (Procesos.validarTxtEstaLleno(txtNombreUsuario)
-                    && Procesos.validarTxtEstaLleno(txtUsuario)
-                    &&Procesos.validarTxtEstaLleno(txtContra)
-                    && spinner.getSelectedItemPosition()!=0){
-                    AlertDialog.Builder builder= new AlertDialog.Builder(context);
+                        && Procesos.validarTxtEstaLleno(txtUsuario)
+                        && Procesos.validarTxtEstaLleno(txtContra)) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle("Confirmación");
-                    builder.setMessage( "Seguro desea "+opc+" ?")
+                    builder.setMessage("Seguro desea " + opc + " ?")
                             .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    if (opc.equals("crear")){
-                                        usuariosDAO.crearUsuario(new Usuario(0,txtNombreUsuario.getEditText().getText().toString(),txtUsuario.getEditText().getText().toString(),txtContra.getEditText().getText().toString(),spinner.getSelectedItemPosition()+1,"activo"),context);
-                                    }else{//editar
-                                        usuario.setNombre(txtNombreUsuario.getEditText().getText().toString());
-                                        usuario.setUsuario(txtUsuario.getEditText().getText().toString().trim());
-                                        usuario.setContrasena(txtContra.getEditText().getText().toString().trim());
-                                        usuario.setRol(spinner.getSelectedItemPosition()+1);
-                                        usuariosDAO.editarUsuario(usuario,context,false);
+                                    if (opc.equals("crear")) {
+                                        usuariosDAO.crearUsuario(new Usuario(0, txtNombreUsuario.getEditText().getText().toString(), txtUsuario.getEditText().getText().toString(), txtContra.getEditText().getText().toString(), spinner.getSelectedItemPosition() + 1, "activo"), context);
+                                        getActivity().onBackPressed();
+                                    } else {//editar
+                                        if (usuario.getNombre().equals(Procesos.obtenerTxtEnString(txtNombreUsuario)) &&
+                                                usuario.getUsuario().equals(Procesos.obtenerTxtEnString(txtUsuario)) &&
+                                                usuario.getContrasena().equals(Procesos.obtenerTxtEnString(txtContra)) &&
+                                                (usuario.getRol() + "").equals((spinner.getSelectedItemPosition() + 1) + "")) {
+                                            Toast.makeText(context, "No se a cambiado la información", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            usuario.setNombre(txtNombreUsuario.getEditText().getText().toString());
+                                            usuario.setUsuario(txtUsuario.getEditText().getText().toString().trim());
+                                            usuario.setContrasena(txtContra.getEditText().getText().toString().trim());
+                                            usuario.setRol(spinner.getSelectedItemPosition() + 1);
+                                            usuariosDAO.editarUsuario(usuario, context, false);
+                                            getActivity().onBackPressed();
+                                        }
                                     }
-                                    getActivity().onBackPressed();
                                 }
                             })
                             .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
@@ -133,7 +142,7 @@ public class CrearUsuariosFragment extends Fragment {
                                 }
                             })
                             .show();
-                }else{
+                } else {
                     Toast.makeText(context, "Ingrese todos los campos", Toast.LENGTH_SHORT).show();
                 }
 
