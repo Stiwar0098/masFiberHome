@@ -204,70 +204,31 @@ public class ListaCajasNivel2Fragment extends Fragment implements CajaNivel2DAO.
     }
     private static void eliminarRegistroDialog(CajaNivel2 us) {
         AlertDialog.Builder builder= new AlertDialog.Builder(context);
-        builder.setTitle("Opciones");
-        builder.setMessage("¿Elija la opcion que desea con: "+us.getNombre_CajaNivel2()+" ?")
-                .setPositiveButton("Eliminar", new DialogInterface.OnClickListener() {
+        builder.setTitle("Confirmación");
+        builder.setMessage("Esta eliminación, eliminará toda la data relacionada con: "+us.getNombre_CajaNivel2()+" \n\nPorfavor verifique que ha modificado la dependecia de este dato en: \n\n-Servicios")
+                .setPositiveButton("Siguiente", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(final DialogInterface dialog, int which) {
                         dialog.dismiss();
                         AlertDialog.Builder builder= new AlertDialog.Builder(context);
                         builder.setTitle("Eliminar");
-                        builder.setMessage("¿Que tipo de eliminacion desea realizar: "+us.getNombre_CajaNivel2()+" ?")
-                                .setPositiveButton("Normal", new DialogInterface.OnClickListener() {
+                        final EditText contraAdmin = new EditText(context);
+                        contraAdmin.setInputType(InputType.TYPE_CLASS_TEXT);
+                        builder.setView(contraAdmin);
+                        builder.setMessage("Para poder eliminar: "+us.getNombre_CajaNivel2()+"\n \nIngrese la contraseña admin:")
+                                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(final DialogInterface dialog, int which) {
                                         dialog.dismiss();
-                                        AlertDialog.Builder builder= new AlertDialog.Builder(context);
-                                        builder.setTitle("Eliminar normal");
-                                        builder.setMessage("¿Está seguro que desea realizar una eliminacion normal: "+us.getNombre_CajaNivel2()+" ?")
-                                                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(final DialogInterface dialog, int which) {
-                                                        dialog.dismiss();
-                                                        cajaNivel2DAO.eliminarCajaNivel2(us.getId_CajaNivel2(),context);
-                                                    }
-                                                })
-                                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        Toast.makeText(context, "Cancelado", Toast.LENGTH_SHORT).show();
-                                                        dialog.dismiss();
-                                                    }
-                                                }).show();
+                                        if (contraAdmin.getText().toString().trim().equals("admin")){
+                                            cajaNivel2DAO.eliminarCajaNivel2(us.getId_CajaNivel2(),context);
+                                        }else{
+                                            Toast.makeText(context, "contraseña incorrecta", Toast.LENGTH_SHORT).show();
+                                            contraAdmin.setText("");
+                                        }
                                     }
                                 })
-                                .setNegativeButton("En Cascada", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                        AlertDialog.Builder dial=new AlertDialog.Builder(context);
-                                        dial.setTitle("Eliminar en cascada");
-                                        final EditText contraAdmin = new EditText(context);
-                                        contraAdmin.setInputType(InputType.TYPE_CLASS_TEXT);
-                                        dial.setView(contraAdmin);
-                                        dial.setMessage("Para poder elimanar en cascada: "+us.getNombre_CajaNivel2()+"%n ingrese la contraseña admin ")
-                                                .setPositiveButton("Eliminar", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(final DialogInterface dialog, int which) {
-                                                        dialog.dismiss();
-                                                        if (contraAdmin.getText().toString().trim().equals("pullasancho")){
-                                                            cajaNivel2DAO.eliminarCajaNivel2Cascada(us.getId_CajaNivel2(),context);
-                                                        }else{
-                                                            Toast.makeText(context, "contraseña incorrecta", Toast.LENGTH_SHORT).show();
-                                                            contraAdmin.setText("");
-                                                        }
-                                                    }
-                                                })
-                                                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        Toast.makeText(context, "Cancelado", Toast.LENGTH_SHORT).show();
-                                                        dialog.dismiss();
-                                                    }
-                                                }).show();
-                                    }
-                                })
-                                .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
+                                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         Toast.makeText(context, "Cancelado", Toast.LENGTH_SHORT).show();
@@ -276,31 +237,7 @@ public class ListaCajasNivel2Fragment extends Fragment implements CajaNivel2DAO.
                                 }).show();
                     }
                 })
-                .setNegativeButton("Desactivar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        AlertDialog.Builder builder= new AlertDialog.Builder(context);
-                        builder.setTitle("Desactivar");
-                        builder.setMessage("¿Está seguro que desea desactivar: "+us.getNombre_CajaNivel2()+" ?")
-                                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(final DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                        us.setEstado_CajaNivel2("desactivo");
-                                        cajaNivel2DAO.editarCajaNivel2(us,context,true);
-                                    }
-                                })
-                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Toast.makeText(context, "Cancelado", Toast.LENGTH_SHORT).show();
-                                        dialog.dismiss();
-                                    }
-                                }).show();
-                    }
-                })
-                .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Toast.makeText(context, "Cancelado", Toast.LENGTH_SHORT).show();

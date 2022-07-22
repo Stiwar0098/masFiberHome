@@ -188,28 +188,30 @@ public class ActivacionesPendientesAdminFragment extends Fragment implements Ser
                     }else{
                         us = listaaux.get(recyclerView.getChildAdapterPosition(v));
                     }
-                    String msj="";
+                    String msj="",pc34="";
                     if (us.getOpcion_cliente().equals("eliminar")){
                         msj="Se eliminará este servicio:";
+                        pc34="Siguiente";
                     }else{
                         msj="¿Seguro que desea activar este servicio?";
+                        pc34="Aceptar";
                     }
                     AlertDialog.Builder builder= new AlertDialog.Builder(context);
                     builder.setTitle("Confirmación");
                     builder.setMessage( msj +
                                     "\nServiport: "+us.getId_servicio()+"\n" +
                                     "Usuario: "+us.getUsuario())
-                            .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                            .setPositiveButton(pc34, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     us.setEstado("activo");
                                     if (us.getOpcion_cliente().equals("eliminar")){
                                         AlertDialog.Builder dial=new AlertDialog.Builder(context);
-                                        dial.setTitle("Eliminar en cascada");
+                                        dial.setTitle("Eliminar");
                                         final EditText contraAdmin = new EditText(context);
                                         contraAdmin.setInputType(InputType.TYPE_CLASS_TEXT);
                                         dial.setView(contraAdmin);
-                                        dial.setMessage("Para poder elimanar en cascada: "+us.getUsuario()+"\n \nIngrese la contraseña admin ")
+                                        dial.setMessage("Para poder eliminar: "+us.getUsuario()+"\n \nIngrese la contraseña admin:")
                                                 .setPositiveButton("Eliminar", new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(final DialogInterface dialog, int which) {

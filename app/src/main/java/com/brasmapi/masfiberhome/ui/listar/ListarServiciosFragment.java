@@ -216,114 +216,27 @@ public class ListarServiciosFragment extends Fragment implements ServiciosDAO.in
     }
     private static void eliminarRegistroDialog(Servicios us) {
         AlertDialog.Builder builder= new AlertDialog.Builder(context);
-        builder.setTitle("Opciones");
-        builder.setMessage("¿Elija la opcion que desea con: Serviport: "+ us.getId_servicio()+" ?")
+        builder.setTitle("Confirmación");
+        builder.setMessage("¿Seguro que desea pre eliminar Serviport: "+ us.getId_servicio()+" ?")
                 .setPositiveButton("Eliminar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(final DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        AlertDialog.Builder builder= new AlertDialog.Builder(context);
-                        builder.setTitle("Eliminar");
-                        builder.setMessage("¿Que tipo de eliminacion desea realizar: Serviport: "+us.getId_servicio()+" ?")
-                                .setPositiveButton("Normal", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(final DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                        AlertDialog.Builder builder= new AlertDialog.Builder(context);
-                                        builder.setTitle("Eliminar normal");
-                                        builder.setMessage("¿Está seguro que desea realizar una eliminacion normal: Serviport: "+us.getId_servicio()+" ?")
-                                                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(final DialogInterface dialog, int which) {
-                                                        dialog.dismiss();
-                                                        us.setOpcion_cliente("eliminar");
-                                                        us.setEstado("pendiente");
-                                                        us.setDate2(Procesos.obtenerFechaActualConHora());
-                                                        us.setComando_copiar_cliente(us.getEliminarServicio()+"@"+us.getIterfazPonCard()+"@"+us.getEliminarOnt());
-                                                        serviciosDAO.editarServicio(us,context,false);
-                                                    }
-                                                })
-                                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        Toast.makeText(context, "Cancelado", Toast.LENGTH_SHORT).show();
-                                                        dialog.dismiss();
-                                                    }
-                                                }).show();
-                                    }
-                                })
-                                .setNegativeButton("En Cascada", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                        AlertDialog.Builder dial=new AlertDialog.Builder(context);
-                                        dial.setTitle("Eliminar en cascada");
-                                        final EditText contraAdmin = new EditText(context);
-                                        contraAdmin.setInputType(InputType.TYPE_CLASS_TEXT);
-                                        dial.setView(contraAdmin);
-                                        dial.setMessage("Para poder elimanar en cascada: Serviport: "+us.getId_servicio()+"%n ingrese la contraseña admin ")
-                                                .setPositiveButton("Eliminar", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(final DialogInterface dialog, int which) {
-                                                        dialog.dismiss();
-                                                        if (contraAdmin.getText().toString().trim().equals("pullasancho")){
-                                                            serviciosDAO.eliminarServicio(us.getId_servicio(),context);
-                                                        }else{
-                                                            Toast.makeText(context, "contraseña incorrecta", Toast.LENGTH_SHORT).show();
-                                                            contraAdmin.setText("");
-                                                        }
-                                                    }
-                                                })
-                                                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        Toast.makeText(context, "Cancelado", Toast.LENGTH_SHORT).show();
-                                                        dialog.dismiss();
-                                                    }
-                                                }).show();
-                                    }
-                                })
-                                .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Toast.makeText(context, "Cancelado", Toast.LENGTH_SHORT).show();
-                                        dialog.dismiss();
-                                    }
-                                }).show();
+                        us.setOpcion_cliente("eliminar");
+                        us.setEstado("pendiente");
+                        us.setDate2(Procesos.obtenerFechaActualConHora());
+                        us.setComando_copiar_cliente(us.getEliminarServicio()+"@"+us.getIterfazPonCard()+"@"+us.getEliminarOnt());
+                        serviciosDAO.editarServicio(us,context,false);
                     }
                 })
-                .setNegativeButton("Desactivar", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        AlertDialog.Builder builder= new AlertDialog.Builder(context);
-                        builder.setTitle("Desactivar");
-                        builder.setMessage("¿Está seguro que desea desactivar: Serviport: "+us.getId_servicio()+" ?")
-                                .setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(final DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                        us.setEstado("desactivo");
-                                        serviciosDAO.editarServicio(us,context,true);
-                                    }
-                                })
-                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        Toast.makeText(context, "Cancelado", Toast.LENGTH_SHORT).show();
-                                        dialog.dismiss();
-                                    }
-                                }).show();
-                    }
-                })
-                .setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
                         Toast.makeText(context, "Cancelado", Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
                     }
-                })
-                .show();
+                }).show();
     }
 
     private void filtrar(String filtrar){
