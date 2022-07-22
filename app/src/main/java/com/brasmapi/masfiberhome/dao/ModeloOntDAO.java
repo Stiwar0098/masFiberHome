@@ -56,7 +56,7 @@ public class ModeloOntDAO {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                
                 as=null;
                 if(interfaz!=null){
                     interfaz.setListaModeloOnt(as);
@@ -89,7 +89,7 @@ public class ModeloOntDAO {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                
                 Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
                 Procesos.cargandoDetener();
                 if (interfaz != null) {
@@ -144,7 +144,7 @@ public class ModeloOntDAO {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                
                 Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
                 Procesos.cargandoDetener();
             }
@@ -201,7 +201,7 @@ public class ModeloOntDAO {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                
                 Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
                 Procesos.cargandoDetener();
             }
@@ -246,7 +246,7 @@ public class ModeloOntDAO {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                
                 Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
                 Procesos.cargandoDetener();
             }
@@ -291,7 +291,7 @@ public class ModeloOntDAO {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                
                 Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
                 Procesos.cargandoDetener();
             }

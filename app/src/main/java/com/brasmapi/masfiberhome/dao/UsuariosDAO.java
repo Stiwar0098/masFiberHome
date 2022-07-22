@@ -59,7 +59,7 @@ public class UsuariosDAO {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                //
                 as=null;
                 if(interfaz!=null){
                     interfaz.setListaUsuario(as);
@@ -93,7 +93,7 @@ public class UsuariosDAO {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                
                 Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
                 Procesos.user=null;
                 Procesos.cargandoDetener();
@@ -148,7 +148,7 @@ public class UsuariosDAO {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                    
                     Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
                     Procesos.cargandoDetener();
                 }
@@ -202,7 +202,7 @@ public class UsuariosDAO {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                
                 Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
                 Procesos.cargandoDetener();
             }
@@ -246,7 +246,7 @@ public class UsuariosDAO {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                
                 Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
                 Procesos.cargandoDetener();
             }
@@ -290,7 +290,7 @@ public class UsuariosDAO {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                
                 Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
                 Procesos.cargandoDetener();
             }

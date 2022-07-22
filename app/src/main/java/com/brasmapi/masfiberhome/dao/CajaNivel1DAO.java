@@ -56,7 +56,7 @@ public class CajaNivel1DAO {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                
                 as=null;
                 if(interfaz!=null){
                     interfaz.setListaCajaNivel1(as);
@@ -89,7 +89,7 @@ public class CajaNivel1DAO {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                
                 Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
                 Procesos.cargandoDetener();
                 if (interfaz != null) {
@@ -158,7 +158,7 @@ public class CajaNivel1DAO {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                
                 Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
                 Procesos.cargandoDetener();
             }
@@ -230,7 +230,7 @@ public class CajaNivel1DAO {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                
                 Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
                 Procesos.cargandoDetener();
             }
@@ -275,7 +275,7 @@ public class CajaNivel1DAO {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                
                 Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
                 Procesos.cargandoDetener();
             }
@@ -320,7 +320,7 @@ public class CajaNivel1DAO {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show()4;
                 Toast.makeText(context, "Problema con el servidor", Toast.LENGTH_SHORT).show();
                 Procesos.cargandoDetener();
             }

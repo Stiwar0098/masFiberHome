@@ -87,7 +87,7 @@ public class ServiciosDAO {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                
                 as=null;
                 if(interfaz!=null){
                     interfaz.setListaServicio(as);
@@ -392,7 +392,7 @@ public class ServiciosDAO {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                
                 Toast.makeText(context, "Problema con el servidor - serviciodao-crearservicio", Toast.LENGTH_SHORT).show();
                 Procesos.cargandoDetener();
             }
@@ -578,7 +578,7 @@ public class ServiciosDAO {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                
                 Toast.makeText(context, "Problema con el servidor eliminarservicio", Toast.LENGTH_SHORT).show();
                 Procesos.cargandoDetener();
             }

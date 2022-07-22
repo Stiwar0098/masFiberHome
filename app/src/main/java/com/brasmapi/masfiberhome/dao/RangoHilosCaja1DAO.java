@@ -57,7 +57,7 @@ public class RangoHilosCaja1DAO {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                
                 if(interfaz!=null){
                     interfaz.validarHiloManual(null);
                 }
@@ -174,7 +174,7 @@ public class RangoHilosCaja1DAO {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                
                 Toast.makeText(context, "Problema con el servidor editarRangoHilosCaja1", Toast.LENGTH_SHORT).show();
             }
         });
@@ -217,7 +217,7 @@ public class RangoHilosCaja1DAO {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                
                 Toast.makeText(context, "Problema con el servidor editarRangoHilosCaja1Anterior", Toast.LENGTH_SHORT).show();
             }
         });
@@ -260,7 +260,7 @@ public class RangoHilosCaja1DAO {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                
                 Toast.makeText(context, "Problema con el servidor eliminarRangoHilosCaja1", Toast.LENGTH_SHORT).show();
                 Procesos.cargandoDetener();
             }

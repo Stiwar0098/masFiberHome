@@ -56,7 +56,7 @@ public class RangoDireccionIpDAO {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                
                 if(interfaz!=null){
                     interfaz.validarDireccionIpManual(null);
                 }
@@ -176,7 +176,7 @@ public class RangoDireccionIpDAO {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                
                 Toast.makeText(context, "Problema con el servidor rangodireccionipdao-editarRangodireccionip", Toast.LENGTH_SHORT).show();
                 Procesos.cargandoDetener();
             }
@@ -222,7 +222,7 @@ public class RangoDireccionIpDAO {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                
                 Toast.makeText(context, "Problema con el servidor editarRangoDireccionIpAnterior", Toast.LENGTH_SHORT).show();
                 Procesos.cargandoDetener();
             }
@@ -266,7 +266,7 @@ public class RangoDireccionIpDAO {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                
                 Toast.makeText(context, "Problema con el servidor eliminarDireccionIp", Toast.LENGTH_SHORT).show();
                 Procesos.cargandoDetener();
             }

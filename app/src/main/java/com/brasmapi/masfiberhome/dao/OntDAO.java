@@ -56,7 +56,7 @@ public class OntDAO {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                
                 as=null;
                 if(interfaz!=null){
                     interfaz.setListaOnt(as);
@@ -148,7 +148,7 @@ public class OntDAO {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                
                 Toast.makeText(context, "Problema con el servidor ontdao-crear", Toast.LENGTH_SHORT).show();
                 Procesos.cargandoDetener();
             }
@@ -209,7 +209,7 @@ public class OntDAO {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                
                 Toast.makeText(context, "Problema con el servidor editarOnt", Toast.LENGTH_SHORT).show();
                 Procesos.cargandoDetener();
             }
@@ -254,7 +254,7 @@ public class OntDAO {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                
                 Toast.makeText(context, "Problema con el servidor eliminarOnt", Toast.LENGTH_SHORT).show();
                 Procesos.cargandoDetener();
             }
@@ -299,7 +299,7 @@ public class OntDAO {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+                
                 Toast.makeText(context, "Problema con el servidor eliminarOntCascada", Toast.LENGTH_SHORT).show();
                 Procesos.cargandoDetener();
             }
