@@ -760,6 +760,7 @@ public class CrearServicioFragment extends Fragment implements DialogBuscarClien
                 llenarUsuario();
             }
         }else{
+            validarUsuarioEditar=false;
             llenarUsuario();
         }
     }
